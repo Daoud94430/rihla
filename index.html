@@ -601,16 +601,13 @@ max-height:220px; overflow-y:auto; padding-right:4px;
 .mushaf-reciters-grid .mr-card{
 text-align:left; padding:10px 12px; border-radius:10px; border:1px solid var(--line);
 background:var(--sand); cursor:pointer; font-family:inherit; transition:border-color .2s, background .2s;
-position:relative;
 }
 .mushaf-reciters-grid .mr-card:hover{border-color:var(--gold-500);}
 .mushaf-reciters-grid .mr-card.active{
 background:var(--emerald-950); color:var(--parchment); border-color:var(--emerald-950);
 }
-.mushaf-reciters-grid .mr-card.locked{opacity:0.72;}
 .mushaf-reciters-grid .mr-card .mr-name{font-size:0.82rem; font-weight:600; display:block;}
 .mushaf-reciters-grid .mr-card .mr-tag{font-size:0.68rem; opacity:0.75; margin-top:2px; display:block;}
-.mushaf-reciters-grid .mr-card .mr-lock-icon{position:absolute; top:8px; right:8px; font-size:0.7rem;}
 
 /* ===== MUSHAF LECTEUR (Coran + Récitateurs fusionnés) ===== */
 .mushaf-shell{max-width:920px; margin:0 auto;}
@@ -668,6 +665,10 @@ background:var(--emerald-950); color:var(--parchment); border:none;
 border-radius:999px; padding:11px 20px; font-size:0.88rem; cursor:pointer;
 }
 .mushaf-page-nav button:disabled{opacity:0.35; cursor:default;}
+.mushaf-page-nav{flex-wrap:wrap; gap:10px;}
+.mushaf-page-nav .mp-jump{display:flex; align-items:center; gap:8px;}
+.mushaf-page-nav .mp-jump label{font-size:0.78rem; color:var(--ink-soft); font-weight:600;}
+.mushaf-page-nav .mp-jump input{width:72px; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:#fff; font-family:inherit; font-size:0.9rem; text-align:center;}
 .mushaf-page-nav .mp-pos{
 font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-soft);
 }
@@ -730,6 +731,105 @@ display:none;
 box-shadow:var(--shadow);
 }
 .audio-player-container.visible{display:block;}
+.audio-player-container .ap-info{
+color:var(--gold-300);
+font-size:0.85rem;
+margin-bottom:10px;
+font-family:'Amiri',serif;
+}
+.audio-player-container .ap-controls{
+display:flex;
+align-items:center;
+gap:16px;
+flex-wrap:wrap;
+}
+.audio-player-container .ap-controls button{
+background:var(--gold-500);
+border:none;
+border-radius:50%;
+width:40px;
+height:40px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:background .3s;
+}
+.audio-player-container .ap-controls button:hover{background:var(--gold-300);}
+.audio-player-container .ap-controls button svg{width:18px;height:18px; fill:var(--emerald-950);}
+.audio-player-container .ap-progress{
+flex:1;
+min-width:100px;
+display:flex;
+align-items:center;
+gap:12px;
+}
+.audio-player-container .ap-progress input[type="range"]{
+flex:1;
+-webkit-appearance:none;
+appearance:none;
+height:4px;
+border-radius:999px;
+background:rgba(247,243,232,0.2);
+outline:none;
+cursor:pointer;
+}
+.audio-player-container .ap-progress input[type="range"]::-webkit-slider-thumb{
+-webkit-appearance:none;
+appearance:none;
+width:14px;
+height:14px;
+border-radius:50%;
+background:var(--gold-500);
+cursor:pointer;
+}
+.audio-player-container .ap-progress input[type="range"]::-moz-range-thumb{
+width:14px;
+height:14px;
+border-radius:50%;
+background:var(--gold-500);
+cursor:pointer;
+border:none;
+}
+.audio-player-container .ap-time{
+font-family:'IBM Plex Mono',monospace;
+font-size:0.78rem;
+color:var(--sand);
+min-width:100px;
+}
+.audio-player-container .ap-volume{
+display:flex;
+align-items:center;
+gap:8px;
+}
+.audio-player-container .ap-volume input[type="range"]{
+width:60px;
+-webkit-appearance:none;
+appearance:none;
+height:3px;
+border-radius:999px;
+background:rgba(247,243,232,0.2);
+outline:none;
+cursor:pointer;
+}
+.audio-player-container .ap-volume input[type="range"]::-webkit-slider-thumb{
+-webkit-appearance:none;
+appearance:none;
+width:10px;
+height:10px;
+border-radius:50%;
+background:var(--gold-500);
+cursor:pointer;
+}
+.audio-player-container .ap-volume input[type="range"]::-moz-range-thumb{
+width:10px;
+height:10px;
+border-radius:50%;
+background:var(--gold-500);
+cursor:pointer;
+border:none;
+}
+.audio-player-container .ap-volume svg{width:16px;height:16px; fill:var(--sand);}
 /* ===== PRIÈRES ===== */
 .prayer-shell{display:grid; grid-template-columns:1.3fr 1fr; gap:24px;}
 .prayer-times-card{
@@ -883,12 +983,21 @@ padding:8px 16px; font-size:0.82rem; color:var(--emerald-950);
 cursor:pointer;
 }
 .hadith-refresh:hover{border-color:var(--emerald-950);}
+.verse-line{
+font-family:var(--arabic-font); font-size:1.7rem; line-height:2.4; direction:rtl; text-align:right; unicode-bidi:plaintext;
+}
+.verse-word{padding:2px 4px; border-radius:4px; transition:background .2s, color .2s;}
+.verse-word.active{background:var(--gold-500); color:var(--emerald-950);}
 .play-btn{
 width:40px; height:40px; border-radius:50%;
 background:var(--gold-500); border:none; display:flex; align-items:center; justify-content:center;
 cursor:pointer;
 }
 .play-btn svg{width:16px;height:16px; fill:var(--emerald-950);}
+.progress-track{flex:1; height:4px; background:rgba(247,243,232,0.2); border-radius:999px; overflow:hidden;}
+.progress-fill{height:100%; width:0%; background:var(--gold-500); transition:width .3s linear;}
+.timer{font-family:'IBM Plex Mono', monospace; font-size:0.78rem; opacity:0.8;}
+.reader-controls{display:flex; align-items:center; gap:12px; margin-bottom:18px;}
 /* ===== STRIPE PREMIUM ===== */
 .stripe-container{
 max-width:500px; margin:0 auto; padding:40px 24px;
@@ -906,6 +1015,16 @@ box-shadow:var(--shadow);
 .stripe-container .pay-btn:hover{background:var(--gold-300);}
 .stripe-container .secure-badge{text-align:center; margin-top:16px; font-size:0.78rem; color:var(--ink-soft);}
 .stripe-container .secure-badge svg{display:inline; width:16px; height:16px; vertical-align:middle; margin-right:4px;}
+.mini-player {
+display:none;
+margin-top:20px;
+background:var(--sand);
+border-radius:10px;
+padding:10px 14px;
+}
+.mini-player.visible{display:flex;}
+.mini-player audio{flex:1; width:100%;}
+.mini-player .mp-name{font-size:0.82rem; color:var(--emerald-950); font-weight:500; white-space:nowrap; margin-right:12px;}
 @media (max-width: 900px){
 .prayer-shell{grid-template-columns:1fr;}
 .prayer-list{grid-template-columns:repeat(5,1fr); font-size:0.9rem;}
@@ -920,7 +1039,21 @@ footer .footer-inner{flex-direction:column;}
 .prayer-info-grid{grid-template-columns:repeat(2,1fr);}
 .how-it-works{grid-template-columns:1fr;}
 .prophetes-grid{grid-template-columns:repeat(auto-fill, minmax(150px,1fr));}
+.audio-player-container .ap-controls{flex-direction:column; align-items:stretch;}
+.audio-player-container .ap-progress{flex-wrap:wrap;}
 }
+.audio-loading {
+display:inline-block;
+width:16px;
+height:16px;
+border:2px solid var(--gold-300);
+border-radius:50%;
+border-top-color:var(--emerald-950);
+animation:spin .8s linear infinite;
+margin-right:8px;
+vertical-align:middle;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
 /* ===== DU'AS ===== */
 .duas-tabs{
 display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; border-bottom:2px solid var(--line); padding-bottom:12px;
@@ -1008,7 +1141,7 @@ Rihla
 <button class="nav-link" data-view="view-priere">Prières</button>
 <button class="nav-link" data-view="view-rappel">Rappel</button>
 <button class="nav-link" data-view="view-prophete">Histoires des Prophètes</button>
-<button class="nav-link" data-view="view-coran">Coran & Récitateurs</button>
+<button class="nav-link" data-view="view-coran">Coran</button>
 <button class="nav-link" data-view="view-home" data-scroll-to="tarifs">Tarifs</button>
 </nav>
 <div class="nav-actions">
@@ -1088,17 +1221,10 @@ Rihla
 <span class="expand-hint">Découvrir →</span>
 </button>
 <button class="overview-card" data-view="view-coran">
-<div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4V8z" fill="currentColor" stroke="none"/></svg></div>
-<span class="tag">Audio</span>
-<h3>Récitateurs</h3>
-<p>Écoute le Coran en entier par plusieurs grands récitateurs.</p>
-<span class="expand-hint">Découvrir →</span>
-</button>
-<button class="overview-card" data-view="view-coran">
 <div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
 <span class="tag">Lecture</span>
-<h3>Le Coran</h3>
-<p>Chaque verset en arabe, avec traduction française et anglaise.</p>
+<h3>Coran</h3>
+<p>Mushaf page par page, récitateurs et lecture synchronisée.</p>
 <span class="expand-hint">Découvrir →</span>
 </button>
 <button class="overview-card" data-view="view-suivi">
@@ -1348,20 +1474,14 @@ Paiement sécurisé — Stripe
 </section>
 </div>
 <!-- VUE RÉCITATEURS (redirige vers Coran fusionné) -->
-<div class="view" id="view-reciters">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
-<section class="reveal">
-<p style="padding:24px;color:var(--ink-soft);">Les récitateurs sont maintenant intégrés dans <button class="btn btn-primary" data-view="view-coran" style="margin-left:8px;">Coran & Récitateurs</button></p>
-</section>
-</div>
 <!-- VUE CORAN + RÉCITATEURS FUSIONNÉS (MUSHAF) -->
 <div class="view" id="view-coran">
 <button class="back-link" data-view="view-home">← Retour à l'accueil</button>
 <section class="reveal mushaf-shell">
 <div class="section-head">
-<span class="eyebrow">Mushaf & écoute</span>
-<h2>Le Coran page par page</h2>
-<p>Lis comme dans un mushaf. Choisis un récitateur en bas — la lecture suit le texte en direct.</p>
+<span class="eyebrow">Mushaf</span>
+<h2>Coran</h2>
+<p>Lis page par page, choisis un récitateur — la lecture suit le texte.</p>
 </div>
 <div class="mushaf-toolbar">
 <div class="mt-group">
@@ -1374,7 +1494,7 @@ Paiement sécurisé — Stripe
 </div>
 </div>
 <div class="mushaf-reciters-panel">
-<div class="mushaf-reciters-title">Récitateurs <span id="mushafReciterCount"></span></div>
+<div class="mushaf-reciters-title">Choisir une voix <span id="mushafReciterCount"></span></div>
 <div class="mushaf-reciters-grid" id="mushafRecitersGrid"></div>
 </div>
 <div class="mushaf-page-frame">
@@ -1390,6 +1510,11 @@ Paiement sécurisé — Stripe
 <button type="button" id="mushafPrevPage">← Page précédente</button>
 <span class="mp-pos" id="mushafPagePos">Page 1 / 604</span>
 <button type="button" id="mushafNextPage">Page suivante →</button>
+<div class="mp-jump">
+<label for="mushafPageInput">Page</label>
+<input type="number" id="mushafPageInput" min="1" max="604" placeholder="1–604" inputmode="numeric">
+<button type="button" id="mushafPageGo" class="mt-btn">Aller</button>
+</div>
 </div>
 <div class="mushaf-bottom-bar" id="mushafBottomBar">
 <div class="mb-reciters" id="mushafReciterChips"></div>
@@ -1590,21 +1715,7 @@ Continuer avec Google
 // =====================================================================
 const SUPABASE_URL = 'https://imgzgtozhkcgsibvnopo.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltZ3pndG96aGtjZ3NpYnZub3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxOTIyOTgsImV4cCI6MjA5OTc2ODI5OH0.3-_aUl81wis-QPwrquyTjqqfygl5CLQUdvE6IZ34rRQ';
-// CORRECTIF : si le CDN Supabase ne charge pas (bloqueur de pub, réseau
-// restreint, panne...), window.supabase serait "undefined" et
-// createClient() plantait ici -> tout le reste du script s'arrêtait.
-// On protège désormais l'init et on continue avec un client "null" si
-// besoin : le site reste utilisable, seule la connexion est coupée.
-let supabaseClient = null;
-try{
-  if(window.supabase){
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  } else {
-    console.error('Supabase indisponible : le script CDN ne s\'est pas chargé.');
-  }
-}catch(err){
-  console.error('Erreur d\'initialisation Supabase :', err);
-}
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const PREMIUM_PAYMENT_LINK = 'https://buy.stripe.com/test_00g5nD4dU6fWgWw000';
 // =====================================================================
 // ÉLÉMENTS UI
@@ -1639,19 +1750,17 @@ loginBtn.style.display = '';
 premiumBtn.style.display = '';
 userBadge.classList.remove('visible');
 }
-if(supabaseClient){
-  supabaseClient.auth.getSession().then(({ data }) => {
-    if(data.session && data.session.user) showLoggedInUI(data.session.user);
-  });
-  supabaseClient.auth.onAuthStateChange((event, session) => {
-    if(session && session.user){
-      showLoggedInUI(session.user);
-      overlay.classList.remove('open');
-    } else {
-      showLoggedOutUI();
-    }
-  });
+supabaseClient.auth.getSession().then(({ data }) => {
+if(data.session && data.session.user) showLoggedInUI(data.session.user);
+});
+supabaseClient.auth.onAuthStateChange((event, session) => {
+if(session && session.user){
+showLoggedInUI(session.user);
+overlay.classList.remove('open');
+} else {
+showLoggedOutUI();
 }
+});
 // =====================================================================
 // NAVIGATION SPA - PAGE D'ACCUEIL PAR DÉFAUT
 // =====================================================================
@@ -1747,11 +1856,6 @@ alert("Le paiement Premium n'est pas encore activé sur ce site.");
 }
 });
 document.getElementById('authGoogle')?.addEventListener('click', async () => {
-if(!supabaseClient){
-authStatus.textContent = 'Connexion indisponible pour le moment.';
-authStatus.className = 'auth-status error';
-return;
-}
 authStatus.textContent = 'Redirection vers Google…';
 authStatus.className = 'auth-status';
 const { error } = await supabaseClient.auth.signInWithOAuth({
@@ -1776,11 +1880,6 @@ authStatus.className = 'auth-status';
 authToggleMode.addEventListener('click', () => setAuthMode(authMode === 'signin' ? 'signup' : 'signin'));
 document.getElementById('emailForm')?.addEventListener('submit', async (e) => {
 e.preventDefault();
-if(!supabaseClient){
-authStatus.textContent = 'Connexion indisponible pour le moment.';
-authStatus.className = 'auth-status error';
-return;
-}
 const email = document.getElementById('emailInput').value.trim();
 const password = document.getElementById('passwordInput').value;
 if(!email || !password) return;
@@ -1811,9 +1910,7 @@ authStatus.className = 'auth-status error';
 authSubmitBtn.disabled = false;
 });
 document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-if(supabaseClient){
 await supabaseClient.auth.signOut();
-}
 showLoggedOutUI();
 });
 // =====================================================================
@@ -1834,19 +1931,25 @@ e.preventDefault();
 const surah = qref.dataset.surah;
 const ayah = qref.dataset.ayah;
 showView('view-coran');
-setTimeout(async () => {
-try{
-const res = await fetch(`https://api.alquran.cloud/v1/surah/${surah}`);
-const json = await res.json();
-const target = json.data && json.data.ayahs && json.data.ayahs.find(a => a.numberInSurah === parseInt(ayah,10));
-const page = target ? target.page : (json.data && json.data.ayahs && json.data.ayahs[0] && json.data.ayahs[0].page);
-if(page){
-stopMushafAudio();
-await loadMushafPage(page);
+setTimeout(() => {
+const select = document.getElementById('quranSurahSelect');
+if(select) {
+select.value = surah;
+document.getElementById('quranLoadBtn').click();
+let attempts = 0;
+const checkAyah = setInterval(() => {
+attempts++;
+if(window.currentAyahs && window.currentAyahs.length > 0 && parseInt(ayah) <= window.currentAyahs.length){
+window.currentAyahIndex = parseInt(ayah) - 1;
+renderFlashcard();
+clearInterval(checkAyah);
 showToast(`📖 Verset ${ayah} de la sourate ${surah} chargé`);
+} else if(attempts > 20){
+clearInterval(checkAyah);
 }
-}catch(err){ console.error('Erreur navigation verset:', err); }
 }, 300);
+}
+}, 500);
 }
 });
 // =====================================================================
@@ -1933,11 +2036,7 @@ localStorage.setItem('rihla_daily_progress', JSON.stringify({
 date: today,
 data: dailyProgress
 }));
-}catch(err){
-console.error('Erreur de sauvegarde du suivi quotidien :', err);
-}
-// CORRECTIF : appelé désormais hors du try/catch de sauvegarde afin
-// qu'un souci d'affichage n'empêche jamais la sauvegarde, et inversement.
+}catch(err){}
 updateTrackerUI();
 }
 function updateTrackerUI(){
@@ -1950,17 +2049,13 @@ const dayIndex = today.getDay();
 const mondayIndex = dayIndex === 0 ? 6 : dayIndex - 1;
 el.classList.toggle('today', i === mondayIndex);
 });
-const streakEl = document.getElementById('streakCount');
-if(streakEl) streakEl.textContent = dailyProgress.streak || 0;
+document.getElementById('streakCount').textContent = dailyProgress.streak || 0;
 const weekCount = dailyProgress.weekDays.filter(Boolean).length;
-const weekEl = document.getElementById('weekCount');
-if(weekEl) weekEl.textContent = weekCount;
+document.getElementById('weekCount').textContent = weekCount;
 const monthPercent = Math.round((dailyProgress.monthDays.filter(Boolean).length / 30) * 100) || 0;
-const monthEl = document.getElementById('monthPercent');
-if(monthEl) monthEl.textContent = monthPercent + '%';
+document.getElementById('monthPercent').textContent = monthPercent + '%';
 const progress = Math.min(100, (dailyProgress.pagesRead / dailyProgress.dailyGoal) * 100);
 const statusEl = document.getElementById('dailyProgressStatus');
-if(statusEl){
 if(progress >= 100){
 statusEl.textContent = '✅ Objectif atteint !';
 statusEl.className = 'obj-status done';
@@ -1970,7 +2065,6 @@ statusEl.className = 'obj-status';
 } else {
 statusEl.textContent = '⏳ En cours';
 statusEl.className = 'obj-status';
-}
 }
 }
 function markReading(pages){
@@ -2373,58 +2467,82 @@ desc: `<strong>Muhammad (paix et bénédictions sur lui)</strong> est le dernier
 verses: '📖 Coran 33:40, 47:2, 48:29'
 }
 ];
+
 // Contenu enrichi supplémentaire pour chaque prophète
 window.PROPHETE_EXTRA = {
 'Adam': `<br><br><strong>📖 Dans le Coran :</strong> Adam est mentionné à de nombreuses reprises. Allah enseigna à Adam les noms de toutes choses, prouvant aux anges la sagesse de sa création. Après la faute, Allah lui enseigna des paroles de repentir : « Notre Seigneur, nous avons été injustes envers nous-mêmes… » (7:23).
 <br><br><strong>📖 Ses qualités :</strong> Premier prophète, premier homme, créé directement par Allah. Il vécut très longtemps selon la tradition et enseigne à l'humanité le monothéisme originel (fitra).`,
+
 'Idris': `<br><br><strong>📖 Dans le Coran :</strong> « Et mentionne Idris dans le Livre. C'était un véridique et un prophète. Et Nous l'élevâmes à un haut rang. » (19:56-57).
 <br><br><strong>📖 Tradition :</strong> Souvent identifié à Hénoch. On lui attribue l'invention de l'écriture, de la couture et l'observation des astres au service de la connaissance d'Allah. Il appela à la pureté du monothéisme entre Adam et Noé.
 <br><br><strong>📖 Leçon :</strong> La science utile et la véracité élèvent le croyant auprès d'Allah.`,
+
 'Noé (Nuh)': `<br><br><strong>📖 La durée de sa prédication :</strong> Le Coran précise qu'il resta parmi son peuple « mille ans moins cinquante années » (29:14), soit 950 ans d'appel patient.
 <br><br><strong>📖 L'Arche :</strong> Construite sur ordre divin, elle sauva les croyants et un couple de chaque espèce. Le déluge fut un châtiment total pour les négateurs.
 <br><br><strong>📖 Son fils :</strong> L'un de ses fils refusa de monter et périt, rappelant que la guidance est individuelle et que les liens de sang ne suffisent pas sans la foi.`,
+
 'Houd': `<br><br><strong>📖 Le peuple de 'Ad :</strong> Habitait Al-Ahqaf (les dunes). Ils bâtissaient des monuments et se vantaient de leur force : « Qui est plus fort que nous ? » Allah envoya un vent glacial destructeur pendant sept nuits et huit jours.
 <br><br><strong>📖 Message de Houd :</strong> Unicité d'Allah, gratitude pour les bienfaits, abandon de l'orgueil. Seuls les croyants furent sauvés avec Houd.`,
+
 'Salih': `<br><br><strong>📖 Thamud et Al-Hijr :</strong> Peuple qui taillait des demeures dans le roc (région de Madâin Sâlih). La chamelle fut un signe clair ; son meurtre déclencha le compte à rebours de trois jours avant le cri destructeur (sayha).
 <br><br><strong>📖 Avertissement :</strong> Mépriser les signes d'Allah après les avoir demandés est une forme d'incrédulité grave.`,
+
 'Abraham (Ibrahim)': `<br><br><strong>📖 Titres :</strong> Khalîlullâh (l'ami intime d'Allah), père des prophètes, hanîf (monothéiste pur).
 <br><br><strong>📖 Épreuves majeures :</strong> Rupture avec l'idolâtrie paternelle, feu de Nimrod, migration, sacrifice d'Ismaël, reconstruction de la Kaaba avec Ismaël, appel au Hajj.
 <br><br><strong>📖 Invocation célèbre :</strong> Il pria pour une descendance soumise et pour que La Mecque soit un lieu sûr (2:126-129).`,
+
 'Lot (Lut)': `<br><br><strong>📖 Contexte :</strong> Envoyé aux cités de la plaine (Sodome et Gomorrhe). Son peuple pratiquait l'homosexualité ouverte, le brigandage et l'humiliation des hôtes.
 <br><br><strong>📖 Les anges :</strong> Vinrent sous forme humaine ; le peuple les agressa. Lot fut ordonné de partir de nuit. Sa femme regarda en arrière et périt avec les mécréants.`,
+
 'Ismaël (Ismail)': `<br><br><strong>📖 Zamzam et Safa-Marwa :</strong> Enfant, abandonné avec Hajar dans la vallée stérile de La Mecque ; la source Zamzam jaillit. Les rites de Sa'y entre Safa et Marwa rappellent la course de Hajar.
 <br><br><strong>📖 Sacrifice :</strong> Il accepta d'être sacrifié : « Ô mon père, fais ce qui t'est commandé » (37:102). Ancêtre du Prophète Muhammad ﷺ.`,
+
 'Isaac (Ishaq)': `<br><br><strong>📖 Annonce :</strong> Annoncé à Abraham et Sarah âgés par des anges (11:71-73). Père de Jacob, maillon de la lignée des prophètes d'Israël.
 <br><br><strong>📖 Caractère :</strong> Prophète pieux, patient, transmis le monothéisme d'Abraham.`,
+
 'Jacob (Ya\'qub)': `<br><br><strong>📖 Israël :</strong> Surnommé Isra'îl. Père des douze tribus. Son chagrin pour Yusuf le rendit aveugle ; son odorat reconnut la tunique de Joseph et sa vue lui fut rendue (sourate Yusuf).
 <br><br><strong>📖 Conseil final :</strong> Il demanda à ses fils de rester sur la religion d'Abraham, Ismaël et Isaac avant de mourir.`,
+
 'Joseph (Yusuf)': `<br><br><strong>📖 « La plus belle des histoires » :</strong> Sourate 12 entière. Rêve, jalousie des frères, puits, esclavage, tentation de la femme de l'Aziz, prison, interprétation des rêves, pouvoir en Égypte, pardon fraternel.
 <br><br><strong>📖 Qualités :</strong> Beauté, chasteté ('ihsan), patience, science de l'interprétation, clémence.`,
+
 'Job (Ayyub)': `<br><br><strong>📖 Épreuve exemplaire :</strong> Perte des biens, des enfants et de la santé. Son invocation : « Le mal m'a touché, et Tu es le plus miséricordieux des miséricordieux » (21:83).
 <br><br><strong>📖 Guérison :</strong> Allah lui ordonna de frapper le sol : une eau pure le guérit. Tout lui fut rendu en double. Modèle absolu de sabr.`,
+
 'Shu\'ayb': `<br><br><strong>📖 Madyan / Al-Ayka :</strong> Peuple de commerçants malhonnêtes (poids et mesures faussés). Shu'ayb insiste sur la justice économique et le monothéisme.
 <br><br><strong>📖 Châtiment :</strong> Cri terrible ou tremblement selon les passages. Surnommé « l'orateur des prophètes » pour son éloquence.`,
+
 'Moïse (Musa)': `<br><br><strong>📖 Kalîmullâh :</strong> Celui à qui Allah a parlé directement. Bâton devenu serpent, main lumineuse, neuf signes contre Pharaon, fente de la mer, Torah au Sinaï, quarante ans dans le Sinaï.
 <br><br><strong>📖 Pharaon :</strong> Type du tyran orgueilleux qui dit « je suis votre seigneur le plus haut ». Noyé pendant que les Enfants d'Israël étaient sauvés.`,
+
 'Aaron (Harun)': `<br><br><strong>📖 Rôle :</strong> Frère aîné, plus éloquent, ministre de Moïse (20:29-36). Tenta de retenir le peuple lors du veau d'or ; Moïse le saisit puis comprit sa position difficile.
 <br><br><strong>📖 Qualité :</strong> Soutien fraternel dans la da'wa.`,
+
 'David (Dawud)': `<br><br><strong>📖 Zabur :</strong> Reçut les Psaumes. Voix magnifique : les montagnes et les oiseaux psalmodiaient avec lui. Vainqueur de Goliath (Jâlût).
 <br><br><strong>📖 Jugement :</strong> Roi juste ; l'épisode des deux plaideurs (38:21-26) lui enseigne l'équité. Forgeait les armures (fer assoupli).`,
+
 'Salomon (Sulayman)': `<br><br><strong>📖 Dons uniques :</strong> Compréhension du langage des oiseaux et des animaux, contrôle des djinns et du vent, royaume sans égal.
 <br><br><strong>📖 Bilqîs :</strong> Reine de Saba convertie après avoir vu le trône transporté et le palais de cristal (27:15-44). Construction du Temple.`,
+
 'Élie (Ilyas)': `<br><br><strong>📖 Baal :</strong> Appela Israël à abandonner le culte de Baal. Affronta l'idolâtrie dominante. Mentionné avec les « meilleurs » (37:123-132).
 <br><br><strong>📖 Fermeté :</strong> Modèle de résistance face à un peuple égaré.`,
+
 'Élisée (Al-Yasa)': `<br><br><strong>📖 Succession :</strong> Successeur d'Élie, continuateur de la mission parmi les Enfants d'Israël. Cité parmi les élus (6:86, 38:48).
 <br><br><strong>📖 Vertu :</strong> Persévérance dans la transmission de la guidance.`,
+
 'Jonas (Yunus)': `<br><br><strong>📖 Ninive :</strong> Quitta son peuple trop tôt ; embarquement, tempête, tirage au sort, grand poisson.
 <br><br><strong>📖 Dhû-n-Nûn :</strong> Son invocation dans les ténèbres : « Nulle divinité sauf Toi ! Gloire à Toi ! J'ai été parmi les injustes » (21:87) est un trésor pour tout repentir. Son peuple crut après son départ et fut épargné — cas unique.`,
+
 'Zacharie (Zakariyya)': `<br><br><strong>📖 Gardien de Maryam :</strong> Trouvait auprès d'elle une provision miraculeuse (3:37). Demanda un héritier pieux malgré son grand âge et la stérilité de son épouse.
 <br><br><strong>📖 Signe :</strong> Ne put parler aux gens pendant trois jours sauf par gestes après l'annonce de Yahya.`,
+
 'Jean-Baptiste (Yahya)': `<br><br><strong>📖 Nom unique :</strong> « Yahya » — nom que personne n'avait porté avant lui (19:7). Sage dès l'enfance, chaste, prophète, dévoué à ses parents.
 <br><br><strong>📖 Mission :</strong> Confirma la Torah, annonça 'Îsâ, appela à la repentance. Martyr pour avoir dénoncé l'injustice.`,
+
 'Jésus (Isa)': `<br><br><strong>📖 Messie et parole d'Allah :</strong> Créé par le « Kun » (Sois) comme Adam. Parla au berceau, guérit l'aveugle-né et le lépreux, ressuscita des morts par permission d'Allah, forma un oiseau d'argile.
 <br><br><strong>📖 Non crucifié :</strong> « Ils ne l'ont ni tué ni crucifié ; mais ce n'était qu'un faux semblant » (4:157). Élevé vivant ; reviendra à la fin des temps selon la tradition authentique.
 <br><br><strong>📖 Message :</strong> Adoration d'Allah seul, confirmation de la Torah, annonce d'un messager à venir nommé Ahmad.`,
+
 'Muhammad': `<br><br><strong>📖 Sceau des prophètes :</strong> « Muhammad n'est le père d'aucun de vos hommes, mais le messager d'Allah et le sceau des prophètes » (33:40).
 <br><br><strong>📖 Caractère :</strong> « Et tu es certes d'une moralité éminente » (68:4). Al-Amîn avant la révélation. Miséricorde pour l'univers entier (21:107).
 <br><br><strong>📖 Héritage :</strong> Le Coran préservé, la Sunna, une communauté mondiale. Sa vie (Sîra) est le modèle complet pour chaque domaine : foi, famille, société, guerre juste, paix et gouvernance.`
@@ -2532,7 +2650,7 @@ const CURATED_HADITHS = [
 { text: 'Craignez Allah où que vous soyez. Faites suivre la mauvaise action d\'une bonne qui l\'efface. Et comportez-vous avec les gens de la meilleure manière.', ref: 'Tirmidhi', theme: 'Piété' },
 { text: 'Le monde est doux et verdoyant. Allah vous y a établis pour voir comment vous agissez.', ref: 'Muslim', theme: 'Dounia' },
 { text: 'Celui qui se tait est sauvé.', ref: 'Tirmidhi', theme: 'Parole' },
-{ text: 'Demandez le savoir partout où il se trouve — l\'importance du savoir est un rappel constant dans la tradition prophétique.', ref: 'Rappel traditionnel sur l\'importance du savoir', theme: 'Savoir' },
+{ text: 'Demandez le savoir, fût-ce jusqu\'en Chine.', ref: 'Rapporté dans certaines collections (faible selon certains savants) — rappel sur l\'importance du savoir', theme: 'Savoir' },
 { text: 'Le Paradis est sous les pieds des mères.', ref: 'Ahmad & Nassai', theme: 'Parents' },
 { text: 'Celui qui croit en Allah et au Jour dernier, qu\'il honore son hôte.', ref: 'Boukhari & Muslim', theme: 'Hospitalité' },
 { text: 'La modestie fait partie de la foi.', ref: 'Boukhari & Muslim', theme: 'Modestie' },
@@ -2565,6 +2683,7 @@ function renderHadith(index){
   if(hadithCountBadge){
     hadithCountBadge.textContent = 'Thème : ' + h.theme + ' · ' + (index + 1) + ' / ' + CURATED_HADITHS.length;
   }
+  // Sauvegarder pour stabilité du jour
   try{ localStorage.setItem('rihla_hadith_day', JSON.stringify({ day: new Date().toISOString().slice(0,10), index })); }catch(e){}
 }
 
@@ -2575,6 +2694,7 @@ function loadDailyHadith(forceNew){
     renderHadith(next);
     return;
   }
+  // Hadith du jour stable + ordonné
   try{
     const saved = JSON.parse(localStorage.getItem('rihla_hadith_day') || 'null');
     const today = new Date().toISOString().slice(0,10);
@@ -2586,87 +2706,129 @@ function loadDailyHadith(forceNew){
   renderHadith(getDayHadithIndex());
 }
 document.getElementById('hadithRefresh')?.addEventListener('click', () => loadDailyHadith(true));
-
 // =====================================================================
-// VERSET DU JOUR (héros de la page d'accueil)
-// =====================================================================
-// CORRECTIF : l'élément #heroQuoteText n'était jamais rempli nulle part
-// dans le script d'origine (le héros restait bloqué sur "Chargement…"
-// indéfiniment). On ajoute une petite liste de versets et on l'affiche
-// selon un tirage stable par jour.
-const HERO_VERSES = [
-{ ref: 'Coran 65:3', text: "Et quiconque place sa confiance en Allah, Il lui suffit." },
-{ ref: 'Coran 94:5-6', text: "À côté de la difficulté est, certes, une facilité." },
-{ ref: 'Coran 2:186', text: "Je suis tout proche : Je réponds à l'appel de celui qui M'invoque." },
-{ ref: 'Coran 13:28', text: "C'est par le rappel d'Allah que les cœurs se tranquillisent." },
-{ ref: 'Coran 3:159', text: "Et place ta confiance en Allah, car Allah aime ceux qui Lui font confiance." },
-{ ref: 'Coran 20:25-26', text: "Seigneur, ouvre-moi le cœur, et facilite ma tâche." },
-{ ref: 'Coran 39:53', text: "Ne désespérez pas de la miséricorde d'Allah." }
-];
-function loadHeroVerse(){
-const daySeed = Number(new Date().toISOString().slice(0,10).replace(/-/g,''));
-const index = daySeed % HERO_VERSES.length;
-const verse = HERO_VERSES[index] || HERO_VERSES[0];
-const dayNumberEl = document.getElementById('heroDayNumber');
-const quoteTypeEl = document.getElementById('heroQuoteType');
-const quoteTextEl = document.getElementById('heroQuoteText');
-if(dayNumberEl) dayNumberEl.textContent = 'JOUR ' + (daySeed % 100 + 1);
-if(quoteTypeEl) quoteTypeEl.textContent = 'Verset du jour · ' + verse.ref;
-if(quoteTextEl) quoteTextEl.textContent = verse.text;
-}
-
-// =====================================================================
-// CORAN — liste des sourates (utilisée par le sélecteur du Mushaf)
+// CORAN
 // =====================================================================
 let SURAHS = [];
+let currentAyahs = [];
+let currentAyahIndex = 0;
+window.currentAyahs = currentAyahs;
+window.currentAyahIndex = currentAyahIndex;
 async function loadSurahList(){
 try{
 const res = await fetch('https://api.alquran.cloud/v1/surah');
 const json = await res.json();
 SURAHS = json.data || [];
 const opts = SURAHS.map(s => `<option value="${s.number}">${s.number}. ${s.englishName} — ${s.name}</option>`).join('');
+const qss = document.getElementById('quranSurahSelect');
+const rss = document.getElementById('reciterSurahSelect');
 const mss = document.getElementById('mushafSurahSelect');
+if(qss) qss.innerHTML = opts;
+if(rss) rss.innerHTML = opts;
 if(mss) mss.innerHTML = opts;
+const hd = document.getElementById('heroDayNumber');
+if(hd) hd.textContent = 'JOUR ' + (Math.floor(Math.random() * 100) + 1);
+const hq = document.getElementById('heroQuoteType'); if(hq) hq.textContent = 'Verset du jour';
 }catch(err){
 console.error('Erreur chargement liste sourates:', err);
 }
 }
+async function loadSurahFlashcards(){
+const n = document.getElementById('quranSurahSelect').value;
+if(!n) return;
+document.getElementById('quranStatus').textContent = 'Chargement…';
+try{
+const res = await fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,fr.hamidullah,en.sahih`);
+const json = await res.json();
+const [ar, fr, en] = json.data;
+currentAyahs = ar.ayahs.map((a, i) => ({
+ref: `${ar.englishName} (${ar.name}) — verset ${a.numberInSurah}/${ar.ayahs.length}`,
+arabic: a.text,
+fr: (fr && fr.ayahs[i]) ? fr.ayahs[i].text : '',
+en: (en && en.ayahs[i]) ? en.ayahs[i].text : ''
+}));
+window.currentAyahs = currentAyahs;
+currentAyahIndex = 0;
+window.currentAyahIndex = currentAyahIndex;
+document.getElementById('quranStatus').textContent = '';
+renderFlashcard();
+}catch(err){
+document.getElementById('quranStatus').textContent = "Erreur de chargement.";
+console.error('Erreur chargement sourate:', err);
+}
+}
+function renderFlashcard(){
+if(!currentAyahs.length) return;
+const a = currentAyahs[currentAyahIndex];
+document.getElementById('fcRef').textContent = a.ref;
+document.getElementById('fcArabic').textContent = a.arabic;
+document.getElementById('fcFr').textContent = a.fr || '—';
+document.getElementById('fcEn').textContent = a.en || '—';
+document.getElementById('fcPos').textContent = (currentAyahIndex + 1) + ' / ' + currentAyahs.length;
+document.getElementById('fcPrev').disabled = currentAyahIndex === 0;
+document.getElementById('fcNext').disabled = currentAyahIndex === currentAyahs.length - 1;
+}
+document.getElementById('quranLoadBtn')?.addEventListener('click', loadSurahFlashcards);
+document.getElementById('fcPrev')?.addEventListener('click', () => { if(currentAyahIndex > 0){ currentAyahIndex--; renderFlashcard(); } });
+document.getElementById('fcNext')?.addEventListener('click', () => { if(currentAyahIndex < currentAyahs.length - 1){ currentAyahIndex++; renderFlashcard(); } });
+document.addEventListener('keydown', (e) => {
+const view = document.getElementById('view-coran');
+if(!view || !view.classList.contains('active')) return;
+if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+e.preventDefault();
+if(currentAyahIndex > 0){ currentAyahIndex--; renderFlashcard(); }
+} else if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+e.preventDefault();
+if(currentAyahIndex < currentAyahs.length - 1){ currentAyahIndex++; renderFlashcard(); }
+}
+});
 // =====================================================================
 // PRIÈRES — horaires précis + Qibla exacte
 // =====================================================================
-const KAABA = { lat: 21.422487, lng: 39.826206 };
+const KAABA = { lat: 21.422487, lng: 39.826206 }; // centre de la Kaaba
 const PRAYER_NAMES = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 const PRAYER_LABELS_FR = { Fajr: 'Fajr', Dhuhr: 'Dhuhr', Asr: 'Asr', Maghrib: 'Maghrib', Isha: 'Isha' };
 
 let prayerState = {
-  lat: null, lng: null, placeLabel: '', times: null, method: 3,
-  qiblaBearing: null, deviceHeading: null, countdownTimer: null,
-  azanEnabled: false, lastAzanKey: ''
+  lat: null,
+  lng: null,
+  placeLabel: '',
+  times: null,       // { Fajr: '05:12', ... } HH:mm
+  method: 3,         // 3 = Muslim World League (fiable mondialement)
+  qiblaBearing: null,// degrés depuis le nord vrai (0-360)
+  deviceHeading: null,
+  countdownTimer: null,
+  azanEnabled: false,
+  lastAzanKey: ''
 };
 
+// ——— Math Qibla (orthodromie / great-circle bearing) ———
 function toRad(d){ return d * Math.PI / 180; }
 function toDeg(r){ return r * 180 / Math.PI; }
 
 function computeQiblaBearing(lat, lng){
-  const phi1 = toRad(lat);
-  const phi2 = toRad(KAABA.lat);
-  const dl = toRad(KAABA.lng - lng);
-  const y = Math.sin(dl) * Math.cos(phi2);
-  const x = Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(dl);
-  let th = toDeg(Math.atan2(y, x));
-  return (th + 360) % 360;
+  const φ1 = toRad(lat);
+  const φ2 = toRad(KAABA.lat);
+  const Δλ = toRad(KAABA.lng - lng);
+  const y = Math.sin(Δλ) * Math.cos(φ2);
+  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+  let θ = toDeg(Math.atan2(y, x));
+  return (θ + 360) % 360;
 }
 
 function distanceToKaabaKm(lat, lng){
+  // Haversine
   const R = 6371.0088;
-  const phi1 = toRad(lat), phi2 = toRad(KAABA.lat);
-  const dphi = toRad(KAABA.lat - lat);
-  const dl = toRad(KAABA.lng - lng);
-  const a = Math.sin(dphi/2)**2 + Math.cos(phi1)*Math.cos(phi2)*Math.sin(dl/2)**2;
+  const φ1 = toRad(lat), φ2 = toRad(KAABA.lat);
+  const Δφ = toRad(KAABA.lat - lat);
+  const Δλ = toRad(KAABA.lng - lng);
+  const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 
 function shortestAngleDiff(a, b){
+  // différence signée la plus courte entre deux angles [0,360)
   return ((a - b + 540) % 360) - 180;
 }
 
@@ -2682,10 +2844,13 @@ function updateQiblaUI(){
     return;
   }
   const bearing = prayerState.qiblaBearing;
+  // rotation de l'aiguille : 0° = haut de l'écran = direction face à l'utilisateur
+  // quand rotation ≈ 0, l'utilisateur regarde la Qibla
   let rotation = bearing;
   if(prayerState.deviceHeading != null && !isNaN(prayerState.deviceHeading)){
     rotation = (bearing - prayerState.deviceHeading + 360) % 360;
   }
+  // Lissage déjà appliqué sur deviceHeading ; appliquer directement
   needle.style.transform = 'rotate(' + rotation.toFixed(2) + 'deg)';
 
   const dist = (prayerState.lat != null)
@@ -2693,9 +2858,12 @@ function updateQiblaUI(){
     : '';
 
   if(prayerState.deviceHeading != null){
+    // Écart à la Qibla (0 = parfaitement aligné)
     let offset = shortestAngleDiff(bearing, prayerState.deviceHeading);
+    // offset positif = Qibla à droite, négatif = à gauche
     const absOff = Math.abs(offset);
     degEl.textContent = 'Qibla ' + bearing.toFixed(1) + '° · cap ' + prayerState.deviceHeading.toFixed(0) + '°' + dist;
+
     if(alignEl){
       if(absOff <= 5){
         alignEl.textContent = '✓ Aligné sur la Qibla';
@@ -2721,7 +2889,15 @@ function updateQiblaUI(){
   }
 }
 
+// ——— Méthode de calcul selon la région ———
 function pickCalculationMethod(lat, lng, countryCode){
+  // 12 = UOIF (France/Belgique/Suisse francophone)
+  // 4  = Umm Al-Qura (Arabie)
+  // 5  = Egyptian
+  // 2  = ISNA (Amérique du Nord)
+  // 3  = Muslim World League (défaut)
+  // 13 = Diyanet (Turquie)
+  // 7  = University of Tehran
   const cc = (countryCode || '').toUpperCase();
   if(['FR','BE','CH','LU','MC'].includes(cc)) return 12;
   if(['SA','AE','QA','BH','KW','OM','YE'].includes(cc)) return 4;
@@ -2730,11 +2906,14 @@ function pickCalculationMethod(lat, lng, countryCode){
   if(['TR'].includes(cc)) return 13;
   if(['IR'].includes(cc)) return 7;
   if(['GB','UK'].includes(cc)) return 3;
+  // Europe de l'Ouest proche France
   if(lat > 41 && lat < 52 && lng > -5 && lng < 10) return 12;
   return 3;
 }
 
+// ——— Géocodage inverse (Nominatim OSM) ———
 async function reverseGeocode(lat, lng){
+  // 1) BigDataCloud (CORS friendly, pas de clé)
   try{
     const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=fr`;
     const res = await fetch(url);
@@ -2749,6 +2928,7 @@ async function reverseGeocode(lat, lng){
       if(label) return { label, countryCode: cc, city };
     }
   }catch(err){ console.warn('BDC geocode:', err); }
+  // 2) Nominatim OSM
   try{
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=14&addressdetails=1&accept-language=fr`;
     const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
@@ -2767,6 +2947,7 @@ async function reverseGeocode(lat, lng){
   return { label: `${lat.toFixed(5)}°, ${lng.toFixed(5)}°`, countryCode: '', city: '' };
 }
 
+// ——— Recherche ville (Nominatim) ———
 async function geocodeCity(query){
   const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(query)}&limit=5&addressdetails=1&accept-language=fr`;
   const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
@@ -2778,28 +2959,37 @@ async function geocodeCity(query){
     const city = a.city || a.town || a.village || a.municipality || r.name;
     const cc = (a.country_code || '').toUpperCase();
     return {
-      lat: parseFloat(r.lat), lng: parseFloat(r.lon), label: r.display_name,
+      lat: parseFloat(r.lat),
+      lng: parseFloat(r.lon),
+      label: r.display_name,
       shortLabel: [city, a.state, a.country].filter(Boolean).filter((v,i,arr)=>arr.indexOf(v)===i).join(', '),
       countryCode: cc
     };
   });
 }
 
+// ——— Horaires via Aladhan (par coordonnées = le plus précis) ———
 async function fetchPrayerTimes(lat, lng, method){
   const date = new Date();
   const dd = String(date.getDate()).padStart(2,'0');
   const mm = String(date.getMonth()+1).padStart(2,'0');
   const yyyy = date.getFullYear();
+  // school=0 (Shafi/Maliki/Hanbali) pour Asr ; tune si besoin
   const url = `https://api.aladhan.com/v1/timings/${dd}-${mm}-${yyyy}?latitude=${lat}&longitude=${lng}&method=${method}&school=0`;
   const res = await fetch(url);
   if(!res.ok) throw new Error('API horaires indisponible');
   const json = await res.json();
   const t = json.data && json.data.timings;
   if(!t) throw new Error('Horaires manquants');
+  // Nettoyer "05:12 (CET)" → "05:12"
   const clean = (s) => String(s).split(' ')[0].trim();
   return {
-    Fajr: clean(t.Fajr), Sunrise: clean(t.Sunrise), Dhuhr: clean(t.Dhuhr),
-    Asr: clean(t.Asr), Maghrib: clean(t.Maghrib), Isha: clean(t.Isha),
+    Fajr: clean(t.Fajr),
+    Sunrise: clean(t.Sunrise),
+    Dhuhr: clean(t.Dhuhr),
+    Asr: clean(t.Asr),
+    Maghrib: clean(t.Maghrib),
+    Isha: clean(t.Isha),
     meta: json.data.meta || {}
   };
 }
@@ -2823,10 +3013,12 @@ function updatePrayerListUI(times){
     if(isNext){ nextName = name; nextDate = dt; }
     return `<div class="prayer-item${isNext ? ' active' : ''}"><div class="p-name">${PRAYER_LABELS_FR[name]}</div><div class="p-time">${t}</div></div>`;
   });
+  // Si toutes passées → prochaine = Fajr demain
   if(!nextName){
     nextName = 'Fajr';
     nextDate = parseTimeToDate(times.Fajr);
     nextDate.setDate(nextDate.getDate() + 1);
+    // marquer aucun active ou Fajr pour demain
   }
   document.getElementById('prayerList').innerHTML = items.join('');
   document.getElementById('nextPrayerName').textContent = PRAYER_LABELS_FR[nextName] || nextName;
@@ -2840,6 +3032,7 @@ function startCountdown(targetDate, prayerName){
     const now = new Date();
     let diff = Math.floor((targetDate - now) / 1000);
     if(diff < 0){
+      // recharger les horaires (changement de jour ou prière atteinte)
       if(prayerState.lat != null){
         loadPrayersForCoords(prayerState.lat, prayerState.lng, prayerState.placeLabel, prayerState.method);
       }
@@ -2849,6 +3042,7 @@ function startCountdown(targetDate, prayerName){
     const m = Math.floor((diff % 3600) / 60);
     const s = diff % 60;
     el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    // Azan
     if(prayerState.azanEnabled && diff === 0){
       const key = prayerName + '-' + targetDate.toDateString();
       if(key !== prayerState.lastAzanKey){
@@ -2869,13 +3063,17 @@ async function loadPrayersForCoords(lat, lng, placeLabel, method, countryCode){
   try{
     if(method == null) method = pickCalculationMethod(lat, lng, countryCode);
     const times = await fetchPrayerTimes(lat, lng, method);
-    prayerState.lat = lat; prayerState.lng = lng; prayerState.placeLabel = placeLabel;
-    prayerState.times = times; prayerState.method = method;
+    prayerState.lat = lat;
+    prayerState.lng = lng;
+    prayerState.placeLabel = placeLabel;
+    prayerState.times = times;
+    prayerState.method = method;
     prayerState.qiblaBearing = computeQiblaBearing(lat, lng);
     updatePrayerListUI(times);
     updateQiblaUI();
     const methodName = (times.meta && times.meta.method && times.meta.method.name) || ('méthode ' + method);
     statusEl.textContent = `✓ Horaires précis · ${methodName} · Qibla ${prayerState.qiblaBearing.toFixed(1)}°`;
+    // Sauvegarder
     try{
       localStorage.setItem('rihla_prayer_loc', JSON.stringify({ lat, lng, placeLabel, method, countryCode: countryCode || '' }));
     }catch(e){}
@@ -2892,6 +3090,7 @@ async function locateUserPrecise(){
   statusEl.textContent = 'Autorise la localisation pour une précision maximale.';
   if(!navigator.geolocation){
     placeEl.textContent = 'Géolocalisation non supportée';
+    // fallback La Mecque
     await loadPrayersForCoords(KAABA.lat, KAABA.lng, 'La Mecque, Arabie Saoudite', 4, 'SA');
     return;
   }
@@ -2909,6 +3108,7 @@ async function locateUserPrecise(){
       console.warn('Geolocation error', err);
       placeEl.textContent = 'Position refusée — utilise la recherche de ville';
       statusEl.textContent = 'Tape ta ville ci-dessous, ou autorise la localisation.';
+      // Essayer position sauvegardée
       try{
         const saved = JSON.parse(localStorage.getItem('rihla_prayer_loc') || 'null');
         if(saved && saved.lat){
@@ -2919,10 +3119,15 @@ async function locateUserPrecise(){
       }catch(e){}
       await loadPrayersForCoords(48.8566, 2.3522, 'Paris, France (exemple)', 12, 'FR');
       resolve();
-    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+    }, {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 60000
+    });
   });
 }
 
+// Recherche ville
 document.getElementById('citySearchBtn')?.addEventListener('click', async () => {
   const q = document.getElementById('citySearchInput').value.trim();
   const statusEl = document.getElementById('citySearchStatus');
@@ -2940,23 +3145,33 @@ document.getElementById('citySearchBtn')?.addEventListener('click', async () => 
 document.getElementById('citySearchInput')?.addEventListener('keydown', (e) => {
   if(e.key === 'Enter'){ e.preventDefault(); document.getElementById('citySearchBtn').click(); }
 });
+
 document.getElementById('prayerLocate')?.addEventListener('click', () => locateUserPrecise());
 
+// ——— Boussole appareil en direct (mobile) ———
 let compassWatching = false;
 let smoothedHeading = null;
-const HEADING_SMOOTH = 0.18;
+const HEADING_SMOOTH = 0.18; // 0 = figé, 1 = brut (plus réactif)
+let lastOrientationTs = 0;
 let compassRaf = null;
 let pendingHeading = null;
 
-function normalizeHeading(h){ h = h % 360; if(h < 0) h += 360; return h; }
+function normalizeHeading(h){
+  h = h % 360;
+  if(h < 0) h += 360;
+  return h;
+}
 
 function extractCompassHeading(e){
+  // 1) iOS Safari — le plus fiable
   if(typeof e.webkitCompassHeading === 'number' && !isNaN(e.webkitCompassHeading)){
     return normalizeHeading(e.webkitCompassHeading);
   }
+  // 2) Android / Chrome : deviceorientationabsolute
   if(e.absolute === true && typeof e.alpha === 'number' && !isNaN(e.alpha)){
     return normalizeHeading(360 - e.alpha);
   }
+  // 3) Fallback alpha (moins fiable, non-absolu)
   if(typeof e.alpha === 'number' && !isNaN(e.alpha)){
     return normalizeHeading(360 - e.alpha);
   }
@@ -2964,6 +3179,7 @@ function extractCompassHeading(e){
 }
 
 function applyScreenOrientation(heading){
+  // Compense la rotation de l'écran (portrait / paysage)
   let offset = 0;
   try{
     if(screen.orientation && typeof screen.orientation.angle === 'number'){
@@ -2979,13 +3195,19 @@ function handleOrientation(e){
   const raw = extractCompassHeading(e);
   if(raw == null) return;
   let heading = applyScreenOrientation(raw);
+
+  // Lissage exponentiel pour éviter les vibrations
   if(smoothedHeading == null){
     smoothedHeading = heading;
   } else {
+    // Interpoler via le chemin le plus court
     const diff = shortestAngleDiff(heading, smoothedHeading);
     smoothedHeading = normalizeHeading(smoothedHeading + diff * HEADING_SMOOTH);
   }
   pendingHeading = smoothedHeading;
+  lastOrientationTs = Date.now();
+
+  // Mettre à jour via rAF pour fluidité (évite de bloquer le thread)
   if(!compassRaf){
     compassRaf = requestAnimationFrame(() => {
       compassRaf = null;
@@ -3001,11 +3223,14 @@ async function enableCompass(){
   const note = document.getElementById('qiblaNote') || document.querySelector('.qibla-note');
   const btn = document.getElementById('compassEnable');
   const alignEl = document.getElementById('qiblaAlign');
+
   if(typeof window.DeviceOrientationEvent === 'undefined'){
     if(note) note.textContent = 'Ce navigateur ne gère pas la boussole. Utilise Chrome ou Safari sur un téléphone.';
     if(alignEl) alignEl.textContent = 'Boussole non supportée';
     return;
   }
+
+  // iOS 13+ : permission obligatoire (doit être dans un geste utilisateur)
   if(typeof DeviceOrientationEvent.requestPermission === 'function'){
     try{
       const perm = await DeviceOrientationEvent.requestPermission();
@@ -3019,17 +3244,31 @@ async function enableCompass(){
       return;
     }
   }
+
   if(compassWatching){
     if(note) note.textContent = 'Boussole déjà active — tiens le téléphone à plat et tourne-toi.';
     return;
   }
+
+  // Écouter absolute + classique (certains Android n'envoient que l'un des deux)
   window.addEventListener('deviceorientationabsolute', handleOrientation, true);
   window.addEventListener('deviceorientation', handleOrientation, true);
   compassWatching = true;
   smoothedHeading = null;
-  if(btn){ btn.textContent = 'Boussole en direct ✓'; btn.style.background = 'var(--gold-100)'; }
-  if(alignEl){ alignEl.textContent = 'Bouge ton téléphone…'; alignEl.className = 'qibla-align warn'; }
-  if(note){ note.textContent = 'Boussole active. Téléphone à plat, loin des aimants. Tourne-toi jusqu\'à ce que l\'aiguille dorée pointe vers le triangle ▲ en haut — tu seras face à la Kaaba.'; }
+
+  if(btn){
+    btn.textContent = 'Boussole en direct ✓';
+    btn.style.background = 'var(--gold-100)';
+  }
+  if(alignEl){
+    alignEl.textContent = 'Bouge ton téléphone…';
+    alignEl.className = 'qibla-align warn';
+  }
+  if(note){
+    note.textContent = 'Boussole active. Téléphone à plat, loin des aimants. Tourne-toi jusqu\'à ce que l\'aiguille dorée pointe vers le triangle ▲ en haut — tu seras face à la Kaaba.';
+  }
+
+  // Watchdog : si aucun event après 3s
   setTimeout(() => {
     if(prayerState.deviceHeading == null && compassWatching){
       if(note) note.textContent = 'Aucun signal boussole. Vérifie que le mode avion est off, ou calibres la boussole (faire un 8 avec le téléphone). Sur ordinateur la boussole n\'existe pas — utilise un mobile.';
@@ -3037,24 +3276,38 @@ async function enableCompass(){
     }
   }, 3000);
 }
-document.getElementById('compassEnable')?.addEventListener('click', (e) => { e.preventDefault(); enableCompass(); });
+
+document.getElementById('compassEnable')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  enableCompass();
+});
+
+// Auto-activer la boussole quand on ouvre la vue Prières (si permission déjà OK)
 document.addEventListener('click', (e) => {
   const trigger = e.target.closest('[data-view="view-priere"]');
   if(!trigger) return;
+  // Sur Android / navigateurs sans requestPermission, on peut démarrer auto
   if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission !== 'function'){
     setTimeout(() => { if(!compassWatching) enableCompass(); }, 600);
   }
 });
-document.getElementById('azanToggle')?.addEventListener('change', (e) => { prayerState.azanEnabled = e.target.checked; });
+
+// Azan toggle
+document.getElementById('azanToggle')?.addEventListener('change', (e) => {
+  prayerState.azanEnabled = e.target.checked;
+});
 document.getElementById('azanTestBtn')?.addEventListener('click', () => {
   const a = document.getElementById('adhanAudio');
   try{ a.currentTime = 0; a.play(); }catch(err){ showToast('Impossible de jouer l\'Adhan'); }
 });
+
 async function initPrayerTimes(){
+  // Charger position sauvée ou GPS
   try{
     const saved = JSON.parse(localStorage.getItem('rihla_prayer_loc') || 'null');
     if(saved && saved.lat){
       await loadPrayersForCoords(saved.lat, saved.lng, saved.placeLabel, saved.method, saved.countryCode);
+      // Affiner en arrière-plan avec GPS
       locateUserPrecise();
       return;
     }
@@ -3062,46 +3315,332 @@ async function initPrayerTimes(){
   await locateUserPrecise();
 }
 // =====================================================================
-// LISTE DES RÉCITATEURS — 16 GRATUITS + 12 PREMIUM
+// RÉCITATEURS - AVEC LECTEUR AUDIO (CORRIGÉ)
 // =====================================================================
-// CORRECTIF : dans une version précédente, TOUS les récitateurs étaient
-// passés à premium:false alors que la page tarifs / Stripe vendent
-// toujours "12 récitateurs Premium" comme avantage payant. On restaure
-// ici le verrouillage sur les 12 récitateurs concernés pour que l'offre
-// payante corresponde à ce qui est effectivement vendu.
+let currentAudio = null;
+let isPlaying = false;
+let currentReciterKey = null;
+let currentSurahNumber = null;
+let ayahPlaylist = [];
+let ayahPlaylistIndex = 0;
+const apContainer = document.getElementById('audioPlayerContainer');
+const apInfo = document.getElementById('apInfo');
+const apPlayBtn = document.getElementById('apPlayBtn');
+const apStopBtn = document.getElementById('apStopBtn');
+const apProgressBar = document.getElementById('apProgressBar');
+const apCurrentTime = document.getElementById('apCurrentTime');
+const apDuration = document.getElementById('apDuration');
+const apVolumeBar = document.getElementById('apVolumeBar');
+// Sécurité : anciens contrôles audio peuvent être absents (mushaf les remplace)
+function apSafe(el, fn){ if(el) try{ fn(el); }catch(e){ console.warn(e); } }
+
+
+function formatTime(seconds) {
+if (isNaN(seconds)) return '00:00';
+const m = Math.floor(seconds / 60);
+const s = Math.floor(seconds % 60);
+return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+function updateProgress() {
+if (currentAudio && !isNaN(currentAudio.duration) && currentAudio.duration > 0) {
+const pct = (currentAudio.currentTime / currentAudio.duration) * 100;
+apProgressBar.value = pct;
+apCurrentTime.textContent = formatTime(currentAudio.currentTime);
+apDuration.textContent = formatTime(currentAudio.duration);
+}
+}
+
+function resetAyahPlaylist(){
+ayahPlaylist = [];
+ayahPlaylistIndex = 0;
+}
+
+function attachAudioListeners(reciterName, surahNumber){
+if (!currentAudio) return;
+currentAudio.addEventListener('timeupdate', updateProgress);
+currentAudio.addEventListener('loadedmetadata', () => {
+apDuration.textContent = formatTime(currentAudio.duration);
+});
+currentAudio.addEventListener('play', () => {
+isPlaying = true;
+apPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+});
+currentAudio.addEventListener('pause', () => {
+isPlaying = false;
+apPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+});
+currentAudio.addEventListener('ended', () => {
+if(ayahPlaylist.length && ayahPlaylistIndex < ayahPlaylist.length - 1){
+ayahPlaylistIndex++;
+playAyahFromPlaylist(reciterName, surahNumber);
+return;
+}
+isPlaying = false;
+apPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+apProgressBar.value = 0;
+apCurrentTime.textContent = '00:00';
+resetAyahPlaylist();
+});
+currentAudio.addEventListener('error', () => {
+if(ayahPlaylist.length && ayahPlaylistIndex < ayahPlaylist.length - 1){
+ayahPlaylistIndex++;
+playAyahFromPlaylist(reciterName, surahNumber);
+return;
+}
+apInfo.textContent = '⚠️ Erreur de lecture. Essaie un autre récitateur.';
+});
+}
+
+function playAyahFromPlaylist(reciterName, surahNumber){
+const url = ayahPlaylist[ayahPlaylistIndex];
+if(!url || !currentAudio) return;
+apInfo.textContent = `🎵 ${reciterName} — Sourate ${surahNumber} (verset ${ayahPlaylistIndex + 1}/${ayahPlaylist.length})`;
+currentAudio.src = url;
+currentAudio.load();
+currentAudio.play().catch((err) => {
+console.error('Erreur play verset:', err);
+});
+}
+
+function startAudioPlayback(url, reciterName, surahNumber, { playlist } = {}){
+if (currentAudio) {
+currentAudio.pause();
+currentAudio = null;
+}
+resetAyahPlaylist();
+if(playlist && playlist.length){
+ayahPlaylist = playlist;
+ayahPlaylistIndex = 0;
+}
+currentAudio = new Audio();
+currentAudio.volume = parseFloat(apVolumeBar.value) / 100;
+attachAudioListeners(reciterName, surahNumber);
+apContainer && apContainer.classList.add('visible');
+if(ayahPlaylist.length){
+playAyahFromPlaylist(reciterName, surahNumber);
+return;
+}
+apInfo.textContent = `🎵 ${reciterName} — Sourate ${surahNumber}`;
+currentAudio.src = url;
+currentAudio.load();
+currentAudio.play().catch((err) => {
+console.error('Erreur play:', err);
+apInfo.textContent = '⚠️ Lecture impossible. Réessaie ou choisis un autre récitateur.';
+});
+}
+
+async function resolveReciterSource(reciter, surahNumber){
+const padded = String(surahNumber).padStart(3, '0');
+if(reciter.quranRecitationId){
+const res = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${reciter.quranRecitationId}/${surahNumber}`);
+if(!res.ok) throw new Error('API Quran.com indisponible');
+const json = await res.json();
+const url = json.audio_file && json.audio_file.audio_url;
+if(!url) throw new Error('Fichier audio introuvable');
+return { url };
+}
+if(reciter.mp3quranBase){
+return { url: `${reciter.mp3quranBase}/${padded}.mp3` };
+}
+if(reciter.alquranId){
+const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahNumber}/${reciter.alquranId}`);
+if(!res.ok) throw new Error('API alquran.cloud indisponible');
+const json = await res.json();
+const playlist = (json.data && json.data.ayahs || [])
+.map(a => a.audio)
+.filter(Boolean);
+if(!playlist.length) throw new Error('Aucun verset audio');
+return { playlist };
+}
+throw new Error('Source audio non configurée');
+}
+
+let currentReciterName = '';
+
+async function playReciter(reciterKey, reciterName){
+const reciter = RECITERS_BY_KEY[reciterKey];
+const surahSelect = document.getElementById('reciterSurahSelect');
+const surahNumber = parseInt(surahSelect.value, 10);
+if(!reciter){
+showToast('⚠️ Récitateur inconnu.');
+return;
+}
+if(!surahNumber){
+showToast('⚠️ Choisis une sourate.');
+return;
+}
+currentReciterKey = reciterKey;
+currentReciterName = reciterName || reciter.name;
+currentSurahNumber = surahNumber;
+apContainer && apContainer.classList.add('visible');
+apInfo.textContent = `🎵 Chargement de ${currentReciterName} — Sourate ${surahNumber}…`;
+try{
+const source = await resolveReciterSource(reciter, surahNumber);
+startAudioPlayback(source.url, currentReciterName, surahNumber, { playlist: source.playlist });
+}catch(err){
+console.error('Erreur récitateur:', err);
+apInfo.textContent = '⚠️ Lecture impossible. Vérifie ta connexion ou essaie un autre récitateur.';
+showToast('⚠️ Impossible de charger cette récitation.');
+}
+}
+
+/** Recharge la sourate en cours avec le récitateur déjà choisi (sans recliquer) */
+function replayCurrentReciter(){
+if(!currentReciterKey){
+showToast('⚠️ Choisis d\'abord un récitateur.');
+return;
+}
+const reciter = RECITERS_BY_KEY[currentReciterKey];
+playReciter(currentReciterKey, currentReciterName || (reciter && reciter.name) || '');
+}
+
+function shiftReciterSurah(delta){
+const select = document.getElementById('reciterSurahSelect');
+if(!select || !select.options.length) return;
+const idx = select.selectedIndex;
+const next = Math.max(0, Math.min(select.options.length - 1, idx + delta));
+if(next === idx) return;
+select.selectedIndex = next;
+// change event + auto play
+select.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+// Changement de sourate → relance auto si un récitateur est déjà sélectionné
+const _rss = document.getElementById('reciterSurahSelect');
+if(_rss) _rss.addEventListener('change', () => {
+if(currentReciterKey){
+replayCurrentReciter();
+} else {
+const n = _rss.value;
+if(n) showToast('📖 Sourate ' + n + ' sélectionnée — clique un récitateur pour écouter');
+}
+});
+const _rsp = document.getElementById('reciterSurahPrev');
+if(_rsp) _rsp.addEventListener('click', () => shiftReciterSurah(-1));
+const _rsn = document.getElementById('reciterSurahNext');
+if(_rsn) _rsn.addEventListener('click', () => shiftReciterSurah(1));
+
+
+apPlayBtn && apPlayBtn.addEventListener('click', () => {
+if (!currentAudio) {
+showToast('⚠️ Sélectionne d\'abord un récitateur.');
+return;
+}
+if (isPlaying) {
+currentAudio.pause();
+} else {
+currentAudio.play().catch((err) => {
+console.error('Erreur play:', err);
+showToast('⚠️ Lecture impossible. Réessaie.');
+});
+}
+});
+
+apStopBtn && apStopBtn.addEventListener('click', () => {
+if (currentAudio) {
+currentAudio.pause();
+currentAudio.currentTime = 0;
+isPlaying = false;
+resetAyahPlaylist();
+apPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+apProgressBar.value = 0;
+apCurrentTime.textContent = '00:00';
+apContainer && apContainer.classList.remove('visible');
+currentAudio = null;
+}
+});
+
+apProgressBar && apProgressBar.addEventListener('input', (e) => {
+if (currentAudio && !isNaN(currentAudio.duration) && currentAudio.duration > 0) {
+const pct = parseFloat(e.target.value);
+currentAudio.currentTime = (pct / 100) * currentAudio.duration;
+}
+});
+
+apVolumeBar && apVolumeBar.addEventListener('input', (e) => {
+if (currentAudio) {
+currentAudio.volume = parseFloat(e.target.value) / 100;
+}
+});
+
+// =====================================================================
+// LISTE DES RÉCITATEURS - 12 GRATUITS + 8 PREMIUM
+// =====================================================================
 const RECITERS = [
-{ key: 'alafasy', name: 'Mishary Rashid Alafasy', premium: false, tag: 'Koweït' },
-{ key: 'sudais', name: 'Abdul Rahman Al-Sudais', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'shuraim', name: 'Saud Al-Shuraim', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'maher', name: 'Maher Al Muaiqly', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'qasim', name: 'Abdulmohsen Al-Qasim', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'jadaani', name: 'Haytham Al-Jadaani', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'hudhaify', name: 'Ali Al-Hudhaify', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'shatri', name: 'Abu Bakr Al-Shatri', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'ajamy', name: 'Ahmed Al-Ajamy', premium: false, tag: 'Koweït' },
-{ key: 'parhizgar', name: 'Nasser Al-Parhizgar', premium: false, tag: 'Iran' },
-{ key: 'jibreel', name: 'Muhammad Jibreel', premium: false, tag: 'Égypte' },
-{ key: 'basfar', name: 'Abdullah Basfar', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'rifai', name: 'Hani Ar-Rifai', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'tablawi', name: 'Mohamed Mahmoud Tablawi', premium: false, tag: 'Égypte' },
-{ key: 'baleela', name: 'Bandar Baleela', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'juhaynee', name: 'Abdullah Al-Juhaynee', premium: false, tag: 'Arabie Saoudite' },
-{ key: 'minshawi', name: 'Mohamed Siddiq El-Minshawi', premium: true, tag: 'Égypte · lent' },
-{ key: 'husary', name: 'Mahmoud Khalil Al-Husary', premium: true, tag: 'Égypte · lent' },
-{ key: 'ayyoub', name: 'Muhammad Ayyoub', premium: true, tag: 'Arabie Saoudite' },
-{ key: 'abdulbasit', name: 'Abdul Basit Abdus-Samad', premium: true, tag: 'Égypte' },
-{ key: 'ghamdi', name: 'Saad Al-Ghamdi', premium: true, tag: 'Arabie Saoudite' },
-{ key: 'dosari', name: 'Yasser Al-Dosari', premium: true, tag: 'Arabie Saoudite' },
-{ key: 'muhaisni', name: 'Muhammad Al-Muhaisni', premium: true, tag: 'Arabie Saoudite' },
-{ key: 'afasy_murattal', name: 'Alafasy (Murattal)', premium: true, tag: 'Murattal' },
-{ key: 'jaleel', name: 'Khalid Al-Jaleel', premium: true, tag: 'Arabie Saoudite' },
-{ key: 'fares', name: 'Fares Abbad', premium: true, tag: 'Koweït' },
-{ key: 'sudes', name: 'Ibrahim Al-Akhdar', premium: true, tag: 'Arabie Saoudite' },
-{ key: 'shuraym2', name: 'Salah Al-Budair', premium: true, tag: 'Arabie Saoudite' }
+// G R A T U I T  - 16 récitateurs
+{ key: 'alafasy', name: 'Mishary Rashid Alafasy', premium: false, quranRecitationId: 7, tag: 'Koweït' },
+{ key: 'sudais', name: 'Abdul Rahman Al-Sudais', premium: false, quranRecitationId: 3, tag: 'Arabie Saoudite' },
+{ key: 'shuraim', name: 'Saud Al-Shuraim', premium: false, quranRecitationId: 10, tag: 'Arabie Saoudite' },
+{ key: 'maher', name: 'Maher Al Muaiqly', premium: false, mp3quranBase: 'https://server12.mp3quran.net/maher', tag: 'Arabie Saoudite' },
+{ key: 'qasim', name: 'Abdulmohsen Al-Qasim', premium: false, mp3quranBase: 'https://server8.mp3quran.net/qasm', tag: 'Arabie Saoudite' },
+{ key: 'jadaani', name: 'Haytham Al-Jadaani', premium: false, mp3quranBase: 'https://server16.mp3quran.net/hitham/Rewayat-Hafs-A-n-Assem', tag: 'Sourate complète' },
+{ key: 'hudhaify', name: 'Ali Al-Hudhaify', premium: false, alquranId: 'ar.hudhaify', tag: 'Arabie Saoudite' },
+{ key: 'shatri', name: 'Abu Bakr Al-Shatri', premium: false, quranRecitationId: 4, tag: 'Arabie Saoudite' },
+{ key: 'ajamy', name: 'Ahmed Al-Ajamy', premium: false, mp3quranBase: 'https://server10.mp3quran.net/ajm', tag: 'Koweït' },
+{ key: 'parhizgar', name: 'Nasser Al-Parhizgar', premium: false, alquranId: 'ar.parhizgar', tag: 'Iran' },
+{ key: 'jibreel', name: 'Muhammad Jibreel', premium: false, alquranId: 'ar.muhammadjibreel', tag: 'Égypte' },
+{ key: 'basfar', name: 'Abdullah Basfar', premium: false, mp3quranBase: 'https://server6.mp3quran.net/bsfr', tag: 'Arabie Saoudite' },
+{ key: 'rifai', name: 'Hani Ar-Rifai', premium: false, mp3quranBase: 'https://server8.mp3quran.net/hani', tag: 'Arabie Saoudite' },
+{ key: 'tablawi', name: 'Mohamed Mahmoud Tablawi', premium: false, mp3quranBase: 'https://server12.mp3quran.net/tblawi', tag: 'Égypte' },
+{ key: 'baleela', name: 'Bandar Baleela', premium: false, mp3quranBase: 'https://server6.mp3quran.net/balilah', tag: 'Arabie Saoudite' },
+{ key: 'juhaynee', name: 'Abdullah Al-Juhaynee', premium: false, mp3quranBase: 'https://server13.mp3quran.net/jhn', tag: 'Arabie Saoudite' },
+// P R E M I U M  - 12 récitateurs
+{ key: 'minshawi', name: 'Mohamed Siddiq El-Minshawi', premium: false, quranRecitationId: 8, tag: 'Égypte · lent' },
+{ key: 'husary', name: 'Mahmoud Khalil Al-Husary', premium: false, quranRecitationId: 6, tag: 'Égypte · lent' },
+{ key: 'ayyoub', name: 'Muhammad Ayyoub', premium: false, alquranId: 'ar.muhammadayyoub', tag: 'Arabie Saoudite' },
+{ key: 'abdulbasit', name: 'Abdul Basit Abdus-Samad', premium: false, quranRecitationId: 2, tag: 'Égypte' },
+{ key: 'ghamdi', name: 'Saad Al-Ghamdi', premium: false, quranRecitationId: 5, tag: 'Arabie Saoudite' },
+{ key: 'dosari', name: 'Yasser Al-Dosari', premium: false, mp3quranBase: 'https://server11.mp3quran.net/yasser', tag: 'Arabie Saoudite' },
+{ key: 'muhaisni', name: 'Muhammad Al-Muhaisni', premium: false, mp3quranBase: 'https://server11.mp3quran.net/mhsny', tag: 'Arabie Saoudite' },
+{ key: 'afasy_murattal', name: 'Alafasy (Murattal)', premium: false, mp3quranBase: 'https://server8.mp3quran.net/afs', tag: 'Murattal' },
+{ key: 'jaleel', name: 'Khalid Al-Jaleel', premium: false, mp3quranBase: 'https://server10.mp3quran.net/jleel', tag: 'Arabie Saoudite' },
+{ key: 'fares', name: 'Fares Abbad', premium: false, mp3quranBase: 'https://server8.mp3quran.net/frs_a', tag: 'Koweït' },
+{ key: 'sudes', name: 'Ibrahim Al-Akhdar', premium: false, mp3quranBase: 'https://server6.mp3quran.net/akdr', tag: 'Arabie Saoudite' },
+{ key: 'shuraym2', name: 'Salah Al-Budair', premium: false, mp3quranBase: 'https://server6.mp3quran.net/s_bud', tag: 'Arabie Saoudite' }
 ];
 const RECITERS_BY_KEY = Object.fromEntries(RECITERS.map(r => [r.key, r]));
+
+function loadReciters() {
+const freeList = document.getElementById('freeRecitersList');
+const premiumList = document.getElementById('premiumRecitersList');
+const reciters = RECITERS;
+if(!freeList || !premiumList) return;
+
+freeList.innerHTML = '';
+premiumList.innerHTML = '';
+
+reciters.forEach(r => {
+const card = document.createElement('div');
+card.className = 'reciter-card' + (r.premium ? ' locked' : '');
+
+if (r.premium) {
+card.innerHTML = `
+<div><div class="r-name">${r.name}</div><div class="r-tag">${r.tag || 'Premium'}</div></div>
+<div class="r-lock" onclick="document.getElementById('premiumCtaBtn').click()"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+`;
+premiumList.appendChild(card);
+} else {
+const playBtn = document.createElement('button');
+playBtn.className = 'r-play';
+playBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+playBtn.addEventListener('click', (e) => {
+e.stopPropagation();
+playReciter(r.key, r.name);
+});
+
+const infoDiv = document.createElement('div');
+infoDiv.innerHTML = `<div class="r-name">${r.name}</div><div class="r-tag">${r.tag || ''}</div>`;
+
+card.appendChild(infoDiv);
+card.appendChild(playBtn);
+freeList.appendChild(card);
+}
+});
+}
+
 // =====================================================================
-// SESSION D'ÉCOUTE — CORRECTION DE RÉCITATION
+// SESSION D'ÉCOUTE
 // =====================================================================
 const recordBtn = document.getElementById('recordBtn');
 const recordTimer = document.getElementById('recordTimer');
@@ -3125,8 +3664,10 @@ let isRecording = false;
 let sessionsUsed = 0;
 const MAX_FREE_SESSIONS = 3;
 
+// Compteur de sessions gratuites (fenêtre glissante de 7 jours)
 function getWeekKey(){
 const d = new Date();
+// numéro de semaine ISO approximatif
 const onejan = new Date(d.getFullYear(),0,1);
 const week = Math.ceil((((d - onejan) / 86400000) + onejan.getDay()+1)/7);
 return d.getFullYear() + '-W' + week;
@@ -3150,16 +3691,19 @@ if(sessionCount){
 sessionCount.textContent = `Sessions restantes cette semaine : ${remaining}`;
 }
 }
+
 function incrementSessionUsage(){
 sessionsUsed++;
 localStorage.setItem('rihla_sessions_used', JSON.stringify({week: getWeekKey(), count: sessionsUsed}));
 updateSessionDisplay();
 }
+
 function formatTimer(s){
 const mm = String(Math.floor(s / 60)).padStart(2,'0');
 const ss = String(s % 60).padStart(2,'0');
 return `${mm}:${ss}`;
 }
+
 function normalizeArabic(text){
 return (text || '')
 .replace(/[\u064B-\u0652\u0670\u0640]/g, '')
@@ -3172,9 +3716,11 @@ return (text || '')
 .replace(/\s+/g, ' ')
 .trim();
 }
+
 function tokenizeArabic(text){
 return normalizeArabic(text).split(' ').filter(Boolean);
 }
+
 async function loadFullQuranFlat(){
 if(fullQuranFlat) return fullQuranFlat;
 try{
@@ -3186,8 +3732,13 @@ s.ayahs.forEach(a => {
 const normalized = normalizeArabic(a.text);
 const words = normalized.split(' ').filter(Boolean);
 flat.push({
-surahNumber: s.number, surahName: s.englishName, surahArabicName: s.name,
-ayahNumber: a.numberInSurah, textRaw: a.text, words, wordSet: new Set(words)
+surahNumber: s.number,
+surahName: s.englishName,
+surahArabicName: s.name,
+ayahNumber: a.numberInSurah,
+textRaw: a.text,
+words,
+wordSet: new Set(words)
 });
 });
 });
@@ -3198,6 +3749,8 @@ console.error('Erreur chargement Coran:', err);
 return null;
 }
 }
+
+// Précharger le Coran en arrière-plan pour une détection plus rapide
 loadFullQuranFlat().catch(()=>{});
 
 function scoreAyahMatch(transcriptWords, entry){
@@ -3205,8 +3758,9 @@ if(!entry.words.length || !transcriptWords.length) return 0;
 const tSet = new Set(transcriptWords);
 let hits = 0;
 entry.words.forEach(w => { if(tSet.has(w)) hits++; });
-const coverage = hits / entry.words.length;
-const precision = hits / transcriptWords.length;
+const coverage = hits / entry.words.length; // combien du verset est reconnu
+const precision = hits / transcriptWords.length; // combien de la récitation matche
+// Bonus si les premiers mots du verset apparaissent
 let prefixBonus = 0;
 const prefixLen = Math.min(3, entry.words.length);
 let prefixHits = 0;
@@ -3214,22 +3768,28 @@ for(let i=0;i<prefixLen;i++){
 if(tSet.has(entry.words[i])) prefixHits++;
 }
 prefixBonus = 0.15 * (prefixHits / prefixLen);
+// Score combiné (privilégie la couverture du verset)
 return coverage * 0.65 + Math.min(precision, 1) * 0.2 + prefixBonus;
 }
+
 function findBestMatchingAyah(transcript, flat){
 if(!flat || !transcript) return null;
 const transcriptWords = tokenizeArabic(transcript);
 if(transcriptWords.length < 2) return null;
 let best = null, bestScore = 0;
+// Optimisation: si peu de mots, chercher d'abord les sourates courtes / débuts
 flat.forEach(entry => {
 if(entry.words.length < 2) return;
+// skip ayahs much shorter or much longer than transcript (speed)
 if(entry.words.length > transcriptWords.length * 4 && transcriptWords.length < 8) return;
 const score = scoreAyahMatch(transcriptWords, entry);
 if(score > bestScore){ bestScore = score; best = entry; }
 });
+// Seuil adaptatif
 const minScore = transcriptWords.length <= 4 ? 0.35 : 0.28;
 return best && bestScore >= minScore ? { entry: best, score: bestScore } : null;
 }
+
 function findTopMatches(transcript, flat, n=3){
 if(!flat || !transcript) return [];
 const transcriptWords = tokenizeArabic(transcript);
@@ -3243,6 +3803,7 @@ if(score >= 0.2) scored.push({ entry, score });
 scored.sort((a,b) => b.score - a.score);
 return scored.slice(0, n);
 }
+
 function renderComparison(entry, transcript){
 if(!entry) return;
 const transcriptWords = new Set(tokenizeArabic(transcript));
@@ -3254,6 +3815,7 @@ return `<span class="${cls}">${w}</span>`;
 }).join(' ');
 transcriptCompare.classList.add('visible');
 }
+
 function renderCorrections(entry, transcript){
 const panel = document.getElementById('correctionPanel');
 const list = document.getElementById('correctionList');
@@ -3288,6 +3850,7 @@ list.appendChild(li);
 corrected.textContent = entry.textRaw;
 panel.classList.add('visible');
 }
+
 function renderDetectionUI(match, { live }){
 const panel = document.getElementById('correctionPanel');
 if(!match){
@@ -3307,10 +3870,12 @@ ${live ? '<p class="detect-live">● en direct</p>' : ''}
 <p class="detect-note">Correspondance ${confidence} (${pct}%)</p>
 `;
 }
+
 const LIVE_WORD_WINDOW = 28;
 let recentWordsBuffer = [];
 let detectedVerseCount = 0;
 let lastDetectedKey = '';
+
 function updateLiveDetection(){
 if(!fullQuranFlat) return;
 const windowText = recentWordsBuffer.slice(-LIVE_WORD_WINDOW).join(' ');
@@ -3330,6 +3895,7 @@ recordStatus.textContent = `📖 ${detectedVerseCount} verset(s) détecté(s) ·
 }
 }
 }
+
 function startLiveSpeechRecognition(){
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 liveTranscript = '';
@@ -3360,6 +3926,7 @@ const words = tokenizeArabic(finalChunk);
 recentWordsBuffer = recentWordsBuffer.concat(words).slice(-80);
 updateLiveDetection();
 } else if(interim.trim()){
+// Aperçu live avec les mots provisoires
 const preview = recentWordsBuffer.concat(tokenizeArabic(interim)).slice(-LIVE_WORD_WINDOW).join(' ');
 if(tokenizeArabic(preview).length >= 2){
 const match = findBestMatchingAyah(preview, fullQuranFlat);
@@ -3375,6 +3942,7 @@ recordStatus.textContent = '❌ Micro bloqué. Autorise le micro dans les param�
 }
 };
 recognizer.onend = () => {
+// Chrome arrête souvent après un silence — relancer si on enregistre encore
 if(isRecording){
 try{ recognizer.start(); }catch(err){}
 }
@@ -3385,6 +3953,7 @@ return null;
 }
 return recognizer;
 }
+
 async function startRecording(){
 if(sessionsUsed >= MAX_FREE_SESSIONS){
 recordStatus.textContent = `⚠️ Limite de ${MAX_FREE_SESSIONS} sessions gratuites atteinte. Passe Premium pour une correction illimitée !`;
@@ -3399,13 +3968,18 @@ recordPlayer.classList.remove('visible');
 recordStatus.textContent = "Demande d'accès au micro…";
 try{
 mediaStream = await navigator.mediaDevices.getUserMedia({
-audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+audio: {
+echoCancellation: true,
+noiseSuppression: true,
+autoGainControl: true
+}
 });
 }catch(err){
 recordStatus.textContent = "❌ Accès au micro refusé. Vérifie les permissions du navigateur.";
 console.error('Erreur getUserMedia:', err);
 return;
 }
+// S'assurer que le Coran est chargé
 recordStatus.textContent = 'Chargement du Coran pour la détection…';
 const flat = await loadFullQuranFlat();
 if(!flat){
@@ -3450,6 +4024,7 @@ recordStatus.textContent = speechRecognizer
 : "🎙️ Enregistrement actif (reconnaissance vocale indisponible — utilise Chrome ou Edge).";
 detectionResult.innerHTML = `<p class="detect-note">🎙️ Écoute en cours… récite un verset (ex. Al-Fatiha).</p>`;
 }
+
 function finalizeAnalysis(){
 const windowText = recentWordsBuffer.slice(-LIVE_WORD_WINDOW).join(' ') || liveTranscript;
 if(!windowText.trim() || !fullQuranFlat){
@@ -3470,12 +4045,13 @@ if(panel) panel.classList.remove('visible');
 recordStatus.textContent = 'Aucun verset fiable détecté. Récite plus lentement et clairement.';
 }
 }
+
 function stopRecording(){
 if(!isRecording) return;
 if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
 if(speechRecognizer){
 try{
-speechRecognizer.onend = null;
+speechRecognizer.onend = null; // empêcher le relancement auto
 speechRecognizer.stop();
 }catch(err){ console.warn('Erreur arrêt reconnaissance:', err); }
 }
@@ -3486,10 +4062,12 @@ recordBtn.innerHTML = '<span class="dot"></span> Démarrer';
 recordStatus.textContent = '⏳ Analyse de ta récitation…';
 setTimeout(finalizeAnalysis, 600);
 }
+
 recordBtn?.addEventListener('click', () => {
 if(isRecording) stopRecording();
 else startRecording();
 });
+
 document.getElementById('recordAgainBtn')?.addEventListener('click', () => {
 recordPlayer.classList.remove('visible');
 detectionResult.innerHTML = `<p style="opacity:.7;font-size:0.85rem;">Lance un enregistrement.</p>`;
@@ -3505,71 +4083,687 @@ recentWordsBuffer = [];
 recordTimer.classList.remove('visible');
 recordTimer.textContent = '00:00';
 });
+
+// Initialiser l'affichage des sessions
 updateSessionDisplay();
+
 // =====================================================================
-// DU'AS COMPLETS
+// DU'AS COMPLETS - 50+ INVOCATIONS CLASSÉES PAR SITUATIONS
 // =====================================================================
 const duasData = [
-{ category: 'Matin & Soir', arabic: 'اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ', phonetic: 'Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namutu wa ilayka an-nushur', translation: 'Ô Allah, c\'est par Toi que nous atteignons le matin, par Toi que nous atteignons le soir, par Toi que nous vivons, par Toi que nous mourons, et vers Toi est la résurrection.', translationEn: 'O Allah, by You we enter the morning, by You we enter the evening, by You we live, by You we die, and to You is the resurrection.', source: 'Tirmidhi', tags: ['Matin', 'Soir'] },
-{ category: 'Matin & Soir', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ', phonetic: 'Allahumma inni as-aluka al-afiyah fi ad-dunya wa al-akhirah', translation: 'Ô Allah, je Te demande la santé et le bien-être en ce monde et dans l\'au-delà.', translationEn: 'O Allah, I ask You for well-being in this world and the Hereafter.', source: 'Abou Dawoud', tags: ['Matin', 'Soir'] },
-{ category: 'Matin & Soir', arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ', phonetic: 'Allahumma inni a-udhu bika min al-hammi wa al-hazan wa al-ajzi wa al-kasal', translation: 'Ô Allah, je cherche refuge auprès de Toi contre l\'anxiété, la tristesse, l\'impuissance et la paresse.', translationEn: 'O Allah, I seek refuge in You from anxiety, sorrow, weakness, and laziness.', source: 'Boukhari', tags: ['Matin', 'Soir'] },
-{ category: 'Matin & Soir', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا', phonetic: 'Allahumma inni as-aluka ilman nafi-an wa rizqan tayyiban wa amalan mutaqabbalan', translation: 'Ô Allah, je Te demande une science utile, une subsistance agréable et une œuvre acceptée.', translationEn: 'O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.', source: 'Ibn Majah', tags: ['Matin', 'Soir'] },
-{ category: 'Matin & Soir', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ', phonetic: 'Allahumma inni as-aluka al-afwa wa al-afiyah fi ad-dunya wa al-akhirah', translation: 'Ô Allah, je Te demande le pardon et le bien-être en ce monde et dans l\'au-delà.', translationEn: 'O Allah, I ask You for pardon and well-being in this world and the Hereafter.', source: 'Abou Dawoud', tags: ['Matin', 'Soir'] },
-{ category: 'Matin & Soir', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ حُسْنَ الْخَاتِمَةِ', phonetic: 'Allahumma inni as-aluka husna al-khatimah', translation: 'Ô Allah, je Te demande une belle fin de vie.', translationEn: 'O Allah, I ask You for a good ending.', source: 'Tabarani', tags: ['Matin', 'Soir'] },
-{ category: 'Matin & Soir', arabic: 'أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ وَكَلِمَةِ الْإِخْلَاصِ', phonetic: 'Asbahna ala fitrati al-islam wa kalimati al-ikhlas', translation: 'Nous avons atteint le matin sur la nature de l\'Islam et la parole de sincérité.', translationEn: 'We have entered the morning upon the natural disposition of Islam and the word of sincerity.', source: 'Ahmad', tags: ['Matin'] },
-{ category: 'Matin & Soir', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى', phonetic: 'Allahumma inni as-aluka al-huda wa at-tuqa wa al-afafa wa al-ghina', translation: 'Ô Allah, je Te demande la guidance, la piété, la chasteté et la suffisance.', translationEn: 'O Allah, I ask You for guidance, piety, chastity, and self-sufficiency.', source: 'Muslim', tags: ['Matin', 'Soir'] },
-{ category: 'Après la prière', arabic: 'سُبْحَانَ اللَّهِ - الْحَمْدُ لِلَّهِ - اللَّهُ أَكْبَرُ', phonetic: 'Subhanallah - Alhamdulillah - Allahu Akbar', translation: 'Gloire à Allah - Louange à Allah - Allah est le plus grand.', translationEn: 'Glory be to Allah - Praise be to Allah - Allah is the greatest.', source: 'Boukhari & Muslim', tags: ['Tasbih'] },
-{ category: 'Après la prière', arabic: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', phonetic: 'La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamdu wa huwa ala kulli shay-in qadir', translation: 'Il n\'y a de divinité qu\'Allah, seul, sans associé. À Lui la royauté, à Lui la louange, et Il est capable de toute chose.', translationEn: 'There is no god but Allah, alone, without partner. To Him belongs the kingdom and to Him belongs praise, and He is capable of all things.', source: 'Boukhari', tags: ['Tawhid'] },
-{ category: 'Après la prière', arabic: 'أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ', phonetic: 'Astaghfirullah wa atubu ilayh', translation: 'Je demande pardon à Allah et je me repens à Lui.', translationEn: 'I seek forgiveness from Allah and repent to Him.', source: 'Boukhari', tags: ['Repentir'] },
-{ category: 'Après la prière', arabic: 'اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ', phonetic: 'Allahumma a-in-ni ala dhikrika wa shukrika wa husni ibadatika', translation: 'Ô Allah, aide-moi à T\'invoquer, à Te remercier et à bien T\'adorer.', translationEn: 'O Allah, help me to remember You, to thank You, and to worship You in the best way.', source: 'Abou Dawoud', tags: ['Adoration'] },
-{ category: 'Après la prière', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ', phonetic: 'Allahumma inni as-aluka al-jannata wa a-udhu bika min an-nar', translation: 'Ô Allah, je Te demande le Paradis et je cherche refuge auprès de Toi contre le Feu.', translationEn: 'O Allah, I ask You for Paradise and I seek refuge in You from the Fire.', source: 'Abou Dawoud', tags: ['Paradis'] },
-{ category: 'Après la prière', arabic: 'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ', phonetic: 'Allahumma anta rabbi la ilaha illa anta khalaqtani wa ana abduk', translation: 'Ô Allah, Tu es mon Seigneur, il n\'y a de divinité que Toi. Tu m\'as créé et je suis Ton serviteur.', translationEn: 'O Allah, You are my Lord, there is no god but You. You created me and I am Your servant.', source: 'Boukhari', tags: ['Servitude'] },
-{ category: 'Quotidien', arabic: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', phonetic: 'Rabbana atina fi ad-dunya hasanatan wa fi al-akhirati hasanatan wa qina adhaba an-nar', translation: 'Notre Seigneur, donne-nous le bien en ce monde et le bien dans l\'au-delà, et préserve-nous du châtiment du Feu.', translationEn: 'Our Lord, give us good in this world and good in the Hereafter, and protect us from the torment of the Fire.', source: 'Coran 2:201', tags: ['Protection'] },
-{ category: 'Quotidien', arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي', phonetic: 'Rabbi ishrah li sadri wa yassir li amri', translation: 'Seigneur, ouvre-moi le cœur, et facilite ma tâche.', translationEn: 'My Lord, expand for me my breast and ease for me my task.', source: 'Coran 20:25-26', tags: ['Facilité'] },
-{ category: 'Quotidien', arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ النَّارِ', phonetic: 'Allahumma inni a-udhu bika min adhabi al-qabri wa min adhabi an-nar', translation: 'Ô Allah, je cherche refuge auprès de Toi contre le châtiment de la tombe et contre le châtiment du Feu.', translationEn: 'O Allah, I seek refuge in You from the torment of the grave and from the torment of the Fire.', source: 'Boukhari', tags: ['Protection'] },
-{ category: 'Quotidien', arabic: 'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً', phonetic: 'Rabbana la tuzigh qulubana ba\'da idh hadaytana wa hablana min ladunka rahmah', translation: 'Notre Seigneur, ne fais pas dévier nos cœurs après nous avoir guidés, et accorde-nous de Ta part une miséricorde.', translationEn: 'Our Lord, do not let our hearts deviate after You have guided us, and grant us mercy from Yourself.', source: 'Coran 3:8', tags: ['Cœur'] },
-{ category: 'Quotidien', arabic: 'رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ', phonetic: 'Rabbana ighfir lana wa li-ikhwanina alladhina sabaquna bil-iman', translation: 'Notre Seigneur, pardonne-nous ainsi qu\'à nos frères qui nous ont précédés dans la foi.', translationEn: 'Our Lord, forgive us and our brothers who preceded us in faith.', source: 'Coran 59:10', tags: ['Fraternité'] },
-{ category: 'Quotidien', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ', phonetic: 'Allahumma inni as-aluka al-jannata wa ma qarraba ilayha min qawlin aw amal', translation: 'Ô Allah, je Te demande le Paradis et tout ce qui m\'en rapproche, en parole et en action.', translationEn: 'O Allah, I ask You for Paradise and whatever brings me closer to it in word and deed.', source: 'Tirmidhi', tags: ['Paradis'] },
-{ category: 'Quotidien', arabic: 'اللَّهُمَّ اغْفِرْ لِي ذَنْبِي وَهَبْ لِي رَحْمَةً مِنْ عِنْدِكَ', phonetic: 'Allahumma ighfir li dhanbi wa hab li rahmatan min indik', translation: 'Ô Allah, pardonne mon péché et accorde-moi une miséricorde de Ta part.', translationEn: 'O Allah, forgive my sin and grant me mercy from Yourself.', source: 'Coran 3:8', tags: ['Pardon'] },
-{ category: 'Quotidien', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الرِّزْقَ الْحَلَالَ الطَّيِّبَ الْمُبَارَكَ فِيهِ', phonetic: 'Allahumma inni as-aluka ar-rizqa al-halala at-tayyiba al-mubaraka fihi', translation: 'Ô Allah, je Te demande une subsistance licite, bonne et bénie.', translationEn: 'O Allah, I ask You for lawful, good, and blessed provision.', source: 'Tabarani', tags: ['Subsistance'] },
-{ category: 'Entrer/Sortir des toilettes', arabic: 'بِسْمِ اللَّهِ اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ', phonetic: 'Bismillah, Allahumma inni a-udhu bika min al-khubthi wa al-khaba-ith', translation: 'Au nom d\'Allah. Ô Allah, je cherche refuge auprès de Toi contre les démons mâles et femelles.', translationEn: 'In the name of Allah. O Allah, I seek refuge in You from male and female devils.', source: 'Boukhari', tags: ['Toilettes', 'Entrée'] },
-{ category: 'Entrer/Sortir des toilettes', arabic: 'غُفْرَانَكَ', phonetic: 'Ghufranaka', translation: 'Je demande Ton pardon, [Ô Allah].', translationEn: 'I seek Your forgiveness, [O Allah].', source: 'Abou Dawoud', tags: ['Toilettes', 'Sortie'] },
-{ category: 'Entrer/Sortir de la maison', arabic: 'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ', phonetic: 'Bismillahi tawakkaltu ala Allahi la hawla wa la quwwata illa billah', translation: 'Au nom d\'Allah, je m\'en remets à Allah. Il n\'y a de puissance et de force qu\'en Allah.', translationEn: 'In the name of Allah, I put my trust in Allah. There is no power and no strength except with Allah.', source: 'Abou Dawoud', tags: ['Maison', 'Sortie'] },
-{ category: 'Entrer/Sortir de la maison', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَوْلِجِ وَخَيْرَ الْمَخْرَجِ', phonetic: 'Allahumma inni as-aluka khayra al-mawliji wa khayra al-makhraji', translation: 'Ô Allah, je Te demande le bien de l\'entrée et le bien de la sortie.', translationEn: 'O Allah, I ask You for the good of the entrance and the good of the exit.', source: 'Abou Dawoud', tags: ['Maison', 'Entrée'] },
-{ category: 'Aller au marché', arabic: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ حَيٌّ لَا يَمُوتُ بِيَدِهِ الْخَيْرُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', phonetic: 'La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamdu yuhyi wa yumitu wa huwa hayyun la yamutu bi yadihil khayru wa huwa ala kulli shay-in qadir', translation: 'Il n\'y a de divinité qu\'Allah, seul, sans associé. À Lui la royauté, à Lui la louange, Il fait vivre et Il fait mourir, Il est Vivant et ne meurt jamais, le bien est dans Sa main et Il est capable de toute chose.', translationEn: 'There is no god but Allah, alone, without partner. To Him belongs the kingdom and to Him belongs praise, He gives life and He causes death, He is Living and never dies, in His hand is all good and He is capable of all things.', source: 'Tirmidhi', tags: ['Marché'] },
-{ category: 'Colère', arabic: 'أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ', phonetic: 'A-udhu billahi min ash-shaytani ar-rajim', translation: 'Je cherche refuge auprès d\'Allah contre Satan le maudit.', translationEn: 'I seek refuge with Allah from the accursed Satan.', source: 'Boukhari', tags: ['Colère'] },
-{ category: 'Colère', arabic: 'اللَّهُمَّ اغْفِرْ لِي ذَنْبِي وَأَذْهِبْ غَيْظَ قَلْبِي وَأَجِرْنِي مِنَ الشَّيْطَانِ', phonetic: 'Allahumma ighfir li dhanbi wa adhhib ghayza qalbi wa ajirni min ash-shaytan', translation: 'Ô Allah, pardonne mon péché, dissipe la colère de mon cœur et protège-moi de Satan.', translationEn: 'O Allah, forgive my sin, remove the anger from my heart, and protect me from Satan.', source: 'Abou Dawoud', tags: ['Colère'] },
-{ category: 'Tristesse & inquiétude', arabic: 'اللَّهُمَّ إِنِّي عَبْدُكَ وَابْنُ عَبْدِكَ وَابْنُ أَمَتِكَ نَاصِيَتِي بِيَدِكَ', phonetic: 'Allahumma inni abduka wa abnu abdika wa abnu amatika nasiyati biyadika', translation: 'Ô Allah, je suis Ton serviteur, fils de Ton serviteur, fils de Ta servante. Mon front est dans Ta main.', translationEn: 'O Allah, I am Your servant, son of Your servant, son of Your maidservant. My forelock is in Your hand.', source: 'Ahmad', tags: ['Tristesse'] },
-{ category: 'Tristesse & inquiétude', arabic: 'لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ', phonetic: 'La ilaha illallah al-azim al-halim, la ilaha illallah rabbu al-arshi al-azim', translation: 'Il n\'y a de divinité qu\'Allah, le Très Grand, le Très Clément. Il n\'y a de divinité qu\'Allah, Seigneur du Trône Immense.', translationEn: 'There is no god but Allah, the Almighty, the Clement. There is no god but Allah, Lord of the Mighty Throne.', source: 'Boukhari', tags: ['Tristesse'] },
-{ category: 'Examen & étude', arabic: 'رَبِّ زِدْنِي عِلْمًا', phonetic: 'Rabbi zidni ilma', translation: 'Seigneur, augmente mes connaissances.', translationEn: 'My Lord, increase me in knowledge.', source: 'Coran 20:114', tags: ['Examen', 'Étude'] },
-{ category: 'Examen & étude', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ فَهْمَ النَّبِيِّينَ وَحِفْظَ الْمُرْسَلِينَ', phonetic: 'Allahumma inni as-aluka fahma an-nabiyyina wa hifza al-mursalin', translation: 'Ô Allah, je Te demande la compréhension des prophètes et la mémorisation des envoyés.', translationEn: 'O Allah, I ask You for the understanding of the prophets and the retention of the messengers.', source: 'Dua traditionnel', tags: ['Examen', 'Mémoire'] },
-{ category: 'Examen & étude', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا', phonetic: 'Allahumma inni as-aluka ilman nafi-an wa rizqan tayyiban wa amalan mutaqabbalan', translation: 'Ô Allah, je Te demande une science utile, une subsistance agréable et une œuvre acceptée.', translationEn: 'O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.', source: 'Ibn Majah', tags: ['Examen', 'Savoir'] },
-{ category: 'Voyage', arabic: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ', phonetic: 'Subhana alladhi sakhkhara lana hadha wa ma kunna lahu muqrinin wa inna ila rabbina lamunqalibun', translation: 'Gloire à Celui qui nous a soumis ceci, alors que nous n\'étions pas capables de le faire, et c\'est vers notre Seigneur que nous retournerons.', translationEn: 'Glory be to Him Who has subjected this to us, for we could never have done it by ourselves, and surely to our Lord we will return.', source: 'Coran 43:13-14', tags: ['Voyage'] },
-{ category: 'Voyage', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ فِي سَفَرِي هَذَا الْبِرَّ وَالتَّقْوَى وَمِنَ الْعَمَلِ مَا تَرْضَى', phonetic: 'Allahumma inni as-aluka fi safari hadha al-birra wa at-taqwa wa min al-amali ma tarda', translation: 'Ô Allah, je Te demande dans ce voyage la bonté, la piété et les œuvres que Tu agrées.', translationEn: 'O Allah, I ask You in this journey for righteousness, piety, and deeds that You are pleased with.', source: 'Muslim', tags: ['Voyage'] },
-{ category: 'Dormir', arabic: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا', phonetic: 'Bismika allahumma amutu wa ahya', translation: 'C\'est en Ton nom, ô Allah, que je meurs et que je vis.', translationEn: 'In Your name, O Allah, I die and I live.', source: 'Boukhari', tags: ['Dormir'] },
-{ category: 'Dormir', arabic: 'اللَّهُمَّ بِاسْمِكَ وَضَعْتُ جَنْبِي وَبِكَ أَرْفَعُهُ إِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا', phonetic: 'Allahumma bismika wada\'tu janbi wa bika arfa\'uhu in amsakta nafsi farhamha wa in arsaltaha fahfazha', translation: 'Ô Allah, c\'est en Ton nom que je pose mon côté et par Toi que je le relève. Si Tu retiens mon âme, fais-lui miséricorde, et si Tu la libères, garde-la.', translationEn: 'O Allah, in Your name I lay down my side and by You I raise it. If You withhold my soul, have mercy on it, and if You release it, protect it.', source: 'Boukhari', tags: ['Dormir'] },
-{ category: 'Réveil', arabic: 'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ', phonetic: 'Alhamdulillah alladhi ahyana ba\'da ma amatana wa ilayhi an-nushur', translation: 'Louange à Allah qui nous a donné la vie après nous avoir fait mourir, et c\'est vers Lui que se fera la résurrection.', translationEn: 'Praise be to Allah who gave us life after causing us to die, and to Him is the resurrection.', source: 'Boukhari', tags: ['Réveil'] },
-{ category: 'Événements', arabic: 'الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ', phonetic: 'Alhamdulillah alladhi bini\'matihi tatimm as-salihat', translation: 'Louange à Allah, par la grâce duquel les bonnes œuvres s\'accomplissent.', translationEn: 'Praise be to Allah by whose grace good deeds are completed.', source: 'Ibn Majah', tags: ['Bonne nouvelle'] },
-{ category: 'Événements', arabic: 'الْحَمْدُ لِلَّهِ عَلَى كُلِّ حَالٍ', phonetic: 'Alhamdulillah ala kulli hal', translation: 'Louange à Allah en toute circonstance.', translationEn: 'Praise be to Allah in all circumstances.', source: 'Ibn Majah', tags: ['Mauvaise nouvelle'] },
-{ category: 'Éternuement', arabic: 'الْحَمْدُ لِلَّهِ', phonetic: 'Alhamdulillah', translation: 'Louange à Allah.', translationEn: 'Praise be to Allah.', source: 'Boukhari', tags: ['Éternuement'] },
-{ category: 'Éternuement', arabic: 'يَرْحَمُكَ اللَّهُ', phonetic: 'Yarhamukallah', translation: 'Qu\'Allah te fasse miséricorde.', translationEn: 'May Allah have mercy on you.', source: 'Boukhari', tags: ['Éternuement'] },
-{ category: 'Éternuement', arabic: 'يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ', phonetic: 'Yahdikumullahu wa yuslihu balakum', translation: 'Qu\'Allah vous guide et améliore votre situation.', translationEn: 'May Allah guide you and improve your condition.', source: 'Boukhari', tags: ['Éternuement'] },
-{ category: 'Voyage', arabic: 'اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا وَاطْوِ عَنَّا بُعْدَ الْأَرْضِ', phonetic: 'Allahumma hawwin alayna safarana wa twi anna bu\'da al-ard', translation: 'Ô Allah, rends notre voyage facile et raccourcis pour nous la distance de la terre.', translationEn: 'O Allah, make our journey easy and shorten the distance for us.', source: 'Dua traditionnel', tags: ['Voyage'] },
-{ category: 'Matin & Soir', arabic: 'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ', phonetic: 'A\'udhu bi kalimatillahi at-tammati min sharri ma khalaq', translation: 'Je cherche protection auprès des paroles parfaites d\'Allah contre le mal de ce qu\'Il a créé.', translationEn: 'I seek refuge in the perfect words of Allah from the evil of what He has created.', source: 'Muslim', tags: ['Protection', 'Soir'] },
-{ category: 'Matin & Soir', arabic: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ', phonetic: 'Bismillahi alladhi la yadurru ma\'a ismihi shay\'un fi al-ardi wa la fi as-sama\'i wa huwa as-sami\'u al-\'alim', translation: 'Au nom d\'Allah ; avec Son nom rien ne peut nuire sur terre ni dans le ciel. Il est l\'Audient, l\'Omniscient.', translationEn: 'In the name of Allah, with Whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, the All-Knowing.', source: 'Abou Dawoud & Tirmidhi', tags: ['Protection', 'Matin'] },
-{ category: 'Matin & Soir', arabic: 'رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ نَبِيًّا', phonetic: 'Raditu billahi rabban wa bil-islami dinan wa bi Muhammadin nabiyya', translation: 'J\'agrée Allah comme Seigneur, l\'Islam comme religion et Muhammad comme prophète.', translationEn: 'I am pleased with Allah as Lord, Islam as religion, and Muhammad as Prophet.', source: 'Abou Dawoud', tags: ['Matin', 'Foi'] },
-{ category: 'Après la prière', arabic: 'اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ', phonetic: 'Allahumma anta as-salamu wa minka as-salamu tabarakta ya dha al-jalali wal-ikram', translation: 'Ô Allah, Tu es la Paix et de Toi vient la paix. Béni sois-Tu, Ô Détenteur de la majesté et de la générosité.', translationEn: 'O Allah, You are Peace and from You comes peace. Blessed are You, O Owner of majesty and honor.', source: 'Muslim', tags: ['Après salat'] },
-{ category: 'Quotidien', arabic: 'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ', phonetic: 'Hasbiyallahu la ilaha illa huwa \'alayhi tawakkaltu wa huwa rabbu al-\'arshi al-\'azim', translation: 'Allah me suffit. Nul n\'est digne d\'adoration sauf Lui. En Lui je place ma confiance. Il est le Seigneur du Trône immense.', translationEn: 'Allah is sufficient for me. There is no god but He. In Him I put my trust, and He is the Lord of the Mighty Throne.', source: 'Abou Dawoud', tags: ['Tawakkul'] },
-{ category: 'Quotidien', arabic: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ', phonetic: 'Rabbi ighfir li wa tub \'alayya innaka anta at-tawwabu ar-rahim', translation: 'Seigneur, pardonne-moi et agrée mon repentir. Tu es certes Celui qui accepte le repentir, le Miséricordieux.', translationEn: 'My Lord, forgive me and accept my repentance. Indeed, You are the Accepting of repentance, the Merciful.', source: 'Abou Dawoud & Tirmidhi', tags: ['Pardon'] },
-{ category: 'Voyage', arabic: 'اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ وَالْخَلِيفَةُ فِي الْأَهْلِ', phonetic: 'Allahumma anta as-sahibu fi as-safari wal-khalifatu fi al-ahl', translation: 'Ô Allah, Tu es le compagnon durant le voyage et le protecteur de la famille restée.', translationEn: 'O Allah, You are the companion on the journey and the Successor (Protector) over the family.', source: 'Muslim', tags: ['Voyage'] },
-{ category: 'Dormir', arabic: 'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ', phonetic: 'Allahumma qini \'adhabaka yawma tab\'athu \'ibadak', translation: 'Ô Allah, protège-moi de Ton châtiment le jour où Tu ressusciteras Tes serviteurs.', translationEn: 'O Allah, protect me from Your punishment on the Day You resurrect Your servants.', source: 'Abou Dawoud & Tirmidhi', tags: ['Dormir'] },
-{ category: 'Réveil', arabic: 'الْحَمْدُ لِلَّهِ الَّذِي عَافَانِي فِي جَسَدِي وَرَدَّ عَلَيَّ رُوحِي وَأَذِنَ لِي بِذِكْرِهِ', phonetic: 'Alhamdulillah alladhi \'afani fi jasadi wa radda \'alayya ruhi wa adhina li bi dhikrih', translation: 'Louange à Allah qui m\'a préservé dans mon corps, m\'a rendu mon âme et m\'a permis de L\'évoquer.', translationEn: 'Praise be to Allah Who granted me health in my body, returned my soul to me, and permitted me to remember Him.', source: 'Tirmidhi', tags: ['Réveil'] },
-{ category: 'Événements', arabic: 'إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا', phonetic: 'Inna lillahi wa inna ilayhi raji\'un, Allahumma ajurni fi musibati wa akhlif li khayran minha', translation: 'Certes nous appartenant à Allah et c\'est à Lui que nous retournerons. Ô Allah, récompense-moi dans mon malheur et remplace-le-moi par quelque chose de meilleur.', translationEn: 'Truly, to Allah we belong and truly, to Him we shall return. O Allah, reward me for my affliction and replace it with something better.', source: 'Muslim', tags: ['Épreuve'] },
-{ category: 'Examen & étude', arabic: 'اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا', phonetic: 'Allahumma la sahla illa ma ja\'altahu sahlan wa anta taj\'alu al-hazna idha shi\'ta sahla', translation: 'Ô Allah, il n\'y a de facile que ce que Tu as rendu facile, et Tu rends la difficulté facile si Tu veux.', translationEn: 'O Allah, there is no ease except in that which You have made easy, and You make the difficulty easy if it be Your will.', source: 'Ibn Hibban', tags: ['Facilité', 'Examen'] }
+// ===== MATIN & SOIR (8) =====
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ',
+phonetic: 'Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namutu wa ilayka an-nushur',
+translation: 'Ô Allah, c\'est par Toi que nous atteignons le matin, par Toi que nous atteignons le soir, par Toi que nous vivons, par Toi que nous mourons, et vers Toi est la résurrection.',
+translationEn: 'O Allah, by You we enter the morning, by You we enter the evening, by You we live, by You we die, and to You is the resurrection.',
+source: 'Tirmidhi',
+tags: ['Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ',
+phonetic: 'Allahumma inni as-aluka al-afiyah fi ad-dunya wa al-akhirah',
+translation: 'Ô Allah, je Te demande la santé et le bien-être en ce monde et dans l\'au-delà.',
+translationEn: 'O Allah, I ask You for well-being in this world and the Hereafter.',
+source: 'Abou Dawoud',
+tags: ['Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ',
+phonetic: 'Allahumma inni a-udhu bika min al-hammi wa al-hazan wa al-ajzi wa al-kasal',
+translation: 'Ô Allah, je cherche refuge auprès de Toi contre l\'anxiété, la tristesse, l\'impuissance et la paresse.',
+translationEn: 'O Allah, I seek refuge in You from anxiety, sorrow, weakness, and laziness.',
+source: 'Boukhari',
+tags: ['Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا',
+phonetic: 'Allahumma inni as-aluka ilman nafi-an wa rizqan tayyiban wa amalan mutaqabbalan',
+translation: 'Ô Allah, je Te demande une science utile, une subsistance agréable et une œuvre acceptée.',
+translationEn: 'O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.',
+source: 'Ibn Majah',
+tags: ['Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ',
+phonetic: 'Allahumma inni as-aluka al-afwa wa al-afiyah fi ad-dunya wa al-akhirah',
+translation: 'Ô Allah, je Te demande le pardon et le bien-être en ce monde et dans l\'au-delà.',
+translationEn: 'O Allah, I ask You for pardon and well-being in this world and the Hereafter.',
+source: 'Abou Dawoud',
+tags: ['Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ حُسْنَ الْخَاتِمَةِ',
+phonetic: 'Allahumma inni as-aluka husna al-khatimah',
+translation: 'Ô Allah, je Te demande une belle fin de vie.',
+translationEn: 'O Allah, I ask You for a good ending.',
+source: 'Tabarani',
+tags: ['Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ وَكَلِمَةِ الْإِخْلَاصِ',
+phonetic: 'Asbahna ala fitrati al-islam wa kalimati al-ikhlas',
+translation: 'Nous avons atteint le matin sur la nature de l\'Islam et la parole de sincérité.',
+translationEn: 'We have entered the morning upon the natural disposition of Islam and the word of sincerity.',
+source: 'Ahmad',
+tags: ['Matin']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى',
+phonetic: 'Allahumma inni as-aluka al-huda wa at-tuqa wa al-afafa wa al-ghina',
+translation: 'Ô Allah, je Te demande la guidance, la piété, la chasteté et la suffisance.',
+translationEn: 'O Allah, I ask You for guidance, piety, chastity, and self-sufficiency.',
+source: 'Muslim',
+tags: ['Matin', 'Soir']
+},
+// ===== APRÈS PRIÈRE (6) =====
+{
+category: 'Après la prière',
+arabic: 'سُبْحَانَ اللَّهِ - الْحَمْدُ لِلَّهِ - اللَّهُ أَكْبَرُ',
+phonetic: 'Subhanallah - Alhamdulillah - Allahu Akbar',
+translation: 'Gloire à Allah - Louange à Allah - Allah est le plus grand.',
+translationEn: 'Glory be to Allah - Praise be to Allah - Allah is the greatest.',
+source: 'Boukhari & Muslim',
+tags: ['Tasbih']
+},
+{
+category: 'Après la prière',
+arabic: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
+phonetic: 'La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamdu wa huwa ala kulli shay-in qadir',
+translation: 'Il n\'y a de divinité qu\'Allah, seul, sans associé. À Lui la royauté, à Lui la louange, et Il est capable de toute chose.',
+translationEn: 'There is no god but Allah, alone, without partner. To Him belongs the kingdom and to Him belongs praise, and He is capable of all things.',
+source: 'Boukhari',
+tags: ['Tawhid']
+},
+{
+category: 'Après la prière',
+arabic: 'أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ',
+phonetic: 'Astaghfirullah wa atubu ilayh',
+translation: 'Je demande pardon à Allah et je me repens à Lui.',
+translationEn: 'I seek forgiveness from Allah and repent to Him.',
+source: 'Boukhari',
+tags: ['Repentir']
+},
+{
+category: 'Après la prière',
+arabic: 'اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ',
+phonetic: 'Allahumma a-in-ni ala dhikrika wa shukrika wa husni ibadatika',
+translation: 'Ô Allah, aide-moi à T\'invoquer, à Te remercier et à bien T\'adorer.',
+translationEn: 'O Allah, help me to remember You, to thank You, and to worship You in the best way.',
+source: 'Abou Dawoud',
+tags: ['Adoration']
+},
+{
+category: 'Après la prière',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ',
+phonetic: 'Allahumma inni as-aluka al-jannata wa a-udhu bika min an-nar',
+translation: 'Ô Allah, je Te demande le Paradis et je cherche refuge auprès de Toi contre le Feu.',
+translationEn: 'O Allah, I ask You for Paradise and I seek refuge in You from the Fire.',
+source: 'Abou Dawoud',
+tags: ['Paradis']
+},
+{
+category: 'Après la prière',
+arabic: 'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ',
+phonetic: 'Allahumma anta rabbi la ilaha illa anta khalaqtani wa ana abduk',
+translation: 'Ô Allah, Tu es mon Seigneur, il n\'y a de divinité que Toi. Tu m\'as créé et je suis Ton serviteur.',
+translationEn: 'O Allah, You are my Lord, there is no god but You. You created me and I am Your servant.',
+source: 'Boukhari',
+tags: ['Servitude']
+},
+// ===== QUOTIDIEN (8) =====
+{
+category: 'Quotidien',
+arabic: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',
+phonetic: 'Rabbana atina fi ad-dunya hasanatan wa fi al-akhirati hasanatan wa qina adhaba an-nar',
+translation: 'Notre Seigneur, donne-nous le bien en ce monde et le bien dans l\'au-delà, et préserve-nous du châtiment du Feu.',
+translationEn: 'Our Lord, give us good in this world and good in the Hereafter, and protect us from the torment of the Fire.',
+source: 'Coran 2:201',
+tags: ['Protection']
+},
+{
+category: 'Quotidien',
+arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي',
+phonetic: 'Rabbi ishrah li sadri wa yassir li amri',
+translation: 'Seigneur, ouvre-moi le cœur, et facilite ma tâche.',
+translationEn: 'My Lord, expand for me my breast and ease for me my task.',
+source: 'Coran 20:25-26',
+tags: ['Facilité']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ النَّارِ',
+phonetic: 'Allahumma inni a-udhu bika min adhabi al-qabri wa min adhabi an-nar',
+translation: 'Ô Allah, je cherche refuge auprès de Toi contre le châtiment de la tombe et contre le châtiment du Feu.',
+translationEn: 'O Allah, I seek refuge in You from the torment of the grave and from the torment of the Fire.',
+source: 'Boukhari',
+tags: ['Protection']
+},
+{
+category: 'Quotidien',
+arabic: 'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً',
+phonetic: 'Rabbana la tuzigh qulubana ba\'da idh hadaytana wa hablana min ladunka rahmah',
+translation: 'Notre Seigneur, ne fais pas dévier nos cœurs après nous avoir guidés, et accorde-nous de Ta part une miséricorde.',
+translationEn: 'Our Lord, do not let our hearts deviate after You have guided us, and grant us mercy from Yourself.',
+source: 'Coran 3:8',
+tags: ['Cœur']
+},
+{
+category: 'Quotidien',
+arabic: 'رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ',
+phonetic: 'Rabbana ighfir lana wa li-ikhwanina alladhina sabaquna bil-iman',
+translation: 'Notre Seigneur, pardonne-nous ainsi qu\'à nos frères qui nous ont précédés dans la foi.',
+translationEn: 'Our Lord, forgive us and our brothers who preceded us in faith.',
+source: 'Coran 59:10',
+tags: ['Fraternité']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ',
+phonetic: 'Allahumma inni as-aluka al-jannata wa ma qarraba ilayha min qawlin aw amal',
+translation: 'Ô Allah, je Te demande le Paradis et tout ce qui m\'en rapproche, en parole et en action.',
+translationEn: 'O Allah, I ask You for Paradise and whatever brings me closer to it in word and deed.',
+source: 'Tirmidhi',
+tags: ['Paradis']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ اغْفِرْ لِي ذَنْبِي وَهَبْ لِي رَحْمَةً مِنْ عِنْدِكَ',
+phonetic: 'Allahumma ighfir li dhanbi wa hab li rahmatan min indik',
+translation: 'Ô Allah, pardonne mon péché et accorde-moi une miséricorde de Ta part.',
+translationEn: 'O Allah, forgive my sin and grant me mercy from Yourself.',
+source: 'Coran 3:8',
+tags: ['Pardon']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الرِّزْقَ الْحَلَالَ الطَّيِّبَ الْمُبَارَكَ فِيهِ',
+phonetic: 'Allahumma inni as-aluka ar-rizqa al-halala at-tayyiba al-mubaraka fihi',
+translation: 'Ô Allah, je Te demande une subsistance licite, bonne et bénie.',
+translationEn: 'O Allah, I ask You for lawful, good, and blessed provision.',
+source: 'Tabarani',
+tags: ['Subsistance']
+},
+// ===== SITUATIONS SPÉCIALES (30+) =====
+// ENTRER/SORTIR DES TOILETTES
+{
+category: 'Entrer/Sortir des toilettes',
+arabic: 'بِسْمِ اللَّهِ اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ',
+phonetic: 'Bismillah, Allahumma inni a-udhu bika min al-khubthi wa al-khaba-ith',
+translation: 'Au nom d\'Allah. Ô Allah, je cherche refuge auprès de Toi contre les démons mâles et femelles.',
+translationEn: 'In the name of Allah. O Allah, I seek refuge in You from male and female devils.',
+source: 'Boukhari',
+tags: ['Toilettes', 'Entrée']
+},
+{
+category: 'Entrer/Sortir des toilettes',
+arabic: 'غُفْرَانَكَ',
+phonetic: 'Ghufranaka',
+translation: 'Je demande Ton pardon, [Ô Allah].',
+translationEn: 'I seek Your forgiveness, [O Allah].',
+source: 'Abou Dawoud',
+tags: ['Toilettes', 'Sortie']
+},
+// ENTRER/SORTIR DE LA MAISON
+{
+category: 'Entrer/Sortir de la maison',
+arabic: 'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ',
+phonetic: 'Bismillahi tawakkaltu ala Allahi la hawla wa la quwwata illa billah',
+translation: 'Au nom d\'Allah, je m\'en remets à Allah. Il n\'y a de puissance et de force qu\'en Allah.',
+translationEn: 'In the name of Allah, I put my trust in Allah. There is no power and no strength except with Allah.',
+source: 'Abou Dawoud',
+tags: ['Maison', 'Sortie']
+},
+{
+category: 'Entrer/Sortir de la maison',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَوْلِجِ وَخَيْرَ الْمَخْرَجِ',
+phonetic: 'Allahumma inni as-aluka khayra al-mawliji wa khayra al-makhraji',
+translation: 'Ô Allah, je Te demande le bien de l\'entrée et le bien de la sortie.',
+translationEn: 'O Allah, I ask You for the good of the entrance and the good of the exit.',
+source: 'Abou Dawoud',
+tags: ['Maison', 'Entrée']
+},
+// ALLER AU MARCHÉ
+{
+category: 'Aller au marché',
+arabic: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ حَيٌّ لَا يَمُوتُ بِيَدِهِ الْخَيْرُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
+phonetic: 'La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamdu yuhyi wa yumitu wa huwa hayyun la yamutu bi yadihil khayru wa huwa ala kulli shay-in qadir',
+translation: 'Il n\'y a de divinité qu\'Allah, seul, sans associé. À Lui la royauté, à Lui la louange, Il fait vivre et Il fait mourir, Il est Vivant et ne meurt jamais, le bien est dans Sa main et Il est capable de toute chose.',
+translationEn: 'There is no god but Allah, alone, without partner. To Him belongs the kingdom and to Him belongs praise, He gives life and He causes death, He is Living and never dies, in His hand is all good and He is capable of all things.',
+source: 'Tirmidhi',
+tags: ['Marché']
+},
+// COLÈRE
+{
+category: 'Colère',
+arabic: 'أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ',
+phonetic: 'A-udhu billahi min ash-shaytani ar-rajim',
+translation: 'Je cherche refuge auprès d\'Allah contre Satan le maudit.',
+translationEn: 'I seek refuge with Allah from the accursed Satan.',
+source: 'Boukhari',
+tags: ['Colère']
+},
+{
+category: 'Colère',
+arabic: 'اللَّهُمَّ اغْفِرْ لِي ذَنْبِي وَأَذْهِبْ غَيْظَ قَلْبِي وَأَجِرْنِي مِنَ الشَّيْطَانِ',
+phonetic: 'Allahumma ighfir li dhanbi wa adhhib ghayza qalbi wa ajirni min ash-shaytan',
+translation: 'Ô Allah, pardonne mon péché, dissipe la colère de mon cœur et protège-moi de Satan.',
+translationEn: 'O Allah, forgive my sin, remove the anger from my heart, and protect me from Satan.',
+source: 'Abou Dawoud',
+tags: ['Colère']
+},
+// TRISTESSE
+{
+category: 'Tristesse & inquiétude',
+arabic: 'اللَّهُمَّ إِنِّي عَبْدُكَ وَابْنُ عَبْدِكَ وَابْنُ أَمَتِكَ نَاصِيَتِي بِيَدِكَ',
+phonetic: 'Allahumma inni abduka wa abnu abdika wa abnu amatika nasiyati biyadika',
+translation: 'Ô Allah, je suis Ton serviteur, fils de Ton serviteur, fils de Ta servante. Mon front est dans Ta main.',
+translationEn: 'O Allah, I am Your servant, son of Your servant, son of Your maidservant. My forelock is in Your hand.',
+source: 'Ahmad',
+tags: ['Tristesse']
+},
+{
+category: 'Tristesse & inquiétude',
+arabic: 'لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ',
+phonetic: 'La ilaha illallah al-azim al-halim, la ilaha illallah rabbu al-arshi al-azim',
+translation: 'Il n\'y a de divinité qu\'Allah, le Très Grand, le Très Clément. Il n\'y a de divinité qu\'Allah, Seigneur du Trône Immense.',
+translationEn: 'There is no god but Allah, the Almighty, the Clement. There is no god but Allah, Lord of the Mighty Throne.',
+source: 'Boukhari',
+tags: ['Tristesse']
+},
+// EXAMEN
+{
+category: 'Examen & étude',
+arabic: 'رَبِّ زِدْنِي عِلْمًا',
+phonetic: 'Rabbi zidni ilma',
+translation: 'Seigneur, augmente mes connaissances.',
+translationEn: 'My Lord, increase me in knowledge.',
+source: 'Coran 20:114',
+tags: ['Examen', 'Étude']
+},
+{
+category: 'Examen & étude',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ فَهْمَ النَّبِيِّينَ وَحِفْظَ الْمُرْسَلِينَ',
+phonetic: 'Allahumma inni as-aluka fahma an-nabiyyina wa hifza al-mursalin',
+translation: 'Ô Allah, je Te demande la compréhension des prophètes et la mémorisation des envoyés.',
+translationEn: 'O Allah, I ask You for the understanding of the prophets and the retention of the messengers.',
+source: 'Dua traditionnel',
+tags: ['Examen', 'Mémoire']
+},
+{
+category: 'Examen & étude',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا',
+phonetic: 'Allahumma inni as-aluka ilman nafi-an wa rizqan tayyiban wa amalan mutaqabbalan',
+translation: 'Ô Allah, je Te demande une science utile, une subsistance agréable et une œuvre acceptée.',
+translationEn: 'O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.',
+source: 'Ibn Majah',
+tags: ['Examen', 'Savoir']
+},
+// VOYAGE
+{
+category: 'Voyage',
+arabic: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ',
+phonetic: 'Subhana alladhi sakhkhara lana hadha wa ma kunna lahu muqrinin wa inna ila rabbina lamunqalibun',
+translation: 'Gloire à Celui qui nous a soumis ceci, alors que nous n\'étions pas capables de le faire, et c\'est vers notre Seigneur que nous retournerons.',
+translationEn: 'Glory be to Him Who has subjected this to us, for we could never have done it by ourselves, and surely to our Lord we will return.',
+source: 'Coran 43:13-14',
+tags: ['Voyage']
+},
+{
+category: 'Voyage',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ فِي سَفَرِي هَذَا الْبِرَّ وَالتَّقْوَى وَمِنَ الْعَمَلِ مَا تَرْضَى',
+phonetic: 'Allahumma inni as-aluka fi safari hadha al-birra wa at-taqwa wa min al-amali ma tarda',
+translation: 'Ô Allah, je Te demande dans ce voyage la bonté, la piété et les œuvres que Tu agrées.',
+translationEn: 'O Allah, I ask You in this journey for righteousness, piety, and deeds that You are pleased with.',
+source: 'Muslim',
+tags: ['Voyage']
+},
+// DORMIR
+{
+category: 'Dormir',
+arabic: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا',
+phonetic: 'Bismika allahumma amutu wa ahya',
+translation: 'C\'est en Ton nom, ô Allah, que je meurs et que je vis.',
+translationEn: 'In Your name, O Allah, I die and I live.',
+source: 'Boukhari',
+tags: ['Dormir']
+},
+{
+category: 'Dormir',
+arabic: 'اللَّهُمَّ بِاسْمِكَ وَضَعْتُ جَنْبِي وَبِكَ أَرْفَعُهُ إِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا',
+phonetic: 'Allahumma bismika wada\'tu janbi wa bika arfa\'uhu in amsakta nafsi farhamha wa in arsaltaha fahfazha',
+translation: 'Ô Allah, c\'est en Ton nom que je pose mon côté et par Toi que je le relève. Si Tu retiens mon âme, fais-lui miséricorde, et si Tu la libères, garde-la.',
+translationEn: 'O Allah, in Your name I lay down my side and by You I raise it. If You withhold my soul, have mercy on it, and if You release it, protect it.',
+source: 'Boukhari',
+tags: ['Dormir']
+},
+// RÉVEIL
+{
+category: 'Réveil',
+arabic: 'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ',
+phonetic: 'Alhamdulillah alladhi ahyana ba\'da ma amatana wa ilayhi an-nushur',
+translation: 'Louange à Allah qui nous a donné la vie après nous avoir fait mourir, et c\'est vers Lui que se fera la résurrection.',
+translationEn: 'Praise be to Allah who gave us life after causing us to die, and to Him is the resurrection.',
+source: 'Boukhari',
+tags: ['Réveil']
+},
+// VOIR UNE BONNE CHOSE
+{
+category: 'Événements',
+arabic: 'الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ',
+phonetic: 'Alhamdulillah alladhi bini\'matihi tatimm as-salihat',
+translation: 'Louange à Allah, par la grâce duquel les bonnes œuvres s\'accomplissent.',
+translationEn: 'Praise be to Allah by whose grace good deeds are completed.',
+source: 'Ibn Majah',
+tags: ['Bonne nouvelle']
+},
+// VOIR UNE MAUVAISE CHOSE
+{
+category: 'Événements',
+arabic: 'الْحَمْدُ لِلَّهِ عَلَى كُلِّ حَالٍ',
+phonetic: 'Alhamdulillah ala kulli hal',
+translation: 'Louange à Allah en toute circonstance.',
+translationEn: 'Praise be to Allah in all circumstances.',
+source: 'Ibn Majah',
+tags: ['Mauvaise nouvelle']
+},
+// ÉTERNUE
+{
+category: 'Éternuement',
+arabic: 'الْحَمْدُ لِلَّهِ',
+phonetic: 'Alhamdulillah',
+translation: 'Louange à Allah.',
+translationEn: 'Praise be to Allah.',
+source: 'Boukhari',
+tags: ['Éternuement']
+},
+{
+category: 'Éternuement',
+arabic: 'يَرْحَمُكَ اللَّهُ',
+phonetic: 'Yarhamukallah',
+translation: 'Qu\'Allah te fasse miséricorde.',
+translationEn: 'May Allah have mercy on you.',
+source: 'Boukhari',
+tags: ['Éternuement']
+},
+{
+  category: 'Éternuement',
+  arabic: 'يهديكم الله ويصلح بالكم',
+  phonetic: 'Yahdikum Allah wa yuslih balakum',
+  translation: 'Qu\'Allah vous guide et améliore votre situation.',
+  translationEn: 'May Allah guide you and improve your situation.',
+  source: 'Boukhari',
+  tags: ['Éternuement']
+},
+// VOYAGEUR
+{
+category: 'Voyage',
+arabic: 'اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا وَاطْوِ عَنَّا بُعْدَ الْأَرْضِ',
+phonetic: 'Allahumma hawwin alayna safarana wa twi anna bu\'da al-ard',
+translation: 'Ô Allah, rends notre voyage facile et raccourcis pour nous la distance de la terre.',
+translationEn: 'O Allah, make our journey easy and shorten the distance for us.',
+source: 'Dua traditionnel',
+tags: ['Voyage']
+},
+// ===== AJOUTS — plus d'invocations par catégorie =====
+{
+category: 'Matin & Soir',
+arabic: 'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
+phonetic: 'A\'udhu bi kalimatillahi at-tammati min sharri ma khalaq',
+translation: 'Je cherche protection auprès des paroles parfaites d\'Allah contre le mal de ce qu\'Il a créé.',
+translationEn: 'I seek refuge in the perfect words of Allah from the evil of what He has created.',
+source: 'Muslim',
+tags: ['Protection', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
+phonetic: 'Bismillahi alladhi la yadurru ma\'a ismihi shay\'un fi al-ardi wa la fi as-sama\'i wa huwa as-sami\'u al-\'alim',
+translation: 'Au nom d\'Allah ; avec Son nom rien ne peut nuire sur terre ni dans le ciel. Il est l\'Audient, l\'Omniscient.',
+translationEn: 'In the name of Allah, with Whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, the All-Knowing.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Protection', 'Matin']
+},
+{
+category: 'Matin & Soir',
+arabic: 'رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ نَبِيًّا',
+phonetic: 'Raditu billahi rabban wa bil-islami dinan wa bi Muhammadin nabiyya',
+translation: 'J\'agrée Allah comme Seigneur, l\'Islam comme religion et Muhammad comme prophète.',
+translationEn: 'I am pleased with Allah as Lord, Islam as religion, and Muhammad as Prophet.',
+source: 'Abou Dawoud',
+tags: ['Matin', 'Foi']
+},
+{
+category: 'Après la prière',
+arabic: 'اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ',
+phonetic: 'Allahumma anta as-salamu wa minka as-salamu tabarakta ya dha al-jalali wal-ikram',
+translation: 'Ô Allah, Tu es la Paix et de Toi vient la paix. Béni sois-Tu, Ô Détenteur de la majesté et de la générosité.',
+translationEn: 'O Allah, You are Peace and from You comes peace. Blessed are You, O Owner of majesty and honor.',
+source: 'Muslim',
+tags: ['Après salat']
+},
+{
+category: 'Après la prière',
+arabic: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
+phonetic: 'La ilaha illallah wahdahu la sharika lah, lahul-mulku wa lahul-hamdu yuhyi wa yumitu wa huwa \'ala kulli shay\'in qadir',
+translation: 'Nul n\'est digne d\'adoration sauf Allah, Unique, sans associé. À Lui la royauté et la louange. Il donne la vie et la mort, et Il est capable de toute chose.',
+translationEn: 'None has the right to be worshipped but Allah alone, with no partner. His is the dominion and His is the praise. He gives life and causes death, and He is Able to do all things.',
+source: 'Boukhari & Muslim',
+tags: ['Tawhid']
+},
+{
+category: 'Quotidien',
+arabic: 'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ',
+phonetic: 'Hasbiyallahu la ilaha illa huwa \'alayhi tawakkaltu wa huwa rabbu al-\'arshi al-\'azim',
+translation: 'Allah me suffit. Nul n\'est digne d\'adoration sauf Lui. En Lui je place ma confiance. Il est le Seigneur du Trône immense.',
+translationEn: 'Allah is sufficient for me. There is no god but He. In Him I put my trust, and He is the Lord of the Mighty Throne.',
+source: 'Abou Dawoud',
+tags: ['Tawakkul']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ',
+phonetic: 'Allahumma ikfini bi halalika \'an haramika wa aghnini bi fadlika \'amman siwak',
+translation: 'Ô Allah, contente-moi par Ton licite loin de Ton illicite, et enrichis-moi par Ta grâce de sorte que je n\'aie besoin de personne d\'autre que Toi.',
+translationEn: 'O Allah, suffice me with what You have made lawful so that I may avoid what You have forbidden, and make me independent of all others besides You by Your grace.',
+source: 'Tirmidhi',
+tags: ['Subsistance']
+},
+{
+category: 'Quotidien',
+arabic: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ',
+phonetic: 'Rabbi ighfir li wa tub \'alayya innaka anta at-tawwabu ar-rahim',
+translation: 'Seigneur, pardonne-moi et agrée mon repentir. Tu es certes Celui qui accepte le repentir, le Miséricordieux.',
+translationEn: 'My Lord, forgive me and accept my repentance. Indeed, You are the Accepting of repentance, the Merciful.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Pardon']
+},
+{
+category: 'Entrer/Sortir des toilettes',
+arabic: 'الْحَمْدُ لِلَّهِ الَّذِي أَذْهَبَ عَنِّي الْأَذَى وَعَافَانِي',
+phonetic: 'Alhamdulillah alladhi adhhaba \'anni al-adha wa \'afani',
+translation: 'Louange à Allah qui a éloigné de moi la gêne et m\'a préservé.',
+translationEn: 'Praise be to Allah Who has removed harm from me and given me health.',
+source: 'Ibn Majah',
+tags: ['Sortie']
+},
+{
+category: 'Entrer/Sortir de la maison',
+arabic: 'بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا',
+phonetic: 'Bismillahi walajna wa bismillahi kharajna wa \'ala Allahi rabbina tawakkalna',
+translation: 'Au nom d\'Allah nous entrons, au nom d\'Allah nous sortons, et en Allah notre Seigneur nous plaçons notre confiance.',
+translationEn: 'In the name of Allah we enter, in the name of Allah we leave, and upon Allah our Lord we place our trust.',
+source: 'Abou Dawoud',
+tags: ['Maison']
+},
+{
+category: 'Aller au marché',
+arabic: 'بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ هَذِهِ السُّوقِ وَخَيْرِ مَا فِيهَا',
+phonetic: 'Bismillah, Allahumma inni as\'aluka min khayri hadhihi as-suqi wa khayri ma fiha',
+translation: 'Au nom d\'Allah. Ô Allah, je Te demande le bien de ce marché et le bien de ce qu\'il contient.',
+translationEn: 'In the name of Allah. O Allah, I ask You for the good of this market and the good of what is in it.',
+source: 'Al-Hakim',
+tags: ['Marché']
+},
+{
+category: 'Colère',
+arabic: 'اللَّهُمَّ أَخْرِجْ غَيْظَ قَلْبِي',
+phonetic: 'Allahumma akhrij ghayza qalbi',
+translation: 'Ô Allah, fais sortir la colère de mon cœur.',
+translationEn: 'O Allah, remove the anger from my heart.',
+source: 'Dua traditionnel',
+tags: ['Colère']
+},
+{
+category: 'Tristesse & inquiétude',
+arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ وَالْبُخْلِ وَالْجُبْنِ وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ',
+phonetic: 'Allahumma inni a\'udhu bika minal-hammi wal-hazani wal-\'ajzi wal-kasali wal-bukhli wal-jubni wa dala\'id-dayni wa ghalabatir-rijal',
+translation: 'Ô Allah, je cherche refuge auprès de Toi contre le souci, la tristesse, l\'impuissance, la paresse, l\'avarice, la lâcheté, le fardeau de la dette et la domination des hommes.',
+translationEn: 'O Allah, I seek refuge in You from anxiety, sorrow, weakness, laziness, miserliness, cowardice, the burden of debt and from being overpowered by men.',
+source: 'Boukhari',
+tags: ['Tristesse', 'Protection']
+},
+{
+category: 'Tristesse & inquiétude',
+arabic: 'حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ',
+phonetic: 'Hasbunallahu wa ni\'ma al-wakil',
+translation: 'Allah nous suffit, et Il est le meilleur garant.',
+translationEn: 'Allah is sufficient for us, and He is the best Disposer of affairs.',
+source: 'Boukhari — Coran 3:173',
+tags: ['Confiance']
+},
+{
+category: 'Examen & étude',
+arabic: 'اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا',
+phonetic: 'Allahumma la sahla illa ma ja\'altahu sahlan wa anta taj\'alu al-hazna idha shi\'ta sahla',
+translation: 'Ô Allah, il n\'y a de facile que ce que Tu as rendu facile, et Tu rends la difficulté facile si Tu veux.',
+translationEn: 'O Allah, there is no ease except in that which You have made easy, and You make the difficulty easy if it be Your will.',
+source: 'Ibn Hibban',
+tags: ['Facilité', 'Examen']
+},
+{
+category: 'Examen & étude',
+arabic: 'رَبِّ يَسِّرْ وَلَا تُعَسِّرْ وَتَمِّمْ بِالْخَيْرِ',
+phonetic: 'Rabbi yassir wa la tu\'assir wa tammim bil-khayr',
+translation: 'Seigneur, facilite, ne complique pas, et parachève dans le bien.',
+translationEn: 'My Lord, make it easy and do not make it difficult, and complete it with goodness.',
+source: 'Dua traditionnel',
+tags: ['Facilité']
+},
+{
+category: 'Voyage',
+arabic: 'اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ وَالْخَلِيفَةُ فِي الْأَهْلِ',
+phonetic: 'Allahumma anta as-sahibu fi as-safari wal-khalifatu fi al-ahl',
+translation: 'Ô Allah, Tu es le compagnon durant le voyage et le protecteur de la famille restée.',
+translationEn: 'O Allah, You are the companion on the journey and the Successor (Protector) over the family.',
+source: 'Muslim',
+tags: ['Voyage']
+},
+{
+category: 'Voyage',
+arabic: 'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
+phonetic: 'A\'udhu bi kalimatillahi at-tammati min sharri ma khalaq',
+translation: 'Je cherche protection auprès des paroles parfaites d\'Allah contre le mal de ce qu\'Il a créé.',
+translationEn: 'I seek refuge in the perfect words of Allah from the evil of what He has created.',
+source: 'Muslim',
+tags: ['Voyage', 'Protection']
+},
+{
+category: 'Dormir',
+arabic: 'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ',
+phonetic: 'Allahumma qini \'adhabaka yawma tab\'athu \'ibadak',
+translation: 'Ô Allah, protège-moi de Ton châtiment le jour où Tu ressusciteras Tes serviteurs.',
+translationEn: 'O Allah, protect me from Your punishment on the Day You resurrect Your servants.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Dormir']
+},
+{
+category: 'Dormir',
+arabic: 'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي وَبِكَ أَرْفَعُهُ',
+phonetic: 'Bismika rabbi wada\'tu janbi wa bika arfa\'uhu',
+translation: 'C\'est en Ton nom, mon Seigneur, que je pose mon flanc et par Toi que je le relève.',
+translationEn: 'In Your name, my Lord, I lay myself down and by You I raise it up.',
+source: 'Boukhari & Muslim',
+tags: ['Dormir']
+},
+{
+category: 'Réveil',
+arabic: 'الْحَمْدُ لِلَّهِ الَّذِي عَافَانِي فِي جَسَدِي وَرَدَّ عَلَيَّ رُوحِي وَأَذِنَ لِي بِذِكْرِهِ',
+phonetic: 'Alhamdulillah alladhi \'afani fi jasadi wa radda \'alayya ruhi wa adhina li bi dhikrih',
+translation: 'Louange à Allah qui m\'a préservé dans mon corps, m\'a rendu mon âme et m\'a permis de L\'évoquer.',
+translationEn: 'Praise be to Allah Who granted me health in my body, returned my soul to me, and permitted me to remember Him.',
+source: 'Tirmidhi',
+tags: ['Réveil']
+},
+{
+category: 'Événements',
+arabic: 'إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا',
+phonetic: 'Inna lillahi wa inna ilayhi raji\'un, Allahumma ajurni fi musibati wa akhlif li khayran minha',
+translation: 'Certes nous appartenant à Allah et c\'est à Lui que nous retournerons. Ô Allah, récompense-moi dans mon malheur et remplace-le-moi par quelque chose de meilleur.',
+translationEn: 'Truly, to Allah we belong and truly, to Him we shall return. O Allah, reward me for my affliction and replace it with something better.',
+source: 'Muslim',
+tags: ['Épreuve']
+},
+{
+category: 'Événements',
+arabic: 'بَارَكَ اللَّهُ لَكَ',
+phonetic: 'Barakallahu lak',
+translation: 'Qu\'Allah te bénisse.',
+translationEn: 'May Allah bless you.',
+source: 'Tradition prophétique',
+tags: ['Félicitation']
+},
+{
+category: 'Éternuement',
+arabic: 'يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ',
+phonetic: 'Yahdikumullahu wa yuslihu balakum',
+translation: 'Qu\'Allah vous guide et améliore votre situation.',
+translationEn: 'May Allah guide you and improve your condition.',
+source: 'Boukhari',
+tags: ['Éternuement']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى',
+phonetic: 'Allahumma inni as\'aluka al-huda wat-tuqa wal-\'afafa wal-ghina',
+translation: 'Ô Allah, je Te demande la guidance, la piété, la chasteté et la suffisance.',
+translationEn: 'O Allah, I ask You for guidance, piety, chastity and self-sufficiency.',
+source: 'Muslim',
+tags: ['Guidance']
+},
+{
+category: 'Matin & Soir',
+arabic: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ',
+phonetic: 'Asbahna wa asbaha al-mulku lillah wal-hamdu lillah',
+translation: 'Nous entrons dans le matin et la royauté appartient à Allah, et la louange est à Allah.',
+translationEn: 'We have entered the morning and at this very time all sovereignty belongs to Allah, and all praise is for Allah.',
+source: 'Muslim',
+tags: ['Matin']
+},
+{
+category: 'Après la prière',
+arabic: 'اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ',
+phonetic: 'Allahumma a\'inni \'ala dhikrika wa shukrika wa husni \'ibadatik',
+translation: 'Ô Allah, aide-moi à T\'évoquer, à Te remercier et à bien T\'adorer.',
+translationEn: 'O Allah, help me to remember You, to thank You, and to worship You in the best way.',
+source: 'Abou Dawoud & Ahmad',
+tags: ['Adoration']
+}
 ];
+
+// Créer les onglets de catégories
 const categories = ['Tous', 'Matin & Soir', 'Après la prière', 'Quotidien', 'Entrer/Sortir des toilettes', 'Entrer/Sortir de la maison', 'Aller au marché', 'Colère', 'Tristesse & inquiétude', 'Examen & étude', 'Voyage', 'Dormir', 'Réveil', 'Événements', 'Éternuement'];
 const tabsContainer = document.getElementById('duasTabs');
 let currentCategory = 'Tous';
+
 function renderTabs(){
 if(!tabsContainer) return;
 tabsContainer.innerHTML = '';
@@ -3588,6 +4782,7 @@ renderDuas();
 tabsContainer.appendChild(btn);
 });
 }
+
 function renderDuas(){
 const grid = document.getElementById('duasGrid');
 const countDisplay = document.getElementById('duaCountDisplay');
@@ -3595,6 +4790,7 @@ if(!grid || !countDisplay) return;
 grid.innerHTML = '';
 const filtered = currentCategory === 'Tous' ? duasData : duasData.filter(d => d.category === currentCategory);
 countDisplay.textContent = `📿 ${filtered.length} invocation${filtered.length > 1 ? 's' : ''} dans cette catégorie`;
+
 filtered.forEach(dua => {
 const card = document.createElement('div');
 card.className = 'dua-card visible';
@@ -3612,60 +4808,56 @@ card.innerHTML = `
 grid.appendChild(card);
 });
 }
+
 renderTabs();
 renderDuas();
+
 
 // =====================================================================
 // MUSHAF — Coran page par page + récitateurs synchronisés
 // =====================================================================
 const MUSHAF_TOTAL_PAGES = 604;
 let mushafPage = 1;
-let mushafAyahs = [];
+let mushafAyahs = []; // { global, surah, ayah, text, tr, page }
 let mushafShowTr = false;
 let mushafAudio = null;
 let mushafPlaying = false;
-let mushafPlayIndex = 0;
+let mushafPlayIndex = 0; // index in mushafAyahs
 let mushafReciterKey = 'alafasy';
-// CORRECTIF (bug de récitation) : jeton de lecture. Chaque tentative de
-// lecture reçoit un numéro unique ; les événements audio (timeupdate,
-// ended, error) vérifient que leur jeton est toujours le jeton courant
-// avant d'agir. Ça empêche un ancien fichier audio (verset précédent ou
-// ancien récitateur) de continuer à déclencher des sauts de lecture
-// après un changement rapide de verset ou de récitateur.
-let mushafPlayToken = 0;
-// CORRECTIF (double chargement au démarrage) : évite que showView()
-// et initMushaf() chargent chacun une page au tout premier chargement.
-let mushafAutoLoadDone = false;
+let mushafSurahStartPage = {}; // surah number -> first page
 
+// CDN everyayah-style via islamic.network (global ayah 1..6236)
+// Sources ayah-par-ayah (suivent le texte du mushaf)
+// everyayah = voix ; net = cdn.islamic.network (numéro global 1-6236)
 const MUSHAF_AUDIO_SOURCES = {
-  alafasy:        { net: 'ar.alafasy', every: 'Alafasy_128kbps' },
-  sudais:         { net: 'ar.abdurrahmaansudais', every: 'Abdurrahmaan_As-Sudais_192kbps' },
-  shuraim:        { net: 'ar.saoodshuraym', every: 'Saood_ash-Shuraym_128kbps' },
-  maher:          { net: 'ar.mahermuaiqly', every: 'MaherAlMuaiqly128kbps' },
-  qasim:          { net: 'ar.alafasy', every: 'Abdul_Muhsin_Al_Qasim_192kbps' },
-  jadaani:        { net: 'ar.alafasy', every: 'Alafasy_128kbps' },
-  hudhaify:       { net: 'ar.hudhaify', every: 'Hudhaify_128kbps' },
-  shatri:         { net: 'ar.shaatree', every: 'Abu_Bakr_Ash-Shaatree_128kbps' },
-  ajamy:          { net: 'ar.ahmedajamy', every: 'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah' },
-  parhizgar:      { net: 'ar.parhizgar', every: 'Parhizgar_48kbps' },
-  jibreel:        { net: 'ar.muhammadjibreel', every: 'Muhammad_Jibreel_128kbps' },
-  basfar:         { net: 'ar.abdullahbasfar', every: 'Abdullah_Basfar_192kbps' },
-  rifai:          { net: 'ar.alafasy', every: 'Hani_Rifai_192kbps' },
-  tablawi:        { net: 'ar.alafasy', every: 'Mohammad_al_Tablaway_128kbps' },
-  baleela:        { net: 'ar.alafasy', every: 'Alafasy_128kbps' },
-  juhaynee:       { net: 'ar.alafasy', every: 'Abdullaah_3awwaad_Al-Juhaynee_128kbps' },
-  minshawi:       { net: 'ar.minshawi', every: 'Minshawy_Murattal_128kbps' },
-  husary:         { net: 'ar.husary', every: 'Husary_128kbps' },
-  ayyoub:         { net: 'ar.muhammadayyoub', every: 'Muhammad_Ayyoub_128kbps' },
-  abdulbasit:     { net: 'ar.abdulsamad', every: 'Abdul_Basit_Murattal_192kbps' },
-  ghamdi:         { net: 'ar.alafasy', every: 'Ghamadi_40kbps' },
-  dosari:         { net: 'ar.alafasy', every: 'Yasser_Ad-Dussary_128kbps' },
-  muhaisni:       { net: 'ar.alafasy', every: 'Alafasy_128kbps' },
-  afasy_murattal: { net: 'ar.alafasy', every: 'Alafasy_128kbps' },
-  jaleel:         { net: 'ar.alafasy', every: 'Alafasy_128kbps' },
-  fares:          { net: 'ar.alafasy', every: 'Fares_Abbad_64kbps' },
-  sudes:          { net: 'ar.alafasy', every: 'Ibrahim_Akhdar_32kbps' },
-  shuraym2:       { net: 'ar.saoodshuraym', every: 'Salah_Al_Budair_128kbps' }
+  alafasy:        { every: 'Alafasy_128kbps', net: 'ar.alafasy' },
+  sudais:         { every: 'Abdurrahmaan_As-Sudais_192kbps', net: 'ar.abdurrahmaansudais' },
+  shuraim:        { every: 'Saood_ash-Shuraym_128kbps', net: 'ar.saoodshuraym' },
+  maher:          { every: 'MaherAlMuaiqly128kbps', net: 'ar.mahermuaiqly' },
+  qasim:          { every: 'Muhsin_Al_Qasim_192kbps', net: null },
+  jadaani:        { every: null, net: null, mp3quran: 'https://server16.mp3quran.net/hitham/Rewayat-Hafs-A-n-Assem' },
+  hudhaify:       { every: 'Hudhaify_128kbps', net: 'ar.hudhaify' },
+  shatri:         { every: 'Abu_Bakr_Ash-Shaatree_128kbps', net: 'ar.shaatree' },
+  ajamy:          { every: 'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net', net: 'ar.ahmedajamy' },
+  parhizgar:      { every: 'Parhizgar_48kbps', net: 'ar.parhizgar' },
+  jibreel:        { every: 'Muhammad_Jibreel_128kbps', net: 'ar.muhammadjibreel' },
+  basfar:         { every: 'Abdullah_Basfar_192kbps', net: 'ar.abdullahbasfar' },
+  rifai:          { every: 'Hani_Rifai_192kbps', net: 'ar.hanirifai' },
+  tablawi:        { every: 'Mohammad_al_Tablaway_128kbps', net: 'ar.mohamedtablawi' },
+  baleela:        { every: null, net: null, mp3quran: 'https://server6.mp3quran.net/balilah' },
+  juhaynee:       { every: 'Abdullaah_3awwaad_Al-Juhaynee_128kbps', net: 'ar.abdullahawadaljuhani' },
+  minshawi:       { every: 'Minshawy_Murattal_128kbps', net: 'ar.minshawi' },
+  husary:         { every: 'Husary_128kbps', net: 'ar.husary' },
+  ayyoub:         { every: 'Muhammad_Ayyoub_128kbps', net: 'ar.muhammadayyoub' },
+  abdulbasit:     { every: 'Abdul_Basit_Murattal_192kbps', net: 'ar.abdulsamad' },
+  ghamdi:         { every: 'Ghamadi_40kbps', net: null },
+  dosari:         { every: 'Yasser_Ad-Dussary_128kbps', net: 'ar.yasseraldossari' },
+  muhaisni:       { every: null, net: 'ar.muhammadalmehysni' },
+  afasy_murattal: { every: 'Alafasy_128kbps', net: 'ar.alafasy' },
+  jaleel:         { every: 'Khaalid_Abdullaah_al-Qahtaanee_192kbps', net: null },
+  fares:          { every: 'Fares_Abbad_64kbps', net: null },
+  sudes:          { every: 'Ibrahim_Akhdar_64kbps', net: 'ar.ibrahimakhbar' },
+  shuraym2:       { every: 'Salah_Al_Budair_128kbps', net: 'ar.salahalbudair' }
 };
 
 function mushafBuildAudioUrls(ayah){
@@ -3674,16 +4866,39 @@ function mushafBuildAudioUrls(ayah){
   const s = String(ayah.surah).padStart(3, '0');
   const a = String(ayah.ayah).padStart(3, '0');
   const urls = [];
+
+  // Mode sourate seule (ex: Haytham) — pas de découpe ayah publique
+  if(src.mp3quran && !src.every && !src.net){
+    urls.push(src.mp3quran.replace(/\/$/, '') + '/' + s + '.mp3');
+    return { urls: urls, mode: 'surah' };
+  }
+
+  // Mode ayah : everyayah puis islamic.network (suivent le verset surligné)
+  if(src.every){
+    urls.push('https://everyayah.com/data/' + src.every + '/' + s + a + '.mp3');
+  }
   if(src.net){
     urls.push('https://cdn.islamic.network/quran/audio/128/' + src.net + '/' + ayah.global + '.mp3');
     urls.push('https://cdn.islamic.network/quran/audio/64/' + src.net + '/' + ayah.global + '.mp3');
   }
-  if(src.every){
-    urls.push('https://everyayah.com/data/' + src.every + '/' + s + a + '.mp3');
+  if(src.mp3quran && !urls.length){
+    urls.push(src.mp3quran.replace(/\/$/, '') + '/' + s + '.mp3');
+    return { urls: urls, mode: 'surah' };
   }
-  urls.push('https://cdn.islamic.network/quran/audio/128/ar.alafasy/' + ayah.global + '.mp3');
-  urls.push('https://everyayah.com/data/Alafasy_128kbps/' + s + a + '.mp3');
-  return urls;
+  if(!urls.length){
+    urls.push('https://cdn.islamic.network/quran/audio/128/ar.alafasy/' + ayah.global + '.mp3');
+  }
+  return { urls: urls, mode: 'ayah' };
+}
+
+function mushafCdnId(key){
+  const src = MUSHAF_AUDIO_SOURCES[key] || MUSHAF_AUDIO_SOURCES.alafasy;
+  return src.net || 'ar.alafasy';
+}
+
+function mushafAudioUrl(globalAyah){
+  const id = mushafCdnId(mushafReciterKey);
+  return 'https://cdn.islamic.network/quran/audio/128/' + id + '/' + globalAyah + '.mp3';
 }
 
 async function loadMushafPage(page, { autoPlay } = {}){
@@ -3693,6 +4908,8 @@ async function loadMushafPage(page, { autoPlay } = {}){
   const pos = document.getElementById('mushafPagePos');
   if(box) box.innerHTML = '<p style="text-align:center;color:var(--ink-soft);">Chargement…</p>';
   if(pos) pos.textContent = `Page ${page} / ${MUSHAF_TOTAL_PAGES}`;
+  const pageInp = document.getElementById('mushafPageInput');
+  if(pageInp && document.activeElement !== pageInp) pageInp.value = String(page);
   const prevB = document.getElementById('mushafPrevPage');
   const nextB = document.getElementById('mushafNextPage');
   if(prevB) prevB.disabled = page <= 1;
@@ -3717,6 +4934,7 @@ async function loadMushafPage(page, { autoPlay } = {}){
       juz: a.juz
     }));
     const first = mushafAyahs[0];
+    const last = mushafAyahs[mushafAyahs.length - 1];
     document.getElementById('mushafSurahLabel').textContent = first
       ? `${first.surah}. ${first.surahName} (${first.surahAr})`
       : '—';
@@ -3757,19 +4975,237 @@ function highlightMushafAyah(idx){
   }
 }
 
-function stopMushafAudio(){
-  mushafPlayToken++; // CORRECTIF : invalide toute lecture en cours ou en attente
-  if(mushafAudio){
+let mushafPlayGen = 0;
+let mushafPreload = null;
+const mushafAudioPool = new Set();
+
+function mushafKillAllAudio(){
+  mushafAudioPool.forEach(function(a){
     try{
-      mushafAudio.pause();
-      mushafAudio.removeAttribute('src');
-      mushafAudio.load();
+      a.onended = null;
+      a.onerror = null;
+      a.ontimeupdate = null;
+      a.onloadedmetadata = null;
+      a.pause();
+      a.removeAttribute('src');
+      a.load();
     }catch(e){}
-    mushafAudio = null;
-  }
+  });
+  mushafAudioPool.clear();
+  mushafAudio = null;
+  mushafPreload = null;
   mushafPlaying = false;
+}
+
+function stopMushafAudio(){
+  mushafPlayGen++;
+  mushafSurahSession = null;
+  mushafKillAllAudio();
   const btn = document.getElementById('mushafPlayBtn');
   if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+}
+
+function mushafPreloadNext(idx, mode){
+  if(mode === 'surah') return;
+  const next = idx + 1;
+  if(next >= mushafAyahs.length) return;
+  try{
+    const built = mushafBuildAudioUrls(mushafAyahs[next]);
+    const urls = built.urls || [];
+    if(!urls.length) return;
+    if(mushafPreload){
+      try{ mushafPreload.pause(); mushafPreload.src = ''; }catch(e){}
+      mushafAudioPool.delete(mushafPreload);
+    }
+    const p = new Audio();
+    p.preload = 'auto';
+    p.src = urls[0];
+    mushafPreload = p;
+    mushafAudioPool.add(p);
+    try{ p.load(); }catch(e){}
+  }catch(e){}
+}
+
+
+const mushafSurahTimingCache = {};
+let mushafSurahSession = null; // { surahNum, audio, cum, gen }
+
+async function mushafGetSurahWeights(surahNum){
+  if(mushafSurahTimingCache[surahNum]) return mushafSurahTimingCache[surahNum];
+  const res = await fetch('https://api.alquran.cloud/v1/surah/' + surahNum + '/quran-uthmani');
+  const json = await res.json();
+  const ayahs = (json.data && json.data.ayahs) || [];
+  const PAUSE = 20;
+  const weights = ayahs.map(a => Math.max(8, (a.text || '').replace(/\s+/g,'').length) + PAUSE);
+  const total = weights.reduce((s,w) => s + w, 0) || 1;
+  const cum = [];
+  let acc = 0;
+  for(let i = 0; i < weights.length; i++){
+    const start = acc / total;
+    acc += weights[i];
+    cum.push({ ayah: i + 1, start: start, end: acc / total });
+  }
+  mushafSurahTimingCache[surahNum] = cum;
+  return cum;
+}
+
+function mushafAyahFromProgress(cum, progress){
+  if(!cum || !cum.length) return 1;
+  const p = Math.max(0, Math.min(0.9999, progress));
+  for(let i = 0; i < cum.length; i++){
+    if(p < cum[i].end) return cum[i].ayah;
+  }
+  return cum[cum.length - 1].ayah;
+}
+
+function mushafSyncSurahHighlight(surahNum, ayahNo, recName){
+  const infoEl = document.getElementById('mushafAudioInfo');
+  let found = -1;
+  for(let i = 0; i < mushafAyahs.length; i++){
+    if(mushafAyahs[i].surah === surahNum && mushafAyahs[i].ayah === ayahNo){
+      found = i; break;
+    }
+  }
+  if(found >= 0){
+    if(found !== mushafPlayIndex){
+      mushafPlayIndex = found;
+      highlightMushafAyah(found);
+    }
+    if(infoEl){
+      const nm = mushafAyahs[found].surahName || '';
+      infoEl.textContent = (recName || '') + ' · ' + nm + ' ' + ayahNo;
+    }
+    return 'onpage';
+  }
+  const first = mushafAyahs[0];
+  const last = mushafAyahs[mushafAyahs.length - 1];
+  if(first && last && first.surah === surahNum){
+    if(ayahNo > last.ayah) return 'after';
+    if(ayahNo < first.ayah) return 'before';
+  }
+  return 'other';
+}
+
+function mushafSeekSurahToAyah(audio, cum, ayahNo){
+  if(!audio || !cum || !audio.duration) return;
+  const entry = cum.find(function(c){ return c.ayah === ayahNo; });
+  if(!entry) return;
+  const span = Math.max(0, entry.end - entry.start);
+  const t = (entry.start + span * 0.04) * audio.duration;
+  try { audio.currentTime = Math.max(0, Math.min(audio.duration - 0.3, t)); } catch(e){}
+}
+
+/** Lance (ou reprend) une sourate complète — une seule instance audio */
+function playMushafSurahMode(ayah, recName, gen){
+  const surahNum = ayah.surah;
+  const infoEl = document.getElementById('mushafAudioInfo');
+  const btn = document.getElementById('mushafPlayBtn');
+  const built = mushafBuildAudioUrls(ayah);
+  const url = (built.urls && built.urls[0]) || null;
+  if(!url){
+    if(infoEl) infoEl.textContent = 'Audio indisponible';
+    return;
+  }
+
+  // Déjà en train de lire CETTE sourate → juste se placer, NE PAS recréer l'audio
+  if(
+    mushafSurahSession &&
+    mushafSurahSession.surahNum === surahNum &&
+    mushafAudio &&
+    mushafSurahSession.gen === mushafPlayGen
+  ){
+    const audio = mushafAudio;
+    const cum = mushafSurahSession.cum;
+    if(cum) mushafSeekSurahToAyah(audio, cum, ayah.ayah);
+    if(audio.paused){
+      audio.play().catch(function(){});
+      mushafPlaying = true;
+      if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+    }
+    mushafSyncSurahHighlight(surahNum, ayah.ayah, recName);
+    return;
+  }
+
+  // Nouvelle session : coupe tout le reste, 1 seul fichier sourate
+  mushafKillAllAudio();
+  mushafSurahSession = null;
+
+  const audio = new Audio();
+  audio.preload = 'auto';
+  audio.volume = 0.95;
+  audio.src = url;
+  mushafAudio = audio;
+  mushafAudioPool.add(audio);
+  mushafPlaying = true;
+  let lastAyah = -1;
+  let turning = false;
+
+  if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+  if(infoEl) infoEl.textContent = recName + ' · ' + ayah.surahName + ' (sourate)';
+
+  audio.ontimeupdate = function(){
+    if(gen !== mushafPlayGen || mushafAudio !== audio) return;
+    if(!audio.duration || !isFinite(audio.duration)) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    const bar = document.getElementById('mushafProgress');
+    if(bar) bar.value = String(pct);
+    const tEl = document.getElementById('mushafTime');
+    if(tEl){
+      const cur = Math.floor(audio.currentTime || 0);
+      const dur = Math.floor(audio.duration || 0);
+      const fmt = (x) => String(Math.floor(x/60)).padStart(2,'0') + ':' + String(x%60).padStart(2,'0');
+      tEl.textContent = fmt(cur) + ' / ' + fmt(dur);
+    }
+    const cum = mushafSurahSession && mushafSurahSession.cum;
+    if(!cum) return;
+    const ayahNo = mushafAyahFromProgress(cum, audio.currentTime / audio.duration);
+    if(ayahNo === lastAyah) return;
+    lastAyah = ayahNo;
+    const where = mushafSyncSurahHighlight(surahNum, ayahNo, recName);
+    if(where === 'after' && !turning && mushafPage < MUSHAF_TOTAL_PAGES){
+      turning = true;
+      loadMushafPage(mushafPage + 1).then(function(){
+        turning = false;
+        if(gen !== mushafPlayGen) return;
+        mushafSyncSurahHighlight(surahNum, lastAyah, recName);
+      });
+    }
+  };
+
+  audio.onended = function(){
+    if(gen !== mushafPlayGen) return;
+    mushafSurahSession = null;
+    stopMushafAudio();
+    if(infoEl) infoEl.textContent = 'Fin de la sourate · ' + ayah.surahName;
+  };
+  audio.onerror = function(){
+    if(gen !== mushafPlayGen) return;
+    mushafSurahSession = null;
+    if(infoEl) infoEl.textContent = 'Audio indisponible pour cette sourate';
+    mushafPlaying = false;
+  };
+
+  mushafSurahSession = { surahNum: surahNum, audio: audio, cum: null, gen: gen };
+
+  // Charge les poids puis démarre UNE fois depuis le début (ou verset cliqué)
+  mushafGetSurahWeights(surahNum).then(function(cum){
+    if(gen !== mushafPlayGen) return;
+    mushafSurahSession.cum = cum;
+    const startAt = ayah.ayah > 1 ? ayah.ayah : 1;
+    const go = function(){
+      if(gen !== mushafPlayGen) return;
+      if(startAt > 1) mushafSeekSurahToAyah(audio, cum, startAt);
+      audio.play().catch(function(err){
+        if(err && err.name === 'AbortError') return;
+        if(infoEl) infoEl.textContent = 'Lecture bloquée — réessaie';
+      });
+    };
+    if(audio.readyState >= 1 && audio.duration) go();
+    else audio.addEventListener('loadedmetadata', go, { once: true });
+  }).catch(function(){
+    if(gen !== mushafPlayGen) return;
+    audio.play().catch(function(){});
+  });
 }
 
 function playMushafAyahAt(idx, urlTry){
@@ -3783,82 +5219,110 @@ function playMushafAyahAt(idx, urlTry){
     }
     return;
   }
-  mushafPlayIndex = idx;
-  const a = mushafAyahs[idx];
-  highlightMushafAyah(idx);
+
+  const ayah = mushafAyahs[idx];
   const recName = (typeof RECITERS_BY_KEY !== 'undefined' && RECITERS_BY_KEY[mushafReciterKey])
     ? RECITERS_BY_KEY[mushafReciterKey].name
-    : mushafReciterKey;
-  const infoEl = document.getElementById('mushafAudioInfo');
-  if(infoEl) infoEl.textContent = recName + ' · ' + a.surahName + ' ' + a.ayah;
+    : (mushafReciterKey || 'Récitateur');
 
-  const urls = mushafBuildAudioUrls(a);
-  let tryIndex = typeof urlTry === 'number' ? urlTry : 0;
-  if(tryIndex >= urls.length){
-    setTimeout(() => playMushafAyahAt(idx + 1, 0), 200);
+  const built = mushafBuildAudioUrls(ayah);
+  const audioMode = built.mode || 'ayah';
+
+  // === HAYTHAM / mode sourate ===
+  if(audioMode === 'surah'){
+    const gen = mushafPlayGen; // ne pas ++ si on reprend la même session
+    // Si nouvelle session nécessaire, ++ se fait dans kill
+    if(!(mushafSurahSession && mushafSurahSession.surahNum === ayah.surah && mushafAudio && mushafSurahSession.gen === mushafPlayGen)){
+      mushafPlayGen++;
+    }
+    const useGen = mushafPlayGen;
+    mushafPlayIndex = idx;
+    highlightMushafAyah(idx);
+    playMushafSurahMode(ayah, recName, useGen);
     return;
   }
 
-  stopMushafAudio();
-  const myToken = ++mushafPlayToken; // CORRECTIF : jeton unique pour CETTE lecture
-  const audio = new Audio(urls[tryIndex]);
-  mushafAudio = audio;
+  // === Mode ayah classique ===
+  const gen = ++mushafPlayGen;
+  mushafKillAllAudio();
+  mushafSurahSession = null;
+  mushafPlayIndex = idx;
+  highlightMushafAyah(idx);
+
+  const infoEl = document.getElementById('mushafAudioInfo');
+  if(infoEl) infoEl.textContent = recName + ' · ' + ayah.surahName + ' ' + ayah.ayah;
+
+  const urls = built.urls || [];
+  let tryIndex = typeof urlTry === 'number' ? urlTry : 0;
+  if(tryIndex >= urls.length){
+    if(gen === mushafPlayGen) playMushafAyahAt(idx + 1, 0);
+    return;
+  }
+
+  const audio = new Audio();
   audio.preload = 'auto';
   audio.volume = 0.95;
+  audio.src = urls[tryIndex];
+  mushafAudio = audio;
+  mushafAudioPool.add(audio);
   mushafPlaying = true;
+
   const btn = document.getElementById('mushafPlayBtn');
   if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
 
-  audio.addEventListener('timeupdate', () => {
-    if(myToken !== mushafPlayToken) return; // CORRECTIF : lecture périmée, on ignore
-    if(!audio.duration) return;
+  audio.ontimeupdate = function(){
+    if(gen !== mushafPlayGen || mushafAudio !== audio) return;
+    if(!audio.duration || !isFinite(audio.duration)) return;
+    if(audio.duration - audio.currentTime < 0.5) mushafPreloadNext(idx, 'ayah');
     const pct = (audio.currentTime / audio.duration) * 100;
     const bar = document.getElementById('mushafProgress');
-    if(bar) bar.value = pct;
+    if(bar) bar.value = String(pct);
     const t = document.getElementById('mushafTime');
     if(t){
-      const cur = Math.floor(audio.currentTime);
-      const dur = Math.floor(audio.duration);
+      const cur = Math.floor(audio.currentTime || 0);
+      const dur = Math.floor(audio.duration || 0);
       const fmt = (x) => String(Math.floor(x/60)).padStart(2,'0') + ':' + String(x%60).padStart(2,'0');
       t.textContent = fmt(cur) + ' / ' + fmt(dur);
     }
-  });
-  audio.addEventListener('ended', () => {
-    if(myToken !== mushafPlayToken) return; // CORRECTIF
+  };
+  audio.onended = function(){
+    if(gen !== mushafPlayGen) return;
     playMushafAyahAt(idx + 1, 0);
-  });
-  audio.addEventListener('error', () => {
-    if(myToken !== mushafPlayToken) return; // CORRECTIF
+  };
+  audio.onerror = function(){
+    if(gen !== mushafPlayGen) return;
+    playMushafAyahAt(idx, tryIndex + 1);
+  };
+
+  mushafPreloadNext(idx, 'ayah');
+  audio.play().catch(function(err){
+    if(gen !== mushafPlayGen) return;
+    if(err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) return;
     playMushafAyahAt(idx, tryIndex + 1);
   });
-  const p = audio.play();
-  if(p && p.catch){
-    p.catch(err => {
-      if(myToken !== mushafPlayToken) return; // CORRECTIF
-      console.warn('play fail', err);
-      playMushafAyahAt(idx, tryIndex + 1);
-    });
-  }
 }
 
 function startMushafPlayback(idx){
-  if(!mushafAyahs.length) return;
-  playMushafAyahAt(idx || 0);
+  if(!mushafAyahs || !mushafAyahs.length) return;
+  const i = (typeof idx === 'number' && idx >= 0) ? idx : (mushafPlayIndex || 0);
+  playMushafAyahAt(i, 0);
 }
 
 function toggleMushafPlay(){
   const btn = document.getElementById('mushafPlayBtn');
-  if(mushafPlaying && mushafAudio && !mushafAudio.paused){
+  if(mushafAudio && mushafPlaying && !mushafAudio.paused){
     try{ mushafAudio.pause(); }catch(e){}
     mushafPlaying = false;
     if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
     return;
   }
   if(mushafAudio && mushafAudio.paused && mushafAudio.src){
-    mushafAudio.play().then(() => {
+    const gen = mushafPlayGen;
+    mushafAudio.play().then(function(){
+      if(gen !== mushafPlayGen) return;
       mushafPlaying = true;
       if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-    }).catch(() => startMushafPlayback(mushafPlayIndex || 0));
+    }).catch(function(){ startMushafPlayback(mushafPlayIndex || 0); });
     return;
   }
   startMushafPlayback(mushafPlayIndex || 0);
@@ -3871,22 +5335,16 @@ function renderMushafReciterChips(){
   const countEl = document.getElementById('mushafReciterCount');
   if(countEl) countEl.textContent = '(' + list.length + ')';
 
-  function selectReciter(key, name, isPremium){
-    // CORRECTIF (cohérence Premium) : un récitateur verrouillé ouvre
-    // la page Premium au lieu d'être lu, comme sur la page tarifs.
-    if(isPremium){
-      const btn = document.getElementById('premiumCtaBtn');
-      if(btn){ showView('view-home'); setTimeout(() => btn.click(), 200); }
-      return;
-    }
-    if(mushafReciterKey === key && mushafPlaying) return;
+  function selectReciter(key, name){
+    const same = (mushafReciterKey === key);
     mushafReciterKey = key;
     renderMushafReciterChips();
     const info = document.getElementById('mushafAudioInfo');
     const wasPlaying = mushafPlaying || (mushafAudio && !mushafAudio.paused);
+    if(same && wasPlaying) return;
     stopMushafAudio();
     if(wasPlaying){
-      setTimeout(() => startMushafPlayback(mushafPlayIndex || 0), 80);
+      setTimeout(function(){ startMushafPlayback(mushafPlayIndex || 0); }, 120);
     } else if(info){
       info.textContent = name + ' sélectionné — appuie sur lecture';
     }
@@ -3897,9 +5355,9 @@ function renderMushafReciterChips(){
     list.forEach(r => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'mr-card' + (r.key === mushafReciterKey ? ' active' : '') + (r.premium ? ' locked' : '');
-      b.innerHTML = '<span class="mr-name">' + r.name + '</span><span class="mr-tag">' + (r.tag || '') + '</span>' + (r.premium ? '<span class="mr-lock-icon">🔒</span>' : '');
-      b.addEventListener('click', () => selectReciter(r.key, r.name, r.premium));
+      b.className = 'mr-card' + (r.key === mushafReciterKey ? ' active' : '');
+      b.innerHTML = '<span class="mr-name">' + r.name + '</span><span class="mr-tag">' + (r.tag || '') + '</span>';
+      b.addEventListener('click', () => selectReciter(r.key, r.name));
       grid.appendChild(b);
     });
   }
@@ -3908,10 +5366,10 @@ function renderMushafReciterChips(){
     list.forEach(r => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'mb-chip' + (r.key === mushafReciterKey ? ' active' : '') + (r.premium ? ' locked' : '');
-      b.textContent = (r.premium ? '🔒 ' : '') + r.name;
-      b.title = r.premium ? r.name + ' (Premium)' : r.name;
-      b.addEventListener('click', () => selectReciter(r.key, r.name, r.premium));
+      b.className = 'mb-chip' + (r.key === mushafReciterKey ? ' active' : '');
+      b.textContent = r.name;
+      b.title = r.name;
+      b.addEventListener('click', () => selectReciter(r.key, r.name));
       wrap.appendChild(b);
     });
   }
@@ -3919,7 +5377,6 @@ function renderMushafReciterChips(){
 
 function ensureMushafReady(){
   renderMushafReciterChips();
-  if(mushafAutoLoadDone) return; // CORRECTIF : initMushaf() gère déjà le premier chargement
   if(!mushafAyahs || !mushafAyahs.length){
     loadMushafPage(mushafPage || 1);
   }
@@ -3945,6 +5402,7 @@ async function initMushaf(){
   }
 }
 
+// Events mushaf
 document.getElementById('mushafPrevPage')?.addEventListener('click', () => {
   stopMushafAudio();
   loadMushafPage(mushafPage - 1);
@@ -3952,6 +5410,20 @@ document.getElementById('mushafPrevPage')?.addEventListener('click', () => {
 document.getElementById('mushafNextPage')?.addEventListener('click', () => {
   stopMushafAudio();
   loadMushafPage(mushafPage + 1);
+});
+function mushafGoToTypedPage(){
+  const inp = document.getElementById('mushafPageInput');
+  if(!inp) return;
+  let n = parseInt(inp.value, 10);
+  if(!n || isNaN(n)) return;
+  n = Math.max(1, Math.min(604, n));
+  inp.value = String(n);
+  stopMushafAudio();
+  loadMushafPage(n);
+}
+document.getElementById('mushafPageGo')?.addEventListener('click', mushafGoToTypedPage);
+document.getElementById('mushafPageInput')?.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter'){ e.preventDefault(); mushafGoToTypedPage(); }
 });
 document.getElementById('mushafPlayBtn')?.addEventListener('click', toggleMushafPlay);
 document.getElementById('mushafPlayPage')?.addEventListener('click', () => startMushafPlayback(0));
@@ -3979,6 +5451,8 @@ document.getElementById('mushafProgress')?.addEventListener('input', (e) => {
     mushafAudio.currentTime = (parseFloat(e.target.value) / 100) * mushafAudio.duration;
   }
 });
+
+// Clavier sur vue coran : pages
 document.addEventListener('keydown', (e) => {
   const view = document.getElementById('view-coran');
   if(!view || !view.classList.contains('active')) return;
@@ -3988,6 +5462,9 @@ document.addEventListener('keydown', (e) => {
   if(e.key === ' '){ e.preventDefault(); toggleMushafPlay(); }
 });
 
+// Rediriger ancienne vue récitateurs
+const _showViewOrig = typeof showView === 'function' ? showView : null;
+
 // =====================================================================
 // INITIALISATION - PAGE D'ACCUEIL PAR DÉFAUT
 // =====================================================================
@@ -3995,9 +5472,7 @@ document.addEventListener('DOMContentLoaded', function() {
   try{
     const hash = (location.hash || '').replace('#','');
     const startView = (hash && document.getElementById('view-' + hash)) ? ('view-' + hash) : 'view-home';
-    mushafAutoLoadDone = true;   // CORRECTIF : empêche le double chargement au démarrage
     showView(startView);
-    mushafAutoLoadDone = false;  // réactive le comportement normal pour les navigations suivantes
   }catch(e){ console.warn(e); showView('view-home'); }
 
   loadSurahList().then(() => {
@@ -4007,9 +5482,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }).catch(err => console.warn('surah list', err));
 
+  try{ loadReciters(); }catch(e){}
   try{ loadDailyHadith(false); }catch(e){}
-  try{ loadHeroVerse(); }catch(e){}
   try{ initPrayerTimes(); }catch(e){}
+  try{ if(apVolumeBar) apVolumeBar.value = 70; }catch(e){}
   try{ initMushaf(); }catch(e){ console.error(e); try{ renderMushafReciterChips(); }catch(_e){} }
 });
 
