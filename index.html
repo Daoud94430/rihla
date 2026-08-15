@@ -7,6 +7,7 @@
 <link rel="icon" type="image/jpeg" href="rihla-logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/kfgqpc-uthmanic-script-hafs" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -25,7 +26,8 @@
 --shadow: 0 12px 30px -12px rgba(11,46,43,0.25);
 --shadow-lg: 0 20px 50px -15px rgba(11,46,43,0.35);
 --arabic-font: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', serif;
---quran-font: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+/* Police mushaf Madinah (graphie othmani correcte : إبرٰهۦم etc.) */
+--quran-font: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
 }
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -689,21 +691,23 @@ word-spacing: 0.05em;
 display: inline-flex;
 align-items: center;
 justify-content: center;
-min-width: 1.55em;
-height: 1.55em;
+min-width: 1.65em;
+height: 1.65em;
 margin-right: 0.28em;
 margin-left: 0.12em;
-padding: 0 0.22em;
+padding: 0 0.28em;
 border-radius: 50%;
 border: 1.5px solid var(--gold-500);
 background: rgba(201,162,39,0.14);
 color: var(--emerald-950);
-font-family: 'IBM Plex Mono', 'Amiri', monospace;
-font-size: 0.52em;
-font-weight: 600;
+font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+font-size: 0.58em;
+font-weight: 700;
 line-height: 1;
 vertical-align: middle;
 box-sizing: border-box;
+direction: ltr;
+unicode-bidi: isolate;
 }
 .mushaf-ayah.active .ma-ar{ color: var(--emerald-950); }
 .mushaf-ayah .ma-tr{
@@ -5029,8 +5033,9 @@ async function loadMushafPage(page, { autoPlay } = {}){
   if(prevB) prevB.disabled = page <= 1;
   if(nextB) nextB.disabled = page >= MUSHAF_TOTAL_PAGES;
   try{
+    // quran-simple = إبراهيم lisible (pas les glyphes othmani spéciaux mal rendus)
     const [arRes, frRes] = await Promise.all([
-      fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
+      fetch(`https://api.alquran.cloud/v1/page/${page}/quran-simple`),
       fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`)
     ]);
     const arJson = await arRes.json();
@@ -5043,7 +5048,7 @@ async function loadMushafPage(page, { autoPlay } = {}){
       surahName: a.surah.englishName,
       surahAr: a.surah.name,
       ayah: a.numberInSurah,
-      text: a.text,
+      text: normalizeQuranArabic(a.text || ''),
       tr: (frAyahs[i] && frAyahs[i].text) || '',
       juz: a.juz
     }));
@@ -5052,14 +5057,19 @@ async function loadMushafPage(page, { autoPlay } = {}){
     const surahLabel = document.getElementById('mushafSurahLabel');
     const juzLabel = document.getElementById('mushafJuzLabel');
     if(surahLabel){
+      // Nom arabe de la sourate (ex. سُورَةُ إِبْرَاهِيمَ) — graphie correcte
       surahLabel.textContent = first
-        ? `${first.surahAr || ''} · ${first.surahName}`
+        ? (first.surahAr || first.surahName || '—')
         : '—';
+      surahLabel.setAttribute('lang', 'ar');
+      surahLabel.setAttribute('dir', 'rtl');
     }
     if(juzLabel){
-      juzLabel.textContent = first ? `الجزء ${first.juz}` : '—';
+      juzLabel.textContent = first ? ('الجزء ' + toArabicIndic(first.juz)) : '—';
+      juzLabel.setAttribute('lang', 'ar');
+      juzLabel.setAttribute('dir', 'rtl');
     }
-    // Numéro de page type mushaf (cercle en bas)
+    // Numéro de page type mushaf (cercle en bas) — chiffres arabes
     let pageNumEl = document.getElementById('mushafPageCircle');
     const frame = document.querySelector('.mushaf-page-frame');
     if(frame){
@@ -5069,7 +5079,8 @@ async function loadMushafPage(page, { autoPlay } = {}){
         pageNumEl.className = 'mushaf-page-footer-num';
         frame.appendChild(pageNumEl);
       }
-      pageNumEl.textContent = String(page);
+      pageNumEl.textContent = toArabicIndic(page);
+      pageNumEl.setAttribute('lang', 'ar');
     }
     renderMushafAyahs();
     try{ localStorage.setItem('rihla_mushaf_page', String(page)); }catch(e){}
@@ -5080,18 +5091,39 @@ async function loadMushafPage(page, { autoPlay } = {}){
   }
 }
 
+/** Chiffres arabes orientaux : 1 → ١ , 23 → ٢٣ */
+function toArabicIndic(n){
+  const map = '٠١٢٣٤٥٦٧٨٩';
+  return String(n == null ? '' : n).replace(/[0-9]/g, function(d){ return map[d]; });
+}
+
+/**
+ * Normalise l'arabe coranique pour un affichage lisible :
+ * formes spéciales d'Ibrahim → إبراهيم (graphie claire)
+ */
+function normalizeQuranArabic(text){
+  if(!text) return '';
+  return text
+    .replace(/إِبْرَٰهِۦم/g, 'إِبْرَاهِيم')
+    .replace(/إِبْرَٰهِيم/g, 'إِبْرَاهِيم')
+    .replace(/إِبْرَٰهِـٰم/g, 'إِبْرَاهِيم')
+    .replace(/إبرٰهۦم/g, 'إبراهيم')
+    .replace(/إبرٰهيم/g, 'إبراهيم')
+    .replace(/إبراهيم/g, 'إبراهيم'); // déjà correct, no-op de sécurité
+}
+
 function renderMushafAyahs(){
   const box = document.getElementById('mushafAyahs');
   if(!box) return;
-  // Texte othmani tel quel (ex. إِبْرَٰهِيمُ) + numéro de verset en case ronde
+  // Texte othmani API (إِبْرَٰهِۦمَ etc.) + numéro de verset en chiffres arabes dans une case
   box.innerHTML = mushafAyahs.map((a, i) => {
     const ar = (a.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const tr = (a.tr || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const num = a.ayah != null ? String(a.ayah) : '';
+    const numAr = toArabicIndic(a.ayah);
     return `
     <div class="mushaf-ayah" data-idx="${i}" id="mushaf-ayah-${i}">
       <div class="ma-meta">${a.surah}:${a.ayah}</div>
-      <div class="ma-ar" lang="ar" dir="rtl">${ar}<span class="ma-ayah-end" title="Verset ${num}">${num}</span></div>
+      <div class="ma-ar" lang="ar" dir="rtl">${ar}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
       <div class="ma-tr${mushafShowTr ? ' show' : ''}" lang="fr">${tr}</div>
     </div>`;
   }).join('');
