@@ -5550,7 +5550,7 @@ function applyMushafTheme(dark){
   const label = document.getElementById('mushafThemeLabel');
   if(frame) frame.classList.toggle('dark', mushafDarkMode);
   if(icon) icon.textContent = mushafDarkMode ? '☀️' : '🌙';
-  if(label) label.textContent = mushafDarkMode ? 'Jour' : 'Sombre';
+  if(label) label.textContent = mushafDarkMode ? 'mode jour pour plus de visibilité' : 'mode nuit pour un apprentissage noctunre';
   try{ localStorage.setItem('rihla_mushaf_theme', mushafDarkMode ? 'dark' : 'light'); }catch(e){}
 }
 function initMushafTheme(){
