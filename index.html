@@ -676,8 +676,8 @@ color: var(--emerald-600); margin-bottom: 2px; opacity: 0.9;
 }
 .mushaf-ayah .ma-ar{
 font-family: var(--quran-font);
-font-size: clamp(1.5rem, 2.9vw, 2.05rem);
-line-height: 2.35;
+font-size: clamp(1.55rem, 3vw, 2.15rem);
+line-height: 2.55; /* place pour chadda (ّ) et maddah (ٓ) */
 direction: rtl;
 text-align: right;
 color: var(--emerald-950);
@@ -685,7 +685,7 @@ text-shadow: none;
 unicode-bidi: isolate;
 font-feature-settings: "liga" 1, "calt" 1, "mark" 1, "mkmk" 1;
 letter-spacing: 0;
-word-spacing: 0.05em;
+word-spacing: 0.06em;
 }
 .mushaf-ayah .ma-ayah-end{
 display: inline-flex;
@@ -709,7 +709,49 @@ box-sizing: border-box;
 direction: ltr;
 unicode-bidi: isolate;
 }
-.mushaf-ayah.active .ma-ar{ color: var(--emerald-950); }
+/* ===== TAJWID (couleurs type mushaf / Quran.com) ===== */
+.mushaf-ayah .ma-ar tajweed,
+.mushaf-ayah .ma-ar .tajweed,
+.mushaf-ayah .ma-ar rule{
+  font-style: normal;
+  padding-bottom: 0.12em;
+}
+/* Ghunnah (نّ / مّ) */
+.ma-ar tajweed.ghunnah{ color: #ff7e1e; }
+/* Idgham — la chadda (ّ) sur la lettre suivante reste affichée dans le texte uthmani */
+.ma-ar tajweed.idgham_ghunnah{ color: #169200; }
+.ma-ar tajweed.idgham_wo_ghunnah{ color: #169200; }
+.ma-ar tajweed.idgham_shafawi{ color: #169200; }
+/* Iqlab */
+.ma-ar tajweed.iqlab{ color: #26bffd; }
+/* Ikhfa */
+.ma-ar tajweed.ikhafa{ color: #9400a8; }
+.ma-ar tajweed.ikhafa_shafawi{ color: #d500b7; }
+/* Qalqalah */
+.ma-ar tajweed.qalaqah{ color: #dd0008; }
+/* Madd / prolongations (toutes variantes, y compris ٓ) */
+.ma-ar tajweed.madda_normal{ color: #537fff; }
+.ma-ar tajweed.madda_permissible{ color: #4050ff; }
+.ma-ar tajweed.madda_necessary{ color: #000ebc; }
+.ma-ar tajweed.madda_obligatory,
+.ma-ar tajweed.madda_obligatory_monfasel,
+.ma-ar tajweed.madda_obligatory_mottasel{ color: #2144c1; }
+/* Hamzat wasl / laam shamsiyah / silent */
+.ma-ar tajweed.ham_wasl,
+.ma-ar tajweed.laam_shamsiyah,
+.ma-ar tajweed.slnt,
+.ma-ar tajweed.silent{ color: #9a9a9a; }
+.ma-ar span.end{ display: none; }
+.mushaf-page-frame.dark .ma-ar tajweed.ham_wasl,
+.mushaf-page-frame.dark .ma-ar tajweed.laam_shamsiyah,
+.mushaf-page-frame.dark .ma-ar tajweed.slnt,
+.mushaf-page-frame.dark .ma-ar tajweed.silent{ color: #888; }
+/* Ne pas écraser les couleurs tajwid */
+.mushaf-ayah.active .ma-ar{ color: inherit; }
+.mushaf-ayah .ma-ar{
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
 .mushaf-ayah .ma-tr{
 margin-top: 6px; font-size: 0.86rem; color: var(--ink-soft); line-height: 1.55;
 display: none; direction: ltr; text-align: left;
@@ -5033,25 +5075,42 @@ async function loadMushafPage(page, { autoPlay } = {}){
   if(prevB) prevB.disabled = page <= 1;
   if(nextB) nextB.disabled = page >= MUSHAF_TOTAL_PAGES;
   try{
-    // quran-simple = إبراهيم lisible (pas les glyphes othmani spéciaux mal rendus)
-    const [arRes, frRes] = await Promise.all([
-      fetch(`https://api.alquran.cloud/v1/page/${page}/quran-simple`),
-      fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`)
+    // Uthmani (chadda + madd complets) + tajwid coloré + traduction FR
+    const [metaRes, frRes, tjRes] = await Promise.all([
+      fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
+      fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
+      fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
     ]);
-    const arJson = await arRes.json();
+    const metaJson = await metaRes.json();
     const frJson = await frRes.json();
-    const arAyahs = (arJson.data && arJson.data.ayahs) || [];
+    let tjJson = { verses: [] };
+    try { tjJson = await tjRes.json(); } catch(e) { console.warn('tajweed', e); }
+    const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
     const frAyahs = (frJson.data && frJson.data.ayahs) || [];
-    mushafAyahs = arAyahs.map((a, i) => ({
-      global: a.number,
-      surah: a.surah.number,
-      surahName: a.surah.englishName,
-      surahAr: a.surah.name,
-      ayah: a.numberInSurah,
-      text: normalizeQuranArabic(a.text || ''),
-      tr: (frAyahs[i] && frAyahs[i].text) || '',
-      juz: a.juz
-    }));
+    const tjVerses = (tjJson.verses) || [];
+    mushafAyahs = metaAyahs.map((a, i) => {
+      let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
+      // Retirer le numéro API ; on affiche le nôtre en case
+      tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
+      // Normaliser Ibrahim dans le HTML sans toucher aux balises
+      tjHtml = normalizeQuranArabic(tjHtml);
+      // Texte uthmani : garde chadda (ّ) et maddah (ٓ) pour les prolongations
+      const plain = normalizeQuranArabic(a.text || '');
+      // Si pas de tajwid API, au moins le texte uthmani complet
+      const html = tjHtml || plain.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return {
+        global: a.number,
+        surah: a.surah.number,
+        surahName: a.surah.englishName,
+        surahAr: a.surah.name,
+        ayah: a.numberInSurah,
+        text: plain,
+        textHtml: html,
+        hasTajweed: !!tjHtml,
+        tr: (frAyahs[i] && frAyahs[i].text) || '',
+        juz: a.juz
+      };
+    });
     const first = mushafAyahs[0];
     const last = mushafAyahs[mushafAyahs.length - 1];
     const surahLabel = document.getElementById('mushafSurahLabel');
@@ -5115,15 +5174,21 @@ function normalizeQuranArabic(text){
 function renderMushafAyahs(){
   const box = document.getElementById('mushafAyahs');
   if(!box) return;
-  // Texte othmani API (إِبْرَٰهِۦمَ etc.) + numéro de verset en chiffres arabes dans une case
+  // Texte avec tajwid coloré + numéro de verset (chiffres arabes) en case
   box.innerHTML = mushafAyahs.map((a, i) => {
-    const ar = (a.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const tr = (a.tr || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const numAr = toArabicIndic(a.ayah);
+    // textHtml = balises <tajweed> de confiance (API Quran.com) ; sinon texte échappé
+    let arHtml;
+    if(a.hasTajweed && a.textHtml){
+      arHtml = a.textHtml;
+    } else {
+      arHtml = (a.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
     return `
     <div class="mushaf-ayah" data-idx="${i}" id="mushaf-ayah-${i}">
       <div class="ma-meta">${a.surah}:${a.ayah}</div>
-      <div class="ma-ar" lang="ar" dir="rtl">${ar}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
+      <div class="ma-ar" lang="ar" dir="rtl">${arHtml}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
       <div class="ma-tr${mushafShowTr ? ' show' : ''}" lang="fr">${tr}</div>
     </div>`;
   }).join('');
