@@ -1419,6 +1419,175 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 .dua-card{padding:18px;}
 .dua-card .dua-arabic{font-size:1.15rem; line-height:1.9;}
 }
+
+/* ===== CORRECTION RESPONSIVE MOBILE ===== */
+html, body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+@media (max-width:900px){
+  .nav-inner{
+    width:100%;
+    padding:12px 16px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  .logo{
+    flex-shrink:0;
+  }
+
+  .nav-actions{
+    margin-left:auto;
+    gap:6px;
+    flex-wrap:nowrap;
+    min-width:0;
+  }
+
+  .nav-actions .btn{
+    padding:8px 11px;
+    font-size:.78rem;
+    white-space:nowrap;
+  }
+
+  /* La navigation reste accessible sur téléphone au lieu de disparaître. */
+  nav.links{
+    display:flex;
+    order:3;
+    width:100%;
+    max-width:100%;
+    gap:18px;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:7px 2px 2px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  nav.links::-webkit-scrollbar{
+    display:none;
+  }
+
+  nav.links button{
+    flex:0 0 auto;
+    white-space:nowrap;
+  }
+
+  .hero{
+    width:100%;
+    grid-template-columns:1fr;
+    padding:52px 16px 42px;
+    gap:32px;
+  }
+
+  section{
+    width:100%;
+    padding:48px 16px;
+  }
+
+  .prayer-shell{
+    width:100%;
+    grid-template-columns:1fr;
+  }
+
+  .prayer-times-card{
+    padding:22px 16px;
+  }
+
+  .prayer-list{
+    width:100%;
+  }
+
+  .overview-grid,
+  .pricing-grid,
+  .listen-demo,
+  .reciters-grid,
+  .how-it-works{
+    width:100%;
+  }
+
+  .audio-player-container{
+    width:100%;
+  }
+
+  .audio-player-container .ap-progress{
+    min-width:0;
+    width:100%;
+  }
+
+  .modal{
+    max-width:calc(100vw - 32px);
+  }
+}
+
+@media (max-width:600px){
+  .hadith-bar{
+    padding:8px 12px;
+    font-size:.75rem;
+  }
+
+  .nav-actions #premiumBtn{
+    display:none;
+  }
+
+  .nav-actions #openLogin{
+    padding:8px 12px;
+    font-size:.76rem;
+  }
+
+  .user-badge{
+    max-width:150px;
+    padding-right:9px;
+    gap:6px;
+  }
+
+  .user-badge #userName{
+    max-width:65px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .hero h1{
+    font-size:clamp(2.1rem,9vw,3rem);
+    line-height:1.08;
+  }
+
+  .hero-cta{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    gap:10px;
+  }
+
+  .hero-cta .btn{
+    width:100%;
+  }
+
+  .prayer-list{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    font-size:.78rem;
+  }
+
+  .prayer-info-grid{
+    grid-template-columns:1fr;
+  }
+
+  .tracker-grid{
+    grid-template-columns:repeat(7,minmax(0,1fr));
+    gap:5px;
+  }
+
+  footer{
+    padding-left:16px;
+    padding-right:16px;
+  }
+}
+
 </style>
 </head>
 <body>
