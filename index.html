@@ -300,16 +300,18 @@ cursor:pointer;
 .auth-status.ok{color:var(--emerald-600);}
 .reveal{opacity:0; transform:translateY(12px); transition:opacity .45s ease, transform .45s ease;}
 .reveal.visible{opacity:1; transform:translateY(0);}
+/* Filet de sécurité mobile : contenu toujours lisible dans la vue active */
+.view.active .reveal{opacity:1; transform:none;}
 .view{
   display:none;
-  opacity:0;
 }
 .view.active{
   display:block;
-  animation: rihlaViewIn .28s ease both;
+  opacity:1; /* critique mobile : ne jamais rester invisible */
+  animation: rihlaViewIn .28s ease;
 }
 @keyframes rihlaViewIn{
-  from{ opacity:0; transform:translateY(8px); }
+  from{ opacity:0.01; transform:translateY(6px); }
   to{ opacity:1; transform:translateY(0); }
 }
 @keyframes rihlaFadeIn{
@@ -1326,12 +1328,48 @@ padding:10px 14px;
 .mini-player.visible{display:flex;}
 .mini-player audio{flex:1; width:100%;}
 .mini-player .mp-name{font-size:0.82rem; color:var(--emerald-950); font-weight:500; white-space:nowrap; margin-right:12px;}
+/* Menu burger mobile */
+.nav-burger{
+  display:none;
+  flex-direction:column; justify-content:center; gap:5px;
+  width:42px; height:42px; padding:8px;
+  background:var(--sand); border:1px solid var(--line); border-radius:10px;
+  cursor:pointer;
+}
+.nav-burger span{
+  display:block; height:2px; width:100%; background:var(--emerald-950); border-radius:2px;
+  transition: transform .2s ease, opacity .2s ease;
+}
+.nav-burger.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2){ opacity:0; }
+.nav-burger.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
 @media (max-width: 900px){
 .prayer-shell{grid-template-columns:1fr;}
 .prayer-list{grid-template-columns:repeat(5,1fr); font-size:0.9rem;}
 .reciters-grid{grid-template-columns:1fr;}
-nav.links{display:none;}
-.hero{grid-template-columns:1fr; padding-top:56px;}
+.nav-burger{display:flex;}
+nav.links{
+  display:none;
+  position:absolute; top:100%; left:0; right:0;
+  flex-direction:column; gap:0;
+  background:rgba(247,243,232,0.98);
+  border-bottom:1px solid var(--line);
+  padding:8px 16px 16px;
+  z-index:120;
+  box-shadow:0 12px 24px rgba(11,46,43,0.12);
+}
+nav.links.open{display:flex;}
+nav.links button{
+  width:100%; text-align:left; padding:12px 8px;
+  border-bottom:1px solid var(--line);
+  font-size:1rem;
+}
+nav.links button.active{border-bottom-color:var(--gold-500);}
+header.nav{position:sticky;}
+.nav-inner{position:relative; flex-wrap:wrap;}
+.hero{grid-template-columns:1fr; padding-top:40px; padding-bottom:40px; gap:28px;}
+.hero h1{font-size:clamp(1.8rem, 7vw, 2.4rem);}
 .overview-grid{grid-template-columns:1fr;}
 .pricing-grid{grid-template-columns:1fr;}
 .listen-demo{grid-template-columns:1fr;}
@@ -1342,6 +1380,11 @@ footer .footer-inner{flex-direction:column;}
 .prophetes-grid{grid-template-columns:repeat(auto-fill, minmax(150px,1fr));}
 .audio-player-container .ap-controls{flex-direction:column; align-items:stretch;}
 .audio-player-container .ap-progress{flex-wrap:wrap;}
+.rihla-tools-bar{flex-direction:column; align-items:stretch;}
+.rtb-search{width:100%;}
+.mushaf-bottom-bar{padding-bottom: max(12px, env(safe-area-inset-bottom));}
+.nav-actions .btn{padding:8px 14px; font-size:0.82rem;}
+#premiumBtn{display:none;}
 }
 .audio-loading {
 display:inline-block;
@@ -1419,175 +1462,6 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 .dua-card{padding:18px;}
 .dua-card .dua-arabic{font-size:1.15rem; line-height:1.9;}
 }
-
-/* ===== CORRECTION RESPONSIVE MOBILE ===== */
-html, body{
-  width:100%;
-  max-width:100%;
-  overflow-x:hidden;
-}
-
-@media (max-width:900px){
-  .nav-inner{
-    width:100%;
-    padding:12px 16px;
-    flex-wrap:wrap;
-    gap:10px;
-  }
-
-  .logo{
-    flex-shrink:0;
-  }
-
-  .nav-actions{
-    margin-left:auto;
-    gap:6px;
-    flex-wrap:nowrap;
-    min-width:0;
-  }
-
-  .nav-actions .btn{
-    padding:8px 11px;
-    font-size:.78rem;
-    white-space:nowrap;
-  }
-
-  /* La navigation reste accessible sur téléphone au lieu de disparaître. */
-  nav.links{
-    display:flex;
-    order:3;
-    width:100%;
-    max-width:100%;
-    gap:18px;
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding:7px 2px 2px;
-    scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
-  }
-
-  nav.links::-webkit-scrollbar{
-    display:none;
-  }
-
-  nav.links button{
-    flex:0 0 auto;
-    white-space:nowrap;
-  }
-
-  .hero{
-    width:100%;
-    grid-template-columns:1fr;
-    padding:52px 16px 42px;
-    gap:32px;
-  }
-
-  section{
-    width:100%;
-    padding:48px 16px;
-  }
-
-  .prayer-shell{
-    width:100%;
-    grid-template-columns:1fr;
-  }
-
-  .prayer-times-card{
-    padding:22px 16px;
-  }
-
-  .prayer-list{
-    width:100%;
-  }
-
-  .overview-grid,
-  .pricing-grid,
-  .listen-demo,
-  .reciters-grid,
-  .how-it-works{
-    width:100%;
-  }
-
-  .audio-player-container{
-    width:100%;
-  }
-
-  .audio-player-container .ap-progress{
-    min-width:0;
-    width:100%;
-  }
-
-  .modal{
-    max-width:calc(100vw - 32px);
-  }
-}
-
-@media (max-width:600px){
-  .hadith-bar{
-    padding:8px 12px;
-    font-size:.75rem;
-  }
-
-  .nav-actions #premiumBtn{
-    display:none;
-  }
-
-  .nav-actions #openLogin{
-    padding:8px 12px;
-    font-size:.76rem;
-  }
-
-  .user-badge{
-    max-width:150px;
-    padding-right:9px;
-    gap:6px;
-  }
-
-  .user-badge #userName{
-    max-width:65px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-
-  .hero h1{
-    font-size:clamp(2.1rem,9vw,3rem);
-    line-height:1.08;
-  }
-
-  .hero-cta{
-    display:flex;
-    flex-direction:column;
-    width:100%;
-    gap:10px;
-  }
-
-  .hero-cta .btn{
-    width:100%;
-  }
-
-  .prayer-list{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:8px;
-    font-size:.78rem;
-  }
-
-  .prayer-info-grid{
-    grid-template-columns:1fr;
-  }
-
-  .tracker-grid{
-    grid-template-columns:repeat(7,minmax(0,1fr));
-    gap:5px;
-  }
-
-  footer{
-    padding-left:16px;
-    padding-right:16px;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -1601,15 +1475,17 @@ html, body{
 <img class="logo-mark" src="rihla-logo.jpg" alt="Rihla" width="30" height="30">
 Rihla
 </a>
-Rihla
-</a>
-<nav class="links" aria-label="Navigation principale">
+<button type="button" class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
+<span></span><span></span><span></span>
+</button>
+<nav class="links" id="navLinks" aria-label="Navigation principale">
 <button class="nav-link active" data-view="view-home">Accueil</button>
 <button class="nav-link" data-view="view-dua">Du'as</button>
 <button class="nav-link" data-view="view-priere">Prières</button>
 <button class="nav-link" data-view="view-rappel">Rappel</button>
 <button class="nav-link" data-view="view-prophete">Histoires des Prophètes</button>
 <button class="nav-link" data-view="view-coran">Qur'an</button>
+<button class="nav-link" data-view="view-suivi">Suivi</button>
 <button class="nav-link" data-view="view-home" data-scroll-to="tarifs">Tarifs</button>
 </nav>
 <div class="nav-actions">
@@ -2277,19 +2153,31 @@ showLoggedOutUI();
 // =====================================================================
 // NAVIGATION SPA - PAGE D'ACCUEIL PAR DÉFAUT
 // =====================================================================
+function closeMobileNav(){
+  const links = document.getElementById('navLinks');
+  const burger = document.getElementById('navBurger');
+  if(links) links.classList.remove('open');
+  if(burger){
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+}
 function showView(id, scrollToId){
 if(id === 'view-reciters') id = 'view-coran';
 const prev = document.querySelector('.view.active');
 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
 const target = document.getElementById(id);
 if(target){
-  // Force reflow pour rejouer l'animation d'entrée
-  void target.offsetWidth;
   target.classList.add('active');
-  requestAnimationFrame(function(){
-    target.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  // Contenu visible même si les animations échouent (Safari mobile, etc.)
+  target.style.opacity = '1';
+  target.querySelectorAll('.reveal').forEach(el => {
+    el.classList.add('visible');
+    el.style.opacity = '1';
+    el.style.transform = 'none';
   });
 }
+closeMobileNav();
 if(id === 'view-coran'){
 try{
   if(typeof renderMushafReciterChips === 'function') renderMushafReciterChips();
@@ -2303,7 +2191,6 @@ const el = document.getElementById(scrollToId);
 if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 });
 } else {
-  // Scroll doux uniquement si on change vraiment de vue
   if(prev !== target){
     try{ window.scrollTo({top:0, behavior: 'smooth'}); }catch(e){ window.scrollTo(0,0); }
   }
@@ -6451,11 +6338,28 @@ const _showViewOrig = typeof showView === 'function' ? showView : null;
 // INITIALISATION - PAGE D'ACCUEIL PAR DÉFAUT
 // =====================================================================
 document.addEventListener('DOMContentLoaded', function() {
+  // Menu burger mobile
+  const burger = document.getElementById('navBurger');
+  const navLinks = document.getElementById('navLinks');
+  if(burger && navLinks){
+    burger.addEventListener('click', function(e){
+      e.preventDefault();
+      const open = navLinks.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
   try{
     const hash = (location.hash || '').replace('#','');
     const startView = (hash && document.getElementById('view-' + hash)) ? ('view-' + hash) : 'view-home';
     showView(startView);
-  }catch(e){ console.warn(e); showView('view-home'); }
+  }catch(e){
+    console.warn(e);
+    // Fallback ultime si showView plante
+    const home = document.getElementById('view-home');
+    if(home){ home.classList.add('active'); home.style.display = 'block'; home.style.opacity = '1'; }
+  }
 
   try{ initOfflineBanner(); }catch(e){}
 
