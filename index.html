@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rihla — Ton accompagnement quotidien pour le Coran</title>
+<title>Rihla — Ensemble avançons pas à pas vers le chemin de la guidée </title>
 <link rel="icon" type="image/jpeg" href="rihla-logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -94,7 +94,22 @@ nav.links{display:flex; gap:20px; font-size:0.9rem; flex-wrap:wrap;}
 nav.links button{background:none; border:none; font-family:inherit; font-size:0.9rem; color:var(--ink-soft); cursor:pointer; padding:4px 0; transition:color .2s; border-bottom:2px solid transparent;}
 nav.links button:hover{color:var(--emerald-950);}
 nav.links button.active{color:var(--emerald-950); border-bottom-color:var(--gold-500);}
-.nav-actions{display:flex; align-items:center; gap:12px;}
+.nav-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.lang-switch{
+  display:flex; align-items:center;
+  background:var(--sand); border:1px solid var(--line); border-radius:999px; padding:3px;
+}
+.lang-switch button{
+  border:none; background:transparent; cursor:pointer; font-family:inherit;
+  font-size:0.72rem; font-weight:600; letter-spacing:0.03em;
+  padding:6px 10px; border-radius:999px; color:var(--ink-soft);
+  transition: background .2s, color .2s;
+}
+.lang-switch button.active{ background:var(--emerald-950); color:var(--gold-300); }
+html[dir="rtl"] .nav-inner{flex-direction:row-reverse;}
+html[dir="rtl"] .hero, html[dir="rtl"] .section-head, html[dir="rtl"] .overview-card{text-align:right;}
+html[dir="rtl"] nav.links button{text-align:right;}
+html[dir="rtl"] .back-link{direction:rtl;}
 .user-badge{
 display:none;
 align-items:center; gap:10px;
@@ -302,6 +317,56 @@ cursor:pointer;
 .reveal.visible{opacity:1; transform:translateY(0);}
 /* Filet de sécurité mobile : contenu toujours lisible dans la vue active */
 .view.active .reveal{opacity:1; transform:none;}
+/* ===== Aujourd'hui / Parcours / Tafsir / Hifz ===== */
+.today-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px;}
+@media(max-width:800px){.today-grid{grid-template-columns:1fr;}}
+.today-card{
+  background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+  padding:20px; display:flex; flex-direction:column; gap:10px;
+}
+.today-card h4{margin:0; font-family:'Amiri',serif; color:var(--emerald-950); font-size:1.15rem;}
+.today-card p{margin:0; color:var(--ink-soft); font-size:0.9rem; line-height:1.55;}
+.today-card .tc-label{font-size:0.7rem; text-transform:uppercase; letter-spacing:.06em; color:var(--gold-500); font-weight:600;}
+.today-card .tc-ar{font-family:var(--arabic-font); direction:rtl; text-align:right; font-size:1.25rem; color:var(--emerald-950); line-height:1.9;}
+.parcours-list{display:flex; flex-direction:column; gap:10px;}
+.parcours-day .pd-num{font-weight:600; color:var(--emerald-950); min-width:72px;}
+.parcours-day .pd-checks{display:flex; flex-wrap:wrap; gap:10px 16px; flex:1;}
+.parcours-day .pd-checks label{display:flex; align-items:center; gap:6px; font-size:0.88rem; color:var(--ink-soft); cursor:pointer;}
+.parcours-day.focus{box-shadow:0 0 0 2px rgba(201,162,39,.45);}
+.parcours-day{  display:flex; align-items:flex-start; gap:12px; padding:14px 16px;
+  background:#fff; border:1px solid var(--line); border-radius:12px;
+}
+.parcours-day.done{border-color:var(--gold-500); background:linear-gradient(90deg, rgba(201,162,39,.08), #fff);}
+.parcours-day input{margin-top:4px; width:18px; height:18px; accent-color:var(--emerald-800);}
+.parcours-day .pd-body{flex:1;}
+.parcours-day .pd-title{font-weight:600; color:var(--emerald-950); margin:0 0 4px;}
+.parcours-day .pd-tasks{margin:0; padding-left:18px; color:var(--ink-soft); font-size:0.88rem; line-height:1.5;}
+.parcours-progress{height:10px; background:var(--sand); border-radius:999px; overflow:hidden; margin:12px 0 20px;}
+.parcours-progress > span{display:block; height:100%; background:var(--gold-500); border-radius:999px; transition:width .35s ease;}
+.ma-tafsir-btn{
+  background:none; border:1px solid var(--line); border-radius:999px; padding:2px 10px;
+  font-size:0.72rem; cursor:pointer; color:var(--ink-soft);
+}
+.ma-tafsir-btn:hover{border-color:var(--gold-500); color:var(--emerald-950);}
+.ma-tafsir{
+  display:none; margin-top:8px; padding:10px 12px; border-radius:10px;
+  background:var(--sand); color:var(--ink); font-size:0.88rem; line-height:1.55;
+  border-left:3px solid var(--gold-500);
+}
+.ma-tafsir.show{display:block;}
+.ma-tafsir .mt-src{font-size:0.72rem; color:var(--ink-soft); margin-top:6px;}
+.hifz-review-box{
+  margin-bottom:14px; padding:14px; background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+}
+.hifz-review-box h4{margin:0 0 8px; font-family:'Amiri',serif; color:var(--emerald-950);}
+.hifz-review-item{
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+  padding:8px 0; border-bottom:1px solid var(--line); font-size:0.9rem;
+}
+.tajweed-lesson{
+  margin-top:10px; padding-top:10px; border-top:1px solid var(--line);
+  font-size:0.82rem; color:var(--ink-soft); line-height:1.5; width:100%;
+}
 .view{
   display:none;
 }
@@ -1479,22 +1544,29 @@ Rihla
 <span></span><span></span><span></span>
 </button>
 <nav class="links" id="navLinks" aria-label="Navigation principale">
-<button class="nav-link active" data-view="view-home">Accueil</button>
-<button class="nav-link" data-view="view-dua">Du'as</button>
-<button class="nav-link" data-view="view-priere">Prières</button>
-<button class="nav-link" data-view="view-rappel">Rappel</button>
-<button class="nav-link" data-view="view-prophete">Histoires des Prophètes</button>
-<button class="nav-link" data-view="view-coran">Qur'an</button>
-<button class="nav-link" data-view="view-suivi">Suivi</button>
-<button class="nav-link" data-view="view-home" data-scroll-to="tarifs">Tarifs</button>
+<button class="nav-link active" data-view="view-home" data-i18n="nav_home">Accueil</button>
+<button class="nav-link" data-view="view-aujourdhui" data-i18n="nav_today">Aujourd'hui</button>
+<button class="nav-link" data-view="view-parcours" data-i18n="nav_path">Parcours</button>
+<button class="nav-link" data-view="view-dua" data-i18n="nav_duas">Du'as</button>
+<button class="nav-link" data-view="view-priere" data-i18n="nav_prayer">Prières</button>
+<button class="nav-link" data-view="view-rappel" data-i18n="nav_hadith">Rappel</button>
+<button class="nav-link" data-view="view-prophete" data-i18n="nav_prophets">Histoires des Prophètes</button>
+<button class="nav-link" data-view="view-coran" data-i18n="nav_quran">Qur'an</button>
+<button class="nav-link" data-view="view-suivi" data-i18n="nav_track">Suivi</button>
+<button class="nav-link" data-view="view-home" data-scroll-to="tarifs" data-i18n="nav_pricing">Tarifs</button>
 </nav>
 <div class="nav-actions">
-<button class="btn btn-ghost" id="openLogin">Se connecter</button>
-<a href="#" class="btn btn-primary" id="premiumBtn" data-view="view-paiement">Passer Premium</a>
+<div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+  <button type="button" data-lang="fr" class="active" title="Français">FR</button>
+  <button type="button" data-lang="en" title="English">EN</button>
+  <button type="button" data-lang="ar" title="العربية">ع</button>
+</div>
+<button class="btn btn-ghost" id="openLogin" data-i18n="login">Se connecter</button>
+<a href="#" class="btn btn-primary" id="premiumBtn" data-view="view-paiement" data-i18n="premium">Passer Premium</a>
 <div class="user-badge" id="userBadge">
 <span class="avatar" id="userAvatar">U</span>
 <span id="userName">Utilisateur</span>
-<button class="logout" id="logoutBtn">Déconnexion</button>
+<button class="logout" id="logoutBtn" data-i18n="logout">Déconnexion</button>
 </div>
 </div>
 </div>
@@ -1504,14 +1576,14 @@ Rihla
 <div class="view active" id="view-home">
 <section class="hero">
 <div>
-<span class="eyebrow">Accompagnement quotidien du Coran</span>
-<h1>Avance dans ta lecture, <em>un jour</em> à la fois.</h1>
-<p class="lead">Rihla t'accompagne dans ta mémorisation et ta lecture du Coran : suivi quotidien, lecture automatique, et sessions d'écoute pour progresser sereinement.</p>
+<span class="eyebrow" data-i18n="hero_eyebrow">Accompagnement quotidien du Coran</span>
+<h1 data-i18n-html="hero_title">Avance dans ta lecture, <em>un jour</em> à la fois.</h1>
+<p class="lead" data-i18n="hero_lead">Rihla t'accompagne dans ta mémorisation et ta lecture du Coran : suivi quotidien, lecture automatique, et sessions d'écoute pour progresser sereinement.</p>
 <div class="hero-cta">
-<a href="#apercu" class="btn btn-primary">Découvrir les outils</a>
-<a href="#tarifs" class="btn btn-ghost">Voir les tarifs</a>
+<a href="#apercu" class="btn btn-primary" data-i18n="hero_cta1">Découvrir les outils</a>
+<a href="#tarifs" class="btn btn-ghost" data-i18n="hero_cta2">Voir les tarifs</a>
 </div>
-<p class="hero-note">
+<p class="hero-note" data-i18n-html="hero_note">
 <strong>Rihla est gratuit</strong> pour tous les outils de base. Les fonctionnalités Premium sont optionnelles.
 </p>
 </div>
@@ -1538,11 +1610,25 @@ Rihla
 </div>
 <section id="apercu" class="reveal">
 <div class="section-head">
-<span class="eyebrow">Vue d'ensemble</span>
-<h2>Tout ce qu'il te faut, en un seul endroit.</h2>
-<p>Choisis un outil pour l'ouvrir en entier — chacun a son propre espace.</p>
+<span class="eyebrow" data-i18n="overview_eyebrow">Vue d'ensemble</span>
+<h2 data-i18n="overview_title">Tout ce qu'il te faut, en un seul endroit.</h2>
+<p data-i18n="overview_lead">Choisis un outil pour l'ouvrir en entier — chacun a son propre espace.</p>
 </div>
 <div class="overview-grid">
+<button class="overview-card" data-view="view-aujourdhui">
+<div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+<span class="tag">Routine</span>
+<h3>Aujourd'hui</h3>
+<p>Ta page du plan, un adhkar et une du'a — le minimum pour avancer chaque jour.</p>
+<span class="expand-hint">Ouvrir →</span>
+</button>
+<button class="overview-card" data-view="view-parcours">
+<div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-8 3 5 3-3"/></svg></div>
+<span class="tag">Débutant</span>
+<h3>Parcours 21 jours</h3>
+<p>Un cadre simple : prière, courte lecture et un adhkar, jour après jour.</p>
+<span class="expand-hint">Commencer →</span>
+</button>
 <button class="overview-card" data-view="view-priere">
 <div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/><path d="M8 14l2.5 2.5L16 11"/></svg></div>
 <span class="tag">Prières</span>
@@ -1817,14 +1903,66 @@ Paiement sécurisé — Stripe
 <div class="duas-grid" id="duasGrid"></div>
 </section>
 </div>
+<!-- VUE AUJOURD'HUI -->
+<div class="view" id="view-aujourdhui">
+<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<section class="reveal">
+<div class="section-head">
+<span class="eyebrow" data-i18n="today_eyebrow">Routine</span>
+<h2 data-i18n="nav_today">Aujourd'hui</h2>
+<p data-i18n="today_lead">Trois gestes simples : lire ta page, dire un adhkar, faire une du'a. Sans pression.</p>
+</div>
+<div class="today-grid">
+  <div class="today-card">
+    <span class="tc-label">Lecture</span>
+    <h4 id="todayReadTitle">Page du plan</h4>
+    <p id="todayReadText">Ouvre ton plan de khatm ou une page du mushaf.</p>
+    <button type="button" class="btn btn-primary" id="todayOpenQuran" style="align-self:flex-start;margin-top:auto;">Ouvrir le Qur'an</button>
+  </div>
+  <div class="today-card">
+    <span class="tc-label">Adhkar</span>
+    <h4>Adhkar du moment</h4>
+    <p class="tc-ar" id="todayAdhkarAr">—</p>
+    <p id="todayAdhkarFr">—</p>
+  </div>
+  <div class="today-card">
+    <span class="tc-label">Du'a</span>
+    <h4>Du'a du jour</h4>
+    <p class="tc-ar" id="todayDuaAr">—</p>
+    <p id="todayDuaFr">—</p>
+  </div>
+</div>
+<div class="today-card" style="margin-bottom:24px;">
+  <span class="tc-label">Révisions hifz</span>
+  <h4>À revoir aujourd'hui</h4>
+  <div id="todayHifzList"><p style="color:var(--ink-soft);margin:0;font-size:0.9rem;">Aucune révision planifiée — marque un verset en hifz depuis le Qur'an.</p></div>
+</div>
+</section>
+</div>
+
+<!-- VUE PARCOURS 21 JOURS -->
+<div class="view" id="view-parcours">
+<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<section class="reveal">
+<div class="section-head">
+<span class="eyebrow" data-i18n="path_eyebrow">Débutant · 21 jours</span>
+<h2 data-i18n="path_title">Parcours de régularité</h2>
+<p data-i18n="path_lead">Chaque jour : veiller à la prière, lire un peu, et un adhkar. Coche ce que tu as fait.</p>
+</div>
+<div class="parcours-progress" aria-hidden="true"><span id="parcoursFill" style="width:0%"></span></div>
+<p id="parcoursMeta" style="color:var(--ink-soft);font-size:0.9rem;margin:-8px 0 16px;">0 / 21 jours complétés</p>
+<div class="parcours-list" id="parcoursList"></div>
+</section>
+</div>
+
 <!-- VUE QUR'AN (mushaf 604 pages + tous les récitateurs, fusionnés) -->
 <div class="view" id="view-coran">
 <button class="back-link" data-view="view-home">← Retour à l'accueil</button>
 <section class="reveal mushaf-shell">
 <div class="section-head">
-<span class="eyebrow">Mushaf · 604 pages</span>
-<h2>Qur'an</h2>
-<p>Le Coran entier, page par page. Recherche, signets, mode hifz et lecture audio synchronisée.</p>
+<span class="eyebrow" data-i18n="quran_eyebrow">Mushaf · 604 pages</span>
+<h2 data-i18n="nav_quran">Qur'an</h2>
+<p data-i18n="quran_lead">Lecture, tajwid, tafsir court, signets et mode hifz — page par page.</p>
 </div>
 <div class="rihla-tools-bar">
   <div class="rtb-search">
@@ -1843,6 +1981,10 @@ Paiement sécurisé — Stripe
   <ul id="bmList" class="bm-list"></ul>
   <p id="bmEmpty" class="bm-empty">Aucun signet — clique l’icône 🔖 sur un verset.</p>
 </div>
+<div id="hifzReviewPanel" class="hifz-review-box" hidden>
+  <h4>Révisions hifz dues</h4>
+  <div id="hifzReviewList"></div>
+</div>
 <div id="tajweedLegend" class="tajweed-legend" hidden>
   <span><i class="tl ghunnah"></i> Ghunnah</span>
   <span><i class="tl idgham"></i> Idgham</span>
@@ -1850,6 +1992,11 @@ Paiement sécurisé — Stripe
   <span><i class="tl ikhafa"></i> Ikhfa</span>
   <span><i class="tl qalaqah"></i> Qalqalah</span>
   <span><i class="tl madda"></i> Madd</span>
+  <div class="tajweed-lesson">
+    <strong>Mini-leçons :</strong> <em>Ghunnah</em> = nasalisation (نّ / مّ) · <em>Idgham</em> = fusion dans la lettre suivante (souvent avec chadda) ·
+    <em>Iqlab</em> = ن devient proche de م devant ب · <em>Ikhfa</em> = ن cachée, son entre izhar et idgham ·
+    <em>Qalqalah</em> = écho sur ق ط ب ج د en sukun · <em>Madd</em> = prolongation de la voyelle.
+  </div>
 </div>
 <div class="mushaf-toolbar">
 <div class="mt-group">
@@ -2182,7 +2329,14 @@ if(id === 'view-coran'){
 try{
   if(typeof renderMushafReciterChips === 'function') renderMushafReciterChips();
   if(typeof ensureMushafReady === 'function') ensureMushafReady();
+  if(typeof renderHifzReviewPanel === 'function') renderHifzReviewPanel();
 }catch(e){ console.warn('mushaf init', e); }
+}
+if(id === 'view-aujourdhui'){
+  try{ if(typeof renderToday === 'function') renderToday(); }catch(e){}
+}
+if(id === 'view-parcours'){
+  try{ if(typeof renderParcours === 'function') renderParcours(); }catch(e){}
 }
 document.querySelectorAll('.nav-link').forEach(b => b.classList.toggle('active', b.dataset.view === id));
 if(scrollToId){
@@ -5561,14 +5715,17 @@ function renderMushafAyahs(){
       <div class="ma-meta">${a.surah}:${a.ayah}</div>
       <div class="ma-ar" lang="ar" dir="rtl">${arHtml}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
       <div class="ma-tr${mushafShowTr && !mushafHifzMode ? ' show' : ''}" lang="fr">${tr}</div>
+      <div class="ma-tafsir" id="tafsir-${i}"></div>
       <div class="ma-tools">
         <button type="button" class="ma-bm${isBm ? ' on' : ''}" data-bm="${key}" title="Signet">${isBm ? '🔖 Signet' : '🔖'}</button>
+        <button type="button" class="ma-tafsir-btn" data-tafsir-idx="${i}" data-key="${key}">Tafsir</button>
+        <button type="button" class="ma-tafsir-btn" data-hifz-key="${key}" title="Planifier une révision">🧠 Hifz</button>
       </div>
     </div>`;
   }).join('');
   box.querySelectorAll('.mushaf-ayah').forEach(el => {
     el.addEventListener('click', (e) => {
-      if(e.target.closest('.ma-bm')) return;
+      if(e.target.closest('.ma-bm, .ma-tafsir-btn, .ma-tafsir')) return;
       const idx = parseInt(el.dataset.idx, 10);
       startMushafPlayback(idx);
     });
@@ -5582,6 +5739,262 @@ function renderMushafAyahs(){
       toggleBookmark(key, ayah);
       renderMushafAyahs();
       if(mushafPlaying) highlightMushafAyah(mushafPlayIndex);
+    });
+  });
+  box.querySelectorAll('[data-tafsir-idx]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = parseInt(btn.getAttribute('data-tafsir-idx'), 10);
+      toggleTafsirPanel(idx);
+    });
+  });
+  box.querySelectorAll('[data-hifz-key]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const key = btn.getAttribute('data-hifz-key');
+      const parts = key.split(':');
+      const ayah = mushafAyahs.find(a => a.surah === +parts[0] && a.ayah === +parts[1]);
+      scheduleHifzReview(key, ayah);
+      if(typeof rihlaToast === 'function') rihlaToast('Révision hifz planifiée · ' + key, 'ok');
+      renderHifzReviewPanel();
+    });
+  });
+}
+
+/* ===== Tafsir court (traduction FR + éclairage résumé EN Ibn Kathir si dispo) ===== */
+async function toggleTafsirPanel(idx){
+  const panel = document.getElementById('tafsir-' + idx);
+  if(!panel) return;
+  if(panel.classList.contains('show') && panel.dataset.loaded === '1'){
+    panel.classList.remove('show');
+    return;
+  }
+  const a = mushafAyahs[idx];
+  if(!a) return;
+  panel.classList.add('show');
+  if(panel.dataset.loaded === '1') return;
+  panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">Chargement…</p>';
+  const sens = (a.tr || '').trim();
+  let eclairage = '';
+  try{
+    const res = await fetch('https://api.quran.com/api/v4/tafsirs/en-tafisr-ibn-kathir/by_ayah/' + a.surah + ':' + a.ayah);
+    if(res.ok){
+      const j = await res.json();
+      const raw = (j.tafsir && (j.tafsir.text || j.tafsir)) || '';
+      const text = String(raw).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      if(text) eclairage = text.length > 480 ? text.slice(0, 480) + '…' : text;
+    }
+  }catch(e){}
+  panel.innerHTML =
+    (sens ? '<p style="margin:0 0 8px;"><strong>Sens (FR)</strong> — ' + sens.replace(/</g,'&lt;') + '</p>' : '') +
+    (eclairage ? '<p style="margin:0;"><strong>Éclairage (résumé)</strong> — ' + eclairage.replace(/</g,'&lt;') + '</p><p class="mt-src">Source : Tafsir Ibn Kathir (abrégé, EN) via Quran.com — pour approfondir, consulte un savant ou un tafsir complet en français.</p>' : '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">Éclairage indisponible hors-ligne. Le sens FR ci-dessus reste affiché.</p>');
+  panel.dataset.loaded = '1';
+}
+
+/* ===== Révisions hifz (espacées : 1j, 3j, 7j, 14j) ===== */
+const HIFZ_INTERVALS_DAYS = [1, 3, 7, 14];
+function loadHifzReviews(){
+  try{ return JSON.parse(localStorage.getItem('rihla_hifz_reviews') || '[]'); }catch(e){ return []; }
+}
+function saveHifzReviews(list){
+  try{ localStorage.setItem('rihla_hifz_reviews', JSON.stringify(list)); }catch(e){}
+}
+function scheduleHifzReview(key, ayah){
+  let list = loadHifzReviews();
+  const now = Date.now();
+  const existing = list.find(x => x.key === key);
+  if(existing){
+    existing.nextAt = now + HIFZ_INTERVALS_DAYS[Math.min(existing.stage || 0, HIFZ_INTERVALS_DAYS.length - 1)] * 86400000;
+    existing.page = typeof mushafPage === 'number' ? mushafPage : existing.page;
+  } else {
+    list.unshift({
+      key: key,
+      surah: ayah ? ayah.surah : +key.split(':')[0],
+      ayah: ayah ? ayah.ayah : +key.split(':')[1],
+      surahName: ayah ? (ayah.surahName || '') : '',
+      page: typeof mushafPage === 'number' ? mushafPage : 1,
+      stage: 0,
+      nextAt: now + HIFZ_INTERVALS_DAYS[0] * 86400000,
+      createdAt: now
+    });
+  }
+  saveHifzReviews(list);
+}
+function completeHifzReview(key, success){
+  let list = loadHifzReviews();
+  const item = list.find(x => x.key === key);
+  if(!item) return;
+  if(success){
+    item.stage = Math.min((item.stage || 0) + 1, HIFZ_INTERVALS_DAYS.length - 1);
+    item.nextAt = Date.now() + HIFZ_INTERVALS_DAYS[item.stage] * 86400000;
+  } else {
+    item.stage = 0;
+    item.nextAt = Date.now() + HIFZ_INTERVALS_DAYS[0] * 86400000;
+  }
+  saveHifzReviews(list);
+  renderHifzReviewPanel();
+  renderToday();
+}
+function getDueHifzReviews(){
+  const now = Date.now();
+  return loadHifzReviews().filter(x => (x.nextAt || 0) <= now);
+}
+function renderHifzReviewPanel(){
+  const panel = document.getElementById('hifzReviewPanel');
+  const box = document.getElementById('hifzReviewList');
+  if(!panel || !box) return;
+  const due = getDueHifzReviews();
+  if(!due.length){
+    panel.hidden = true;
+    box.innerHTML = '';
+    return;
+  }
+  panel.hidden = false;
+  box.innerHTML = due.slice(0, 12).map(item =>
+    '<div class="hifz-review-item">' +
+      '<span><strong>' + item.key + '</strong> ' + (item.surahName || '') + ' · p.' + (item.page || '?') + '</span>' +
+      '<span style="display:flex;gap:6px;">' +
+        '<button type="button" class="mt-btn" data-hifz-go="' + item.page + '">Ouvrir</button>' +
+        '<button type="button" class="mt-btn primary" data-hifz-ok="' + item.key + '">OK</button>' +
+        '<button type="button" class="mt-btn" data-hifz-ko="' + item.key + '">À revoir</button>' +
+      '</span></div>'
+  ).join('');
+  box.querySelectorAll('[data-hifz-go]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      showView('view-coran');
+      stopMushafAudio();
+      loadMushafPage(parseInt(btn.getAttribute('data-hifz-go'), 10) || 1);
+    });
+  });
+  box.querySelectorAll('[data-hifz-ok]').forEach(btn => {
+    btn.addEventListener('click', () => completeHifzReview(btn.getAttribute('data-hifz-ok'), true));
+  });
+  box.querySelectorAll('[data-hifz-ko]').forEach(btn => {
+    btn.addEventListener('click', () => completeHifzReview(btn.getAttribute('data-hifz-ko'), false));
+  });
+}
+
+/* ===== Aujourd'hui : lecture + adhkar + du'a ===== */
+const RIHLA_ADHKAR = [
+  { ar: 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', fr: 'Gloire et louange à Allah. (×100 — hadith authentique)' },
+  { ar: 'أَسْتَغْفِرُ اللَّهَ', fr: 'Je demande pardon à Allah.' },
+  { ar: 'لَا إِلَهَ إِلَّا اللَّهُ', fr: 'Il n\'y a de divinité qu\'Allah.' },
+  { ar: 'اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ', fr: 'Ô Allah, prie sur Muhammad ﷺ.' },
+  { ar: 'حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ', fr: 'Allah nous suffit, quel excellent garant.' }
+];
+const RIHLA_DUAS_DAY = [
+  { ar: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', fr: 'Notre Seigneur, donne-nous le bien ici-bas et dans l\'au-delà, et protège-nous du châtiment du Feu. (2:201)' },
+  { ar: 'رَبِّ اشْرَحْ لِي صَدْرِي', fr: 'Seigneur, ouvre-moi la poitrine. (20:25)' },
+  { ar: 'رَبِّ زِدْنِي عِلْمًا', fr: 'Seigneur, augmente ma science. (20:114)' },
+  { ar: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى', fr: 'Ô Allah, je Te demande la guidance, la piété, la chasteté et l\'aisance. (Muslim)' }
+];
+function dayIndex(){
+  const d = new Date();
+  return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+}
+function renderToday(){
+  const kh = (typeof loadKhatm === 'function') ? loadKhatm() : null;
+  const page = kh ? (kh.currentPage || 1) : (parseInt(localStorage.getItem('rihla_mushaf_page') || '1', 10) || 1);
+  const title = document.getElementById('todayReadTitle');
+  const text = document.getElementById('todayReadText');
+  if(title) title.textContent = kh ? ('Page ' + page + ' · plan ' + kh.days + ' j') : ('Page ' + page);
+  if(text) text.textContent = kh
+    ? ('Objectif ~' + (kh.pagesPerDay || '?') + ' pages/jour. Continue sans chercher la perfection.')
+    : 'Pas encore de plan de khatm — choisis-en un dans Suivi, ou lis simplement une page.';
+  const di = dayIndex();
+  const ad = RIHLA_ADHKAR[di % RIHLA_ADHKAR.length];
+  const du = RIHLA_DUAS_DAY[di % RIHLA_DUAS_DAY.length];
+  const aAr = document.getElementById('todayAdhkarAr');
+  const aFr = document.getElementById('todayAdhkarFr');
+  const dAr = document.getElementById('todayDuaAr');
+  const dFr = document.getElementById('todayDuaFr');
+  if(aAr) aAr.textContent = ad.ar;
+  if(aFr) aFr.textContent = ad.fr;
+  if(dAr) dAr.textContent = du.ar;
+  if(dFr) dFr.textContent = du.fr;
+  const hifzBox = document.getElementById('todayHifzList');
+  if(hifzBox){
+    const due = getDueHifzReviews();
+    if(!due.length){
+      hifzBox.innerHTML = '<p style="color:var(--ink-soft);margin:0;font-size:0.9rem;">Aucune révision due — planifie depuis un verset (bouton 🧠 Hifz).</p>';
+    } else {
+      hifzBox.innerHTML = due.slice(0, 8).map(item =>
+        '<div class="hifz-review-item"><span><strong>' + item.key + '</strong></span>' +
+        '<button type="button" class="mt-btn primary" data-today-hifz="' + (item.page || 1) + '">Réviser</button></div>'
+      ).join('');
+      hifzBox.querySelectorAll('[data-today-hifz]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          showView('view-coran');
+          stopMushafAudio();
+          loadMushafPage(parseInt(btn.getAttribute('data-today-hifz'), 10) || 1);
+        });
+      });
+    }
+  }
+  renderHifzReviewPanel();
+}
+function initTodayUI(){
+  document.getElementById('todayOpenQuran')?.addEventListener('click', () => {
+    const kh = (typeof loadKhatm === 'function') ? loadKhatm() : null;
+    const page = kh ? (kh.currentPage || 1) : (parseInt(localStorage.getItem('rihla_mushaf_page') || '1', 10) || 1);
+    showView('view-coran');
+    stopMushafAudio();
+    loadMushafPage(page);
+  });
+  renderToday();
+}
+
+/* ===== Parcours 21 jours ===== */
+function loadParcours(){
+  try{ return JSON.parse(localStorage.getItem('rihla_parcours21') || 'null'); }catch(e){ return null; }
+}
+function saveParcours(data){
+  try{ localStorage.setItem('rihla_parcours21', JSON.stringify(data)); }catch(e){}
+}
+function ensureParcours(){
+  let p = loadParcours();
+  if(p && Array.isArray(p.days) && p.days.length === 21) return p;
+  p = {
+    startedAt: Date.now(),
+    days: Array.from({ length: 21 }, (_, i) => ({
+      day: i + 1,
+      prayer: false,
+      read: false,
+      adhkar: false
+    }))
+  };
+  saveParcours(p);
+  return p;
+}
+function renderParcours(){
+  const p = ensureParcours();
+  const list = document.getElementById('parcoursList');
+  const fill = document.getElementById('parcoursFill');
+  const meta = document.getElementById('parcoursMeta');
+  if(!list) return;
+  const doneDays = p.days.filter(d => d.prayer && d.read && d.adhkar).length;
+  if(fill) fill.style.width = Math.round((doneDays / 21) * 100) + '%';
+  if(meta) meta.textContent = doneDays + ' / 21 jours complétés';
+  const focus = Math.min(20, doneDays); // jour courant suggéré
+  list.innerHTML = p.days.map((d, i) => {
+    const complete = d.prayer && d.read && d.adhkar;
+    const isFocus = i === focus && !complete;
+    return '<div class="parcours-day' + (complete ? ' done' : '') + (isFocus ? ' focus' : '') + '">' +
+      '<div class="pd-num">Jour ' + d.day + (complete ? ' ✓' : '') + '</div>' +
+      '<div class="pd-checks">' +
+        '<label><input type="checkbox" data-pday="' + i + '" data-field="prayer"' + (d.prayer ? ' checked' : '') + '> ' + (typeof t === 'function' ? t('day_prayer') : 'Prière') + '</label>' +
+        '<label><input type="checkbox" data-pday="' + i + '" data-field="read"' + (d.read ? ' checked' : '') + '> ' + (typeof t === 'function' ? t('day_read') : 'Lecture') + '</label>' +
+        '<label><input type="checkbox" data-pday="' + i + '" data-field="adhkar"' + (d.adhkar ? ' checked' : '') + '> ' + (typeof t === 'function' ? t('day_adhkar') : 'Adhkar') + '</label>' +
+      '</div></div>';
+  }).join('');
+  list.querySelectorAll('input[type=checkbox]').forEach(inp => {
+    inp.addEventListener('change', () => {
+      const data = ensureParcours();
+      const i = parseInt(inp.getAttribute('data-pday'), 10);
+      const field = inp.getAttribute('data-field');
+      if(data.days[i]) data.days[i][field] = !!inp.checked;
+      saveParcours(data);
+      renderParcours();
     });
   });
 }
@@ -6337,6 +6750,138 @@ const _showViewOrig = typeof showView === 'function' ? showView : null;
 // =====================================================================
 // INITIALISATION - PAGE D'ACCUEIL PAR DÉFAUT
 // =====================================================================
+/* ===== i18n FR / EN / AR ===== */
+const RIHLA_I18N = {
+  fr: {
+    login:'Se connecter', premium:'Passer Premium', logout:'Déconnexion',
+    nav_home:'Accueil', nav_today:"Aujourd'hui", nav_path:'Parcours', nav_duas:"Du'as",
+    nav_prayer:'Prières', nav_hadith:'Rappel', nav_prophets:'Histoires des Prophètes',
+    nav_quran:"Qur'an", nav_track:'Suivi', nav_pricing:'Tarifs',
+    hero_eyebrow:'Accompagnement quotidien du Coran',
+    hero_title:'Avance dans ta lecture, <em>un jour</em> à la fois.',
+    hero_lead:"Rihla t'accompagne dans ta mémorisation et ta lecture du Coran : suivi quotidien, lecture automatique, et sessions d'écoute pour progresser sereinement.",
+    hero_cta1:'Découvrir les outils', hero_cta2:'Voir les tarifs',
+    hero_note:'<strong>Rihla est gratuit</strong> pour tous les outils de base. Les fonctionnalités Premium sont optionnelles.',
+    overview_eyebrow:"Vue d'ensemble", overview_title:"Tout ce qu'il te faut, en un seul endroit.",
+    overview_lead:"Choisis un outil pour l'ouvrir en entier — chacun a son propre espace.",
+    quran_eyebrow:'Mushaf · 604 pages',
+    quran_lead:'Lecture, tajwid, tafsir court, signets et mode hifz — page par page.',
+    today_eyebrow:'Routine',
+    today_lead:"Trois gestes simples : lire ta page, dire un adhkar, faire une du'a. Sans pression.",
+    path_eyebrow:'Débutant · 21 jours', path_title:'Parcours de régularité',
+    path_lead:'Chaque jour : veiller à la prière, lire un peu, et un adhkar. Coche ce que tu as fait.',
+    search_ph:'Rechercher un mot (FR ou arabe)…', search_btn:'Rechercher',
+    hifz_mode:'Mode hifz', bookmarks:'Signets', tajweed_legend:'Légende tajwid',
+    tr_fr:'Traduction FR', play_page:'▶ Lire la page', back:'← Retour à l\'accueil',
+    open_quran:'Ouvrir le Qur\'an', day_prayer:'Prière', day_read:'Lecture', day_adhkar:'Adhkar'
+  },
+  en: {
+    login:'Log in', premium:'Go Premium', logout:'Log out',
+    nav_home:'Home', nav_today:'Today', nav_path:'Path', nav_duas:"Du'as",
+    nav_prayer:'Prayer', nav_hadith:'Reminder', nav_prophets:'Stories of the Prophets',
+    nav_quran:'Qur\'an', nav_track:'Tracker', nav_pricing:'Pricing',
+    hero_eyebrow:'Daily Qur\'an companion',
+    hero_title:'Grow in your reading, <em>one day</em> at a time.',
+    hero_lead:'Rihla supports your memorization and Qur\'an reading: daily tracking, synced recitation, and listening sessions to progress calmly.',
+    hero_cta1:'Explore tools', hero_cta2:'See pricing',
+    hero_note:'<strong>Rihla is free</strong> for all core tools. Premium features are optional.',
+    overview_eyebrow:'Overview', overview_title:'Everything you need, in one place.',
+    overview_lead:'Pick a tool to open it fully — each has its own space.',
+    quran_eyebrow:'Mushaf · 604 pages',
+    quran_lead:'Reading, tajweed, short tafsir, bookmarks and hifz mode — page by page.',
+    today_eyebrow:'Routine',
+    today_lead:'Three simple steps: read your page, say an adhkar, make a du\'a. No pressure.',
+    path_eyebrow:'Beginner · 21 days', path_title:'Consistency path',
+    path_lead:'Each day: mind the prayer, read a little, and one adhkar. Check what you did.',
+    search_ph:'Search a word (EN or Arabic)…', search_btn:'Search',
+    hifz_mode:'Hifz mode', bookmarks:'Bookmarks', tajweed_legend:'Tajweed key',
+    tr_fr:'Translation', play_page:'▶ Play page', back:'← Back to home',
+    open_quran:'Open Qur\'an', day_prayer:'Prayer', day_read:'Reading', day_adhkar:'Adhkar'
+  },
+  ar: {
+    login:'تسجيل الدخول', premium:'الترقية', logout:'خروج',
+    nav_home:'الرئيسية', nav_today:'اليوم', nav_path:'المسار', nav_duas:'الأدعية',
+    nav_prayer:'الصلاة', nav_hadith:'تذكير', nav_prophets:'قصص الأنبياء',
+    nav_quran:'القرآن', nav_track:'المتابعة', nav_pricing:'الأسعار',
+    hero_eyebrow:'مرافق يومي للقرآن',
+    hero_title:'تقدّم في قراءتك، <em>يومًا</em> بعد يوم.',
+    hero_lead:'رحلة ترافقك في الحفظ والقراءة: متابعة يومية، تلاوة متزامنة، وجلسات استماع لتتقدم بطمأنينة.',
+    hero_cta1:'اكتشف الأدوات', hero_cta2:'الأسعار',
+    hero_note:'<strong>رحلة مجانية</strong> للأدوات الأساسية. المزايا المتقدمة اختيارية.',
+    overview_eyebrow:'نظرة عامة', overview_title:'كل ما تحتاجه في مكان واحد.',
+    overview_lead:'اختر أداة لفتحها بالكامل — لكل واحدة مساحتها.',
+    quran_eyebrow:'مصحف · ٦٠٤ صفحة',
+    quran_lead:'قراءة، تجويد، تفسير موجز، إشارات ووضع الحفظ — صفحة بصفحة.',
+    today_eyebrow:'روتين',
+    today_lead:'ثلاث خطوات بسيطة: اقرأ صفحتك، اذكر ذكرًا، وادعُ. بلا ضغط.',
+    path_eyebrow:'للمبتدئين · ٢١ يومًا', path_title:'مسار الاستمرار',
+    path_lead:'كل يوم: الصلاة، قراءة قصيرة، وذكر. علّم ما أنجزت.',
+    search_ph:'ابحث عن كلمة…', search_btn:'بحث',
+    hifz_mode:'وضع الحفظ', bookmarks:'الإشارات', tajweed_legend:'مفتاح التجويد',
+    tr_fr:'الترجمة', play_page:'▶ قراءة الصفحة', back:'← العودة للرئيسية',
+    open_quran:'فتح القرآن', day_prayer:'الصلاة', day_read:'القراءة', day_adhkar:'الذكر'
+  }
+};
+let rihlaLang = 'fr';
+function t(key){
+  const pack = RIHLA_I18N[rihlaLang] || RIHLA_I18N.fr;
+  return (pack[key] != null ? pack[key] : (RIHLA_I18N.fr[key] || key));
+}
+function applyRihlaLang(lang){
+  if(!RIHLA_I18N[lang]) lang = 'fr';
+  rihlaLang = lang;
+  try{ localStorage.setItem('rihla_lang', lang); }catch(e){}
+  document.documentElement.lang = lang === 'ar' ? 'ar' : (lang === 'en' ? 'en' : 'fr');
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(key) el.textContent = t(key);
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if(key) el.innerHTML = t(key);
+  });
+  document.querySelectorAll('#langSwitch [data-lang]').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  // Placeholders & boutons outils mushaf
+  const searchInp = document.getElementById('quranSearchInput');
+  if(searchInp) searchInp.placeholder = t('search_ph');
+  const searchBtn = document.getElementById('quranSearchBtn');
+  if(searchBtn) searchBtn.textContent = t('search_btn');
+  const hifzBtn = document.getElementById('mushafHifzToggle');
+  if(hifzBtn) hifzBtn.childNodes[0] && (hifzBtn.innerHTML = '🧠 ' + t('hifz_mode'));
+  const bmBtn = document.getElementById('mushafBookmarksBtn');
+  if(bmBtn){
+    const count = document.getElementById('bmCount');
+    const n = count ? count.textContent : '0';
+    bmBtn.innerHTML = '🔖 ' + t('bookmarks') + ' <span id="bmCount">' + n + '</span>';
+  }
+  const legBtn = document.getElementById('mushafTajweedLegendBtn');
+  if(legBtn) legBtn.textContent = '🎨 ' + t('tajweed_legend');
+  const trBtn = document.getElementById('mushafToggleTr');
+  if(trBtn && !trBtn.dataset.keepDynamic) trBtn.textContent = t('tr_fr');
+  const playBtn = document.getElementById('mushafPlayPage');
+  if(playBtn) playBtn.textContent = t('play_page');
+  document.querySelectorAll('.back-link').forEach(el => { el.textContent = t('back'); });
+  const openQ = document.getElementById('todayOpenQuran');
+  if(openQ) openQ.textContent = t('open_quran');
+  // Re-render dynamic UIs that contain labels
+  try{ if(typeof renderParcours === 'function') renderParcours(); }catch(e){}
+  try{ if(typeof renderToday === 'function') renderToday(); }catch(e){}
+}
+function initRihlaLang(){
+  let lang = 'fr';
+  try{ lang = localStorage.getItem('rihla_lang') || 'fr'; }catch(e){}
+  if(!RIHLA_I18N[lang]) lang = 'fr';
+  document.getElementById('langSwitch')?.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-lang]');
+    if(!btn) return;
+    applyRihlaLang(btn.getAttribute('data-lang'));
+  });
+  applyRihlaLang(lang);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   // Menu burger mobile
   const burger = document.getElementById('navBurger');
@@ -6350,6 +6895,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  try{ initRihlaLang(); }catch(e){ console.warn('i18n', e); }
+
   try{
     const hash = (location.hash || '').replace('#','');
     const startView = (hash && document.getElementById('view-' + hash)) ? ('view-' + hash) : 'view-home';
@@ -6362,6 +6909,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   try{ initOfflineBanner(); }catch(e){}
+  try{ initTodayUI(); }catch(e){ console.warn('today', e); }
+  try{ renderParcours(); }catch(e){ console.warn('parcours', e); }
+  try{ renderHifzReviewPanel(); }catch(e){}
 
   loadSurahList().then(() => {
     const sel = document.getElementById('mushafSurahSelect');
