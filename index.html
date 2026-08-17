@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rihla — Ensemble avançons pas à pas vers le chemin de la guidée </title>
+<title>Rihla — Ensemble avançons pas à pas vers le chemin de la guidée</title>
 <link rel="icon" type="image/jpeg" href="rihla-logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -90,8 +90,19 @@ color:var(--emerald-950);
 text-decoration:none;
 }
 .logo-mark{width:30px;height:30px;flex-shrink:0;border-radius:8px;object-fit:cover;}
-nav.links{display:flex; gap:20px; font-size:0.9rem; flex-wrap:wrap;}
-nav.links button{background:none; border:none; font-family:inherit; font-size:0.9rem; color:var(--ink-soft); cursor:pointer; padding:4px 0; transition:color .2s; border-bottom:2px solid transparent;}
+nav.links{
+  display:flex; flex-direction:row; flex-wrap:nowrap; gap:4px 18px;
+  font-size:0.88rem; align-items:center;
+  overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;
+  max-width:min(720px, 52vw);
+}
+nav.links::-webkit-scrollbar{display:none;}
+nav.links button{
+  background:none; border:none; font-family:inherit; font-size:0.88rem;
+  color:var(--ink-soft); cursor:pointer; padding:6px 2px;
+  transition:color .2s; border-bottom:2px solid transparent;
+  white-space:nowrap; flex-shrink:0;
+}
 nav.links button:hover{color:var(--emerald-950);}
 nav.links button.active{color:var(--emerald-950); border-bottom-color:var(--gold-500);}
 .nav-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
@@ -1417,22 +1428,31 @@ padding:10px 14px;
 nav.links{
   display:none;
   position:absolute; top:100%; left:0; right:0;
-  flex-direction:column; gap:0;
+  flex-direction:column; flex-wrap:nowrap;
+  gap:0; align-items:stretch;
+  max-width:none; overflow:visible;
   background:rgba(247,243,232,0.98);
   border-bottom:1px solid var(--line);
-  padding:8px 16px 16px;
+  padding:8px 12px 14px;
   z-index:120;
   box-shadow:0 12px 24px rgba(11,46,43,0.12);
 }
 nav.links.open{display:flex;}
 nav.links button{
-  width:100%; text-align:left; padding:12px 8px;
+  width:100%; text-align:left; padding:14px 12px;
   border-bottom:1px solid var(--line);
-  font-size:1rem;
+  border-radius:0; font-size:1rem;
+  white-space:normal; flex-shrink:1;
 }
-nav.links button.active{border-bottom-color:var(--gold-500);}
+nav.links button:last-child{border-bottom:none;}
+nav.links button.active{
+  border-bottom-color:var(--line);
+  background:rgba(201,162,39,0.12);
+  color:var(--emerald-950);
+  box-shadow:inset 3px 0 0 var(--gold-500);
+}
 header.nav{position:sticky;}
-.nav-inner{position:relative; flex-wrap:wrap;}
+.nav-inner{position:relative; flex-wrap:nowrap; gap:10px;}
 .hero{grid-template-columns:1fr; padding-top:40px; padding-bottom:40px; gap:28px;}
 .hero h1{font-size:clamp(1.8rem, 7vw, 2.4rem);}
 .overview-grid{grid-template-columns:1fr;}
@@ -2338,7 +2358,12 @@ if(id === 'view-aujourdhui'){
 if(id === 'view-parcours'){
   try{ if(typeof renderParcours === 'function') renderParcours(); }catch(e){}
 }
-document.querySelectorAll('.nav-link').forEach(b => b.classList.toggle('active', b.dataset.view === id));
+document.querySelectorAll('.nav-link').forEach(b => {
+  // Ne pas activer « Tarifs » (scroll) juste parce que la vue est view-home
+  const isScrollOnly = b.hasAttribute('data-scroll-to');
+  const match = !isScrollOnly && b.dataset.view === id;
+  b.classList.toggle('active', match);
+});
 if(scrollToId){
 requestAnimationFrame(() => {
 const el = document.getElementById(scrollToId);
