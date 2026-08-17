@@ -1792,21 +1792,21 @@ Paiement sécurisé — Stripe
 <div class="section-head">
 <span class="eyebrow" data-i18n="card_prayer_t">Horaires &amp; Qibla</span>
 <h2 data-i18n="prayer_title">Les cinq prières, où que tu sois.</h2>
-<p data-i18n="prayer_ayah">"La Salât demeure, pour les croyants, une prescription à des temps déterminés". (Coran 4:103)</p>
+<p>"La Salât demeure, pour les croyants, une prescription à des temps déterminés". (Coran 04:113)</p>
 </div>
 <div class="prayer-shell">
 <div class="prayer-times-card">
 <div class="prayer-location">
-<span class="place mono" id="prayerPlace" data-i18n="locating">Localisation en cours…</span>
-<button id="prayerLocate" data-i18n="btn_refresh">Actualiser</button>
+<span class="place mono" id="prayerPlace">Localisation en cours…</span>
+<button id="prayerLocate">Actualiser</button>
 </div>
 <div class="city-search">
-<input type="text" id="citySearchInput" placeholder="Ou tape ta ville" data-i18n-placeholder="city_ph">
-<button id="citySearchBtn" data-i18n="btn_search">Chercher</button>
+<input type="text" id="citySearchInput" placeholder="Ou tape ta ville">
+<button id="citySearchBtn">Chercher</button>
 </div>
 <p class="city-search-status" id="citySearchStatus"></p>
 <div class="next-prayer">
-<div class="label" data-i18n="next_prayer">Prochaine prière</div>
+<div class="label">Prochaine prière</div>
 <div class="name" id="nextPrayerName">—</div>
 <div class="countdown mono" id="nextPrayerCountdown">--:--:--</div>
 </div>
@@ -1820,10 +1820,10 @@ Paiement sécurisé — Stripe
 <div class="azan-control">
 <label class="azan-toggle">
 <input type="checkbox" id="azanToggle">
-<span data-i18n="enable_azan">Activer l'Azan</span>
+<span>Activer l'Azan</span>
 </label>
-<button type="button" id="azanTestBtn" class="azan-test" data-i18n="test_sound">Tester le son</button>
-<p class="azan-note" data-i18n="azan_note">Ne fonctionne que si cet onglet reste ouvert.</p>
+<button type="button" id="azanTestBtn" class="azan-test">Tester le son</button>
+<p class="azan-note">Ne fonctionne que si cet onglet reste ouvert.</p>
 <audio id="adhanAudio"><source src="Adhan web.mp3" type="audio/mpeg"></audio>
 </div>
 </div>
@@ -1841,10 +1841,10 @@ Paiement sécurisé — Stripe
 <div class="qibla-kaaba" id="qiblaKaaba"></div>
 </div>
 </div>
-<div class="qibla-align" id="qiblaAlign" data-i18n="compass_on">Active la boussole</div>
+<div class="qibla-align" id="qiblaAlign">Active la boussole</div>
 <div class="qibla-deg" id="qiblaDeg">Direction : —</div>
 <p class="qibla-note" id="qiblaNote">Sur mobile : active la boussole, tiens le téléphone à plat, puis tourne-toi jusqu&apos;à ce que l&apos;aiguille pointe vers le triangle en haut.</p>
-<button class="btn btn-ghost" id="compassEnable" style="font-size:0.82rem;" data-i18n="compass_live">Activer la boussole en direct</button>
+<button class="btn btn-ghost" id="compassEnable" style="font-size:0.82rem;">Activer la boussole en direct</button>
 </div>
 </div>
 <div class="prayer-info-grid">
@@ -3419,9 +3419,6 @@ function shortestAngleDiff(a, b){
   return ((a - b + 540) % 360) - 180;
 }
 
-function _tt(key, fallback){
-  try{ return (typeof t === 'function' ? t(key) : null) || fallback; }catch(e){ return fallback; }
-}
 function updateQiblaUI(){
   const needle = document.getElementById('qiblaNeedle');
   const degEl = document.getElementById('qiblaDeg');
@@ -3429,46 +3426,50 @@ function updateQiblaUI(){
   const compass = document.getElementById('qiblaCompass');
   if(!needle || !degEl) return;
   if(prayerState.qiblaBearing == null){
-    degEl.textContent = _tt('direction_na', 'Direction : —');
-    if(alignEl) alignEl.textContent = _tt('need_location', 'Calcule d\'abord ta position');
+    degEl.textContent = 'Direction : —';
+    if(alignEl) alignEl.textContent = 'Calcule d\'abord ta position';
     return;
   }
   const bearing = prayerState.qiblaBearing;
+  // rotation de l'aiguille : 0° = haut de l'écran = direction face à l'utilisateur
+  // quand rotation ≈ 0, l'utilisateur regarde la Qibla
   let rotation = bearing;
   if(prayerState.deviceHeading != null && !isNaN(prayerState.deviceHeading)){
     rotation = (bearing - prayerState.deviceHeading + 360) % 360;
   }
+  // Lissage déjà appliqué sur deviceHeading ; appliquer directement
   needle.style.transform = 'rotate(' + rotation.toFixed(2) + 'deg)';
 
   const dist = (prayerState.lat != null)
     ? ' · ' + distanceToKaabaKm(prayerState.lat, prayerState.lng).toFixed(0) + ' km'
     : '';
-  const qLabel = _tt('qibla_label', 'Qibla');
 
   if(prayerState.deviceHeading != null){
+    // Écart à la Qibla (0 = parfaitement aligné)
     let offset = shortestAngleDiff(bearing, prayerState.deviceHeading);
+    // offset positif = Qibla à droite, négatif = à gauche
     const absOff = Math.abs(offset);
-    degEl.textContent = qLabel + ' ' + bearing.toFixed(1) + '° · ' + prayerState.deviceHeading.toFixed(0) + '°' + dist;
+    degEl.textContent = 'Qibla ' + bearing.toFixed(1) + '° · cap ' + prayerState.deviceHeading.toFixed(0) + '°' + dist;
 
     if(alignEl){
       if(absOff <= 5){
-        alignEl.textContent = _tt('aligned', '✓ Aligné sur la Qibla');
+        alignEl.textContent = '✓ Aligné sur la Qibla';
         alignEl.className = 'qibla-align ok';
         if(compass) compass.classList.add('aligned');
       } else if(absOff <= 20){
-        alignEl.textContent = (offset > 0 ? _tt('turn_right_soft', 'Tourne légèrement à droite →') : _tt('turn_left_soft', '← Tourne légèrement à gauche')) + ' (' + absOff.toFixed(0) + '°)';
+        alignEl.textContent = (offset > 0 ? 'Tourne légèrement à droite →' : '← Tourne légèrement à gauche') + ' (' + absOff.toFixed(0) + '°)';
         alignEl.className = 'qibla-align warn';
         if(compass) compass.classList.remove('aligned');
       } else {
-        alignEl.textContent = (offset > 0 ? _tt('turn_right', 'Tourne à droite →') : _tt('turn_left', '← Tourne à gauche')) + ' (' + absOff.toFixed(0) + '°)';
+        alignEl.textContent = (offset > 0 ? 'Tourne à droite →' : '← Tourne à gauche') + ' (' + absOff.toFixed(0) + '°)';
         alignEl.className = 'qibla-align';
         if(compass) compass.classList.remove('aligned');
       }
     }
   } else {
-    degEl.textContent = qLabel + ' : ' + bearing.toFixed(1) + '°' + dist;
+    degEl.textContent = 'Qibla : ' + bearing.toFixed(1) + '° depuis le nord vrai' + dist;
     if(alignEl){
-      alignEl.textContent = _tt('compass_off', 'Boussole inactive — appuie sur Activer');
+      alignEl.textContent = 'Boussole inactive — appuie sur Activer';
       alignEl.className = 'qibla-align';
     }
     if(compass) compass.classList.remove('aligned');
@@ -3645,7 +3646,7 @@ async function loadPrayersForCoords(lat, lng, placeLabel, method, countryCode){
   const placeEl = document.getElementById('prayerPlace');
   const statusEl = document.getElementById('citySearchStatus');
   placeEl.textContent = placeLabel || `${lat.toFixed(5)}°, ${lng.toFixed(5)}°`;
-  statusEl.textContent = _tt('calc_times', 'Calcul des horaires…');
+  statusEl.textContent = 'Calcul des horaires…';
   try{
     if(method == null) method = pickCalculationMethod(lat, lng, countryCode);
     const times = await fetchPrayerTimes(lat, lng, method);
@@ -3657,25 +3658,27 @@ async function loadPrayersForCoords(lat, lng, placeLabel, method, countryCode){
     prayerState.qiblaBearing = computeQiblaBearing(lat, lng);
     updatePrayerListUI(times);
     updateQiblaUI();
-    const methodName = (times.meta && times.meta.method && times.meta.method.name) || ('#' + method);
-    statusEl.textContent = _tt('precise_times', '✓ Horaires précis') + ' · ' + methodName + ' · ' + _tt('qibla_label', 'Qibla') + ' ' + prayerState.qiblaBearing.toFixed(1) + '°';
+    const methodName = (times.meta && times.meta.method && times.meta.method.name) || ('méthode ' + method);
+    statusEl.textContent = `✓ Horaires précis · ${methodName} · Qibla ${prayerState.qiblaBearing.toFixed(1)}°`;
+    // Sauvegarder
     try{
       localStorage.setItem('rihla_prayer_loc', JSON.stringify({ lat, lng, placeLabel, method, countryCode: countryCode || '' }));
     }catch(e){}
   }catch(err){
     console.error(err);
-    statusEl.textContent = _tt('times_error', '❌ Impossible de charger les horaires. Vérifie ta connexion.');
+    statusEl.textContent = '❌ Impossible de charger les horaires. Vérifie ta connexion.';
   }
 }
 
 async function locateUserPrecise(){
   const placeEl = document.getElementById('prayerPlace');
   const statusEl = document.getElementById('citySearchStatus');
-  placeEl.textContent = _tt('locating_gps', 'Localisation GPS en cours…');
-  statusEl.textContent = _tt('allow_location', 'Autorise la localisation pour une précision maximale.');
+  placeEl.textContent = 'Localisation GPS en cours…';
+  statusEl.textContent = 'Autorise la localisation pour une précision maximale.';
   if(!navigator.geolocation){
-    placeEl.textContent = _tt('geo_unsupported', 'Géolocalisation non supportée');
-    await loadPrayersForCoords(KAABA.lat, KAABA.lng, 'Makkah', 4, 'SA');
+    placeEl.textContent = 'Géolocalisation non supportée';
+    // fallback La Mecque
+    await loadPrayersForCoords(KAABA.lat, KAABA.lng, 'La Mecque, Arabie Saoudite', 4, 'SA');
     return;
   }
   return new Promise((resolve) => {
@@ -6812,8 +6815,8 @@ const RIHLA_I18N = {
     pricing_lead:'Change de formule à tout moment, sans engagement.',
     plan_free:'Gratuit', plan_premium:'Premium', start_free:'Commencer gratuitement', go_premium:'Passer à Premium',
     faq_eyebrow:'Questions fréquentes', faq_title:"Ce qu'on te demande le plus souvent.",
-    prayer_title:'Les cinq prières, où que tu sois', hadith_eyebrow:'Rappel quotidien',
-    verse_of_day:'Verset du jour', loading:'Chargement…', prophets_title:'Les 25 prophètes cités dans le Coran', duas_title:"Les du'as essentiels pour chaque moment", prayer_ayah:"La prière demeure, pour les croyants, une prescription à des temps déterminés. (Coran 4:103)", btn_refresh:'Actualiser', city_ph:'Ou tape ta ville', btn_search:'Chercher', next_prayer:'Prochaine prière', enable_azan:"Activer l'Azan", test_sound:'Tester le son', azan_note:'Ne fonctionne que si cet onglet reste ouvert.', compass_on:'Active la boussole', compass_live:'Activer la boussole en direct', locating:'Localisation en cours…', no_compass:'Pas de signal — calibres ou utilise un mobile', qibla_label:'Qibla', aligned:'✓ Aligné sur la Qibla', precise_times:'✓ Horaires précis', direction_na:'Direction : —', need_location:"Calcule d'abord ta position", turn_right_soft:'Tourne légèrement à droite →', turn_left_soft:'← Tourne légèrement à gauche', turn_right:'Tourne à droite →', turn_left:'← Tourne à gauche', compass_off:'Boussole inactive — appuie sur Activer', calc_times:'Calcul des horaires…', times_error:'❌ Impossible de charger les horaires.', locating_gps:'Localisation GPS en cours…', allow_location:'Autorise la localisation.', geo_unsupported:'Géolocalisation non supportée'
+    prayer_title:'Les cinq prières, où que tu sois.', hadith_eyebrow:'Rappel quotidien',
+    verse_of_day:'Verset du jour', loading:'Chargement…', prophets_title:'Les 25 prophètes cités dans le Coran', duas_title:"Les du'as essentiels pour chaque moment"
   },
   en: {
     login:'Log in', premium:'Go Premium', logout:'Log out',
@@ -6853,8 +6856,8 @@ const RIHLA_I18N = {
     pricing_lead:'Switch plans anytime, no commitment.',
     plan_free:'Free', plan_premium:'Premium', start_free:'Start for free', go_premium:'Go Premium',
     faq_eyebrow:'FAQ', faq_title:'What people ask most often.',
-    prayer_title:'The five prayers, wherever you are', hadith_eyebrow:'Daily reminder',
-    verse_of_day:'Verse of the day', loading:'Loading…', prophets_title:'The 25 prophets mentioned in the Qur\'an', duas_title:'Essential du\'as for every moment', prayer_ayah:'Prayer remains, for the believers, a timed ordinance. (Qur\'an 4:103)', btn_refresh:'Refresh', city_ph:'Or type your city', btn_search:'Search', next_prayer:'Next prayer', enable_azan:'Enable Adhan', test_sound:'Test sound', azan_note:'Works only while this tab stays open.', compass_on:'Enable compass', compass_live:'Enable live compass', locating:'Locating…', no_compass:'No signal — calibrate or use a phone', qibla_label:'Qibla', aligned:'✓ Aligned to Qibla', precise_times:'✓ Precise times', direction_na:'Direction: —', need_location:'Get your location first', turn_right_soft:'Turn slightly right →', turn_left_soft:'← Turn slightly left', turn_right:'Turn right →', turn_left:'← Turn left', compass_off:'Compass off — tap Enable', calc_times:'Calculating times…', times_error:'❌ Could not load prayer times.', locating_gps:'GPS locating…', allow_location:'Allow location for best accuracy.', geo_unsupported:'Geolocation not supported'
+    prayer_title:'The five prayers, wherever you are.', hadith_eyebrow:'Daily reminder',
+    verse_of_day:'Verse of the day', loading:'Loading…', prophets_title:'The 25 prophets mentioned in the Qur\'an', duas_title:'Essential du\'as for every moment'
   },
   ar: {
     login:'تسجيل الدخول', premium:'الترقية', logout:'خروج',
@@ -6894,8 +6897,8 @@ const RIHLA_I18N = {
     pricing_lead:'غيّر الباقة في أي وقت دون التزام.',
     plan_free:'مجاني', plan_premium:'متقدم', start_free:'ابدأ مجانًا', go_premium:'الترقية',
     faq_eyebrow:'أسئلة شائعة', faq_title:'ما يُسأل عنه أكثر.',
-    prayer_title:'الصلوات الخمس أينما كنت', hadith_eyebrow:'تذكير يومي',
-    verse_of_day:'آية اليوم', loading:'جاري التحميل…', prophets_title:'الأنبياء الخمسة والعشرون في القرآن', duas_title:'الأدعية الأساسية لكل وقت', prayer_ayah:'إن الصلاة كانت على المؤمنين كتابًا موقوتًا (النساء ١٠٣)', btn_refresh:'تحديث', city_ph:'أو اكتب مدينتك', btn_search:'بحث', next_prayer:'الصلاة القادمة', enable_azan:'تفعيل الأذان', test_sound:'تجربة الصوت', azan_note:'يعمل فقط إذا بقيت هذه الصفحة مفتوحة.', compass_on:'فعّل البوصلة', compass_live:'تفعيل البوصلة المباشرة', locating:'جاري تحديد الموقع…', no_compass:'لا إشارة — عاير أو استخدم هاتفًا', qibla_label:'القبلة', aligned:'✓ محاذٍ للقبلة', precise_times:'✓ أوقات دقيقة', direction_na:'الاتجاه: —', need_location:'حدّد موقعك أولاً', turn_right_soft:'مِل قليلاً لليمين →', turn_left_soft:'← مِل قليلاً لليسار', turn_right:'مِل لليمين →', turn_left:'← مِل لليسار', compass_off:'البوصلة متوقفة — اضغط تفعيل', calc_times:'جاري حساب الأوقات…', times_error:'❌ تعذّر تحميل أوقات الصلاة.', locating_gps:'جاري تحديد الموقع…', allow_location:'اسمح بالموقع لدقة أفضل.', geo_unsupported:'تحديد الموقع غير مدعوم'
+    prayer_title:'الصلوات الخمس أينما كنت.', hadith_eyebrow:'تذكير يومي',
+    verse_of_day:'آية اليوم', loading:'جاري التحميل…', prophets_title:'الأنبياء الخمسة والعشرون في القرآن', duas_title:'الأدعية الأساسية لكل وقت'
   }
 };
 let rihlaLang = 'fr';
@@ -6916,10 +6919,6 @@ function applyRihlaLang(lang){
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
     const key = el.getAttribute('data-i18n-html');
     if(key) el.innerHTML = t(key);
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if(key) el.setAttribute('placeholder', t(key));
   });
   document.querySelectorAll('#langSwitch [data-lang]').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
