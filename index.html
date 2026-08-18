@@ -3,12 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+  try{
+    var l = localStorage.getItem('rihla_lang');
+    if(!l){
+      var list = (navigator.languages || [navigator.language || 'fr']).map(function(x){ return String(x||'').toLowerCase(); });
+      for(var i=0;i<list.length;i++){
+        var b = list[i].split('-')[0];
+        if(b==='ar'){ l='ar'; break; }
+        if(b==='en'){ l='en'; break; }
+        if(b==='fr'){ l='fr'; break; }
+      }
+      l = l || 'fr';
+    }
+    if(l==='ar'||l==='en'||l==='fr'){
+      document.documentElement.lang = l;
+      document.documentElement.dir = (l==='ar') ? 'rtl' : 'ltr';
+    }
+  }catch(e){}
+})();
+</script>
 <title>Rihla — Ensemble avançons pas à pas vers le chemin de la guidée</title>
-<link rel="icon" type="image/jpeg" href="rihla-logo.jpg">
+
+<!-- ===== SEO & partage ===== -->
+<meta name="description" content="Rihla t'accompagne dans ta lecture et ta mémorisation du Coran : mushaf complet 604 pages, horaires de prière, Qibla, du'as, hadiths et suivi quotidien. Gratuit.">
+<meta name="theme-color" content="#0d1b16">
+<link rel="canonical" href="https://rihla.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rihla">
+<meta property="og:title" content="Rihla — Ton compagnon quotidien du Coran">
+<meta property="og:description" content="Mushaf complet, horaires de prière, Qibla, du'as, hadiths et suivi de lecture. Avance un jour à la fois.">
+<meta property="og:image" content="logo-og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- ===== Icônes (logo 1,6 Mo remplacé par des versions dimensionnées) ===== -->
+<link rel="icon" type="image/png" sizes="32x32" href="logo-32.png">
+<link rel="apple-touch-icon" href="logo-180.png">
+
+<!-- ===== Polices : preconnect + chargement non bloquant ===== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.cdnfonts.com/css/kfgqpc-uthmanic-script-hafs" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Police coranique Uthmanic : utilisée seulement dans le mushaf, donc chargée sans bloquer le premier rendu -->
+<link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin>
+<link href="https://fonts.cdnfonts.com/css/kfgqpc-uthmanic-script-hafs" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
+
+<!-- Supabase : téléchargé tôt, exécuté en bas de page pour ne pas bloquer le rendu -->
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin>
 <style>
 :root{
 --emerald-950:#0b2e2b;
@@ -1550,20 +1592,20 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 </style>
 </head>
 <body>
-<a href="#main" class="skip-link">Aller au contenu principal</a>
-<div class="hadith-bar" id="hadithBar">
+<a href="#main" class="skip-link" data-i18n="skip_link">Aller au contenu principal</a>
+<div class="hadith-bar" id="hadithBar" data-i18n-html="hadith_bar">
 « <strong>Le meilleur d'entre vous</strong> est celui qui apprend le Coran et l'enseigne. » — Hadith rapporté par Al-Boukhari
 </div>
 <header class="nav">
 <div class="nav-inner">
-<a href="#" class="logo" data-view="view-home" aria-label="Rihla, accueil">
-<img class="logo-mark" src="rihla-logo.jpg" alt="Rihla" width="30" height="30">
+<a href="#" class="logo" data-view="view-home" aria-label="Rihla, accueil" data-i18n-aria="aria_logo_home">
+<img class="logo-mark" src="logo-64.png" alt="Rihla" width="30" height="30" decoding="async" fetchpriority="high">
 Rihla
 </a>
-<button type="button" class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
+<button type="button" class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" data-i18n-aria="aria_open_menu" aria-expanded="false" aria-controls="navLinks">
 <span></span><span></span><span></span>
 </button>
-<nav class="links" id="navLinks" aria-label="Navigation principale">
+<nav class="links" id="navLinks" aria-label="Navigation principale" data-i18n-aria="aria_main_nav">
 <button class="nav-link active" data-view="view-home" data-i18n="nav_home">Accueil</button>
 <button class="nav-link" data-view="view-aujourdhui" data-i18n="nav_today">Aujourd'hui</button>
 <button class="nav-link" data-view="view-parcours" data-i18n="nav_path">Parcours</button>
@@ -1620,7 +1662,7 @@ Rihla
 <span id="heroDayNumber">JOUR 1</span>
 <span id="heroQuoteType" class="hero-quote-type" data-i18n="verse_of_day">Verset du jour</span>
 </div>
-<p id="heroQuoteText" class="hero-quote-text">Chargement…</p>
+<p id="heroQuoteText" class="hero-quote-text" data-i18n="loading">Chargement…</p>
 </div>
 </div>
 </div>
@@ -1712,26 +1754,26 @@ Rihla
 <div class="pricing-grid">
 <div class="price-card">
 <h3 data-i18n="plan_free">Gratuit</h3>
-<div class="price">0€ <span>/ toujours</span></div>
+<div class="price">0€ <span data-i18n="price_forever">/ toujours</span></div>
 <ul>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Suivi quotidien de base</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>16 récitateurs disponibles</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Correction de récitation (3/semaine)</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>25 histoires des prophètes</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>50+ Du'as classés par situations</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f1">Suivi quotidien de base</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f2">16 récitateurs disponibles</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f3">Correction de récitation (3/semaine)</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f4">25 histoires des prophètes</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f5">50+ Du'as classés par situations</span></li>
 </ul>
 <a href="#" class="btn btn-ghost" id="startFree" data-i18n="start_free">Commencer gratuitement</a>
 </div>
 <div class="price-card premium">
 <h3 data-i18n="plan_premium">Premium</h3>
-<div class="price mono">7,99€ <span>/ mois</span></div>
+<div class="price mono">7,99€ <span data-i18n="price_month">/ mois</span></div>
 <ul>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Suivi quotidien avancé + rappels</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span class="price-feature-highlight">+12 récitateurs Premium</span> (récitations lentes)</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Correction de récitation <strong>illimitée</strong></li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Mémorisation assistée (versets par thème)</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Statistiques détaillées de progression</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Planificateur de lecture personnalisé</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f1">Suivi quotidien avancé + rappels</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n-html="prem_f2"><span class="price-feature-highlight" data-i18n="premium_reciters">+12 récitateurs Premium</span> (récitations lentes)</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n-html="prem_f3">Correction de récitation <strong>illimitée</strong></span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f4">Mémorisation assistée (versets par thème)</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f5">Statistiques détaillées de progression</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f6">Planificateur de lecture personnalisé</span></li>
 </ul>
 <button class="btn btn-gold" id="premiumCtaBtn" data-i18n="go_premium">Passer à Premium</button>
 <p class="premium-note" id="premiumNote"></p>
@@ -1748,65 +1790,65 @@ Rihla
 </div>
 <div style="display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;">
 <details style="background:#fff;padding:20px 24px;">
-<summary style="cursor:pointer;font-weight:500;">La session d'écoute enregistre-t-elle ma voix en permanence ?</summary>
-<p style="color:var(--ink-soft);margin-top:10px;font-size:0.92rem;">Non. L'enregistrement démarre uniquement quand tu appuies sur le bouton.</p>
+<summary style="cursor:pointer;font-weight:500;" data-i18n="faq_q1">La session d'écoute enregistre-t-elle ma voix en permanence ?</summary>
+<p style="color:var(--ink-soft);margin-top:10px;font-size:0.92rem;" data-i18n="faq_a1">Non. L'enregistrement démarre uniquement quand tu appuies sur le bouton.</p>
 </details>
 <details style="background:#fff;padding:20px 24px;">
-<summary style="cursor:pointer;font-weight:500;">Puis-je annuler mon abonnement Premium à tout moment ?</summary>
-<p style="color:var(--ink-soft);margin-top:10px;font-size:0.92rem;">Oui, sans engagement ni frais cachés.</p>
+<summary style="cursor:pointer;font-weight:500;" data-i18n="faq_q2">Puis-je annuler mon abonnement Premium à tout moment ?</summary>
+<p style="color:var(--ink-soft);margin-top:10px;font-size:0.92rem;" data-i18n="faq_a2">Oui, sans engagement ni frais cachés.</p>
 </details>
 <details style="background:#fff;padding:20px 24px;">
-<summary style="cursor:pointer;font-weight:500;">Mes données de progression sont-elles privées ?</summary>
-<p style="color:var(--ink-soft);margin-top:10px;font-size:0.92rem;">Oui, ton suivi et tes enregistrements ne sont visibles que par toi.</p>
+<summary style="cursor:pointer;font-weight:500;" data-i18n="faq_q3">Mes données de progression sont-elles privées ?</summary>
+<p style="color:var(--ink-soft);margin-top:10px;font-size:0.92rem;" data-i18n="faq_a3">Oui, ton suivi et tes enregistrements ne sont visibles que par toi.</p>
 </details>
 </div>
 </section>
 </div>
 <!-- VUE PAIEMENT STRIPE -->
 <div class="view" id="view-paiement">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="stripe-container">
-<h3>✨ Rihla Premium</h3>
-<div class="price-big">7,99€ <span>/ mois</span></div>
+<h3 data-i18n="pay_title">✨ Rihla Premium</h3>
+<div class="price-big">7,99€ <span data-i18n="price_month">/ mois</span></div>
 <ul class="features">
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Suivi quotidien avancé + rappels</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>28 récitateurs complets (16 gratuits + 12 Premium)</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Correction de récitation illimitée</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Mémorisation assistée par thèmes</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Planificateur de lecture personnalisé</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Accès hors-ligne et support prioritaire</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f1">Suivi quotidien avancé + rappels</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f2">28 récitateurs complets (16 gratuits + 12 Premium)</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f3">Correction de récitation illimitée</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f4">Mémorisation assistée par thèmes</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f6">Planificateur de lecture personnalisé</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f6">Accès hors-ligne et support prioritaire</span></li>
 </ul>
-<button class="pay-btn" id="stripePayBtn">💳 Payer avec Stripe</button>
+<button class="pay-btn" id="stripePayBtn" data-i18n="pay_btn">💳 Payer avec Stripe</button>
 <div class="secure-badge">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-Paiement sécurisé — Stripe
+<span data-i18n="pay_secure">Paiement sécurisé — Stripe</span>
 </div>
 </div>
 </section>
 </div>
 <!-- VUE PRIÈRES -->
 <div class="view" id="view-priere">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="card_prayer_t">Horaires &amp; Qibla</span>
 <h2 data-i18n="prayer_title">Les cinq prières, où que tu sois.</h2>
-<p>"La Salât demeure, pour les croyants, une prescription à des temps déterminés". (Coran 04:113)</p>
+<p data-i18n="prayer_ayah">"La Salât demeure, pour les croyants, une prescription à des temps déterminés". (Coran 4:103)</p>
 </div>
 <div class="prayer-shell">
 <div class="prayer-times-card">
 <div class="prayer-location">
-<span class="place mono" id="prayerPlace">Localisation en cours…</span>
-<button id="prayerLocate">Actualiser</button>
+<span class="place mono" id="prayerPlace" data-i18n="locating">Localisation en cours…</span>
+<button id="prayerLocate" data-i18n="btn_refresh">Actualiser</button>
 </div>
 <div class="city-search">
-<input type="text" id="citySearchInput" placeholder="Ou tape ta ville">
-<button id="citySearchBtn">Chercher</button>
+<input type="text" id="citySearchInput" placeholder="Ou tape ta ville" data-i18n-placeholder="city_ph">
+<button id="citySearchBtn" data-i18n="btn_search">Chercher</button>
 </div>
 <p class="city-search-status" id="citySearchStatus"></p>
 <div class="next-prayer">
-<div class="label">Prochaine prière</div>
+<div class="label" data-i18n="next_prayer">Prochaine prière</div>
 <div class="name" id="nextPrayerName">—</div>
 <div class="countdown mono" id="nextPrayerCountdown">--:--:--</div>
 </div>
@@ -1820,103 +1862,104 @@ Paiement sécurisé — Stripe
 <div class="azan-control">
 <label class="azan-toggle">
 <input type="checkbox" id="azanToggle">
-<span>Activer l'Azan</span>
+<span data-i18n="enable_azan">Activer l'Azan</span>
 </label>
-<button type="button" id="azanTestBtn" class="azan-test">Tester le son</button>
-<p class="azan-note">Ne fonctionne que si cet onglet reste ouvert.</p>
-<audio id="adhanAudio"><source src="Adhan web.mp3" type="audio/mpeg"></audio>
+<button type="button" id="azanTestBtn" class="azan-test" data-i18n="test_sound">Tester le son</button>
+<p class="azan-note" data-i18n="azan_note">Ne fonctionne que si cet onglet reste ouvert.</p>
+<!-- preload=none : évite de télécharger 2,8 Mo d'adhan à chaque visite -->
+<audio id="adhanAudio" preload="none"><source src="Adhan web.mp3" type="audio/mpeg"></audio>
 </div>
 </div>
 <div class="qibla-card">
 <div class="qibla-compass" id="qiblaCompass">
-<div class="qibla-face-marker" title="Direction face à toi">▲</div>
+<div class="qibla-face-marker" title="Direction face à toi" data-i18n-title="aria_facing">▲</div>
 <div class="ring" id="qiblaRing">
-<span class="cardinal c-n">N</span>
-<span class="cardinal c-e">E</span>
-<span class="cardinal c-s">S</span>
-<span class="cardinal c-w">O</span>
+<span class="cardinal c-n" data-i18n="card_north">N</span>
+<span class="cardinal c-e" data-i18n="card_east">E</span>
+<span class="cardinal c-s" data-i18n="card_south">S</span>
+<span class="cardinal c-w" data-i18n="card_west">O</span>
 <div class="qibla-pivot">
 <div class="qibla-needle" id="qiblaNeedle"></div>
 </div>
 <div class="qibla-kaaba" id="qiblaKaaba"></div>
 </div>
 </div>
-<div class="qibla-align" id="qiblaAlign">Active la boussole</div>
+<div class="qibla-align" id="qiblaAlign" data-i18n="compass_on">Active la boussole</div>
 <div class="qibla-deg" id="qiblaDeg">Direction : —</div>
-<p class="qibla-note" id="qiblaNote">Sur mobile : active la boussole, tiens le téléphone à plat, puis tourne-toi jusqu&apos;à ce que l&apos;aiguille pointe vers le triangle en haut.</p>
-<button class="btn btn-ghost" id="compassEnable" style="font-size:0.82rem;">Activer la boussole en direct</button>
+<p class="qibla-note" id="qiblaNote" data-i18n="qibla_note">Sur mobile : active la boussole, tiens le téléphone à plat, puis tourne-toi jusqu&apos;à ce que l&apos;aiguille pointe vers le triangle en haut.</p>
+<button class="btn btn-ghost" id="compassEnable" style="font-size:0.82rem;" data-i18n="compass_live">Activer la boussole en direct</button>
 </div>
 </div>
 <div class="prayer-info-grid">
 <div class="prayer-info-card">
-<div class="prayer-title">🌅 Fajr</div>
-<div class="prayer-verse">« Et accomplis la prière aux deux extrémités du jour et à la tombée de la nuit. » <span class="qref" data-surah="11" data-ayah="114">(Coran 11:114)</span></div>
-<div class="prayer-hadith"><strong>Hadith :</strong> « La prière de l'aube et celle de l'après-midi, quiconque les observe entrera au Paradis. » (Boukhari)</div>
+<div class="prayer-title" data-i18n="pt_fajr">🌅 Fajr</div>
+<div class="prayer-verse" data-i18n-html="pv_fajr">« Et accomplis la prière aux deux extrémités du jour et à la tombée de la nuit. » <span class="qref" data-surah="11" data-ayah="114">(Coran 11:114)</span></div>
+<div class="prayer-hadith" data-i18n-html="ph_fajr"><strong>Hadith :</strong> « La prière de l'aube et celle de l'après-midi, quiconque les observe entrera au Paradis. » (Boukhari)</div>
 </div>
 <div class="prayer-info-card">
-<div class="prayer-title">☀️ Dhuhr</div>
-<div class="prayer-verse">« Soyez assidus aux prières et à la prière médiane. » <span class="qref" data-surah="2" data-ayah="238">(Coran 2:238)</span></div>
-<div class="prayer-hadith"><strong>Hadith :</strong> « Celui qui observe les quatre prières avant et après Dhuhr, le feu ne le touchera pas. » (Tirmidhi)</div>
+<div class="prayer-title" data-i18n="pt_dhuhr">☀️ Dhuhr</div>
+<div class="prayer-verse" data-i18n-html="pv_dhuhr">« Soyez assidus aux prières et à la prière médiane. » <span class="qref" data-surah="2" data-ayah="238">(Coran 2:238)</span></div>
+<div class="prayer-hadith" data-i18n-html="ph_dhuhr"><strong>Hadith :</strong> « Celui qui observe les quatre prières avant et après Dhuhr, le feu ne le touchera pas. » (Tirmidhi)</div>
 </div>
 <div class="prayer-info-card">
-<div class="prayer-title">🌇 Asr</div>
-<div class="prayer-verse">« Et accomplis la prière aux deux extrémités du jour et à la tombée de la nuit. » <span class="qref" data-surah="11" data-ayah="114">(Coran 11:114)</span></div>
-<div class="prayer-hadith"><strong>Hadith :</strong> « Quiconque manque la prière de l'Asr, c'est comme s'il avait perdu sa famille et ses biens. » (Boukhari)</div>
+<div class="prayer-title" data-i18n="pt_asr">🌇 Asr</div>
+<div class="prayer-verse" data-i18n-html="pv_asr">« Et accomplis la prière aux deux extrémités du jour et à la tombée de la nuit. » <span class="qref" data-surah="11" data-ayah="114">(Coran 11:114)</span></div>
+<div class="prayer-hadith" data-i18n-html="ph_asr"><strong>Hadith :</strong> « Quiconque manque la prière de l'Asr, c'est comme s'il avait perdu sa famille et ses biens. » (Boukhari)</div>
 </div>
 <div class="prayer-info-card">
-<div class="prayer-title">🌅 Maghrib</div>
-<div class="prayer-verse">« Accomplis la prière au coucher du soleil jusqu'à l'obscurité de la nuit. » <span class="qref" data-surah="17" data-ayah="78">(Coran 17:78)</span></div>
-<div class="prayer-hadith"><strong>Hadith :</strong> « Le Prophète a dit : "Ma communauté restera sur la bonne voie tant qu'elle fera la prière de Maghrib avant le coucher du soleil." » (Abou Dawoud)</div>
+<div class="prayer-title" data-i18n="pt_maghrib">🌅 Maghrib</div>
+<div class="prayer-verse" data-i18n-html="pv_maghrib">« Accomplis la prière au coucher du soleil jusqu'à l'obscurité de la nuit. » <span class="qref" data-surah="17" data-ayah="78">(Coran 17:78)</span></div>
+<div class="prayer-hadith" data-i18n-html="ph_maghrib"><strong>Hadith :</strong> « Le Prophète a dit : "Ma communauté restera sur la bonne voie tant qu'elle fera la prière de Maghrib avant le coucher du soleil." » (Abou Dawoud)</div>
 </div>
 <div class="prayer-info-card">
-<div class="prayer-title">🌙 Isha</div>
-<div class="prayer-verse">« Et la prière de la nuit, une œuvre supplémentaire pour toi. » <span class="qref" data-surah="17" data-ayah="79">(Coran 17:79)</span></div>
-<div class="prayer-hadith"><strong>Hadith :</strong> « Si les gens savaient ce qu'il y a dans la prière du soir, ils viendraient en rampant. » (Boukhari)</div>
+<div class="prayer-title" data-i18n="pt_isha">🌙 Isha</div>
+<div class="prayer-verse" data-i18n-html="pv_isha">« Et la prière de la nuit, une œuvre supplémentaire pour toi. » <span class="qref" data-surah="17" data-ayah="79">(Coran 17:79)</span></div>
+<div class="prayer-hadith" data-i18n-html="ph_isha"><strong>Hadith :</strong> « Si les gens savaient ce qu'il y a dans la prière du soir, ils viendraient en rampant. » (Boukhari)</div>
 </div>
 </div>
 </section>
 </div>
 <!-- VUE RAPPEL -->
 <div class="view" id="view-rappel">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="hadith_eyebrow">Rappel quotidien</span>
-<h2>Un hadith authentique, chaque jour.</h2>
-<p>Puisé dans les recueils authentiques de Boukhari et Muslim, ou dans "Le Jardin des Vertueux" d'An-Nawawi.</p>
+<h2 data-i18n="hadith_h2">Un hadith authentique, chaque jour.</h2>
+<p data-i18n="hadith_sub">Puisé dans les recueils authentiques de Boukhari et Muslim, ou dans "Le Jardin des Vertueux" d'An-Nawawi.</p>
 </div>
 <div class="hadith-daily-card">
-<span class="hadith-label">Rappel du jour</span>
-<p class="translation" id="hadithText">Chargement du rappel du jour…</p>
+<span class="hadith-label" data-i18n="hadith_of_day">Rappel du jour</span>
+<p class="translation" id="hadithText" data-i18n="hadith_loading">Chargement du rappel du jour…</p>
 <p class="hadith-count-badge" id="hadithCountBadge"></p>
 <div class="ref">
 <span class="badge" id="hadithRef">—</span>
-<button class="hadith-refresh" id="hadithRefresh">Un autre rappel →</button>
+<button class="hadith-refresh" id="hadithRefresh" data-i18n="hadith_another">Un autre rappel →</button>
 </div>
 </div>
 </section>
 </div>
 <!-- VUE HISTOIRES DES PROPHÈTES -->
 <div class="view" id="view-prophete">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="card_prophets_t">Histoires des Prophètes</span>
 <h2 data-i18n="prophets_title">Les 25 prophètes cités dans le Coran</h2>
-<p>Découvre leurs histoires authentiques, leurs messages et les leçons à en tirer.</p>
-<p style="font-size:0.85rem;color:var(--ink-soft);margin-top:8px;">💡 Utilise les flèches ← → du clavier pour naviguer entre les prophètes.</p>
+<p data-i18n="prophets_sub">Découvre leurs histoires authentiques, leurs messages et les leçons à en tirer.</p>
+<p style="font-size:0.85rem;color:var(--ink-soft);margin-top:8px;" data-i18n="prophets_hint">💡 Utilise les flèches ← → du clavier pour naviguer entre les prophètes.</p>
 </div>
 <div class="prophetes-grid" id="prophetesGrid"></div>
 </section>
 </div>
 <!-- VUE DU'AS -->
 <div class="view" id="view-dua">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="tag_duas">Invocations quotidiennes</span>
 <h2 data-i18n="duas_title">Les du'as essentiels pour chaque moment</h2>
-<p>Plus de 50 invocations authentiques classées par situations, avec phonétique et traductions français/anglais.</p>
+<p data-i18n="duas_sub">Plus de 50 invocations authentiques classées par situations, avec phonétique et traductions français/anglais.</p>
 </div>
 <div class="duas-tabs" id="duasTabs"></div>
 <div class="dua-count-display" id="duaCountDisplay"></div>
@@ -1925,7 +1968,7 @@ Paiement sécurisé — Stripe
 </div>
 <!-- VUE AUJOURD'HUI -->
 <div class="view" id="view-aujourdhui">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="today_eyebrow">Routine</span>
@@ -1934,35 +1977,35 @@ Paiement sécurisé — Stripe
 </div>
 <div class="today-grid">
   <div class="today-card">
-    <span class="tc-label">Lecture</span>
-    <h4 id="todayReadTitle">Page du plan</h4>
-    <p id="todayReadText">Ouvre ton plan de khatm ou une page du mushaf.</p>
-    <button type="button" class="btn btn-primary" id="todayOpenQuran" style="align-self:flex-start;margin-top:auto;">Ouvrir le Qur'an</button>
+    <span class="tc-label" data-i18n="tc_reading">Lecture</span>
+    <h4 id="todayReadTitle" data-i18n="today_read_title">Page du plan</h4>
+    <p id="todayReadText" data-i18n="today_read_text">Ouvre ton plan de khatm ou une page du mushaf.</p>
+    <button type="button" class="btn btn-primary" id="todayOpenQuran" style="align-self:flex-start;margin-top:auto;" data-i18n="open_quran">Ouvrir le Qur'an</button>
   </div>
   <div class="today-card">
-    <span class="tc-label">Adhkar</span>
-    <h4>Adhkar du moment</h4>
+    <span class="tc-label" data-i18n="tc_adhkar">Adhkar</span>
+    <h4 data-i18n="today_adhkar_h">Adhkar du moment</h4>
     <p class="tc-ar" id="todayAdhkarAr">—</p>
     <p id="todayAdhkarFr">—</p>
   </div>
   <div class="today-card">
-    <span class="tc-label">Du'a</span>
-    <h4>Du'a du jour</h4>
+    <span class="tc-label" data-i18n="tc_dua">Du'a</span>
+    <h4 data-i18n="today_dua_h">Du'a du jour</h4>
     <p class="tc-ar" id="todayDuaAr">—</p>
     <p id="todayDuaFr">—</p>
   </div>
 </div>
 <div class="today-card" style="margin-bottom:24px;">
-  <span class="tc-label">Révisions hifz</span>
-  <h4>À revoir aujourd'hui</h4>
-  <div id="todayHifzList"><p style="color:var(--ink-soft);margin:0;font-size:0.9rem;">Aucune révision planifiée — marque un verset en hifz depuis le Qur'an.</p></div>
+  <span class="tc-label" data-i18n="tc_hifz">Révisions hifz</span>
+  <h4 data-i18n="today_hifz_h">À revoir aujourd'hui</h4>
+  <div id="todayHifzList"><p style="color:var(--ink-soft);margin:0;font-size:0.9rem;" data-i18n="today_hifz_empty">Aucune révision planifiée — marque un verset en hifz depuis le Qur'an.</p></div>
 </div>
 </section>
 </div>
 
 <!-- VUE PARCOURS 21 JOURS -->
 <div class="view" id="view-parcours">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="path_eyebrow">Débutant · 21 jours</span>
@@ -1970,14 +2013,14 @@ Paiement sécurisé — Stripe
 <p data-i18n="path_lead">Chaque jour : veiller à la prière, lire un peu, et un adhkar. Coche ce que tu as fait.</p>
 </div>
 <div class="parcours-progress" aria-hidden="true"><span id="parcoursFill" style="width:0%"></span></div>
-<p id="parcoursMeta" style="color:var(--ink-soft);font-size:0.9rem;margin:-8px 0 16px;">0 / 21 jours complétés</p>
+<p id="parcoursMeta" style="color:var(--ink-soft);font-size:0.9rem;margin:-8px 0 16px;" data-i18n="parcours_meta_zero">0 / 21 jours complétés</p>
 <div class="parcours-list" id="parcoursList"></div>
 </section>
 </div>
 
 <!-- VUE QUR'AN (mushaf 604 pages + tous les récitateurs, fusionnés) -->
 <div class="view" id="view-coran">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal mushaf-shell">
 <div class="section-head">
 <span class="eyebrow" data-i18n="quran_eyebrow">Mushaf · 604 pages</span>
@@ -1990,19 +2033,19 @@ Paiement sécurisé — Stripe
     <button type="button" class="mt-btn primary" id="quranSearchBtn">Rechercher</button>
   </div>
   <div class="rtb-actions">
-    <button type="button" class="mt-btn" id="mushafHifzToggle" title="Masque la fin des versets pour mémoriser">🧠 Mode hifz</button>
-    <button type="button" class="mt-btn" id="mushafBookmarksBtn" title="Mes signets">🔖 Signets <span id="bmCount">0</span></button>
-    <button type="button" class="mt-btn" id="mushafTajweedLegendBtn">🎨 Légende tajwid</button>
+    <button type="button" class="mt-btn" id="mushafHifzToggle" title="Masque la fin des versets pour mémoriser" data-i18n-title="hifz_tip">🧠 Mode hifz</button>
+    <button type="button" class="mt-btn" id="mushafBookmarksBtn" title="Mes signets" data-i18n-title="bookmarks_mine">🔖 Signets <span id="bmCount">0</span></button>
+    <button type="button" class="mt-btn" id="mushafTajweedLegendBtn" data-i18n="tajweed_legend">🎨 Légende tajwid</button>
   </div>
 </div>
 <div id="quranSearchResults" class="quran-search-results" hidden></div>
 <div id="mushafBookmarksPanel" class="mushaf-side-panel" hidden>
-  <div class="msp-head"><strong>Mes signets</strong> <button type="button" id="bmCloseBtn" class="mt-btn">Fermer</button></div>
+  <div class="msp-head"><strong data-i18n="bookmarks_mine">Mes signets</strong> <button type="button" id="bmCloseBtn" class="mt-btn" data-i18n="close">Fermer</button></div>
   <ul id="bmList" class="bm-list"></ul>
-  <p id="bmEmpty" class="bm-empty">Aucun signet — clique l’icône 🔖 sur un verset.</p>
+  <p id="bmEmpty" class="bm-empty" data-i18n="bookmarks_empty">Aucun signet — clique l’icône 🔖 sur un verset.</p>
 </div>
 <div id="hifzReviewPanel" class="hifz-review-box" hidden>
-  <h4>Révisions hifz dues</h4>
+  <h4 data-i18n="hifz_due">Révisions hifz dues</h4>
   <div id="hifzReviewList"></div>
 </div>
 <div id="tajweedLegend" class="tajweed-legend" hidden>
@@ -2013,27 +2056,27 @@ Paiement sécurisé — Stripe
   <span><i class="tl qalaqah"></i> Qalqalah</span>
   <span><i class="tl madda"></i> Madd</span>
   <div class="tajweed-lesson">
-    <strong>Mini-leçons :</strong> <em>Ghunnah</em> = nasalisation (نّ / مّ) · <em>Idgham</em> = fusion dans la lettre suivante (souvent avec chadda) ·
+    <span data-i18n-html="tajweed_lessons"><strong>Mini-leçons :</strong> <em>Ghunnah</em> = nasalisation (نّ / مّ) · <em>Idgham</em> = fusion dans la lettre suivante (souvent avec chadda) ·
     <em>Iqlab</em> = ن devient proche de م devant ب · <em>Ikhfa</em> = ن cachée, son entre izhar et idgham ·
-    <em>Qalqalah</em> = écho sur ق ط ب ج د en sukun · <em>Madd</em> = prolongation de la voyelle.
+    <em>Qalqalah</em> = écho sur ق ط ب ج د en sukun · <em>Madd</em> = prolongation de la voyelle.</span>
   </div>
 </div>
 <div class="mushaf-toolbar">
 <div class="mt-group">
-<select id="mushafSurahSelect" aria-label="Aller à une sourate"></select>
-<button type="button" class="mt-btn" id="mushafGoSurah">Aller</button>
+<select id="mushafSurahSelect" aria-label="Aller à une sourate" data-i18n-aria="aria_goto_surah"></select>
+<button type="button" class="mt-btn" id="mushafGoSurah" data-i18n="go">Aller</button>
 </div>
 <div class="mt-group">
-<button type="button" class="mt-btn mushaf-theme-btn" id="mushafThemeToggle" title="mode jour / mode sombre" aria-label="Mode d'affichage">
+<button type="button" class="mt-btn mushaf-theme-btn" id="mushafThemeToggle" title="mode jour / mode sombre" aria-label="Mode d'affichage" data-i18n-title="theme_tip" data-i18n-aria="theme_aria">
 <span id="mushafThemeIcon">🌙</span>
 <span id="mushafThemeLabel">Sombre</span>
 </button>
 <button type="button" class="mt-btn" id="mushafToggleTr">Traduction FR</button>
-<button type="button" class="mt-btn primary" id="mushafPlayPage">▶ Lire la page</button>
+<button type="button" class="mt-btn primary" id="mushafPlayPage" data-i18n="play_page">▶ Lire la page</button>
 </div>
 </div>
 <div class="mushaf-reciters-panel">
-<div class="mushaf-reciters-title">Choisir une voix <span id="mushafReciterCount"></span></div>
+<div class="mushaf-reciters-title"><span data-i18n="pick_voice">Choisir une voix</span> <span id="mushafReciterCount"></span></div>
 <div class="mushaf-reciters-grid" id="mushafRecitersGrid"></div>
 </div>
 <div class="mushaf-page-frame">
@@ -2042,26 +2085,26 @@ Paiement sécurisé — Stripe
 <span id="mushafJuzLabel">—</span>
 </div>
 <div class="mushaf-ayahs" id="mushafAyahs">
-<p style="text-align:center;color:var(--ink-soft);">Chargement de la page…</p>
+<p style="text-align:center;color:var(--ink-soft);" data-i18n="page_loading">Chargement de la page…</p>
 </div>
 </div>
 <div class="mushaf-page-nav">
-<button type="button" id="mushafPrevPage">← Page précédente</button>
+<button type="button" id="mushafPrevPage" data-i18n="prev_page">← Page précédente</button>
 <span class="mp-pos" id="mushafPagePos">Page 1 / 604</span>
-<button type="button" id="mushafNextPage">Page suivante →</button>
+<button type="button" id="mushafNextPage" data-i18n="next_page">Page suivante →</button>
 <div class="mp-jump">
-<label for="mushafPageInput">Page</label>
+<label for="mushafPageInput" data-i18n="page_label">Page</label>
 <input type="number" id="mushafPageInput" min="1" max="604" placeholder="1–604" inputmode="numeric">
-<button type="button" id="mushafPageGo" class="mt-btn">Aller</button>
+<button type="button" id="mushafPageGo" class="mt-btn" data-i18n="go">Aller</button>
 </div>
 </div>
 <div class="mushaf-bottom-bar" id="mushafBottomBar">
 <div class="mb-reciters" id="mushafReciterChips"></div>
 <div class="mb-controls">
-<button type="button" class="mb-play" id="mushafPlayBtn" title="Lecture / Pause">
+<button type="button" class="mb-play" id="mushafPlayBtn" title="Lecture / Pause" data-i18n-title="play_pause">
 <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
 </button>
-<div class="mb-info" id="mushafAudioInfo">Choisis un récitateur, puis appuie sur lecture</div>
+<div class="mb-info" id="mushafAudioInfo" data-i18n="pick_reciter_hint">Choisis un récitateur, puis appuie sur lecture</div>
 <div class="mb-progress">
 <span class="mb-time" id="mushafTime">00:00</span>
 <input type="range" id="mushafProgress" min="0" max="100" value="0">
@@ -2073,39 +2116,39 @@ Paiement sécurisé — Stripe
 
 <!-- VUE SUIVI -->
 <div class="view" id="view-suivi">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="tag_track">Suivi</span>
 <h2 data-i18n="card_track_t">Mon suivi quotidien</h2>
-<p>Plan de khatm, objectif du jour et régularité — pour tenir sur la durée.</p>
+<p data-i18n="track_sub">Plan de khatm, objectif du jour et régularité — pour tenir sur la durée.</p>
 </div>
 
 <div class="khatm-card" id="khatmCard">
-  <h4>📖 Plan de khatm (lecture complète)</h4>
-  <p class="khatm-sub">Choisis en combien de jours tu veux lire tout le Coran (604 pages).</p>
+  <h4 data-i18n="khatm_h">📖 Plan de khatm (lecture complète)</h4>
+  <p class="khatm-sub" data-i18n="khatm_sub">Choisis en combien de jours tu veux lire tout le Coran (604 pages).</p>
   <div class="khatm-plans">
-    <button type="button" class="khatm-plan" data-days="30">30 jours<br><small>~20 pages/j</small></button>
-    <button type="button" class="khatm-plan" data-days="60">60 jours<br><small>~10 pages/j</small></button>
-    <button type="button" class="khatm-plan" data-days="90">90 jours<br><small>~7 pages/j</small></button>
-    <button type="button" class="khatm-plan" data-days="120">120 jours<br><small>~5 pages/j</small></button>
+    <button type="button" class="khatm-plan" data-days="30" data-i18n-html="khatm_30">30 jours<br><small>~20 pages/j</small></button>
+    <button type="button" class="khatm-plan" data-days="60" data-i18n-html="khatm_60">60 jours<br><small>~10 pages/j</small></button>
+    <button type="button" class="khatm-plan" data-days="90" data-i18n-html="khatm_90">90 jours<br><small>~7 pages/j</small></button>
+    <button type="button" class="khatm-plan" data-days="120" data-i18n-html="khatm_120">120 jours<br><small>~5 pages/j</small></button>
   </div>
   <div class="khatm-status" id="khatmStatus">
     <div class="khatm-progress-bar"><div class="khatm-progress-fill" id="khatmFill" style="width:0%"></div></div>
     <div class="khatm-meta">
-      <span id="khatmMeta">Aucun plan actif</span>
-      <button type="button" class="btn btn-gold" id="khatmContinueBtn" style="display:none;padding:8px 16px;font-size:0.85rem;">Continuer la lecture</button>
+      <span id="khatmMeta" data-i18n="khatm_none">Aucun plan actif</span>
+      <button type="button" class="btn btn-gold" id="khatmContinueBtn" style="display:none;padding:8px 16px;font-size:0.85rem;" data-i18n="khatm_continue">Continuer la lecture</button>
     </div>
   </div>
 </div>
 
 <div class="how-it-works">
-<div class="how-step"><span class="step-num">1</span><h4>Tu choisis ta lecture</h4><p>Sélectionne le nombre de pages ou de hizb que tu as lus.</p></div>
-<div class="how-step"><span class="step-num">2</span><h4>Tu valides</h4><p>Clique sur "Valider" pour enregistrer ta progression.</p></div>
-<div class="how-step"><span class="step-num">3</span><h4>Tu suis tes progrès</h4><p>Visualise ta série, ta régularité et ton objectif du jour.</p></div>
+<div class="how-step"><span class="step-num">1</span><h4 data-i18n="hs_t1">Tu choisis ta lecture</h4><p data-i18n="hs_d1">Sélectionne le nombre de pages ou de hizb que tu as lus.</p></div>
+<div class="how-step"><span class="step-num">2</span><h4 data-i18n="hs_t2">Tu valides</h4><p data-i18n="hs_d2">Clique sur "Valider" pour enregistrer ta progression.</p></div>
+<div class="how-step"><span class="step-num">3</span><h4 data-i18n="hs_t3">Tu suis tes progrès</h4><p data-i18n="hs_d3">Visualise ta série, ta régularité et ton objectif du jour.</p></div>
 </div>
 <div class="demo-card">
-<h4>Mon suivi quotidien</h4>
+<h4 data-i18n="card_track_t">Mon suivi quotidien</h4>
 <div class="reader-demo">
 <div class="tracker-grid" id="trackerGrid">
 <div class="tracker-day">L</div>
@@ -2117,25 +2160,25 @@ Paiement sécurisé — Stripe
 <div class="tracker-day">D</div>
 </div>
 <div class="stat-row">
-<div class="stat"><span class="num" id="streakCount">0</span><span class="label">Jours de suite</span></div>
-<div class="stat"><span class="num" id="weekCount">0</span><span class="label">Jours cette semaine</span></div>
-<div class="stat"><span class="num" id="monthPercent">0%</span><span class="label">Régularité du mois</span></div>
+<div class="stat"><span class="num" id="streakCount">0</span><span class="label" data-i18n="stat_streak">Jours de suite</span></div>
+<div class="stat"><span class="num" id="weekCount">0</span><span class="label" data-i18n="stat_week">Jours cette semaine</span></div>
+<div class="stat"><span class="num" id="monthPercent">0%</span><span class="label" data-i18n="stat_month">Régularité du mois</span></div>
 </div>
 <div class="daily-objective">
 <div class="obj-row">
 <div>
-<div class="obj-label">Objectif du jour</div>
+<div class="obj-label" data-i18n="obj_today">Objectif du jour</div>
 <div class="obj-value" id="dailyObjectiveDisplay">5 pages</div>
 </div>
 <div>
-<div class="obj-label">Progression</div>
+<div class="obj-label" data-i18n="obj_progress">Progression</div>
 <div class="obj-status" id="dailyProgressStatus">⏳ En cours</div>
 </div>
 </div>
 <div class="obj-row" style="flex-direction:column;align-items:stretch;">
-<div class="obj-label" style="text-align:center;margin-bottom:6px;">Choisis ta lecture :</div>
+<div class="obj-label" style="text-align:center;margin-bottom:6px;" data-i18n="obj_pick">Choisis ta lecture :</div>
 <div class="page-selector" id="pageSelector"></div>
-<button class="btn btn-gold" id="validateReadingBtn" style="margin-top:8px;padding:8px 20px;font-size:0.82rem;align-self:center;">✅ Valider la lecture</button>
+<button class="btn btn-gold" id="validateReadingBtn" style="margin-top:8px;padding:8px 20px;font-size:0.82rem;align-self:center;" data-i18n="obj_validate">✅ Valider la lecture</button>
 </div>
 </div>
 </div>
@@ -2144,52 +2187,52 @@ Paiement sécurisé — Stripe
 </div>
 <!-- VUE ÉCOUTE -->
 <div class="view" id="view-ecoute">
-<button class="back-link" data-view="view-home">← Retour à l'accueil</button>
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="tag_fix">Correction IA</span>
 <h2 data-i18n="card_listen_t">Correction de récitation</h2>
-<p>Enregistre ta voix pendant que tu lis le Coran. L'outil détecte la sourate et te montre tes erreurs avec le texte corrigé.</p>
+<p data-i18n="listen_sub">Enregistre ta voix pendant que tu lis le Coran. L'outil détecte la sourate et te montre tes erreurs avec le texte corrigé.</p>
 <div style="margin-top:12px;font-size:0.85rem;color:var(--ink-soft);">
-<span style="background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;">Gratuit</span> 3 sessions par semaine
-<span style="margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;">Premium</span> Illimité
+<span data-i18n-html="listen_quota"><span style="background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;">Gratuit</span> 3 sessions par semaine
+<span style="margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;">Premium</span> Illimité</span>
 </div>
 </div>
 <div class="how-it-works">
-<div class="how-step"><span class="step-num">1</span><h4>Tu enregistres</h4><p>Récite un passage du Coran à voix haute dans le micro.</p></div>
-<div class="how-step"><span class="step-num">2</span><h4>Détection automatique</h4><p>La sourate et le verset sont identifiés en temps réel.</p></div>
-<div class="how-step"><span class="step-num">3</span><h4>Correction des erreurs</h4><p>Les mots mal prononcés sont signalés et le verset correct t'est proposé.</p></div>
+<div class="how-step"><span class="step-num">1</span><h4 data-i18n="ls_t1">Tu enregistres</h4><p data-i18n="ls_d1">Récite un passage du Coran à voix haute dans le micro.</p></div>
+<div class="how-step"><span class="step-num">2</span><h4 data-i18n="ls_t2">Détection automatique</h4><p data-i18n="ls_d2">La sourate et le verset sont identifiés en temps réel.</p></div>
+<div class="how-step"><span class="step-num">3</span><h4 data-i18n="ls_t3">Correction des erreurs</h4><p data-i18n="ls_d3">Les mots mal prononcés sont signalés et le verset correct t'est proposé.</p></div>
 </div>
 <div class="demo-card">
-<p class="listen-disclaimer">⚠️ La reconnaissance vocale dépend de ton navigateur et de la qualité du micro. Utilise Chrome ou Safari pour de meilleurs résultats.</p>
+<p class="listen-disclaimer" data-i18n="listen_warn">⚠️ La reconnaissance vocale dépend de ton navigateur et de la qualité du micro. Utilise Chrome ou Safari pour de meilleurs résultats.</p>
 <div class="listen-demo">
 <div class="listen-card">
-<h5>Enregistrement audio</h5>
-<button class="record-btn" id="recordBtn"><span class="dot"></span> Démarrer</button>
+<h5 data-i18n="rec_h">Enregistrement audio</h5>
+<button class="record-btn" id="recordBtn" data-i18n-html="rec_start"><span class="dot"></span> Démarrer</button>
 <div class="record-timer" id="recordTimer">00:00</div>
 <div class="record-player" id="recordPlayer">
 <audio controls id="recordAudio"></audio>
-<button class="btn btn-ghost" id="recordAgainBtn">Recommencer</button>
+<button class="btn btn-ghost" id="recordAgainBtn" data-i18n="rec_again">Recommencer</button>
 </div>
-<p class="record-status" id="recordStatus">Appuie pour démarrer — le navigateur va demander l'accès au micro.</p>
+<p class="record-status" id="recordStatus" data-i18n="rec_hint">Appuie pour démarrer — le navigateur va demander l'accès au micro.</p>
 <p class="record-status" id="sessionCount" style="font-size:0.8rem;opacity:0.7;">Sessions restantes cette semaine : 3</p>
 </div>
 <div class="listen-card">
-<h5>Sourate détectée</h5>
+<h5 data-i18n="det_h">Sourate détectée</h5>
 <div id="detectionResult">
-<p style="opacity:.7;font-size:0.85rem;">Lance un enregistrement pour voir le résultat.</p>
+<p style="opacity:.7;font-size:0.85rem;" data-i18n="det_empty">Lance un enregistrement pour voir le résultat.</p>
 </div>
 </div>
 </div>
 <div class="transcript-compare" id="transcriptCompare">
-<h5>Comparaison mot par mot</h5>
+<h5 data-i18n="cmp_h">Comparaison mot par mot</h5>
 <p class="fc-arabic" id="compareWords" lang="ar" dir="rtl"></p>
-<p class="compare-legend"><span class="cw-match">mot reconnu</span> · <span class="cw-miss">mot manquant ou incorrect</span></p>
+<p class="compare-legend" data-i18n-html="cmp_legend"><span class="cw-match">mot reconnu</span> · <span class="cw-miss">mot manquant ou incorrect</span></p>
 </div>
 <div class="correction-panel" id="correctionPanel">
-<h5>Corrections suggérées</h5>
+<h5 data-i18n="corr_h">Corrections suggérées</h5>
 <ul class="correction-list" id="correctionList"></ul>
-<h5 style="margin-top:16px;">Texte correct du verset</h5>
+<h5 style="margin-top:16px;" data-i18n="corr_correct">Texte correct du verset</h5>
 <p class="corrected-text" id="correctedText" lang="ar" dir="rtl"></p>
 </div>
 </div>
@@ -2199,55 +2242,55 @@ Paiement sécurisé — Stripe
 <footer>
 <div class="footer-inner">
 <a href="#main" class="logo">
-<img class="logo-mark" src="rihla-logo.jpg" alt="Rihla" width="30" height="30">
+<img class="logo-mark" src="logo-64.png" alt="Rihla" width="30" height="30" loading="lazy" decoding="async">
 Rihla
 </a>
 <div class="cols">
 <div class="col">
-<h6>Produit</h6>
-<a href="#" data-view="view-coran">Qur'an</a>
-<a href="#" data-view="view-suivi">Suivi quotidien</a>
-<a href="#" data-view="view-ecoute">Session d'écoute</a>
-<a href="#" data-view="view-prophete">Histoires des Prophètes</a>
-<a href="#" data-view="view-dua">Du'as</a>
+<h6 data-i18n="foot_product">Produit</h6>
+<a href="#" data-view="view-coran" data-i18n="nav_quran">Qur'an</a>
+<a href="#" data-view="view-suivi" data-i18n="foot_track">Suivi quotidien</a>
+<a href="#" data-view="view-ecoute" data-i18n="foot_listen">Session d'écoute</a>
+<a href="#" data-view="view-prophete" data-i18n="nav_prophets">Histoires des Prophètes</a>
+<a href="#" data-view="view-dua" data-i18n="nav_duas">Du'as</a>
 </div>
 <div class="col">
-<h6>Compte</h6>
-<a href="#" id="footerLogin">Se connecter</a>
-<a href="#" data-view="view-home" data-scroll-to="tarifs">Tarifs</a>
+<h6 data-i18n="foot_account">Compte</h6>
+<a href="#" id="footerLogin" data-i18n="login">Se connecter</a>
+<a href="#" data-view="view-home" data-scroll-to="tarifs" data-i18n="nav_pricing">Tarifs</a>
 </div>
 <div class="col">
-<h6>À propos</h6>
-<a href="#" data-view="view-home" data-scroll-to="faq">Questions</a>
-<a href="#">Contact</a>
+<h6 data-i18n="foot_about">À propos</h6>
+<a href="#" data-view="view-home" data-scroll-to="faq" data-i18n="foot_faq">Questions</a>
+<a href="#" data-i18n="foot_contact">Contact</a>
 </div>
 </div>
 </div>
-<div class="footer-bottom">© 2026 Rihla. Un compagnon pour ta lecture du Coran, jour après jour.</div>
+<div class="footer-bottom" data-i18n="foot_copy">© 2026 Rihla. Un compagnon pour ta lecture du Coran, jour après jour.</div>
 </footer>
 <!-- MODAL CONNEXION -->
 <div class="modal-overlay" id="loginOverlay">
 <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-<button class="modal-close" id="closeLogin" aria-label="Fermer">
+<button class="modal-close" id="closeLogin" aria-label="Fermer" data-i18n-aria="close">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
 </button>
 <h3 id="modalTitle">Se connecter</h3>
-<p class="sub">Accède à ton suivi depuis n'importe quel appareil.</p>
+<p class="sub" data-i18n="modal_sub">Accède à ton suivi depuis n'importe quel appareil.</p>
 <button class="auth-option" id="authGoogle">
 <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20.5H24v7h11.3C33.9 31.4 29.4 34.5 24 34.5c-6.9 0-12.5-5.6-12.5-12.5S17.1 9.5 24 9.5c3.2 0 6 1.2 8.2 3.1l5.2-5.2C34.1 4.4 29.3 2.5 24 2.5 12.4 2.5 3 11.9 3 23.5S12.4 44.5 24 44.5 45 35.1 45 23.5c0-1-.1-2-.4-3z"/><path fill="#FF3D00" d="M6.3 14.7l5.8 4.2C13.6 15.3 18.4 12.5 24 12.5c3.2 0 6 1.2 8.2 3.1l5.2-5.2C34.1 6.9 29.3 5 24 5c-7.4 0-13.8 4.2-17.1 10.3z"/><path fill="#4CAF50" d="M24 44.5c5.2 0 9.9-1.8 13.6-4.8l-6.3-5.3C29.2 36 26.7 37 24 37c-5.3 0-9.8-3.4-11.4-8.1l-6.4 4.9C9.9 40 16.4 44.5 24 44.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20.5H24v7h11.3c-.9 2.6-2.6 4.7-4.8 6.2l6.3 5.3C40.5 36.3 43 30.5 43 23.5c0-1-.1-2-.4-3z"/></svg>
-Continuer avec Google
+<span data-i18n="auth_google">Continuer avec Google</span>
 </button>
-<div class="auth-divider">ou avec un e-mail</div>
+<div class="auth-divider" data-i18n="auth_or">ou avec un e-mail</div>
 <form class="auth-email" id="emailForm">
-<label for="emailInput" style="font-size:0.85rem;color:var(--ink-soft);">Adresse e-mail</label>
+<label for="emailInput" style="font-size:0.85rem;color:var(--ink-soft);" data-i18n="auth_email">Adresse e-mail</label>
 <input type="email" id="emailInput" placeholder="toi@exemple.com" autocomplete="email" required>
-<label for="passwordInput" style="font-size:0.85rem;color:var(--ink-soft);">Mot de passe</label>
+<label for="passwordInput" style="font-size:0.85rem;color:var(--ink-soft);" data-i18n="auth_pass">Mot de passe</label>
 <input type="password" id="passwordInput" placeholder="••••••••" autocomplete="current-password" minlength="6" required>
 <button type="submit" class="btn btn-primary" id="authSubmitBtn" style="margin-top:4px;">Se connecter</button>
 <p class="auth-status" id="authStatus"></p>
-<button type="button" class="auth-toggle-mode" id="authToggleMode">Pas encore de compte ? Crée-en un</button>
+<button type="button" class="auth-toggle-mode" id="authToggleMode" data-i18n="auth_no_account">Pas encore de compte ? Crée-en un</button>
 </form>
-<p class="modal-note">Connexion réelle via Supabase (Google, ou e-mail + mot de passe).</p>
+<p class="modal-note" data-i18n="modal_note">Connexion réelle via Supabase (Google, ou e-mail + mot de passe).</p>
 </div>
 </div>
 <!-- TOAST NOTIFICATION -->
@@ -2261,10 +2304,13 @@ Continuer avec Google
 <div class="pd-name-ar" id="pdNameAr">—</div>
 <div class="pd-desc" id="pdDesc">—</div>
 <div class="pd-verses" id="pdVerses">—</div>
-<div class="pd-source" id="pdSource">📚 Sources : Coran, hadiths authentiques, "Histoires des Prophètes" d'Ibn Kathir</div>
+<div class="pd-source" id="pdSource" data-i18n="pd_sources">📚 Sources : Coran, hadiths authentiques, "Histoires des Prophètes" d'Ibn Kathir</div>
 <div class="pd-lesson" id="pdLesson" style="display:none;"></div>
 </div>
 </div>
+<!-- Déplacé du <head> : le HTML visible est déjà parsé et peint quand on arrive ici.
+     Le rel=preload en tête a lancé le téléchargement, donc l'exécution est quasi immédiate. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin></script>
 <script>
 // =====================================================================
 // CONFIG SUPABASE
@@ -2293,7 +2339,7 @@ function showLoggedInUI(user){
 if(!user) return;
 isLoggedIn = true;
 currentUserEmail = user.email || '';
-const label = (user.user_metadata && (user.user_metadata.full_name || user.user_metadata.name)) || user.email || 'Utilisateur';
+const label = (user.user_metadata && (user.user_metadata.full_name || user.user_metadata.name)) || user.email || t('user_default');
 loginBtn.style.display = 'none';
 premiumBtn.style.display = 'none';
 userBadge.classList.add('visible');
@@ -2443,14 +2489,14 @@ alert("Le paiement Premium n'est pas encore activé sur ce site.");
 }
 });
 document.getElementById('authGoogle')?.addEventListener('click', async () => {
-authStatus.textContent = 'Redirection vers Google…';
+authStatus.textContent = t('auth_google_redirect');
 authStatus.className = 'auth-status';
 const { error } = await supabaseClient.auth.signInWithOAuth({
 provider: 'google',
 options: { redirectTo: window.location.origin + window.location.pathname }
 });
 if(error){
-authStatus.textContent = 'Erreur Google : ' + error.message;
+authStatus.textContent = t('auth_google_error') + error.message;
 authStatus.className = 'auth-status error';
 }
 });
@@ -2459,8 +2505,10 @@ const authSubmitBtn = document.getElementById('authSubmitBtn');
 const authToggleMode = document.getElementById('authToggleMode');
 function setAuthMode(mode){
 authMode = mode;
-authSubmitBtn.textContent = mode === 'signup' ? 'Créer mon compte' : 'Se connecter';
-authToggleMode.textContent = mode === 'signup' ? 'Déjà un compte ? Connecte-toi' : 'Pas encore de compte ? Crée-en un';
+authSubmitBtn.textContent = t(mode === 'signup' ? 'auth_signup' : 'auth_signin');
+authToggleMode.textContent = t(mode === 'signup' ? 'auth_have_account' : 'auth_no_account');
+const modalTitleEl = document.getElementById('modalTitle');
+if(modalTitleEl) modalTitleEl.textContent = t(mode === 'signup' ? 'auth_signup' : 'auth_signin');
 authStatus.textContent = '';
 authStatus.className = 'auth-status';
 }
@@ -2472,25 +2520,25 @@ const password = document.getElementById('passwordInput').value;
 if(!email || !password) return;
 authSubmitBtn.disabled = true;
 if(authMode === 'signup'){
-authStatus.textContent = 'Création du compte en cours…';
+authStatus.textContent = t('auth_creating');
 authStatus.className = 'auth-status';
 const { error } = await supabaseClient.auth.signUp({
 email, password,
 options: { emailRedirectTo: window.location.origin + window.location.pathname }
 });
 if(error){
-authStatus.textContent = 'Erreur : ' + error.message;
+authStatus.textContent = t('auth_error') + error.message;
 authStatus.className = 'auth-status error';
 } else {
-authStatus.textContent = 'Compte créé ! Vérifie ta boîte mail.';
+authStatus.textContent = t('auth_created');
 authStatus.className = 'auth-status ok';
 }
 } else {
-authStatus.textContent = 'Connexion en cours…';
+authStatus.textContent = t('auth_signing_in');
 authStatus.className = 'auth-status';
 const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
 if(error){
-authStatus.textContent = error.message.includes('Invalid login') ? 'E-mail ou mot de passe incorrect.' : 'Erreur : ' + error.message;
+authStatus.textContent = error.message.includes('Invalid login') ? t('auth_bad_creds') : t('auth_error') + error.message;
 authStatus.className = 'auth-status error';
 }
 }
@@ -2530,7 +2578,7 @@ if(window.currentAyahs && window.currentAyahs.length > 0 && parseInt(ayah) <= wi
 window.currentAyahIndex = parseInt(ayah) - 1;
 renderFlashcard();
 clearInterval(checkAyah);
-showToast(`📖 Verset ${ayah} de la sourate ${surah} chargé`);
+showToast(t('toast_verse_loaded_a') + ayah + t('toast_verse_loaded_b') + surah + t('toast_verse_loaded_c'));
 } else if(attempts > 20){
 clearInterval(checkAyah);
 }
@@ -2585,9 +2633,9 @@ btn.addEventListener('click', () => {
 document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('selected'));
 btn.classList.add('selected');
 selectedPages = opt.value;
-const display = opt.value >= 10 ? `${opt.label}` : `${opt.value} page${opt.value > 1 ? 's' : ''}`;
+const display = opt.value >= 10 ? `${opt.label}` : `${opt.value} ${t('pages_word')}`;
 document.getElementById('dailyObjectiveDisplay').textContent = display;
-showToast(`📖 Lecture sélectionnée : ${display}`);
+showToast(t('toast_reading_picked') + display);
 });
 container.appendChild(btn);
 });
@@ -2644,13 +2692,13 @@ document.getElementById('monthPercent').textContent = monthPercent + '%';
 const progress = Math.min(100, (dailyProgress.pagesRead / dailyProgress.dailyGoal) * 100);
 const statusEl = document.getElementById('dailyProgressStatus');
 if(progress >= 100){
-statusEl.textContent = '✅ Objectif atteint !';
+statusEl.textContent = t('obj_done');
 statusEl.className = 'obj-status done';
 } else if(progress > 0){
 statusEl.textContent = `⏳ ${Math.round(progress)}%`;
 statusEl.className = 'obj-status';
 } else {
-statusEl.textContent = '⏳ En cours';
+statusEl.textContent = t('obj_inprogress');
 statusEl.className = 'obj-status';
 }
 }
@@ -2670,8 +2718,8 @@ else break;
 }
 dailyProgress.streak = streak;
 saveDailyProgress();
-const label = pages >= 10 ? `${pages/10} Hizb` : `${pages} page${pages > 1 ? 's' : ''}`;
-showToast(`📖 ${label} ajoutée(s) à ton suivi !`);
+const label = pages >= 10 ? `${pages/10} Hizb` : `${pages} ${t('pages_word')}`;
+showToast('📖 ' + label + t('toast_added_tracking_b'));
 }
 function showToast(message){
 const toast = document.getElementById('toastNotification');
@@ -2702,7 +2750,7 @@ desc: `<strong>Adam (paix sur lui)</strong> est le premier homme et le premier p
 <br><br><strong>📖 Le Paradis et la tentation :</strong> Adam vécut au Paradis avec son épouse Hawwa (Ève). Ils y vivaient en paix et en abondance, mais Iblis, par orgueil et jalousie, les tenta et les fit manger de l'arbre interdit. Adam et Ève se repentirent sincèrement et Allah agréa leur repentir, leur enseignant les paroles de repentance. Ils furent alors descendus sur Terre pour y vivre et y établir la descendance humaine.
 <br><br><strong>📖 La descendance :</strong> Adam et Ève eurent de nombreux enfants, dont les plus célèbres sont Qabil (Caïn) et Habil (Abel). Leur histoire est marquée par le premier meurtre commis sur Terre, lorsque Qabil tua son frère par jalousie. Adam fut un prophète qui enseigna à ses enfants la voie d'Allah.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La repentance sincère efface les péchés. Adam est le modèle du croyant qui se tourne vers Allah après avoir fauté. L'orgueil d'Iblis nous enseigne que l'arrogance mène à la perdition, tandis que l'humilité et le repentir sont les voies du salut. La connaissance est une noble qualité qui élève l'homme au-dessus des anges.</p>
 </div>`,
 verses: '📖 Coran 2:31-34, 7:11-27, 20:115-123'
@@ -2715,7 +2763,7 @@ desc: `<strong>Idris (paix sur lui)</strong> est un prophète qui vécut entre A
 <br><br><strong>📖 Sa vie :</strong> Idris est l'un des premiers prophètes après Adam. Il est connu pour sa sagesse et sa piété. La tradition rapporte qu'il fut le premier à écrire avec un calame et à enseigner les sciences célestes. Il appela son peuple à adorer Allah et à suivre Ses commandements avec patience et persévérance.
 <br><br><strong>📖 Son élévation :</strong> Allah l'éleva à un rang élevé et le mentionna dans le Coran comme un homme de vérité et un prophète. Certains exégètes disent qu'il fut élevé au ciel de son vivant. Il est loué pour sa patience et sa constance dans l'adoration.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La science et la connaissance sont des voies vers Allah. La patience et la vérité sont des qualités des prophètes. Idris nous montre que la recherche du savoir est une forme d'adoration et que la persévérance dans la foi est récompensée par l'élévation.</p>
 </div>`,
 verses: '📖 Coran 19:56-57, 21:85-86'
@@ -2729,7 +2777,7 @@ desc: `<strong>Noé (paix sur lui)</strong> est l'un des plus grands prophètes.
 <br><br><strong>📖 L'arche et le déluge :</strong> Allah lui ordonna de construire une arche pour sauver les croyants du grand déluge qui allait submerger la Terre. Noé construisit l'arche sous les moqueries de son peuple. Lorsque le déluge arriva, Noé embarqua avec les croyants et des animaux de chaque espèce. Les eaux engloutirent les mécréants, y compris son propre fils qui refusa de monter dans l'arche, malgré les appels de Noé.
 <br><br><strong>📖 Après le déluge :</strong> L'arche s'arrêta sur le mont Judi, et Noé reçut la bénédiction d'Allah. Il fit descendre les croyants et les animaux sur Terre. Noé vécut encore de nombreuses années après le déluge et transmit le message d'Allah à sa descendance.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La patience dans la prédication est essentielle. La famille ne profite pas si elle ne suit pas la foi. L'obéissance à Allah sauve, et la persévérance dans l'appel à la vérité est une vertu des prophètes. Noé nous enseigne que la foi est une affaire personnelle et que les liens familiaux ne garantissent pas le salut.</p>
 </div>`,
 verses: '📖 Coran 7:59-64, 11:25-49, 71:1-28'
@@ -2743,7 +2791,7 @@ desc: `<strong>Houd (paix sur lui)</strong> fut envoyé au peuple d'Ad, une civi
 <br><br><strong>📖 Sa mission :</strong> Houd les appela à adorer Allah seul et à renoncer à leur arrogance et à leur orgueil. Il leur rappela les bienfaits d'Allah et les mit en garde contre Son châtiment. Mais ils rejetèrent son message et le défiaient en disant : "Qui est plus fort que nous ?"
 <br><br><strong>📖 Le châtiment :</strong> Allah leur envoya un vent violent et destructeur qui dura sept nuits et huit jours, les anéantissant complètement. Seuls Houd et les croyants furent épargnés. Leur civilisation disparut et leurs ruines servent encore de leçon pour les générations futures.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La force et la puissance ne protègent pas du châtiment d'Allah. L'orgueil est une cause de perdition. La vraie force réside dans la foi et l'humilité devant Allah. Les biens matériels et la puissance ne sont que des épreuves.</p>
 </div>`,
 verses: '📖 Coran 7:65-72, 11:50-60, 26:123-140'
@@ -2757,7 +2805,7 @@ desc: `<strong>Salih (paix sur lui)</strong> fut envoyé au peuple de Thamud, qu
 <br><br><strong>📖 Le miracle de la chamelle :</strong> Salih les appela à adorer Allah seul et à abandonner leur orgueil. Allah leur montra un signe divin : une chamelle qui sortit d'un rocher sur l'ordre de Salih. Il leur dit de la laisser paître en paix et de ne pas lui faire de mal. Cette chamelle était un miracle et un test pour eux.
 <br><br><strong>📖 Leur rébellion et leur châtiment :</strong> Ils tuèrent la chamelle par défi, refusant de croire au miracle. Allah leur donna trois jours pour se repentir, mais ils refusèrent. Un cri terrible les saisit et ils furent tous anéantis, sauf Salih et les croyants.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>Les signes d'Allah doivent être respectés. L'entêtement dans l'erreur mène à la destruction. La foi exige de reconnaître les signes d'Allah et d'y répondre par l'obéissance. Le refus des signes divins est une forme d'incrédulité.</p>
 </div>`,
 verses: '📖 Coran 7:73-79, 11:61-68, 26:141-159'
@@ -2772,7 +2820,7 @@ desc: `<strong>Abraham (paix sur lui)</strong> est le père des prophètes et l'
 <br><br><strong>📖 Ses fils :</strong> Allah lui donna deux fils, Ismaël (d'Hajar) et Isaac (de Sarah). Il fut éprouvé par l'ordre de sacrifier son fils Ismaël. Il obéit à Allah, mais fut arrêté au dernier moment et un bélier fut envoyé à la place. Cet événement est commémoré par la fête du sacrifice (Aïd al-Adha).
 <br><br><strong>📖 La Kaaba :</strong> Il reconstruisit la Kaaba avec son fils Ismaël et établit les rites du pèlerinage (Hajj). Il appela les gens à accomplir le pèlerinage et à se tourner vers la Maison d'Allah.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La foi en Allah passe avant tout. L'épreuve du sacrifice enseigne la soumission totale à Allah. La confiance en Allah dans les moments les plus difficiles est la marque des vrais croyants. Abraham est un modèle de foi, de patience et de soumission.</p>
 </div>`,
 verses: '📖 Coran 2:124-140, 14:35-41, 21:51-73, 37:83-113'
@@ -2786,7 +2834,7 @@ desc: `<strong>Lot (paix sur lui)</strong> était le neveu d'Abraham et fut envo
 <br><br><strong>📖 Sa mission :</strong> Lot les appela à la vertu et au repentir, les exhortant à abandonner leurs mauvaises pratiques et à adorer Allah seul. Mais ils rejetèrent son message avec mépris et se moquèrent de lui.
 <br><br><strong>📖 Le châtiment :</strong> Des anges, sous forme de beaux jeunes hommes, vinrent à Lot pour le rassurer. Le peuple tenta de s'en prendre à eux, mais les anges aveuglèrent les agresseurs. Allah ordonna à Lot de quitter la ville avec sa famille avant le lever du soleil. Seule sa femme, qui avait trahi et averti les mécréants, fut détruite avec eux. La ville fut renversée et une pluie de pierres d'argile cuite la consuma.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>Les mauvaises pratiques mènent à la destruction. Le croyant doit quitter l'environnement corrompu. L'attachement aux valeurs divines est plus important que les liens familiaux lorsqu'ils s'opposent à la foi. La miséricorde d'Allah est grande, mais Son châtiment est sévère pour ceux qui persistent dans l'erreur.</p>
 </div>`,
 verses: '📖 Coran 7:80-84, 11:77-83, 26:160-175'
@@ -2800,7 +2848,7 @@ desc: `<strong>Ismaël (paix sur lui)</strong> est le fils aîné d'Abraham et d
 <br><br><strong>📖 La Kaaba :</strong> Avec son père, il reconstruisit la Kaaba et établit les rites du pèlerinage. Il est l'ancêtre du Prophète Muhammad (paix sur lui). Il fut un prophète qui ordonnait la prière et la charité à sa famille.
 <br><br><strong>📖 Sa descendance :</strong> Il eut douze fils qui donnèrent naissance aux tribus arabes. Sa descendance est bénie et il est considéré comme le père des Arabes.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La soumission à Allah est la plus grande vertu. La famille des prophètes est bénie. L'obéissance à Allah, même dans les épreuves les plus difficiles, est récompensée par la proximité divine. Ismaël est un modèle de foi et de soumission.</p>
 </div>`,
 verses: '📖 Coran 2:125-129, 19:54-55, 37:100-113'
@@ -2814,7 +2862,7 @@ desc: `<strong>Isaac (paix sur lui)</strong> est le second fils d'Abraham et de 
 <br><br><strong>📖 Sa vie :</strong> Il fut béni par Allah et devint un prophète. Il est le père de Jacob et l'ancêtre d'une lignée de prophètes, dont Joseph, Moïse, David et Jésus. Il fut un homme pieux et patient, et sa descendance fut bénie.
 <br><br><strong>📖 Son héritage :</strong> Il transmit le message d'Allah à ses enfants et leur recommanda de rester attachés à la foi d'Abraham. Il est considéré comme un modèle de piété et de patience.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La puissance d'Allah dépasse les causes naturelles. La descendance des prophètes est porteuse de bénédictions. La foi en la toute-puissance d'Allah est essentielle pour le croyant. La patience et la piété sont des qualités qui honorent les prophètes.</p>
 </div>`,
 verses: '📖 Coran 11:71-73, 19:49-50, 37:112-113'
@@ -2828,7 +2876,7 @@ desc: `<strong>Jacob (paix sur lui)</strong> est le fils d'Isaac et le père des
 <br><br><strong>📖 Sa mission :</strong> Il fut un prophète qui appela à la foi en Allah et à l'unicité. Il bénit ses enfants avant de mourir et leur recommanda de rester attachés à la religion d'Abraham. Il les exhorta à rester unis et à suivre la voie droite.
 <br><br><strong>📖 Son héritage :</strong> Ses douze fils donnèrent naissance aux douze tribus d'Israël. Sa descendance est à l'origine de nombreux prophètes, dont Moïse, David et Jésus.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La patience dans l'épreuve est une vertu des prophètes. La foi se transmet aux générations futures. La confiance en Allah, même dans les moments les plus sombres, est une source de force. La famille est un pilier de la foi.</p>
 </div>`,
 verses: '📖 Coran 12:1-111, 19:49-50, 21:72-73'
@@ -2842,7 +2890,7 @@ desc: `<strong>Joseph (paix sur lui)</strong> est le fils préféré de Jacob.
 <br><br><strong>📖 Ses épreuves en Égypte :</strong> Il fut emmené en Égypte où il subit de nombreuses épreuves, y compris la tentation de la femme du gouverneur, mais il resta chaste et fidèle à Allah. Il fut emprisonné injustement mais garda sa foi.
 <br><br><strong>📖 Son élévation :</strong> Il interpréta les rêves du roi et devint ministre d'Égypte, sauvant le pays d'une famine. Il pardonna à ses frères et leur montra une grande clémence, réalisant ainsi son rêve prophétique.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La patience et la fidélité à Allah sont récompensées. Le pardon est une qualité des prophètes. Joseph nous enseigne que les épreuves sont des moyens par lesquels Allah élève Ses serviteurs. La chasteté et la confiance en Allah sont des valeurs fondamentales.</p>
 </div>`,
 verses: '📖 Coran 12:1-111'
@@ -2856,7 +2904,7 @@ desc: `<strong>Job (paix sur lui)</strong> est l'exemple par excellence de la pa
 <br><br><strong>📖 L'épreuve :</strong> Il perdit tout : ses biens, ses enfants et sa santé. Il fut affligé d'une terrible maladie et abandonné par tous, sauf par son épouse qui resta à ses côtés. Malgré toutes ces épreuves, il ne cessa jamais de louer et d'invoquer Allah.
 <br><br><strong>📖 Sa guérison et sa récompense :</strong> Allah lui rendit tout en double et le guérit de sa maladie. Il reçut une récompense immense pour sa patience et sa foi inébranlable.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La patience dans l'adversité est une vertu suprême. Les biens matériels ne sont qu'un prêt d'Allah. La vraie richesse est la foi et la confiance en Allah, même dans les moments les plus difficiles. Job nous enseigne que l'épreuve est une purification et une élévation pour le croyant.</p>
 </div>`,
 verses: '📖 Coran 21:83-84, 38:41-44'
@@ -2870,7 +2918,7 @@ desc: `<strong>Shu\'ayb (paix sur lui)</strong> fut envoyé au peuple de Madyan.
 <br><br><strong>📖 Sa mission :</strong> Shu\'ayb les appela à la justice, à la droiture et à la piété. Il leur ordonna de donner le juste poids et la juste mesure. Il les mit en garde contre l'injustice et l'oppression.
 <br><br><strong>📖 Le châtiment :</strong> Ils rejetèrent son message et furent punis par un tremblement de terre qui les anéantit. Shu\'ayb est souvent appelé le "prédicateur des commerçants" pour son insistance sur l'honnêteté dans le commerce.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La justice dans les affaires est un devoir religieux. La fraude mène au châtiment. L'honnêteté et l'intégrité sont des valeurs fondamentales de l'Islam. Le commerce doit être basé sur la confiance et la droiture.</p>
 </div>`,
 verses: '📖 Coran 7:85-93, 11:84-95, 26:176-191'
@@ -2885,7 +2933,7 @@ desc: `<strong>Moïse (paix sur lui)</strong> est l'un des plus grands prophète
 <br><br><strong>📖 La sortie d'Égypte :</strong> Il fit sortir les enfants d'Israël d'Égypte, et la mer Rouge s'ouvrit devant lui pour les laisser passer. Il guida son peuple pendant 40 ans dans le désert, leur enseignant la loi divine et les préparant à entrer en Terre Promise.
 <br><br><strong>📖 Sa mort :</strong> Moïse mourut sur le Mont Nébo, après avoir vu la Terre Promise de loin. Il est considéré comme un prophète de grande envergure et un modèle de foi et de persévérance.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La foi en Allah triomphe de la tyrannie. La patience est nécessaire dans la prédication. Moïse nous enseigne que la délivrance vient d'Allah et que la foi est plus forte que l'oppression. La guidance divine est une lumière qui éclaire le chemin des croyants.</p>
 </div>`,
 verses: '📖 Coran 7:103-162, 20:1-98, 28:1-46'
@@ -2899,7 +2947,7 @@ desc: `<strong>Aaron (paix sur lui)</strong> est le frère de Moïse et fut son 
 <br><br><strong>📖 L'épreuve du veau d'or :</strong> Il resta avec les enfants d'Israël pendant que Moïse était sur le Mont Sinaï, mais il fut confronté à leur égarement autour du veau d'or. Il leur rappela le chemin d'Allah et les mit en garde, mais ils ne l'écoutèrent pas.
 <br><br><strong>📖 Son héritage :</strong> Il fut un prophète pieux et patient. Il est considéré comme un modèle de foi et de persévérance, et il est mentionné avec honneur dans le Coran.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La fraternité dans la foi est une force. La patience est nécessaire face aux erreurs du peuple. Aaron nous montre l'importance du soutien mutuel dans la mission prophétique et la nécessité de rappeler la vérité même face à l'opposition.</p>
 </div>`,
 verses: '📖 Coran 7:142-150, 20:29-36, 28:34-35'
@@ -2913,7 +2961,7 @@ desc: `<strong>David (paix sur lui)</strong> fut un roi et un prophète puissant
 <br><br><strong>📖 Son règne :</strong> Il reçut les Psaumes (Zabur) et était connu pour sa voix magnifique lors de la récitation. Il était un roi juste qui jugeait avec équité. Allah lui donna la sagesse et la puissance, et il établit un royaume fort.
 <br><br><strong>📖 Sa dévotion :</strong> Il est connu pour sa force, sa dévotion et sa capacité à forger des armures. Il passait une partie de la nuit en prière et était constamment en train de louer Allah.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La force et la puissance doivent être au service de la justice. La dévotion à Allah est la plus grande des qualités. David nous enseigne que la vraie force vient de la foi et de la confiance en Allah, et que la justice est la base d'un bon gouvernement.</p>
 </div>`,
 verses: '📖 Coran 2:251, 17:55, 21:78-80, 38:17-26'
@@ -2927,7 +2975,7 @@ desc: `<strong>Salomon (paix sur lui)</strong> est le fils de David.
 <br><br><strong>📖 Son règne :</strong> Il fut un roi et un prophète juste. Il construisit le Temple de Jérusalem et est connu pour sa sagesse et sa justice. Il gouverna un royaume immense et prospère.
 <br><br><strong>📖 La reine de Saba :</strong> Son histoire est mentionnée notamment avec la reine de Saba (Balqis) qui finit par se convertir à l'islam après avoir vu les merveilles du royaume de Salomon.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La sagesse et la connaissance sont des dons d'Allah. La justice est la base d'un bon gouvernement. Salomon nous montre que les dons d'Allah doivent être utilisés pour servir Sa cause et que la sagesse est la plus grande des richesses.</p>
 </div>`,
 verses: '📖 Coran 21:78-82, 27:15-44, 34:12-14'
@@ -2941,7 +2989,7 @@ desc: `<strong>Élie (paix sur lui)</strong> fut envoyé à son peuple pour les 
 <br><br><strong>📖 Son combat :</strong> Il fut rejeté par son peuple, mais resta ferme dans sa mission. Il démontra la puissance d'Allah par des miracles et affronta les prêtres de Baal.
 <br><br><strong>📖 Son élévation :</strong> Il fut élevé au ciel par Allah et est considéré comme un prophète véridique et pieux. Il est mentionné avec honneur dans le Coran.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La fermeté dans la foi est essentielle face à l'opposition. Élie nous enseigne que la vérité doit être proclamée, même face à l'adversité. La confiance en Allah est la plus grande des forces.</p>
 </div>`,
 verses: '📖 Coran 37:123-132'
@@ -2955,7 +3003,7 @@ desc: `<strong>Élisée (paix sur lui)</strong> fut le successeur d'Élie.
 <br><br><strong>📖 Ses miracles :</strong> Il accomplit des miracles par la permission d'Allah, notamment la guérison des malades et la résurrection des morts. Il fut un modèle de foi et de persévérance.
 <br><br><strong>📖 Son héritage :</strong> Il est décrit comme un prophète vertueux et a été mentionné aux côtés d'autres grands prophètes.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La continuité de la prédication est importante. La vertu est la marque des prophètes. Élisée nous montre l'importance de poursuivre l'œuvre des prophètes précédents et de rester ferme dans la foi.</p>
 </div>`,
 verses: '📖 Coran 6:86, 38:48'
@@ -2969,7 +3017,7 @@ desc: `<strong>Jonas (paix sur lui)</strong> fut envoyé à son peuple.
 <br><br><strong>📖 Son départ et l'épreuve :</strong> Il quitta sa mission par impatience parce que son peuple ne répondait pas. Il embarqua sur un bateau et fut jeté à la mer. Il fut avalé par un grand poisson (la baleine) dans les profondeurs de l'océan.
 <br><br><strong>📖 Sa repentance :</strong> Dans les ténèbres du ventre du poisson, il invoqua Allah sincèrement et se repentit : "Nulle divinité n'est digne d'être adorée en dehors de Toi ! Gloire à Toi ! J'ai été parmi les injustes." Allah répondit à son appel, le fit sortir du poisson et lui pardonna. Son peuple crut finalement en Allah et fut épargné.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La repentance est toujours acceptée. La miséricorde d'Allah est immense. Jonas nous enseigne que même dans les situations les plus désespérées, l'invocation à Allah est exaucée. La patience dans la prédication est essentielle, et l'abandon de la mission est une faute qui nécessite le repentir.</p>
 </div>`,
 verses: '📖 Coran 21:87-88, 37:139-148, 68:48-50'
@@ -2983,7 +3031,7 @@ desc: `<strong>Zacharie (paix sur lui)</strong> était un prophète pieux et le 
 <br><br><strong>📖 Sa mission :</strong> Il fut un modèle de patience et de persévérance dans l'invocation. Il s'occupait de Marie dans le temple et était témoin des miracles qu'Allah lui accordait. Il fut un guide pour son peuple.
 <br><br><strong>📖 Son héritage :</strong> Il est considéré comme un prophète vertueux et un exemple de foi. Son histoire est une leçon sur la puissance de l'invocation et la miséricorde d'Allah.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>Rien n'est impossible pour Allah. L'invocation sincère est exaucée. Zacharie nous enseigne que la patience dans la prière est récompensée par l'exaucement divin. La foi en la toute-puissance d'Allah est essentielle pour le croyant.</p>
 </div>`,
 verses: '📖 Coran 3:38-41, 19:2-11, 21:89-90'
@@ -2997,7 +3045,7 @@ desc: `<strong>Jean-Baptiste (paix sur lui)</strong> est le fils de Zacharie.
 <br><br><strong>📖 Sa mission :</strong> Il annonça la venue de Jésus et fut un guide pour son peuple. Il les appela à la repentance et à la purification. Il fut un modèle de piété et de dévotion.
 <br><br><strong>📖 Sa mort :</strong> Il fut tué par le roi Hérode pour avoir dénoncé ses injustices. Il resta ferme dans sa foi jusqu'à la fin.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La piété et la sagesse sont des dons d'Allah. La vérité doit être dite même au prix de sa vie. Jean-Baptiste nous montre le courage de la vérité et le détachement des biens terrestres. La foi est plus précieuse que la vie elle-même.</p>
 </div>`,
 verses: '📖 Coran 3:39, 6:85, 19:12-15'
@@ -3011,7 +3059,7 @@ desc: `<strong>Jésus (paix sur lui)</strong> est le Messie, fils de Marie.
 <br><br><strong>📖 Sa mission :</strong> Il reçut l'Évangile (Injil) et accomplit des miracles : guérison des malades, ressuscitation des morts, et création d'un oiseau d'argile par la permission d'Allah. Il appela à l'adoration d'Allah seul et à la pratique de la vertu.
 <br><br><strong>📖 Son élévation :</strong> Il fut élevé au ciel par Allah et ne fut pas crucifié, contrairement à ce que prétendent certains. Il annonça la venue du Prophète Muhammad.
 <div class="lesson-box">
-<h4>📚 Leçon à retenir</h4>
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
 <p>La foi en Allah et en Ses prophètes est essentielle. Les miracles sont des signes de la puissance d'Allah. Jésus nous enseigne l'importance de la pureté, de la foi et de la confiance en Allah. La miséricorde d'Allah est immense pour ceux qui croient en Lui.</p>
 </div>`,
 verses: '📖 Coran 3:45-59, 5:110-118, 19:16-34'
@@ -3189,7 +3237,7 @@ return `<a href="#" class="qref" data-surah="${surah}" data-ayah="${ayah}">Coran
 return '📖 ' + links.join(', ');
 });
 document.getElementById('pdVerses').innerHTML = versesWithLinks;
-document.getElementById('pdSource').textContent = '📚 Sources : Coran, hadiths authentiques, "Histoires des Prophètes" d\'Ibn Kathir, "La Biographie du Prophète" d\'Ibn Hisham';
+document.getElementById('pdSource').textContent = t('pd_sources_long');
 document.getElementById('prophetDetailOverlay').classList.add('open');
 }
 document.getElementById('prophetDetailClose')?.addEventListener('click', () => {
@@ -3268,14 +3316,14 @@ function renderHadith(index){
   hadithText.innerHTML = '<span class="hadith-quote-mark">«</span> ' + h.text + ' <span class="hadith-quote-mark">»</span>';
   hadithRef.innerHTML = '<span class="badge">' + h.ref + '</span>';
   if(hadithCountBadge){
-    hadithCountBadge.textContent = 'Thème : ' + h.theme + ' · ' + (index + 1) + ' / ' + CURATED_HADITHS.length;
+    hadithCountBadge.textContent = t('hadith_theme') + ' : ' + h.theme + ' · ' + (index + 1) + ' / ' + CURATED_HADITHS.length;
   }
   // Sauvegarder pour stabilité du jour
   try{ localStorage.setItem('rihla_hadith_day', JSON.stringify({ day: new Date().toISOString().slice(0,10), index })); }catch(e){}
 }
 
 function loadDailyHadith(forceNew){
-  hadithText.textContent = 'Chargement…';
+  hadithText.textContent = t('loading_short');
   if(forceNew){
     const next = (hadithIndex + 1) % CURATED_HADITHS.length;
     renderHadith(next);
@@ -3314,7 +3362,7 @@ if(qss) qss.innerHTML = opts;
 if(rss) rss.innerHTML = opts;
 if(mss) mss.innerHTML = opts;
 const hd = document.getElementById('heroDayNumber');
-if(hd) hd.textContent = 'JOUR ' + (Math.floor(Math.random() * 100) + 1);
+if(hd) hd.textContent = t('day_word') + ' ' + (Math.floor(Math.random() * 100) + 1);
 const hq = document.getElementById('heroQuoteType'); if(hq) hq.textContent = 'Verset du jour';
 }catch(err){
 console.error('Erreur chargement liste sourates:', err);
@@ -3419,6 +3467,9 @@ function shortestAngleDiff(a, b){
   return ((a - b + 540) % 360) - 180;
 }
 
+function _tt(key, fallback){
+  try{ return (typeof t === 'function' ? t(key) : null) || fallback; }catch(e){ return fallback; }
+}
 function updateQiblaUI(){
   const needle = document.getElementById('qiblaNeedle');
   const degEl = document.getElementById('qiblaDeg');
@@ -3426,50 +3477,46 @@ function updateQiblaUI(){
   const compass = document.getElementById('qiblaCompass');
   if(!needle || !degEl) return;
   if(prayerState.qiblaBearing == null){
-    degEl.textContent = 'Direction : —';
-    if(alignEl) alignEl.textContent = 'Calcule d\'abord ta position';
+    degEl.textContent = _tt('direction_na', 'Direction : —');
+    if(alignEl) alignEl.textContent = _tt('need_location', 'Calcule d\'abord ta position');
     return;
   }
   const bearing = prayerState.qiblaBearing;
-  // rotation de l'aiguille : 0° = haut de l'écran = direction face à l'utilisateur
-  // quand rotation ≈ 0, l'utilisateur regarde la Qibla
   let rotation = bearing;
   if(prayerState.deviceHeading != null && !isNaN(prayerState.deviceHeading)){
     rotation = (bearing - prayerState.deviceHeading + 360) % 360;
   }
-  // Lissage déjà appliqué sur deviceHeading ; appliquer directement
   needle.style.transform = 'rotate(' + rotation.toFixed(2) + 'deg)';
 
   const dist = (prayerState.lat != null)
     ? ' · ' + distanceToKaabaKm(prayerState.lat, prayerState.lng).toFixed(0) + ' km'
     : '';
+  const qLabel = _tt('qibla_label', 'Qibla');
 
   if(prayerState.deviceHeading != null){
-    // Écart à la Qibla (0 = parfaitement aligné)
     let offset = shortestAngleDiff(bearing, prayerState.deviceHeading);
-    // offset positif = Qibla à droite, négatif = à gauche
     const absOff = Math.abs(offset);
-    degEl.textContent = 'Qibla ' + bearing.toFixed(1) + '° · cap ' + prayerState.deviceHeading.toFixed(0) + '°' + dist;
+    degEl.textContent = qLabel + ' ' + bearing.toFixed(1) + '° · ' + prayerState.deviceHeading.toFixed(0) + '°' + dist;
 
     if(alignEl){
       if(absOff <= 5){
-        alignEl.textContent = '✓ Aligné sur la Qibla';
+        alignEl.textContent = _tt('aligned', '✓ Aligné sur la Qibla');
         alignEl.className = 'qibla-align ok';
         if(compass) compass.classList.add('aligned');
       } else if(absOff <= 20){
-        alignEl.textContent = (offset > 0 ? 'Tourne légèrement à droite →' : '← Tourne légèrement à gauche') + ' (' + absOff.toFixed(0) + '°)';
+        alignEl.textContent = (offset > 0 ? _tt('turn_right_soft', 'Tourne légèrement à droite →') : _tt('turn_left_soft', '← Tourne légèrement à gauche')) + ' (' + absOff.toFixed(0) + '°)';
         alignEl.className = 'qibla-align warn';
         if(compass) compass.classList.remove('aligned');
       } else {
-        alignEl.textContent = (offset > 0 ? 'Tourne à droite →' : '← Tourne à gauche') + ' (' + absOff.toFixed(0) + '°)';
+        alignEl.textContent = (offset > 0 ? _tt('turn_right', 'Tourne à droite →') : _tt('turn_left', '← Tourne à gauche')) + ' (' + absOff.toFixed(0) + '°)';
         alignEl.className = 'qibla-align';
         if(compass) compass.classList.remove('aligned');
       }
     }
   } else {
-    degEl.textContent = 'Qibla : ' + bearing.toFixed(1) + '° depuis le nord vrai' + dist;
+    degEl.textContent = qLabel + ' : ' + bearing.toFixed(1) + '°' + dist;
     if(alignEl){
-      alignEl.textContent = 'Boussole inactive — appuie sur Activer';
+      alignEl.textContent = _tt('compass_off', 'Boussole inactive — appuie sur Activer');
       alignEl.className = 'qibla-align';
     }
     if(compass) compass.classList.remove('aligned');
@@ -3646,7 +3693,7 @@ async function loadPrayersForCoords(lat, lng, placeLabel, method, countryCode){
   const placeEl = document.getElementById('prayerPlace');
   const statusEl = document.getElementById('citySearchStatus');
   placeEl.textContent = placeLabel || `${lat.toFixed(5)}°, ${lng.toFixed(5)}°`;
-  statusEl.textContent = 'Calcul des horaires…';
+  statusEl.textContent = _tt('calc_times', 'Calcul des horaires…');
   try{
     if(method == null) method = pickCalculationMethod(lat, lng, countryCode);
     const times = await fetchPrayerTimes(lat, lng, method);
@@ -3658,27 +3705,25 @@ async function loadPrayersForCoords(lat, lng, placeLabel, method, countryCode){
     prayerState.qiblaBearing = computeQiblaBearing(lat, lng);
     updatePrayerListUI(times);
     updateQiblaUI();
-    const methodName = (times.meta && times.meta.method && times.meta.method.name) || ('méthode ' + method);
-    statusEl.textContent = `✓ Horaires précis · ${methodName} · Qibla ${prayerState.qiblaBearing.toFixed(1)}°`;
-    // Sauvegarder
+    const methodName = (times.meta && times.meta.method && times.meta.method.name) || ('#' + method);
+    statusEl.textContent = _tt('precise_times', '✓ Horaires précis') + ' · ' + methodName + ' · ' + _tt('qibla_label', 'Qibla') + ' ' + prayerState.qiblaBearing.toFixed(1) + '°';
     try{
       localStorage.setItem('rihla_prayer_loc', JSON.stringify({ lat, lng, placeLabel, method, countryCode: countryCode || '' }));
     }catch(e){}
   }catch(err){
     console.error(err);
-    statusEl.textContent = '❌ Impossible de charger les horaires. Vérifie ta connexion.';
+    statusEl.textContent = _tt('times_error', '❌ Impossible de charger les horaires. Vérifie ta connexion.');
   }
 }
 
 async function locateUserPrecise(){
   const placeEl = document.getElementById('prayerPlace');
   const statusEl = document.getElementById('citySearchStatus');
-  placeEl.textContent = 'Localisation GPS en cours…';
-  statusEl.textContent = 'Autorise la localisation pour une précision maximale.';
+  placeEl.textContent = _tt('locating_gps', 'Localisation GPS en cours…');
+  statusEl.textContent = _tt('allow_location', 'Autorise la localisation pour une précision maximale.');
   if(!navigator.geolocation){
-    placeEl.textContent = 'Géolocalisation non supportée';
-    // fallback La Mecque
-    await loadPrayersForCoords(KAABA.lat, KAABA.lng, 'La Mecque, Arabie Saoudite', 4, 'SA');
+    placeEl.textContent = _tt('geo_unsupported', 'Géolocalisation non supportée');
+    await loadPrayersForCoords(KAABA.lat, KAABA.lng, 'Makkah', 4, 'SA');
     return;
   }
   return new Promise((resolve) => {
@@ -3693,7 +3738,7 @@ async function locateUserPrecise(){
       resolve();
     }, async (err) => {
       console.warn('Geolocation error', err);
-      placeEl.textContent = 'Position refusée — utilise la recherche de ville';
+      placeEl.textContent = t('loc_refused');
       statusEl.textContent = 'Tape ta ville ci-dessous, ou autorise la localisation.';
       // Essayer position sauvegardée
       try{
@@ -3812,8 +3857,8 @@ async function enableCompass(){
   const alignEl = document.getElementById('qiblaAlign');
 
   if(typeof window.DeviceOrientationEvent === 'undefined'){
-    if(note) note.textContent = 'Ce navigateur ne gère pas la boussole. Utilise Chrome ou Safari sur un téléphone.';
-    if(alignEl) alignEl.textContent = 'Boussole non supportée';
+    if(note) note.textContent = t('compass_unsupported_note');
+    if(alignEl) alignEl.textContent = t('compass_unsupported');
     return;
   }
 
@@ -3822,8 +3867,8 @@ async function enableCompass(){
     try{
       const perm = await DeviceOrientationEvent.requestPermission();
       if(perm !== 'granted'){
-        if(note) note.textContent = 'Permission boussole refusée. Réessaie et accepte la demande.';
-        if(alignEl) alignEl.textContent = 'Permission refusée';
+        if(note) note.textContent = t('compass_denied_note');
+        if(alignEl) alignEl.textContent = t('compass_denied');
         return;
       }
     }catch(err){
@@ -3833,7 +3878,7 @@ async function enableCompass(){
   }
 
   if(compassWatching){
-    if(note) note.textContent = 'Boussole déjà active — tiens le téléphone à plat et tourne-toi.';
+    if(note) note.textContent = t('compass_already');
     return;
   }
 
@@ -3848,17 +3893,17 @@ async function enableCompass(){
     btn.style.background = 'var(--gold-100)';
   }
   if(alignEl){
-    alignEl.textContent = 'Bouge ton téléphone…';
+    alignEl.textContent = t('compass_move');
     alignEl.className = 'qibla-align warn';
   }
   if(note){
-    note.textContent = 'Boussole active. Téléphone à plat, loin des aimants. Tourne-toi jusqu\'à ce que l\'aiguille dorée pointe vers le triangle ▲ en haut — tu seras face à la Kaaba.';
+    note.textContent = t('compass_active_note');
   }
 
   // Watchdog : si aucun event après 3s
   setTimeout(() => {
     if(prayerState.deviceHeading == null && compassWatching){
-      if(note) note.textContent = 'Aucun signal boussole. Vérifie que le mode avion est off, ou calibres la boussole (faire un 8 avec le téléphone). Sur ordinateur la boussole n\'existe pas — utilise un mobile.';
+      if(note) note.textContent = t('compass_nosignal_note');
       if(alignEl) alignEl.textContent = 'Pas de signal — calibres ou utilise un mobile';
     }
   }, 3000);
@@ -3882,10 +3927,19 @@ document.addEventListener('click', (e) => {
 // Azan toggle
 document.getElementById('azanToggle')?.addEventListener('change', (e) => {
   prayerState.azanEnabled = e.target.checked;
+  // L'adhan est en preload="none" : on ne le télécharge qu'une fois l'Azan activé
+  if(e.target.checked){
+    const a = document.getElementById('adhanAudio');
+    if(a && a.preload !== 'auto'){ a.preload = 'auto'; try{ a.load(); }catch(err){} }
+  }
 });
 document.getElementById('azanTestBtn')?.addEventListener('click', () => {
   const a = document.getElementById('adhanAudio');
-  try{ a.currentTime = 0; a.play(); }catch(err){ showToast('Impossible de jouer l\'Adhan'); }
+  if(!a) return;
+  // preload="none" => readyState 0 : régler currentTime avant chargement lèverait une erreur
+  if(a.preload !== 'auto'){ a.preload = 'auto'; try{ a.load(); }catch(err){} }
+  try{ if(a.readyState > 0) a.currentTime = 0; }catch(err){}
+  Promise.resolve(a.play()).catch(() => showToast(t('azan_error')));
 });
 
 async function initPrayerTimes(){
@@ -3975,7 +4029,7 @@ ayahPlaylistIndex++;
 playAyahFromPlaylist(reciterName, surahNumber);
 return;
 }
-apInfo.textContent = '⚠️ Erreur de lecture. Essaie un autre récitateur.';
+apInfo.textContent = t('audio_error');
 });
 }
 
@@ -4013,7 +4067,7 @@ currentAudio.src = url;
 currentAudio.load();
 currentAudio.play().catch((err) => {
 console.error('Erreur play:', err);
-apInfo.textContent = '⚠️ Lecture impossible. Réessaie ou choisis un autre récitateur.';
+apInfo.textContent = t('audio_fail');
 });
 }
 
@@ -4050,11 +4104,11 @@ const reciter = RECITERS_BY_KEY[reciterKey];
 const surahSelect = document.getElementById('reciterSurahSelect');
 const surahNumber = parseInt(surahSelect.value, 10);
 if(!reciter){
-showToast('⚠️ Récitateur inconnu.');
+showToast(t('toast_reciter_unknown'));
 return;
 }
 if(!surahNumber){
-showToast('⚠️ Choisis une sourate.');
+showToast(t('toast_pick_surah'));
 return;
 }
 currentReciterKey = reciterKey;
@@ -4067,15 +4121,15 @@ const source = await resolveReciterSource(reciter, surahNumber);
 startAudioPlayback(source.url, currentReciterName, surahNumber, { playlist: source.playlist });
 }catch(err){
 console.error('Erreur récitateur:', err);
-apInfo.textContent = '⚠️ Lecture impossible. Vérifie ta connexion ou essaie un autre récitateur.';
-showToast('⚠️ Impossible de charger cette récitation.');
+apInfo.textContent = t('audio_fail_net');
+showToast(t('toast_recitation_fail'));
 }
 }
 
 /** Recharge la sourate en cours avec le récitateur déjà choisi (sans recliquer) */
 function replayCurrentReciter(){
 if(!currentReciterKey){
-showToast('⚠️ Choisis d\'abord un récitateur.');
+showToast(t('toast_pick_reciter_first'));
 return;
 }
 const reciter = RECITERS_BY_KEY[currentReciterKey];
@@ -4100,7 +4154,7 @@ if(currentReciterKey){
 replayCurrentReciter();
 } else {
 const n = _rss.value;
-if(n) showToast('📖 Sourate ' + n + ' sélectionnée — clique un récitateur pour écouter');
+if(n) showToast(t('toast_surah_selected_a') + n + t('toast_surah_selected_b'));
 }
 });
 const _rsp = document.getElementById('reciterSurahPrev');
@@ -4111,7 +4165,7 @@ if(_rsn) _rsn.addEventListener('click', () => shiftReciterSurah(1));
 
 apPlayBtn && apPlayBtn.addEventListener('click', () => {
 if (!currentAudio) {
-showToast('⚠️ Sélectionne d\'abord un récitateur.');
+showToast(t('toast_select_reciter'));
 return;
 }
 if (isPlaying) {
@@ -4119,7 +4173,7 @@ currentAudio.pause();
 } else {
 currentAudio.play().catch((err) => {
 console.error('Erreur play:', err);
-showToast('⚠️ Lecture impossible. Réessaie.');
+showToast(t('toast_play_fail'));
 });
 }
 });
@@ -4416,11 +4470,11 @@ const missing = expected.filter(w => !saidSet.has(w));
 const extra = said.filter(w => !expectedSet.has(w));
 list.innerHTML = '';
 if(!missing.length && !extra.length){
-list.innerHTML = '<li>✅ Excellent — tous les mots du verset ont été reconnus.</li>';
+list.innerHTML = '<li>' + t('corr_perfect') + '</li>';
 } else {
 missing.slice(0, 12).forEach(w => {
 const li = document.createElement('li');
-li.innerHTML = `Mot manquant ou mal prononcé : <span class="err-word">${w}</span>`;
+li.innerHTML = t('corr_missing') + ' : <span class="err-word">' + w + '</span>';
 list.appendChild(li);
 });
 extra.slice(0, 6).forEach(w => {
@@ -4441,7 +4495,7 @@ panel.classList.add('visible');
 function renderDetectionUI(match, { live }){
 const panel = document.getElementById('correctionPanel');
 if(!match){
-detectionResult.innerHTML = `<p class="detect-note">${live ? '🎙️ Écoute en cours… récite clairement en arabe.' : "Aucun verset identifié. Réessaie avec un verset complet (ex. Al-Fatiha)."}</p>`;
+detectionResult.innerHTML = '<p class="detect-note">' + t(live ? 'det_live' : 'det_none') + '</p>';
 if(!live){
 transcriptCompare.classList.remove('visible');
 if(panel) panel.classList.remove('visible');
@@ -4525,7 +4579,7 @@ recognizer.onerror = (e) => {
 if(e.error === 'no-speech' || e.error === 'aborted') return;
 console.warn('Erreur reconnaissance vocale:', e.error);
 if(e.error === 'not-allowed'){
-recordStatus.textContent = '❌ Micro bloqué. Autorise le micro dans les paramètres du navigateur.';
+recordStatus.textContent = t('rec_mic_blocked');
 }
 };
 recognizer.onend = () => {
@@ -4547,12 +4601,12 @@ recordStatus.textContent = `⚠️ Limite de ${MAX_FREE_SESSIONS} sessions gratu
 return;
 }
 if(isRecording) return;
-detectionResult.innerHTML = `<p style="opacity:.7;font-size:0.85rem;">🎙️ Préparation…</p>`;
+detectionResult.innerHTML = '<p style="opacity:.7;font-size:0.85rem;">' + t('rec_preparing') + '</p>';
 transcriptCompare.classList.remove('visible');
 const panel = document.getElementById('correctionPanel');
 if(panel) panel.classList.remove('visible');
 recordPlayer.classList.remove('visible');
-recordStatus.textContent = "Demande d'accès au micro…";
+recordStatus.textContent = t('rec_mic_asking');
 try{
 mediaStream = await navigator.mediaDevices.getUserMedia({
 audio: {
@@ -4562,15 +4616,15 @@ autoGainControl: true
 }
 });
 }catch(err){
-recordStatus.textContent = "❌ Accès au micro refusé. Vérifie les permissions du navigateur.";
+recordStatus.textContent = t('rec_mic_denied');
 console.error('Erreur getUserMedia:', err);
 return;
 }
 // S'assurer que le Coran est chargé
-recordStatus.textContent = 'Chargement du Coran pour la détection…';
+recordStatus.textContent = t('rec_loading_quran');
 const flat = await loadFullQuranFlat();
 if(!flat){
-recordStatus.textContent = '⚠️ Impossible de charger le texte du Coran. Vérifie ta connexion.';
+recordStatus.textContent = t('rec_quran_error');
 mediaStream.getTracks().forEach(t => t.stop());
 return;
 }
@@ -4580,7 +4634,7 @@ const supportedMime = mimeCandidates.find(m => window.MediaRecorder && MediaReco
 try{
 mediaRecorder = supportedMime ? new MediaRecorder(mediaStream, { mimeType: supportedMime }) : new MediaRecorder(mediaStream);
 }catch(err){
-recordStatus.textContent = "❌ Enregistrement non supporté sur ce navigateur.";
+recordStatus.textContent = t('rec_unsupported');
 console.error('Erreur MediaRecorder:', err);
 mediaStream.getTracks().forEach(t => t.stop());
 return;
@@ -4605,11 +4659,11 @@ recordTimer.textContent = formatTimer(recordSeconds);
 }, 1000);
 isRecording = true;
 recordBtn.classList.add('recording');
-recordBtn.innerHTML = '<span class="dot"></span> Arrêter';
+recordBtn.innerHTML = t('rec_stop');
 recordStatus.textContent = speechRecognizer
 ? '🎙️ Récite clairement en arabe… la détection est en direct.'
 : "🎙️ Enregistrement actif (reconnaissance vocale indisponible — utilise Chrome ou Edge).";
-detectionResult.innerHTML = `<p class="detect-note">🎙️ Écoute en cours… récite un verset (ex. Al-Fatiha).</p>`;
+detectionResult.innerHTML = '<p class="detect-note">' + t('rec_listening') + '</p>';
 }
 
 function finalizeAnalysis(){
@@ -4629,7 +4683,7 @@ recordStatus.textContent = `✅ Analyse terminée — ${detectedVerseCount || 1}
 transcriptCompare.classList.remove('visible');
 const panel = document.getElementById('correctionPanel');
 if(panel) panel.classList.remove('visible');
-recordStatus.textContent = 'Aucun verset fiable détecté. Récite plus lentement et clairement.';
+recordStatus.textContent = t('rec_nomatch');
 }
 }
 
@@ -4645,8 +4699,8 @@ speechRecognizer.stop();
 clearInterval(recordTimerInterval);
 isRecording = false;
 recordBtn.classList.remove('recording');
-recordBtn.innerHTML = '<span class="dot"></span> Démarrer';
-recordStatus.textContent = '⏳ Analyse de ta récitation…';
+recordBtn.innerHTML = t('rec_start');
+recordStatus.textContent = t('rec_analyzing');
 setTimeout(finalizeAnalysis, 600);
 }
 
@@ -4661,7 +4715,7 @@ detectionResult.innerHTML = `<p style="opacity:.7;font-size:0.85rem;">Lance un e
 transcriptCompare.classList.remove('visible');
 const panel = document.getElementById('correctionPanel');
 if(panel) panel.classList.remove('visible');
-recordStatus.textContent = 'Appuie pour démarrer.';
+recordStatus.textContent = t('rec_press');
 detectedVerses = [];
 detectedVerseCount = 0;
 lastDetectedKey = '';
@@ -5559,7 +5613,7 @@ function initOfflineBanner(){
     bar = document.createElement('div');
     bar.id = 'rihlaOfflineBar';
     bar.style.cssText = 'display:none;position:sticky;top:0;z-index:150;background:#6b2b2b;color:#fff;text-align:center;padding:8px 12px;font-size:0.82rem;';
-    bar.textContent = 'Hors ligne — les pages déjà ouvertes restent disponibles, le reste nécessite Internet.';
+    bar.textContent = t('offline_bar');
     const nav = document.querySelector('header.nav');
     if(nav && nav.parentNode) nav.parentNode.insertBefore(bar, nav.nextSibling);
     else document.body.prepend(bar);
@@ -5568,7 +5622,7 @@ function initOfflineBanner(){
     bar.style.display = navigator.onLine ? 'none' : 'block';
     if(!navigator.onLine) rihlaToast('Connexion perdue', 'error');
   }
-  window.addEventListener('online', function(){ sync(); rihlaToast('Connexion rétablie', 'ok'); });
+  window.addEventListener('online', function(){ sync(); rihlaToast(t('online_back'), 'ok'); });
   window.addEventListener('offline', sync);
   sync();
 }
@@ -5688,7 +5742,7 @@ async function loadMushafPage(page, { autoPlay } = {}){
     if(token !== mushafLoadToken) return;
     console.error(err);
     if(box){
-      box.innerHTML = '<p style="text-align:center;color:#e0736b;">Erreur de chargement. Vérifie ta connexion.</p>'
+      box.innerHTML = '<p style="text-align:center;color:#e0736b;">' + t('load_error') + '</p>'
         + '<p style="text-align:center;margin-top:8px;"><button type="button" class="mt-btn primary" id="mushafRetryBtn">Réessayer</button></p>';
       document.getElementById('mushafRetryBtn')?.addEventListener('click', () => loadMushafPage(page, { autoPlay }));
     }
@@ -5780,7 +5834,7 @@ function renderMushafAyahs(){
       const parts = key.split(':');
       const ayah = mushafAyahs.find(a => a.surah === +parts[0] && a.ayah === +parts[1]);
       scheduleHifzReview(key, ayah);
-      if(typeof rihlaToast === 'function') rihlaToast('Révision hifz planifiée · ' + key, 'ok');
+      if(typeof rihlaToast === 'function') rihlaToast(t('hifz_planned') + ' · ' + key, 'ok');
       renderHifzReviewPanel();
     });
   });
@@ -5798,7 +5852,7 @@ async function toggleTafsirPanel(idx){
   if(!a) return;
   panel.classList.add('show');
   if(panel.dataset.loaded === '1') return;
-  panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">Chargement…</p>';
+  panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;" data-i18n="loading">Chargement…</p>';
   const sens = (a.tr || '').trim();
   let eclairage = '';
   try{
@@ -5941,7 +5995,7 @@ function renderToday(){
   if(hifzBox){
     const due = getDueHifzReviews();
     if(!due.length){
-      hifzBox.innerHTML = '<p style="color:var(--ink-soft);margin:0;font-size:0.9rem;">Aucune révision due — planifie depuis un verset (bouton 🧠 Hifz).</p>';
+      hifzBox.innerHTML = '<p style="color:var(--ink-soft);margin:0;font-size:0.9rem;">' + t('today_hifz_none_due') + '</p>';
     } else {
       hifzBox.innerHTML = due.slice(0, 8).map(item =>
         '<div class="hifz-review-item"><span><strong>' + item.key + '</strong></span>' +
@@ -6094,7 +6148,7 @@ async function runQuranSearch(){
   const q = (inp.value || '').trim();
   if(q.length < 2){
     box.hidden = false;
-    box.innerHTML = '<p style="color:var(--ink-soft);margin:0;">Écris au moins 2 lettres.</p>';
+    box.innerHTML = '<p style="color:var(--ink-soft);margin:0;">' + t('search_min') + '</p>';
     return;
   }
   box.hidden = false;
@@ -6109,7 +6163,7 @@ async function runQuranSearch(){
     const json = await res.json();
     const matches = (json.data && json.data.matches) || [];
     if(!matches.length){
-      box.innerHTML = '<p style="color:var(--ink-soft);margin:0;">Aucun résultat.</p>';
+      box.innerHTML = '<p style="color:var(--ink-soft);margin:0;">' + t('search_none') + '</p>';
       return;
     }
     const top = matches.slice(0, 25);
@@ -6140,7 +6194,7 @@ async function runQuranSearch(){
     });
   }catch(err){
     console.error(err);
-    box.innerHTML = '<p style="color:#a33;margin:0;">Erreur de recherche. Réessaie.</p>';
+    box.innerHTML = '<p style="color:#a33;margin:0;">' + t('search_error') + '</p>';
   }
 }
 
@@ -6182,7 +6236,7 @@ function renderKhatmUI(){
     b.classList.toggle('active', data && String(data.days) === b.getAttribute('data-days'));
   });
   if(!data){
-    if(meta) meta.textContent = 'Aucun plan actif — choisis une durée ci-dessus';
+    if(meta) meta.textContent = t('khatm_none_hint');
     if(fill) fill.style.width = '0%';
     if(cont) cont.style.display = 'none';
     return;
@@ -6441,7 +6495,7 @@ function playMushafSurahMode(ayah, recName, gen){
       if(startAt > 1) mushafSeekSurahToAyah(audio, cum, startAt);
       audio.play().catch(function(err){
         if(err && err.name === 'AbortError') return;
-        if(infoEl) infoEl.textContent = 'Lecture bloquée — réessaie';
+        if(infoEl) infoEl.textContent = t('play_blocked');
       });
     };
     if(audio.readyState >= 1 && audio.duration) go();
@@ -6775,8 +6829,11 @@ const _showViewOrig = typeof showView === 'function' ? showView : null;
 // =====================================================================
 // INITIALISATION - PAGE D'ACCUEIL PAR DÉFAUT
 // =====================================================================
-/* ===== i18n FR / EN / AR ===== */
-const RIHLA_I18N = {
+/* ===== i18n FR / EN / AR =====
+   `var` (et non `const`) volontairement : le dictionnaire est déclaré bas dans le script
+   alors que t() est appelé depuis du code défini plus haut. Avec `var` la variable est
+   hoistée, donc un appel anticipé renvoie la clé au lieu de lever une ReferenceError (TDZ). */
+var RIHLA_I18N = {
   fr: {
     login:'Se connecter', premium:'Passer Premium', logout:'Déconnexion',
     nav_home:'Accueil', nav_today:"Aujourd'hui", nav_path:'Parcours', nav_duas:"Du'as",
@@ -6815,8 +6872,8 @@ const RIHLA_I18N = {
     pricing_lead:'Change de formule à tout moment, sans engagement.',
     plan_free:'Gratuit', plan_premium:'Premium', start_free:'Commencer gratuitement', go_premium:'Passer à Premium',
     faq_eyebrow:'Questions fréquentes', faq_title:"Ce qu'on te demande le plus souvent.",
-    prayer_title:'Les cinq prières, où que tu sois.', hadith_eyebrow:'Rappel quotidien',
-    verse_of_day:'Verset du jour', loading:'Chargement…', prophets_title:'Les 25 prophètes cités dans le Coran', duas_title:"Les du'as essentiels pour chaque moment"
+    prayer_title:'Les cinq prières, où que tu sois', hadith_eyebrow:'Rappel quotidien',
+    verse_of_day:'Verset du jour', loading:'Chargement…', prophets_title:'Les 25 prophètes cités dans le Coran', duas_title:"Les du'as essentiels pour chaque moment", prayer_ayah:"La prière demeure, pour les croyants, une prescription à des temps déterminés. (Coran 4:103)", btn_refresh:'Actualiser', city_ph:'Ou tape ta ville', btn_search:'Chercher', next_prayer:'Prochaine prière', enable_azan:"Activer l'Azan", test_sound:'Tester le son', azan_note:'Ne fonctionne que si cet onglet reste ouvert.', compass_on:'Active la boussole', compass_live:'Activer la boussole en direct', locating:'Localisation en cours…', no_compass:'Pas de signal — calibres ou utilise un mobile', qibla_label:'Qibla', aligned:'✓ Aligné sur la Qibla', precise_times:'✓ Horaires précis', direction_na:'Direction : —', need_location:"Calcule d'abord ta position", turn_right_soft:'Tourne légèrement à droite →', turn_left_soft:'← Tourne légèrement à gauche', turn_right:'Tourne à droite →', turn_left:'← Tourne à gauche', compass_off:'Boussole inactive — appuie sur Activer', calc_times:'Calcul des horaires…', times_error:'❌ Impossible de charger les horaires.', locating_gps:'Localisation GPS en cours…', allow_location:'Autorise la localisation.', geo_unsupported:'Géolocalisation non supportée'
   },
   en: {
     login:'Log in', premium:'Go Premium', logout:'Log out',
@@ -6856,8 +6913,8 @@ const RIHLA_I18N = {
     pricing_lead:'Switch plans anytime, no commitment.',
     plan_free:'Free', plan_premium:'Premium', start_free:'Start for free', go_premium:'Go Premium',
     faq_eyebrow:'FAQ', faq_title:'What people ask most often.',
-    prayer_title:'The five prayers, wherever you are.', hadith_eyebrow:'Daily reminder',
-    verse_of_day:'Verse of the day', loading:'Loading…', prophets_title:'The 25 prophets mentioned in the Qur\'an', duas_title:'Essential du\'as for every moment'
+    prayer_title:'The five prayers, wherever you are', hadith_eyebrow:'Daily reminder',
+    verse_of_day:'Verse of the day', loading:'Loading…', prophets_title:'The 25 prophets mentioned in the Qur\'an', duas_title:'Essential du\'as for every moment', prayer_ayah:'Prayer remains, for the believers, a timed ordinance. (Qur\'an 4:103)', btn_refresh:'Refresh', city_ph:'Or type your city', btn_search:'Search', next_prayer:'Next prayer', enable_azan:'Enable Adhan', test_sound:'Test sound', azan_note:'Works only while this tab stays open.', compass_on:'Enable compass', compass_live:'Enable live compass', locating:'Locating…', no_compass:'No signal — calibrate or use a phone', qibla_label:'Qibla', aligned:'✓ Aligned to Qibla', precise_times:'✓ Precise times', direction_na:'Direction: —', need_location:'Get your location first', turn_right_soft:'Turn slightly right →', turn_left_soft:'← Turn slightly left', turn_right:'Turn right →', turn_left:'← Turn left', compass_off:'Compass off — tap Enable', calc_times:'Calculating times…', times_error:'❌ Could not load prayer times.', locating_gps:'GPS locating…', allow_location:'Allow location for best accuracy.', geo_unsupported:'Geolocation not supported'
   },
   ar: {
     login:'تسجيل الدخول', premium:'الترقية', logout:'خروج',
@@ -6897,12 +6954,716 @@ const RIHLA_I18N = {
     pricing_lead:'غيّر الباقة في أي وقت دون التزام.',
     plan_free:'مجاني', plan_premium:'متقدم', start_free:'ابدأ مجانًا', go_premium:'الترقية',
     faq_eyebrow:'أسئلة شائعة', faq_title:'ما يُسأل عنه أكثر.',
-    prayer_title:'الصلوات الخمس أينما كنت.', hadith_eyebrow:'تذكير يومي',
-    verse_of_day:'آية اليوم', loading:'جاري التحميل…', prophets_title:'الأنبياء الخمسة والعشرون في القرآن', duas_title:'الأدعية الأساسية لكل وقت'
+    prayer_title:'الصلوات الخمس أينما كنت', hadith_eyebrow:'تذكير يومي',
+    verse_of_day:'آية اليوم', loading:'جاري التحميل…', prophets_title:'الأنبياء الخمسة والعشرون في القرآن', duas_title:'الأدعية الأساسية لكل وقت', prayer_ayah:'إن الصلاة كانت على المؤمنين كتابًا موقوتًا (النساء ١٠٣)', btn_refresh:'تحديث', city_ph:'أو اكتب مدينتك', btn_search:'بحث', next_prayer:'الصلاة القادمة', enable_azan:'تفعيل الأذان', test_sound:'تجربة الصوت', azan_note:'يعمل فقط إذا بقيت هذه الصفحة مفتوحة.', compass_on:'فعّل البوصلة', compass_live:'تفعيل البوصلة المباشرة', locating:'جاري تحديد الموقع…', no_compass:'لا إشارة — عاير أو استخدم هاتفًا', qibla_label:'القبلة', aligned:'✓ محاذٍ للقبلة', precise_times:'✓ أوقات دقيقة', direction_na:'الاتجاه: —', need_location:'حدّد موقعك أولاً', turn_right_soft:'مِل قليلاً لليمين →', turn_left_soft:'← مِل قليلاً لليسار', turn_right:'مِل لليمين →', turn_left:'← مِل لليسار', compass_off:'البوصلة متوقفة — اضغط تفعيل', calc_times:'جاري حساب الأوقات…', times_error:'❌ تعذّر تحميل أوقات الصلاة.', locating_gps:'جاري تحديد الموقع…', allow_location:'اسمح بالموقع لدقة أفضل.', geo_unsupported:'تحديد الموقع غير مدعوم'
   }
 };
-let rihlaLang = 'fr';
+/* ===== Extension du dictionnaire : interface complete + messages JS ===== */
+var RIHLA_I18N_EXTRA = {
+ "fr": {
+  "skip_link": "Aller au contenu principal",
+  "hadith_bar": "« <strong>Le meilleur d'entre vous</strong> est celui qui apprend le Coran et l'enseigne. » — Hadith rapporté par Al-Boukhari",
+  "aria_logo_home": "Rihla, accueil",
+  "aria_open_menu": "Ouvrir le menu",
+  "aria_main_nav": "Navigation principale",
+  "user_default": "Utilisateur",
+  "day_word": "JOUR",
+  "price_forever": "/ toujours",
+  "price_month": "/ mois",
+  "free_f1": "Suivi quotidien de base",
+  "free_f2": "16 récitateurs disponibles",
+  "free_f3": "Correction de récitation (3/semaine)",
+  "free_f4": "25 histoires des prophètes",
+  "free_f5": "50+ Du'as classés par situations",
+  "prem_f1": "Suivi quotidien avancé + rappels",
+  "prem_f2": "<span class=\"price-feature-highlight\" data-i18n="premium_reciters">+12 récitateurs Premium</span> (récitations lentes)",
+  "prem_f3": "Correction de récitation <strong>illimitée</strong>",
+  "prem_f4": "Mémorisation assistée (versets par thème)",
+  "prem_f5": "Statistiques détaillées de progression",
+  "prem_f6": "Planificateur de lecture personnalisé",
+  "faq_q1": "La session d'écoute enregistre-t-elle ma voix en permanence ?",
+  "faq_a1": "Non. L'enregistrement démarre uniquement quand tu appuies sur le bouton.",
+  "faq_q2": "Puis-je annuler mon abonnement Premium à tout moment ?",
+  "faq_a2": "Oui, sans engagement ni frais cachés.",
+  "faq_q3": "Mes données de progression sont-elles privées ?",
+  "faq_a3": "Oui, ton suivi et tes enregistrements ne sont visibles que par toi.",
+  "pay_title": "✨ Rihla Premium",
+  "pay_f2": "28 récitateurs complets (16 gratuits + 12 Premium)",
+  "pay_f3": "Correction de récitation illimitée",
+  "pay_f4": "Mémorisation assistée par thèmes",
+  "pay_f6": "Accès hors-ligne et support prioritaire",
+  "pay_btn": "💳 Payer avec Stripe",
+  "pay_secure": "Paiement sécurisé — Stripe",
+  "pay_setup": "Paiement en cours de mise en place.",
+  "card_north": "N",
+  "card_east": "E",
+  "card_south": "S",
+  "card_west": "O",
+  "aria_facing": "Direction face à toi",
+  "qibla_note": "Sur mobile : active la boussole, tiens le téléphone à plat, puis tourne-toi jusqu'à ce que l'aiguille pointe vers le triangle en haut.",
+  "pt_fajr": "🌅 Fajr",
+  "pt_dhuhr": "☀️ Dhuhr",
+  "pt_asr": "🌇 Asr",
+  "pt_maghrib": "🌅 Maghrib",
+  "pt_isha": "🌙 Isha",
+  "p_fajr": "Fajr",
+  "p_dhuhr": "Dhuhr",
+  "p_asr": "Asr",
+  "p_maghrib": "Maghrib",
+  "p_isha": "Isha",
+  "pv_fajr": "« Et accomplis la prière aux deux extrémités du jour et à la tombée de la nuit. » <span class=\"qref\" data-surah=\"11\" data-ayah=\"114\">(Coran 11:114)</span>",
+  "ph_fajr": "<strong>Hadith :</strong> « La prière de l'aube et celle de l'après-midi, quiconque les observe entrera au Paradis. » (Boukhari)",
+  "pv_dhuhr": "« Soyez assidus aux prières et à la prière médiane. » <span class=\"qref\" data-surah=\"2\" data-ayah=\"238\">(Coran 2:238)</span>",
+  "ph_dhuhr": "<strong>Hadith :</strong> « Celui qui observe les quatre prières avant et après Dhuhr, le feu ne le touchera pas. » (Tirmidhi)",
+  "pv_asr": "« Et accomplis la prière aux deux extrémités du jour et à la tombée de la nuit. » <span class=\"qref\" data-surah=\"11\" data-ayah=\"114\">(Coran 11:114)</span>",
+  "ph_asr": "<strong>Hadith :</strong> « Quiconque manque la prière de l'Asr, c'est comme s'il avait perdu sa famille et ses biens. » (Boukhari)",
+  "pv_maghrib": "« Accomplis la prière au coucher du soleil jusqu'à l'obscurité de la nuit. » <span class=\"qref\" data-surah=\"17\" data-ayah=\"78\">(Coran 17:78)</span>",
+  "ph_maghrib": "<strong>Hadith :</strong> « Le Prophète a dit : \"Ma communauté restera sur la bonne voie tant qu'elle fera la prière de Maghrib avant le coucher du soleil.\" » (Abou Dawoud)",
+  "pv_isha": "« Et la prière de la nuit, une œuvre supplémentaire pour toi. » <span class=\"qref\" data-surah=\"17\" data-ayah=\"79\">(Coran 17:79)</span>",
+  "ph_isha": "<strong>Hadith :</strong> « Si les gens savaient ce qu'il y a dans la prière du soir, ils viendraient en rampant. » (Boukhari)",
+  "azan_error": "Impossible de jouer l'Adhan",
+  "loc_refused": "Position refusée — utilise la recherche de ville",
+  "compass_unsupported_note": "Ce navigateur ne gère pas la boussole. Utilise Chrome ou Safari sur un téléphone.",
+  "compass_unsupported": "Boussole non supportée",
+  "compass_denied_note": "Permission boussole refusée. Réessaie et accepte la demande.",
+  "compass_denied": "Permission refusée",
+  "compass_already": "Boussole déjà active — tiens le téléphone à plat et tourne-toi.",
+  "compass_move": "Bouge ton téléphone…",
+  "compass_active_note": "Boussole active. Téléphone à plat, loin des aimants. Tourne-toi jusqu'à ce que l'aiguille dorée pointe vers le triangle ▲ en haut — tu seras face à la Kaaba.",
+  "compass_nosignal_note": "Aucun signal boussole. Vérifie que le mode avion est off, ou calibres la boussole (faire un 8 avec le téléphone). Sur ordinateur la boussole n'existe pas — utilise un mobile.",
+  "hadith_h2": "Un hadith authentique, chaque jour.",
+  "hadith_sub": "Puisé dans les recueils authentiques de Boukhari et Muslim, ou dans \"Le Jardin des Vertueux\" d'An-Nawawi.",
+  "hadith_of_day": "Rappel du jour",
+  "hadith_loading": "Chargement du rappel du jour…",
+  "hadith_another": "Un autre rappel →",
+  "hadith_theme": "Thème",
+  "prophets_sub": "Découvre leurs histoires authentiques, leurs messages et les leçons à en tirer.",
+  "prophets_hint": "💡 Utilise les flèches ← → du clavier pour naviguer entre les prophètes.",
+  "pd_sources": "📚 Sources : Coran, hadiths authentiques, \"Histoires des Prophètes\" d'Ibn Kathir",
+  "pd_sources_long": "📚 Sources : Coran, hadiths authentiques, \"Histoires des Prophètes\" d'Ibn Kathir, \"La Biographie du Prophète\" d'Ibn Hisham",
+  "pd_lesson_label": "Leçon",
+  "duas_sub": "Plus de 50 invocations authentiques classées par situations, avec phonétique et traductions.",
+  "tc_reading": "Lecture",
+  "tc_adhkar": "Adhkar",
+  "tc_dua": "Du'a",
+  "tc_hifz": "Révisions hifz",
+  "today_read_title": "Page du plan",
+  "today_read_text": "Ouvre ton plan de khatm ou une page du mushaf.",
+  "today_adhkar_h": "Adhkar du moment",
+  "today_dua_h": "Du'a du jour",
+  "today_hifz_h": "À revoir aujourd'hui",
+  "today_hifz_empty": "Aucune révision planifiée — marque un verset en hifz depuis le Qur'an.",
+  "today_hifz_none_due": "Aucune révision due — planifie depuis un verset (bouton 🧠 Hifz).",
+  "bookmarks_mine": "Mes signets",
+  "close": "Fermer",
+  "bookmarks_empty": "Aucun signet — clique l’icône 🔖 sur un verset.",
+  "hifz_due": "Révisions hifz dues",
+  "hifz_tip": "Masque la fin des versets pour mémoriser",
+  "hifz_planned": "Révision hifz planifiée",
+  "tajweed_lessons": "<strong>Mini-leçons :</strong> <em>Ghunnah</em> = nasalisation (نّ / مّ) · <em>Idgham</em> = fusion dans la lettre suivante (souvent avec chadda) · <em>Iqlab</em> = ن devient proche de م devant ب · <em>Ikhfa</em> = ن cachée, son entre izhar et idgham · <em>Qalqalah</em> = écho sur ق ط ب ج د en sukun · <em>Madd</em> = prolongation de la voyelle.",
+  "go": "Aller",
+  "aria_goto_surah": "Aller à une sourate",
+  "theme_tip": "mode jour / mode sombre",
+  "theme_aria": "Mode d'affichage",
+  "theme_dark": "Sombre",
+  "theme_light": "Clair",
+  "pick_voice": "Choisir une voix",
+  "page_loading": "Chargement de la page…",
+  "prev_page": "← Page précédente",
+  "next_page": "Page suivante →",
+  "page_label": "Page",
+  "play_pause": "Lecture / Pause",
+  "pick_reciter_hint": "Choisis un récitateur, puis appuie sur lecture",
+  "bookmarks_tip": "Mes signets",
+  "search_min": "Écris au moins 2 lettres.",
+  "search_none": "Aucun résultat.",
+  "search_error": "Erreur de recherche. Réessaie.",
+  "load_error": "Erreur de chargement. Vérifie ta connexion.",
+  "play_blocked": "Lecture bloquée — réessaie",
+  "track_sub": "Plan de khatm, objectif du jour et régularité — pour tenir sur la durée.",
+  "khatm_h": "📖 Plan de khatm (lecture complète)",
+  "khatm_sub": "Choisis en combien de jours tu veux lire tout le Coran (604 pages).",
+  "khatm_30": "30 jours<br><small>~20 pages/j</small>",
+  "khatm_60": "60 jours<br><small>~10 pages/j</small>",
+  "khatm_90": "90 jours<br><small>~7 pages/j</small>",
+  "khatm_120": "120 jours<br><small>~5 pages/j</small>",
+  "khatm_continue": "Continuer la lecture",
+  "khatm_none": "Aucun plan actif",
+  "khatm_none_hint": "Aucun plan actif — choisis une durée ci-dessus",
+  "hs_t1": "Tu choisis ta lecture",
+  "hs_d1": "Sélectionne le nombre de pages ou de hizb que tu as lus.",
+  "hs_t2": "Tu valides",
+  "hs_d2": "Clique sur \"Valider\" pour enregistrer ta progression.",
+  "hs_t3": "Tu suis tes progrès",
+  "hs_d3": "Visualise ta série, ta régularité et ton objectif du jour.",
+  "stat_streak": "Jours de suite",
+  "stat_week": "Jours cette semaine",
+  "stat_month": "Régularité du mois",
+  "obj_today": "Objectif du jour",
+  "obj_progress": "Progression",
+  "obj_pick": "Choisis ta lecture :",
+  "obj_validate": "✅ Valider la lecture",
+  "obj_inprogress": "⏳ En cours",
+  "obj_done": "✅ Atteint",
+  "pages_word": "pages",
+  "days_completed": "jours complétés",
+  "listen_sub": "Enregistre ta voix pendant que tu lis le Coran. L'outil détecte la sourate et te montre tes erreurs avec le texte corrigé.",
+  "listen_quota": "<span style=\"background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;\">Gratuit</span> 3 sessions par semaine <span style=\"margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> Illimité",
+  "ls_t1": "Tu enregistres",
+  "ls_d1": "Récite un passage du Coran à voix haute dans le micro.",
+  "ls_t2": "Détection automatique",
+  "ls_d2": "La sourate et le verset sont identifiés en temps réel.",
+  "ls_t3": "Correction des erreurs",
+  "ls_d3": "Les mots mal prononcés sont signalés et le verset correct t'est proposé.",
+  "listen_warn": "⚠️ La reconnaissance vocale dépend de ton navigateur et de la qualité du micro. Utilise Chrome ou Safari pour de meilleurs résultats.",
+  "rec_h": "Enregistrement audio",
+  "rec_start": "<span class=\"dot\"></span> Démarrer",
+  "rec_stop": "<span class=\"dot\"></span> Arrêter",
+  "rec_again": "Recommencer",
+  "rec_hint": "Appuie pour démarrer — le navigateur va demander l'accès au micro.",
+  "rec_press": "Appuie pour démarrer.",
+  "rec_mic_blocked": "❌ Micro bloqué. Autorise le micro dans les paramètres du navigateur.",
+  "rec_mic_asking": "Demande d'accès au micro…",
+  "rec_mic_denied": "❌ Accès au micro refusé. Vérifie les permissions du navigateur.",
+  "rec_loading_quran": "Chargement du Coran pour la détection…",
+  "rec_quran_error": "⚠️ Impossible de charger le texte du Coran. Vérifie ta connexion.",
+  "rec_unsupported": "❌ Enregistrement non supporté sur ce navigateur.",
+  "rec_analyzing": "⏳ Analyse de ta récitation…",
+  "rec_nomatch": "Aucun verset fiable détecté. Récite plus lentement et clairement.",
+  "rec_preparing": "🎙️ Préparation…",
+  "rec_listening": "🎙️ Écoute en cours… récite un verset (ex. Al-Fatiha).",
+  "det_h": "Sourate détectée",
+  "det_empty": "Lance un enregistrement pour voir le résultat.",
+  "det_live": "🎙️ Écoute en cours… récite clairement en arabe.",
+  "det_none": "Aucun verset identifié. Réessaie avec un verset complet (ex. Al-Fatiha).",
+  "cmp_h": "Comparaison mot par mot",
+  "cmp_legend": "<span class=\"cw-match\">mot reconnu</span> · <span class=\"cw-miss\">mot manquant ou incorrect</span>",
+  "corr_h": "Corrections suggérées",
+  "corr_correct": "Texte correct du verset",
+  "corr_perfect": "✅ Excellent — tous les mots du verset ont été reconnus.",
+  "corr_missing": "Mot manquant ou mal prononcé",
+  "sessions_left": "Sessions restantes cette semaine",
+  "foot_product": "Produit",
+  "foot_track": "Suivi quotidien",
+  "foot_listen": "Session d'écoute",
+  "foot_account": "Compte",
+  "foot_about": "À propos",
+  "foot_faq": "Questions",
+  "foot_contact": "Contact",
+  "foot_copy": "© 2026 Rihla. Un compagnon pour ta lecture du Coran, jour après jour.",
+  "modal_sub": "Accède à ton suivi depuis n'importe quel appareil.",
+  "auth_google": "Continuer avec Google",
+  "auth_or": "ou avec un e-mail",
+  "auth_email": "Adresse e-mail",
+  "auth_pass": "Mot de passe",
+  "modal_note": "Connexion réelle via Supabase (Google, ou e-mail + mot de passe).",
+  "auth_signin": "Se connecter",
+  "auth_signup": "Créer mon compte",
+  "auth_have_account": "Déjà un compte ? Connecte-toi",
+  "auth_no_account": "Pas encore de compte ? Crée-en un",
+  "auth_google_redirect": "Redirection vers Google…",
+  "auth_google_error": "Erreur Google : ",
+  "auth_creating": "Création du compte en cours…",
+  "auth_error": "Erreur : ",
+  "auth_created": "Compte créé ! Vérifie ta boîte mail.",
+  "auth_signing_in": "Connexion en cours…",
+  "auth_bad_creds": "E-mail ou mot de passe incorrect.",
+  "offline_bar": "Hors ligne — les pages déjà ouvertes restent disponibles, le reste nécessite Internet.",
+  "online_back": "Connexion rétablie",
+  "audio_error": "⚠️ Erreur de lecture. Essaie un autre récitateur.",
+  "audio_fail": "⚠️ Lecture impossible. Réessaie ou choisis un autre récitateur.",
+  "audio_fail_net": "⚠️ Lecture impossible. Vérifie ta connexion ou essaie un autre récitateur.",
+  "toast_reciter_unknown": "⚠️ Récitateur inconnu.",
+  "toast_pick_surah": "⚠️ Choisis une sourate.",
+  "toast_recitation_fail": "⚠️ Impossible de charger cette récitation.",
+  "toast_pick_reciter_first": "⚠️ Choisis d'abord un récitateur.",
+  "toast_select_reciter": "⚠️ Sélectionne d'abord un récitateur.",
+  "toast_play_fail": "⚠️ Lecture impossible. Réessaie.",
+  "toast_surah_selected_a": "📖 Sourate ",
+  "toast_surah_selected_b": " sélectionnée — clique un récitateur pour écouter",
+  "toast_verse_loaded_a": "📖 Verset ",
+  "toast_verse_loaded_b": " de la sourate ",
+  "toast_verse_loaded_c": " chargé",
+  "toast_reading_picked": "📖 Lecture sélectionnée : ",
+  "toast_added_tracking_b": " ajoutée(s) à ton suivi !",
+  "loading_short": "Chargement…"
+ },
+ "en": {
+  "skip_link": "Skip to main content",
+  "hadith_bar": "“<strong>The best among you</strong> is the one who learns the Qur'an and teaches it.” — Hadith reported by Al-Bukhari",
+  "aria_logo_home": "Rihla, home",
+  "aria_open_menu": "Open menu",
+  "aria_main_nav": "Main navigation",
+  "user_default": "User",
+  "day_word": "DAY",
+  "price_forever": "/ forever",
+  "price_month": "/ month",
+  "free_f1": "Basic daily tracking",
+  "free_f2": "16 reciters available",
+  "free_f3": "Recitation correction (3/week)",
+  "free_f4": "25 stories of the prophets",
+  "free_f5": "50+ Du'as sorted by situation",
+  "prem_f1": "Advanced daily tracking + reminders",
+  "prem_f2": "<span class=\"price-feature-highlight\">+12 Premium reciters</span> (slow recitations)",
+  "prem_f3": "<strong>Unlimited</strong> recitation correction",
+  "prem_f4": "Guided memorization (verses by theme)",
+  "prem_f5": "Detailed progress statistics",
+  "prem_f6": "Personalized reading planner",
+  "faq_q1": "Does the listening session record my voice continuously?",
+  "faq_a1": "No. Recording starts only when you press the button.",
+  "faq_q2": "Can I cancel my Premium subscription at any time?",
+  "faq_a2": "Yes, no commitment and no hidden fees.",
+  "faq_q3": "Is my progress data private?",
+  "faq_a3": "Yes, your tracking and your recordings are visible only to you.",
+  "pay_title": "✨ Rihla Premium",
+  "pay_f2": "28 full reciters (16 free + 12 Premium)",
+  "pay_f3": "Unlimited recitation correction",
+  "pay_f4": "Guided memorization by theme",
+  "pay_f6": "Offline access and priority support",
+  "pay_btn": "💳 Pay with Stripe",
+  "pay_secure": "Secure payment — Stripe",
+  "pay_setup": "Payment is being set up.",
+  "card_north": "N",
+  "card_east": "E",
+  "card_south": "S",
+  "card_west": "W",
+  "aria_facing": "The direction you are facing",
+  "qibla_note": "On mobile: enable the compass, hold the phone flat, then turn until the needle points to the triangle at the top.",
+  "pt_fajr": "🌅 Fajr",
+  "pt_dhuhr": "☀️ Dhuhr",
+  "pt_asr": "🌇 Asr",
+  "pt_maghrib": "🌅 Maghrib",
+  "pt_isha": "🌙 Isha",
+  "p_fajr": "Fajr",
+  "p_dhuhr": "Dhuhr",
+  "p_asr": "Asr",
+  "p_maghrib": "Maghrib",
+  "p_isha": "Isha",
+  "pv_fajr": "“And establish prayer at the two ends of the day and in the first hours of the night.” <span class=\"qref\" data-surah=\"11\" data-ayah=\"114\">(Qur'an 11:114)</span>",
+  "ph_fajr": "<strong>Hadith:</strong> “Whoever observes the dawn prayer and the afternoon prayer will enter Paradise.” (Bukhari)",
+  "pv_dhuhr": "“Be constant in prayer, and in the middle prayer.” <span class=\"qref\" data-surah=\"2\" data-ayah=\"238\">(Qur'an 2:238)</span>",
+  "ph_dhuhr": "<strong>Hadith:</strong> “Whoever observes the four prayers before and after Dhuhr, the Fire will not touch him.” (Tirmidhi)",
+  "pv_asr": "“And establish prayer at the two ends of the day and in the first hours of the night.” <span class=\"qref\" data-surah=\"11\" data-ayah=\"114\">(Qur'an 11:114)</span>",
+  "ph_asr": "<strong>Hadith:</strong> “Whoever misses the Asr prayer, it is as though he lost his family and his wealth.” (Bukhari)",
+  "pv_maghrib": "“Establish prayer from sunset until the darkness of the night.” <span class=\"qref\" data-surah=\"17\" data-ayah=\"78\">(Qur'an 17:78)</span>",
+  "ph_maghrib": "<strong>Hadith:</strong> The Prophet said: “My community will remain upon good as long as they pray Maghrib before the stars appear.” (Abu Dawud)",
+  "pv_isha": "“And the night prayer, an additional work for you.” <span class=\"qref\" data-surah=\"17\" data-ayah=\"79\">(Qur'an 17:79)</span>",
+  "ph_isha": "<strong>Hadith:</strong> “If people knew what lies in the night prayer, they would come to it crawling.” (Bukhari)",
+  "azan_error": "Could not play the Adhan",
+  "loc_refused": "Location denied — use the city search instead",
+  "compass_unsupported_note": "This browser does not support the compass. Use Chrome or Safari on a phone.",
+  "compass_unsupported": "Compass not supported",
+  "compass_denied_note": "Compass permission denied. Try again and accept the request.",
+  "compass_denied": "Permission denied",
+  "compass_already": "Compass already active — hold the phone flat and turn around.",
+  "compass_move": "Move your phone…",
+  "compass_active_note": "Compass active. Keep the phone flat, away from magnets. Turn until the golden needle points to the ▲ triangle at the top — you will be facing the Kaaba.",
+  "compass_nosignal_note": "No compass signal. Check that airplane mode is off, or calibrate the compass (draw a figure 8 with the phone). Desktops have no compass — use a phone.",
+  "hadith_h2": "One authentic hadith, every day.",
+  "hadith_sub": "Drawn from the authentic collections of Bukhari and Muslim, or from An-Nawawi's \"Riyad as-Salihin\".",
+  "hadith_of_day": "Reminder of the day",
+  "hadith_loading": "Loading today's reminder…",
+  "hadith_another": "Another reminder →",
+  "hadith_theme": "Theme",
+  "prophets_sub": "Discover their authentic stories, their messages and the lessons to draw from them.",
+  "prophets_hint": "💡 Use the ← → arrow keys to move between prophets.",
+  "pd_sources": "📚 Sources: Qur'an, authentic hadiths, \"Stories of the Prophets\" by Ibn Kathir",
+  "pd_sources_long": "📚 Sources: Qur'an, authentic hadiths, \"Stories of the Prophets\" by Ibn Kathir, \"The Life of the Prophet\" by Ibn Hisham",
+  "pd_lesson_label": "Lesson",
+  "duas_sub": "More than 50 authentic invocations sorted by situation, with transliteration and translations.",
+  "tc_reading": "Reading",
+  "tc_adhkar": "Adhkar",
+  "tc_dua": "Du'a",
+  "tc_hifz": "Hifz review",
+  "today_read_title": "Plan page",
+  "today_read_text": "Open your khatm plan or a page of the mushaf.",
+  "today_adhkar_h": "Adhkar for now",
+  "today_dua_h": "Du'a of the day",
+  "today_hifz_h": "To review today",
+  "today_hifz_empty": "No review scheduled — mark a verse for hifz from the Qur'an.",
+  "today_hifz_none_due": "Nothing due — schedule from a verse (🧠 Hifz button).",
+  "bookmarks_mine": "My bookmarks",
+  "close": "Close",
+  "bookmarks_empty": "No bookmarks — click the 🔖 icon on a verse.",
+  "hifz_due": "Hifz reviews due",
+  "hifz_tip": "Hides the end of verses to help you memorize",
+  "hifz_planned": "Hifz review scheduled",
+  "tajweed_lessons": "<strong>Mini-lessons:</strong> <em>Ghunnah</em> = nasalization (نّ / مّ) · <em>Idgham</em> = merging into the next letter (often with shadda) · <em>Iqlab</em> = ن becomes close to م before ب · <em>Ikhfa</em> = hidden ن, a sound between izhar and idgham · <em>Qalqalah</em> = echo on ق ط ب ج د with sukun · <em>Madd</em> = lengthening of the vowel.",
+  "go": "Go",
+  "aria_goto_surah": "Go to a surah",
+  "theme_tip": "day mode / dark mode",
+  "theme_aria": "Display mode",
+  "theme_dark": "Dark",
+  "theme_light": "Light",
+  "pick_voice": "Choose a voice",
+  "page_loading": "Loading page…",
+  "prev_page": "← Previous page",
+  "next_page": "Next page →",
+  "page_label": "Page",
+  "play_pause": "Play / Pause",
+  "pick_reciter_hint": "Choose a reciter, then press play",
+  "bookmarks_tip": "My bookmarks",
+  "search_min": "Type at least 2 letters.",
+  "search_none": "No results.",
+  "search_error": "Search error. Try again.",
+  "load_error": "Loading error. Check your connection.",
+  "play_blocked": "Playback blocked — try again",
+  "track_sub": "Khatm plan, daily goal and consistency — to keep going over time.",
+  "khatm_h": "📖 Khatm plan (complete reading)",
+  "khatm_sub": "Choose how many days you want to take to read the whole Qur'an (604 pages).",
+  "khatm_30": "30 days<br><small>~20 pages/day</small>",
+  "khatm_60": "60 days<br><small>~10 pages/day</small>",
+  "khatm_90": "90 days<br><small>~7 pages/day</small>",
+  "khatm_120": "120 days<br><small>~5 pages/day</small>",
+  "khatm_continue": "Continue reading",
+  "khatm_none": "No active plan",
+  "khatm_none_hint": "No active plan — pick a duration above",
+  "hs_t1": "You choose your reading",
+  "hs_d1": "Select how many pages or hizb you have read.",
+  "hs_t2": "You confirm",
+  "hs_d2": "Click \"Confirm\" to save your progress.",
+  "hs_t3": "You follow your progress",
+  "hs_d3": "See your streak, your consistency and your goal for the day.",
+  "stat_streak": "Day streak",
+  "stat_week": "Days this week",
+  "stat_month": "Consistency this month",
+  "obj_today": "Goal of the day",
+  "obj_progress": "Progress",
+  "obj_pick": "Choose your reading:",
+  "obj_validate": "✅ Confirm reading",
+  "obj_inprogress": "⏳ In progress",
+  "obj_done": "✅ Reached",
+  "pages_word": "pages",
+  "days_completed": "days completed",
+  "listen_sub": "Record your voice while you read the Qur'an. The tool detects the surah and shows your mistakes with the corrected text.",
+  "listen_quota": "<span style=\"background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;\">Free</span> 3 sessions per week <span style=\"margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> Unlimited",
+  "ls_t1": "You record",
+  "ls_d1": "Recite a passage of the Qur'an aloud into the microphone.",
+  "ls_t2": "Automatic detection",
+  "ls_d2": "The surah and the verse are identified in real time.",
+  "ls_t3": "Mistake correction",
+  "ls_d3": "Mispronounced words are flagged and the correct verse is shown to you.",
+  "listen_warn": "⚠️ Speech recognition depends on your browser and microphone quality. Use Chrome or Safari for better results.",
+  "rec_h": "Audio recording",
+  "rec_start": "<span class=\"dot\"></span> Start",
+  "rec_stop": "<span class=\"dot\"></span> Stop",
+  "rec_again": "Start over",
+  "rec_hint": "Press to start — the browser will ask for microphone access.",
+  "rec_press": "Press to start.",
+  "rec_mic_blocked": "❌ Microphone blocked. Allow the microphone in your browser settings.",
+  "rec_mic_asking": "Requesting microphone access…",
+  "rec_mic_denied": "❌ Microphone access denied. Check your browser permissions.",
+  "rec_loading_quran": "Loading the Qur'an for detection…",
+  "rec_quran_error": "⚠️ Could not load the Qur'an text. Check your connection.",
+  "rec_unsupported": "❌ Recording is not supported in this browser.",
+  "rec_analyzing": "⏳ Analyzing your recitation…",
+  "rec_nomatch": "No reliable verse detected. Recite more slowly and clearly.",
+  "rec_preparing": "🎙️ Getting ready…",
+  "rec_listening": "🎙️ Listening… recite a verse (e.g. Al-Fatiha).",
+  "det_h": "Detected surah",
+  "det_empty": "Start a recording to see the result.",
+  "det_live": "🎙️ Listening… recite clearly in Arabic.",
+  "det_none": "No verse identified. Try again with a complete verse (e.g. Al-Fatiha).",
+  "cmp_h": "Word-by-word comparison",
+  "cmp_legend": "<span class=\"cw-match\">recognized word</span> · <span class=\"cw-miss\">missing or incorrect word</span>",
+  "corr_h": "Suggested corrections",
+  "corr_correct": "Correct text of the verse",
+  "corr_perfect": "✅ Excellent — every word of the verse was recognized.",
+  "corr_missing": "Missing or mispronounced word",
+  "sessions_left": "Sessions left this week",
+  "foot_product": "Product",
+  "foot_track": "Daily tracking",
+  "foot_listen": "Listening session",
+  "foot_account": "Account",
+  "foot_about": "About",
+  "foot_faq": "Questions",
+  "foot_contact": "Contact",
+  "foot_copy": "© 2026 Rihla. A companion for your Qur'an reading, day after day.",
+  "modal_sub": "Access your tracking from any device.",
+  "auth_google": "Continue with Google",
+  "auth_or": "or with an email",
+  "auth_email": "Email address",
+  "auth_pass": "Password",
+  "modal_note": "Real sign-in via Supabase (Google, or email + password).",
+  "auth_signin": "Log in",
+  "auth_signup": "Create my account",
+  "auth_have_account": "Already have an account? Log in",
+  "auth_no_account": "Don't have an account? Create one",
+  "auth_google_redirect": "Redirecting to Google…",
+  "auth_google_error": "Google error: ",
+  "auth_creating": "Creating your account…",
+  "auth_error": "Error: ",
+  "auth_created": "Account created! Check your inbox.",
+  "auth_signing_in": "Signing in…",
+  "auth_bad_creds": "Incorrect email or password.",
+  "offline_bar": "Offline — pages you already opened stay available, the rest needs an internet connection.",
+  "online_back": "Connection restored",
+  "audio_error": "⚠️ Playback error. Try another reciter.",
+  "audio_fail": "⚠️ Playback failed. Try again or choose another reciter.",
+  "audio_fail_net": "⚠️ Playback failed. Check your connection or try another reciter.",
+  "toast_reciter_unknown": "⚠️ Unknown reciter.",
+  "toast_pick_surah": "⚠️ Choose a surah.",
+  "toast_recitation_fail": "⚠️ Could not load this recitation.",
+  "toast_pick_reciter_first": "⚠️ Choose a reciter first.",
+  "toast_select_reciter": "⚠️ Select a reciter first.",
+  "toast_play_fail": "⚠️ Playback failed. Try again.",
+  "toast_surah_selected_a": "📖 Surah ",
+  "toast_surah_selected_b": " selected — click a reciter to listen",
+  "toast_verse_loaded_a": "📖 Verse ",
+  "toast_verse_loaded_b": " of surah ",
+  "toast_verse_loaded_c": " loaded",
+  "toast_reading_picked": "📖 Reading selected: ",
+  "toast_added_tracking_b": " added to your tracking!",
+  "loading_short": "Loading…"
+ },
+ "ar": {
+  "skip_link": "انتقل إلى المحتوى الرئيسي",
+  "hadith_bar": "«<strong>خيركم</strong> من تعلّم القرآن وعلّمه» — رواه البخاري",
+  "aria_logo_home": "رحلة، الرئيسية",
+  "aria_open_menu": "افتح القائمة",
+  "aria_main_nav": "التنقل الرئيسي",
+  "user_default": "مستخدم",
+  "day_word": "اليوم",
+  "price_forever": "/ دائمًا",
+  "price_month": "/ شهريًا",
+  "free_f1": "متابعة يومية أساسية",
+  "free_f2": "١٦ قارئًا متاحًا",
+  "free_f3": "تصحيح التلاوة (٣ في الأسبوع)",
+  "free_f4": "٢٥ قصة من قصص الأنبياء",
+  "free_f5": "أكثر من ٥٠ دعاءً مصنّفًا حسب المواقف",
+  "prem_f1": "متابعة يومية متقدمة + تنبيهات",
+  "prem_f2": "<span class=\"price-feature-highlight\">+١٢ قارئًا في النسخة المتقدمة</span> (تلاوات بطيئة)",
+  "prem_f3": "تصحيح التلاوة <strong>بلا حدود</strong>",
+  "prem_f4": "حفظ موجّه (آيات حسب الموضوع)",
+  "prem_f5": "إحصاءات تقدّم مفصّلة",
+  "prem_f6": "مخطط قراءة مخصّص",
+  "faq_q1": "هل تسجّل جلسة الاستماع صوتي بشكل دائم؟",
+  "faq_a1": "لا. يبدأ التسجيل فقط عند الضغط على الزر.",
+  "faq_q2": "هل يمكنني إلغاء اشتراكي المتقدم في أي وقت؟",
+  "faq_a2": "نعم، بلا التزام ولا رسوم خفية.",
+  "faq_q3": "هل بيانات تقدّمي خاصة؟",
+  "faq_a3": "نعم، متابعتك وتسجيلاتك لا تظهر إلا لك.",
+  "pay_title": "✨ رحلة المتقدمة",
+  "pay_f2": "٢٨ قارئًا كاملًا (١٦ مجانًا + ١٢ متقدمًا)",
+  "pay_f3": "تصحيح التلاوة بلا حدود",
+  "pay_f4": "حفظ موجّه حسب المواضيع",
+  "pay_f6": "استخدام دون اتصال ودعم ذو أولوية",
+  "pay_btn": "💳 الدفع عبر Stripe",
+  "pay_secure": "دفع آمن — Stripe",
+  "pay_setup": "الدفع قيد الإعداد.",
+  "card_north": "ش",
+  "card_east": "ق",
+  "card_south": "ج",
+  "card_west": "غ",
+  "aria_facing": "الاتجاه الذي تواجهه",
+  "aria_goto_surah": "الانتقال إلى سورة",
+  "qibla_note": "على الهاتف: فعّل البوصلة، أمسك الهاتف مستويًا، ثم استدر حتى يشير المؤشر إلى المثلث في الأعلى.",
+  "pt_fajr": "🌅 الفجر",
+  "pt_dhuhr": "☀️ الظهر",
+  "pt_asr": "🌇 العصر",
+  "pt_maghrib": "🌅 المغرب",
+  "pt_isha": "🌙 العشاء",
+  "p_fajr": "الفجر",
+  "p_dhuhr": "الظهر",
+  "p_asr": "العصر",
+  "p_maghrib": "المغرب",
+  "p_isha": "العشاء",
+  "pv_fajr": "﴿وَأَقِمِ الصَّلَاةَ طَرَفَيِ النَّهَارِ وَزُلَفًا مِّنَ اللَّيْلِ﴾ <span class=\"qref\" data-surah=\"11\" data-ayah=\"114\">(هود ١١٤)</span>",
+  "ph_fajr": "<strong>حديث:</strong> «من صلى البردين دخل الجنة» (البخاري)",
+  "pv_dhuhr": "﴿حَافِظُوا عَلَى الصَّلَوَاتِ وَالصَّلَاةِ الْوُسْطَى﴾ <span class=\"qref\" data-surah=\"2\" data-ayah=\"238\">(البقرة ٢٣٨)</span>",
+  "ph_dhuhr": "<strong>حديث:</strong> «من حافظ على أربع رَكَعات قبل الظهر وأربع بعدها لم تمسّه النار» (الترمذي)",
+  "pv_asr": "﴿وَأَقِمِ الصَّلَاةَ طَرَفَيِ النَّهَارِ وَزُلَفًا مِّنَ اللَّيْلِ﴾ <span class=\"qref\" data-surah=\"11\" data-ayah=\"114\">(هود ١١٤)</span>",
+  "ph_asr": "<strong>حديث:</strong> «من فاتته صلاة العصر فكأنما وُتِر أهله وماله» (البخاري)",
+  "pv_maghrib": "﴿أَقِمِ الصَّلَاةَ لِدُلُوكِ الشَّمْسِ إِلَى غَسَقِ اللَّيْلِ﴾ <span class=\"qref\" data-surah=\"17\" data-ayah=\"78\">(الإسراء ٧٨)</span>",
+  "ph_maghrib": "<strong>حديث:</strong> قال النبي ﷺ: «لا تزال أمتي على الفطرة ما لم يؤخّروا المغرب إلى أن تظهر النجوم» (أبو داود)",
+  "pv_isha": "﴿وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَّكَ﴾ <span class=\"qref\" data-surah=\"17\" data-ayah=\"79\">(الإسراء ٧٩)</span>",
+  "ph_isha": "<strong>حديث:</strong> «لو يعلم الناس ما في العتمة لأتوها ولو حبوًا» (البخاري)",
+  "azan_error": "تعذّر تشغيل الأذان",
+  "loc_refused": "تم رفض الموقع — استخدم البحث عن المدينة",
+  "compass_unsupported_note": "هذا المتصفح لا يدعم البوصلة. استخدم Chrome أو Safari على الهاتف.",
+  "compass_unsupported": "البوصلة غير مدعومة",
+  "compass_denied_note": "تم رفض إذن البوصلة. أعد المحاولة واقبل الطلب.",
+  "compass_denied": "تم رفض الإذن",
+  "compass_already": "البوصلة مفعّلة — أمسك الهاتف مستويًا واستدر.",
+  "compass_move": "حرّك هاتفك…",
+  "compass_active_note": "البوصلة مفعّلة. أمسك الهاتف مستويًا بعيدًا عن المغناطيس. استدر حتى يشير المؤشر الذهبي إلى المثلث ▲ في الأعلى — تكون حينها مواجهًا للكعبة.",
+  "compass_nosignal_note": "لا إشارة للبوصلة. تأكد من إيقاف وضع الطيران، أو عاير البوصلة (ارسم الرقم ٨ بالهاتف). الحاسوب لا يحتوي بوصلة — استخدم هاتفًا.",
+  "hadith_h2": "حديث صحيح كل يوم.",
+  "hadith_sub": "مأخوذ من صحيحي البخاري ومسلم، أو من «رياض الصالحين» للنووي.",
+  "hadith_of_day": "تذكير اليوم",
+  "hadith_loading": "جاري تحميل تذكير اليوم…",
+  "hadith_another": "تذكير آخر →",
+  "hadith_theme": "الموضوع",
+  "prophets_sub": "اكتشف قصصهم الموثوقة ورسالاتهم والدروس المستفادة منها.",
+  "prophets_hint": "💡 استخدم مفتاحي ← → للتنقل بين الأنبياء.",
+  "pd_sources": "📚 المصادر: القرآن، أحاديث صحيحة، «قصص الأنبياء» لابن كثير",
+  "pd_sources_long": "📚 المصادر: القرآن، أحاديث صحيحة، «قصص الأنبياء» لابن كثير، «السيرة النبوية» لابن هشام",
+  "pd_lesson_label": "الدرس",
+  "duas_sub": "أكثر من ٥٠ دعاءً صحيحًا مصنّفًا حسب المواقف، مع النطق والترجمة.",
+  "tc_reading": "القراءة",
+  "tc_adhkar": "الأذكار",
+  "tc_dua": "الدعاء",
+  "tc_hifz": "مراجعة الحفظ",
+  "today_read_title": "صفحة الخطة",
+  "today_read_text": "افتح خطة الخَتم أو صفحة من المصحف.",
+  "today_adhkar_h": "ذكر هذا الوقت",
+  "today_dua_h": "دعاء اليوم",
+  "today_hifz_h": "للمراجعة اليوم",
+  "today_hifz_empty": "لا توجد مراجعة مجدولة — علّم آية للحفظ من القرآن.",
+  "today_hifz_none_due": "لا شيء مستحق — جدول من آية (زر 🧠 الحفظ).",
+  "bookmarks_mine": "إشاراتي",
+  "close": "إغلاق",
+  "bookmarks_empty": "لا توجد إشارات — اضغط رمز 🔖 على آية.",
+  "hifz_due": "مراجعات الحفظ المستحقة",
+  "hifz_tip": "يخفي نهاية الآيات لتسهيل الحفظ",
+  "hifz_planned": "تم جدولة مراجعة الحفظ",
+  "tajweed_lessons": "<strong>دروس مختصرة:</strong> <em>الغنّة</em> = نَغم أنفي (نّ / مّ) · <em>الإدغام</em> = دمج في الحرف التالي (غالبًا مع شدّة) · <em>الإقلاب</em> = تصير ن قريبة من م قبل ب · <em>الإخفاء</em> = ن مخفاة، صوت بين الإظهار والإدغام · <em>القلقلة</em> = صدى على ق ط ب ج د الساكنة · <em>المدّ</em> = إطالة الحركة.",
+  "go": "انتقل",
+  "theme_tip": "الوضع النهاري / الليلي",
+  "theme_aria": "وضع العرض",
+  "theme_dark": "ليلي",
+  "theme_light": "نهاري",
+  "pick_voice": "اختر صوتًا",
+  "page_loading": "جاري تحميل الصفحة…",
+  "prev_page": "→ الصفحة السابقة",
+  "next_page": "الصفحة التالية ←",
+  "page_label": "صفحة",
+  "play_pause": "تشغيل / إيقاف",
+  "pick_reciter_hint": "اختر قارئًا ثم اضغط تشغيل",
+  "bookmarks_tip": "إشاراتي",
+  "search_min": "اكتب حرفين على الأقل.",
+  "search_none": "لا نتائج.",
+  "search_error": "خطأ في البحث. أعد المحاولة.",
+  "load_error": "خطأ في التحميل. تحقق من اتصالك.",
+  "play_blocked": "التشغيل محجوب — أعد المحاولة",
+  "track_sub": "خطة الخَتم وهدف اليوم والانتظام — لتستمر على المدى الطويل.",
+  "khatm_h": "📖 خطة الخَتم (قراءة كاملة)",
+  "khatm_sub": "اختر في كم يوم تريد قراءة القرآن كاملًا (٦٠٤ صفحة).",
+  "khatm_30": "٣٠ يومًا<br><small>~٢٠ صفحة/يوم</small>",
+  "khatm_60": "٦٠ يومًا<br><small>~١٠ صفحات/يوم</small>",
+  "khatm_90": "٩٠ يومًا<br><small>~٧ صفحات/يوم</small>",
+  "khatm_120": "١٢٠ يومًا<br><small>~٥ صفحات/يوم</small>",
+  "khatm_continue": "متابعة القراءة",
+  "khatm_none": "لا خطة نشطة",
+  "khatm_none_hint": "لا خطة نشطة — اختر مدة من الأعلى",
+  "hs_t1": "تختار قراءتك",
+  "hs_d1": "حدّد عدد الصفحات أو الأحزاب التي قرأتها.",
+  "hs_t2": "تُثبّت",
+  "hs_d2": "اضغط «تثبيت» لحفظ تقدّمك.",
+  "hs_t3": "تتابع تقدّمك",
+  "hs_d3": "اطّلع على سلسلتك وانتظامك وهدف يومك.",
+  "stat_streak": "أيام متتالية",
+  "stat_week": "أيام هذا الأسبوع",
+  "stat_month": "انتظام هذا الشهر",
+  "obj_today": "هدف اليوم",
+  "obj_progress": "التقدّم",
+  "obj_pick": "اختر قراءتك:",
+  "obj_validate": "✅ تثبيت القراءة",
+  "obj_inprogress": "⏳ جارٍ",
+  "obj_done": "✅ تم",
+  "pages_word": "صفحات",
+  "days_completed": "يومًا مكتملًا",
+  "listen_sub": "سجّل صوتك أثناء قراءة القرآن. تكتشف الأداة السورة وتُظهر أخطاءك مع النص الصحيح.",
+  "listen_quota": "<span style=\"background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;\">مجاني</span> ٣ جلسات أسبوعيًا <span style=\"margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">متقدم</span> بلا حدود",
+  "ls_t1": "تسجّل",
+  "ls_d1": "اقرأ مقطعًا من القرآن بصوت مرتفع في الميكروفون.",
+  "ls_t2": "كشف تلقائي",
+  "ls_d2": "تُحدَّد السورة والآية في الوقت الفعلي.",
+  "ls_t3": "تصحيح الأخطاء",
+  "ls_d3": "تُشار الكلمات غير الصحيحة ويُعرض عليك النص الصحيح.",
+  "listen_warn": "⚠️ يعتمد التعرّف على الصوت على متصفحك وجودة الميكروفون. استخدم Chrome أو Safari لنتائج أفضل.",
+  "rec_h": "تسجيل صوتي",
+  "rec_start": "<span class=\"dot\"></span> ابدأ",
+  "rec_stop": "<span class=\"dot\"></span> أوقف",
+  "rec_again": "أعد من جديد",
+  "rec_hint": "اضغط للبدء — سيطلب المتصفح الوصول إلى الميكروفون.",
+  "rec_press": "اضغط للبدء.",
+  "rec_mic_blocked": "❌ الميكروفون محجوب. اسمح به من إعدادات المتصفح.",
+  "rec_mic_asking": "جاري طلب الوصول إلى الميكروفون…",
+  "rec_mic_denied": "❌ تم رفض الوصول إلى الميكروفون. تحقق من صلاحيات المتصفح.",
+  "rec_loading_quran": "جاري تحميل القرآن للكشف…",
+  "rec_quran_error": "⚠️ تعذّر تحميل نص القرآن. تحقق من اتصالك.",
+  "rec_unsupported": "❌ التسجيل غير مدعوم في هذا المتصفح.",
+  "rec_analyzing": "⏳ جاري تحليل تلاوتك…",
+  "rec_nomatch": "لم يتم كشف آية بشكل موثوق. اقرأ ببطء ووضوح أكثر.",
+  "rec_preparing": "🎙️ جاري التحضير…",
+  "rec_listening": "🎙️ جاري الاستماع… اقرأ آية (مثل الفاتحة).",
+  "det_h": "السورة المكتشفة",
+  "det_empty": "ابدأ تسجيلًا لرؤية النتيجة.",
+  "det_live": "🎙️ جاري الاستماع… اقرأ بوضوح بالعربية.",
+  "det_none": "لم تُحدَّد أي آية. أعد المحاولة بآية كاملة (مثل الفاتحة).",
+  "cmp_h": "مقارنة كلمة بكلمة",
+  "cmp_legend": "<span class=\"cw-match\">كلمة مُتعرَّف عليها</span> · <span class=\"cw-miss\">كلمة ناقصة أو خاطئة</span>",
+  "corr_h": "التصحيحات المقترحة",
+  "corr_correct": "النص الصحيح للآية",
+  "corr_perfect": "✅ ممتاز — تم التعرّف على كل كلمات الآية.",
+  "corr_missing": "كلمة ناقصة أو غير صحيحة النطق",
+  "sessions_left": "الجلسات المتبقية هذا الأسبوع",
+  "foot_product": "المنتج",
+  "foot_track": "المتابعة اليومية",
+  "foot_listen": "جلسة الاستماع",
+  "foot_account": "الحساب",
+  "foot_about": "حول",
+  "foot_faq": "أسئلة",
+  "foot_contact": "اتصال",
+  "foot_copy": "© ٢٠٢٦ رحلة. رفيق لقراءتك للقرآن، يومًا بعد يوم.",
+  "modal_sub": "اطّلع على متابعتك من أي جهاز.",
+  "auth_google": "المتابعة عبر Google",
+  "auth_or": "أو ببريد إلكتروني",
+  "auth_email": "البريد الإلكتروني",
+  "auth_pass": "كلمة المرور",
+  "modal_note": "تسجيل دخول فعلي عبر Supabase (Google أو بريد + كلمة مرور).",
+  "auth_signin": "تسجيل الدخول",
+  "auth_signup": "إنشاء حسابي",
+  "auth_have_account": "لديك حساب؟ سجّل الدخول",
+  "auth_no_account": "لا تملك حسابًا؟ أنشئ واحدًا",
+  "auth_google_redirect": "جاري التحويل إلى Google…",
+  "auth_google_error": "خطأ Google: ",
+  "auth_creating": "جاري إنشاء الحساب…",
+  "auth_error": "خطأ: ",
+  "auth_created": "تم إنشاء الحساب! تحقق من بريدك.",
+  "auth_signing_in": "جاري تسجيل الدخول…",
+  "auth_bad_creds": "البريد أو كلمة المرور غير صحيحة.",
+  "offline_bar": "دون اتصال — الصفحات التي فتحتها تبقى متاحة، وما عداها يحتاج إنترنت.",
+  "online_back": "تم استعادة الاتصال",
+  "audio_error": "⚠️ خطأ في التشغيل. جرّب قارئًا آخر.",
+  "audio_fail": "⚠️ تعذّر التشغيل. أعد المحاولة أو اختر قارئًا آخر.",
+  "audio_fail_net": "⚠️ تعذّر التشغيل. تحقق من اتصالك أو جرّب قارئًا آخر.",
+  "toast_reciter_unknown": "⚠️ قارئ غير معروف.",
+  "toast_pick_surah": "⚠️ اختر سورة.",
+  "toast_recitation_fail": "⚠️ تعذّر تحميل هذه التلاوة.",
+  "toast_pick_reciter_first": "⚠️ اختر قارئًا أولًا.",
+  "toast_select_reciter": "⚠️ حدّد قارئًا أولًا.",
+  "toast_play_fail": "⚠️ تعذّر التشغيل. أعد المحاولة.",
+  "toast_surah_selected_a": "📖 سورة ",
+  "toast_surah_selected_b": " مختارة — اضغط قارئًا للاستماع",
+  "toast_verse_loaded_a": "📖 الآية ",
+  "toast_verse_loaded_b": " من سورة ",
+  "toast_verse_loaded_c": " تم تحميلها",
+  "toast_reading_picked": "📖 القراءة المختارة: ",
+  "toast_added_tracking_b": " أُضيفت إلى متابعتك!",
+  "loading_short": "جاري التحميل…"
+ }
+};
+Object.keys(RIHLA_I18N_EXTRA).forEach(function(lg){
+  RIHLA_I18N[lg] = Object.assign({}, RIHLA_I18N_EXTRA[lg], RIHLA_I18N[lg] || {});
+});
+
+// Complément clés manquantes
+(function(){
+  var more = {
+    fr: { parcours_meta_zero:'0 / 21 jours complétés', premium_reciters:'+12 récitateurs Premium' },
+    en: { parcours_meta_zero:'0 / 21 days completed', premium_reciters:'+12 Premium reciters', pd_lesson_label:'📚 Lesson to remember' },
+    ar: { parcours_meta_zero:'٠ / ٢١ يومًا مكتملًا', premium_reciters:'+١٢ قارئًا متقدمًا', pd_lesson_label:'📚 الدرس المستفاد' }
+  };
+  Object.keys(more).forEach(function(lg){
+    RIHLA_I18N[lg] = Object.assign({}, more[lg], RIHLA_I18N[lg] || {});
+  });
+})();
+
+var rihlaLang = 'fr';
 function t(key){
+  if(typeof RIHLA_I18N === 'undefined' || !RIHLA_I18N) return key;
   const pack = RIHLA_I18N[rihlaLang] || RIHLA_I18N.fr;
   return (pack[key] != null ? pack[key] : (RIHLA_I18N.fr[key] || key));
 }
@@ -6919,6 +7680,19 @@ function applyRihlaLang(lang){
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
     const key = el.getAttribute('data-i18n-html');
     if(key) el.innerHTML = t(key);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(key) el.setAttribute('placeholder', t(key));
+  });
+  // Attributs d'accessibilité et infobulles
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria');
+    if(key) el.setAttribute('aria-label', t(key));
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    if(key) el.setAttribute('title', t(key));
   });
   document.querySelectorAll('#langSwitch [data-lang]').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
@@ -6949,16 +7723,57 @@ function applyRihlaLang(lang){
   try{ if(typeof renderParcours === 'function') renderParcours(); }catch(e){}
   try{ if(typeof renderToday === 'function') renderToday(); }catch(e){}
 }
+function detectBrowserLang(){
+  // navigator.languages = préférences ordonnées (ex. ["ar-SA","ar","en-US","en"])
+  const candidates = [];
+  try{
+    if(Array.isArray(navigator.languages)) candidates.push.apply(candidates, navigator.languages);
+  }catch(e){}
+  try{
+    if(navigator.language) candidates.push(navigator.language);
+  }catch(e){}
+  try{
+    if(navigator.userLanguage) candidates.push(navigator.userLanguage);
+  }catch(e){}
+  for(let i = 0; i < candidates.length; i++){
+    const raw = String(candidates[i] || '').toLowerCase();
+    if(!raw) continue;
+    const base = raw.split('-')[0];
+    if(base === 'ar' || raw.indexOf('arab') !== -1) return 'ar';
+    if(base === 'en') return 'en';
+    if(base === 'fr') return 'fr';
+  }
+  // Pays / fuseau comme indices faibles
+  try{
+    const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').toLowerCase();
+    if(/riyadh|dubai|cairo|baghdad|qatar|kuwait|amman|beirut|damascus|casablanca|algiers|tunis/.test(tz)) return 'ar';
+  }catch(e){}
+  return 'fr';
+}
 function initRihlaLang(){
-  let lang = 'fr';
-  try{ lang = localStorage.getItem('rihla_lang') || 'fr'; }catch(e){}
-  if(!RIHLA_I18N[lang]) lang = 'fr';
+  let lang = null;
+  let fromUser = false;
+  try{
+    const saved = localStorage.getItem('rihla_lang');
+    if(saved && RIHLA_I18N[saved]){
+      lang = saved;
+      fromUser = true;
+    }
+  }catch(e){}
+  if(!lang){
+    lang = detectBrowserLang();
+    if(!RIHLA_I18N[lang]) lang = 'fr';
+    // Mémoriser la détection pour la prochaine visite (l'utilisateur peut changer via FR/EN/ع)
+    try{ localStorage.setItem('rihla_lang', lang); }catch(e){}
+  }
   document.getElementById('langSwitch')?.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-lang]');
     if(!btn) return;
     applyRihlaLang(btn.getAttribute('data-lang'));
   });
   applyRihlaLang(lang);
+  // Optionnel : indiquer en console d'où vient la langue (dev)
+  try{ console.info('[Rihla] langue:', lang, fromUser ? '(choix enregistré)' : '(détectée auto)'); }catch(e){}
 }
 
 document.addEventListener('DOMContentLoaded', function() {
