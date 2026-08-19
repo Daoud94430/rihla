@@ -2403,6 +2403,7 @@ if(id === 'view-aujourdhui'){
 }
 if(id === 'view-parcours'){
   try{ if(typeof renderParcours === 'function') renderParcours(); }catch(e){}
+  try{ if(typeof renderProphetes === 'function') renderProphetes(); }catch(e){}
 }
 document.querySelectorAll('.nav-link').forEach(b => {
   // Ne pas activer « Tarifs » (scroll) juste parce que la vue est view-home
@@ -3183,19 +3184,155 @@ window.PROPHETE_EXTRA = {
 <br><br><strong>📖 Héritage :</strong> Le Coran préservé, la Sunna, une communauté mondiale. Sa vie (Sîra) est le modèle complet pour chaque domaine : foi, famille, société, guerre juste, paix et gouvernance.`
 };
 
+window.PROPHET_I18N = {
+  "Adam": {
+    name_en: "Adam",
+    desc_en: "<strong>Adam (peace be upon him)</strong> is the first human and the first prophet. Allah created him from clay and breathed into him of His spirit.\n<br><br><strong>📖 Creation:</strong> Allah taught him the names of all things and honoured him above the angels in knowledge.\n<br><br><strong>📖 Paradise:</strong> He lived with Hawwa (Eve) until Iblis tempted them. They repented and Allah accepted their repentance.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Sincere repentance erases sins. Pride destroys; humility saves.</p></div>",
+    desc_ar: "<strong>آدم عليه السلام</strong> أبو البشر وأول الأنبياء، خلقه الله من طين ونفخ فيه من روحه.\n<br><br>علّمه الأسماء، وأخرجه من الجنة بعد التوبة ليعمر الأرض.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>التوبة تمحو الذنب. الكبر مهلك.</p></div>"
+  },
+  "Idris": {
+    name_en: "Idris",
+    desc_en: "<strong>Idris (peace be upon him)</strong> lived between Adam and Noah — truthful and patient.\n<br><br>He called to Allah’s worship and is praised for knowledge and steadfastness.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Knowledge, patience and truthfulness are prophetic qualities.</p></div>",
+    desc_ar: "<strong>إدريس عليه السلام</strong> صديق نبي، داعٍ إلى الله بالصبر والعلم.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>العلم والصدق من سبيل الرفعة.</p></div>"
+  },
+  "Noé (Nuh)": {
+    name_en: "Noah (Nuh)",
+    desc_en: "<strong>Noah (peace be upon him)</strong> called his people for 950 years to worship Allah alone.\n<br><br><strong>📖 The Flood:</strong> He built the Ark; the believers were saved and the deniers destroyed.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Stay firm in calling to the truth, even for a long time.</p></div>",
+    desc_ar: "<strong>نوح عليه السلام</strong> دعا قومه قرونًا، ثم جاء الطوفان فنجا المؤمنون.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الثبات على الحق ولو طال الزمان.</p></div>"
+  },
+  "Houd": {
+    name_en: "Hud",
+    desc_en: "<strong>Hud (peace be upon him)</strong> was sent to the arrogant people of ‘Ad.\n<br><br>They rejected him; a violent wind destroyed them, and Allah saved the believers.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Power without faith leads to ruin.</p></div>",
+    desc_ar: "<strong>هود عليه السلام</strong> أُرسل إلى عاد؛ أهلكهم الله بريح صرصر ونجّى المؤمنين.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الطغيان عاقبته الهلاك.</p></div>"
+  },
+  "Salih": {
+    name_en: "Salih",
+    desc_en: "<strong>Salih (peace be upon him)</strong> was sent to Thamud with the sign of the she-camel.\n<br><br>They killed her in defiance and were seized by punishment.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Rejecting Allah’s signs has a severe outcome.</p></div>",
+    desc_ar: "<strong>صالح عليه السلام</strong> وآية الناقة؛ عقرها ثمود فأخذهم العذاب.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>لا تستهزئ بآيات الله.</p></div>"
+  },
+  "Abraham (Ibrahim)": {
+    name_en: "Abraham (Ibrahim)",
+    desc_en: "<strong>Abraham (peace be upon him)</strong> — the close friend of Allah — broke the idols and called to pure monotheism.\n<br><br>The fire was made cool for him; he raised the Kaaba with Ismail; he submitted fully to Allah’s command.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Trust, courage, and submission to Allah.</p></div>",
+    desc_ar: "<strong>إبراهيم عليه السلام</strong> خليل الله، حطّم الأصنام، ونجا من النار، وبنى البيت.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>التوحيد والشجاعة والتسليم.</p></div>"
+  },
+  "Lot (Lut)": {
+    name_en: "Lot (Lut)",
+    desc_en: "<strong>Lot (peace be upon him)</strong> forbade the grave indecency of his people.\n<br><br>They rejected him; their towns were overturned; he and the believers were saved.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Moral corruption destroys nations.</p></div>",
+    desc_ar: "<strong>لوط عليه السلام</strong> نهى عن الفاحشة؛ أُهلك قومه ونجا مع المؤمنين.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الفساد الأخلاقي يُهلك القرى.</p></div>"
+  },
+  "Ismaël (Ismail)": {
+    name_en: "Ishmael (Ismail)",
+    desc_en: "<strong>Ishmael (peace be upon him)</strong> — patient and obedient son of Abraham.\n<br><br>He helped build the Kaaba; from his line came Prophet Muhammad ﷺ.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Obedience and patience open the door to great reward.</p></div>",
+    desc_ar: "<strong>إسماعيل عليه السلام</strong> صابر مطيع، بنى الكعبة مع أبيه، ومن نسله محمد ﷺ.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>البر والصبر.</p></div>"
+  },
+  "Isaac (Ishaq)": {
+    name_en: "Isaac (Ishaq)",
+    desc_en: "<strong>Isaac (peace be upon him)</strong> — son of Abraham, given as a glad tiding in old age; a righteous prophet.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Allah’s gift comes in its time. Righteous children are a blessing.</p></div>",
+    desc_ar: "<strong>إسحاق عليه السلام</strong> ابن إبراهيم، نبي من الصالحين.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>رزق الله في أوانه.</p></div>"
+  },
+  "Jacob (Ya\\'qub)": {
+    name_en: "Jacob (Yaqub)",
+    desc_en: "<strong>Jacob (peace be upon him)</strong> — also called Israel — father of the tribes.\n<br><br>He bore the loss of Joseph with beautiful patience until Allah reunited them.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Beautiful patience and good hope in Allah.</p></div>",
+    desc_ar: "<strong>يعقوب عليه السلام</strong> صبر على فقد يوسف حتى جمع الله شمله.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصبر الجميل.</p></div>"
+  },
+  "Joseph (Yusuf)": {
+    name_en: "Joseph (Yusuf)",
+    desc_en: "<strong>Joseph (peace be upon him)</strong> — one of the best stories in the Qur’an.\n<br><br>Betrayal, slavery, prison, then authority in Egypt and forgiveness of his brothers.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Chastity, patience and forgiveness — Allah elevates those who fear Him.</p></div>",
+    desc_ar: "<strong>يوسف عليه السلام</strong> من الرق والسجن إلى التمكين والعفو.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>العفاف والصبر والعفو.</p></div>"
+  },
+  "Job (Ayyub)": {
+    name_en: "Job (Ayyub)",
+    desc_en: "<strong>Job (peace be upon him)</strong> was tested with illness and loss, yet never abandoned faith.\n<br><br>He called upon Allah; He healed him and restored his family.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Patience and dua in hardship bring relief.</p></div>",
+    desc_ar: "<strong>أيوب عليه السلام</strong> صبر على البلاء ففرّج الله كربه.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصبر والدعاء.</p></div>"
+  },
+  "Shu\\'ayb": {
+    name_en: "Shuayb",
+    desc_en: "<strong>Shuayb (peace be upon him)</strong> was sent to Madyan: fair weights and measures, no corruption.\n<br><br>They denied him and were punished; the believers were saved.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Honesty in trade is part of faith.</p></div>",
+    desc_ar: "<strong>شعيب عليه السلام</strong> أمر بالعدل في الكيل ونهى عن الفساد.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصدق في التجارة من الإيمان.</p></div>"
+  },
+  "Moïse (Musa)": {
+    name_en: "Moses (Musa)",
+    desc_en: "<strong>Moses (peace be upon him)</strong> — the most mentioned prophet in the Qur’an.\n<br><br>He confronted Pharaoh, received the Torah, and led his people out of oppression.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Courage against tyranny and reliance on Allah.</p></div>",
+    desc_ar: "<strong>موسى عليه السلام</strong> واجه فرعون وأُوتي التوراة ونجّى قومه.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>مواجهة الظلم والتوكل.</p></div>"
+  },
+  "Aaron (Harun)": {
+    name_en: "Aaron (Harun)",
+    desc_en: "<strong>Aaron (peace be upon him)</strong> — brother of Moses, a prophet who supported the message.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Cooperate in truth and speak it clearly.</p></div>",
+    desc_ar: "<strong>هارون عليه السلام</strong> وزير موسى في الدعوة.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>التعاون على الحق.</p></div>"
+  },
+  "David (Dawud)": {
+    name_en: "David (Dawud)",
+    desc_en: "<strong>David (peace be upon him)</strong> — prophet and king; given the Zabur and a just kingdom.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Authority is for justice and the remembrance of Allah.</p></div>",
+    desc_ar: "<strong>داود عليه السلام</strong> نبي وملك عادل، أُوتي الزبور.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الملك للعدل والذكر.</p></div>"
+  },
+  "Salomon (Sulayman)": {
+    name_en: "Solomon (Sulayman)",
+    desc_en: "<strong>Solomon (peace be upon him)</strong> — son of David; given a unique kingdom, yet remained a thankful servant.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Great gifts require greater gratitude.</p></div>",
+    desc_ar: "<strong>سليمان عليه السلام</strong> ملك عظيم وبقي عبدًا شاكرًا.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الشكر مع النعمة.</p></div>"
+  },
+  "Élie (Ilyas)": {
+    name_en: "Elijah (Ilyas)",
+    desc_en: "<strong>Elijah (peace be upon him)</strong> called his people away from Baal to the worship of Allah alone.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Tawhid is the foundation of the religion.</p></div>",
+    desc_ar: "<strong>إلياس عليه السلام</strong> دعا إلى ترك عبادة بعل.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>التوحيد أساس الدين.</p></div>"
+  },
+  "Élisée (Al-Yasa)": {
+    name_en: "Elisha (Al-Yasa)",
+    desc_en: "<strong>Elisha (peace be upon him)</strong> — among the righteous who continued the prophetic call.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Remain steadfast on the path of truth.</p></div>",
+    desc_ar: "<strong>اليسع عليه السلام</strong> من الصالحين الداعين إلى الله.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الاستمرار على الحق.</p></div>"
+  },
+  "Jonas (Yunus)": {
+    name_en: "Jonah (Yunus)",
+    desc_en: "<strong>Jonah (peace be upon him)</strong> was swallowed by the whale and called: There is no god but You; glory be to You.\n<br><br>Allah saved him; his people believed and were spared.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Never despair of Allah’s mercy.</p></div>",
+    desc_ar: "<strong>يونس عليه السلام</strong> نادى في بطن الحوت فنجّاه الله.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>لا تقنط من رحمة الله.</p></div>"
+  },
+  "Zacharie (Zakariyya)": {
+    name_en: "Zechariah (Zakariyya)",
+    desc_en: "<strong>Zechariah (peace be upon him)</strong> prayed for a child in old age; Allah granted him Yahya.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Make dua with certainty — Allah does what He wills.</p></div>",
+    desc_ar: "<strong>زكريا عليه السلام</strong> رُزق بيحيى بعد الدعاء على الكبر.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الدعاء مع اليقين.</p></div>"
+  },
+  "Jean-Baptiste (Yahya)": {
+    name_en: "John (Yahya)",
+    desc_en: "<strong>John (peace be upon him)</strong> — pure, devoted, kind to his parents, firm upon the truth.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Purity of heart and duty to parents.</p></div>",
+    desc_ar: "<strong>يحيى عليه السلام</strong> نبي طاهر بار بوالديه.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الطهارة وبر الوالدين.</p></div>"
+  },
+  "Jésus (Isa)": {
+    name_en: "Jesus (Isa)",
+    desc_en: "<strong>Jesus (peace be upon him)</strong> — born of Mary by a miracle; a servant and messenger of Allah.\n<br><br>He called to tawhid. He was not killed nor crucified; Allah raised him.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Believe in Jesus as Allah described him — without excess or denial.</p></div>",
+    desc_ar: "<strong>عيسى عليه السلام</strong> عبد الله ورسوله، رُفع ولم يُصلب.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الإيمان به بلا غلو ولا جحود.</p></div>"
+  },
+  "Muhammad": {
+    name_en: "Muhammad",
+    desc_en: "<strong>Muhammad ﷺ</strong> — the final messenger, a mercy to the worlds.\n<br><br>He conveyed the Qur’an, built a community on tawhid and noble character, and left a complete guidance.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Love the Prophet by following his Sunnah and character.</p></div>",
+    desc_ar: "<strong>محمد ﷺ</strong> خاتم النبيين ورحمة للعالمين.\n<br><br>بلّغ القرآن وترك هديًا كاملًا للأمة.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>محبته باتباع سنته.</p></div>"
+  },
+};
 let currentProphetIndex = 0;
+function prophetDisplayName(p){
+  const pack = window.PROPHET_I18N && window.PROPHET_I18N[p.name];
+  if(rihlaLang === 'en' && pack && pack.name_en) return pack.name_en;
+  if(rihlaLang === 'ar') return p.nameAr || p.name;
+  return p.name;
+}
+function prophetDescHtml(p){
+  const pack = window.PROPHET_I18N && window.PROPHET_I18N[p.name];
+  if(rihlaLang === 'en' && pack && pack.desc_en) return pack.desc_en;
+  if(rihlaLang === 'ar' && pack && pack.desc_ar) return pack.desc_ar;
+  return p.desc;
+}
 function renderProphetes(){
 const grid = document.getElementById('prophetesGrid');
+if(!grid) return;
 grid.innerHTML = '';
 prophetesData.forEach((p, index) => {
 const card = document.createElement('div');
 card.className = 'prophet-card';
 card.setAttribute('data-index', index);
+const v0 = (p.verses||'').split(',')[0];
 card.innerHTML = `
 <div class="prophet-icon">${p.icon}</div>
-<div class="prophet-name">${p.name}</div>
+<div class="prophet-name">${prophetDisplayName(p)}</div>
 <div class="prophet-name-ar">${p.nameAr}</div>
-<div class="prophet-verses">${p.verses.split(',')[0]}</div>
+<div class="prophet-verses">${v0}</div>
 `;
 card.addEventListener('click', () => openProphetDetail(index));
 grid.appendChild(card);
@@ -3214,15 +3351,19 @@ currentProphetIndex = index;
 const p = prophetesData[index];
 if(!p) return;
 document.getElementById('pdIcon').textContent = p.icon;
-document.getElementById('pdName').textContent = p.name;
+document.getElementById('pdName').textContent = prophetDisplayName(p);
 document.getElementById('pdNameAr').textContent = p.nameAr;
-const extra = window.PROPHETE_EXTRA && window.PROPHETE_EXTRA[p.name] ? window.PROPHETE_EXTRA[p.name] : '';
-const { body, lesson } = splitProphetContent(p.desc + extra);
+const extra = (rihlaLang === 'fr' && window.PROPHETE_EXTRA && window.PROPHETE_EXTRA[p.name]) ? window.PROPHETE_EXTRA[p.name] : '';
+const { body, lesson } = splitProphetContent(prophetDescHtml(p) + extra);
 document.getElementById('pdDesc').innerHTML = body;
 const pdLesson = document.getElementById('pdLesson');
 if(lesson){
 pdLesson.innerHTML = lesson;
 pdLesson.style.display = 'block';
+pdLesson.querySelectorAll('[data-i18n]').forEach(function(el){
+  var k = el.getAttribute('data-i18n');
+  if(k && typeof t === 'function') el.textContent = t(k);
+});
 } else {
 pdLesson.innerHTML = '';
 pdLesson.style.display = 'none';
