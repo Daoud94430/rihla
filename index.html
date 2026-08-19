@@ -1817,7 +1817,7 @@ Rihla
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f3">Correction de récitation illimitée</span></li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f4">Mémorisation assistée par thèmes</span></li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f6">Planificateur de lecture personnalisé</span></li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f6">Accès hors-ligne et support prioritaire</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f6">Support prioritaire</span></li>
 </ul>
 <button class="pay-btn" id="stripePayBtn" data-i18n="pay_btn">💳 Payer avec Stripe</button>
 <div class="secure-badge">
@@ -5608,23 +5608,10 @@ function prefetchMushafPage(page){
   fetchMushafPageData(page).catch(function(){});
 }
 function initOfflineBanner(){
-  let bar = document.getElementById('rihlaOfflineBar');
-  if(!bar){
-    bar = document.createElement('div');
-    bar.id = 'rihlaOfflineBar';
-    bar.style.cssText = 'display:none;position:sticky;top:0;z-index:150;background:#6b2b2b;color:#fff;text-align:center;padding:8px 12px;font-size:0.82rem;';
-    bar.textContent = t('offline_bar');
-    const nav = document.querySelector('header.nav');
-    if(nav && nav.parentNode) nav.parentNode.insertBefore(bar, nav.nextSibling);
-    else document.body.prepend(bar);
-  }
-  function sync(){
-    bar.style.display = navigator.onLine ? 'none' : 'block';
-    if(!navigator.onLine) rihlaToast('Connexion perdue', 'error');
-  }
-  window.addEventListener('online', function(){ sync(); rihlaToast(t('online_back'), 'ok'); });
-  window.addEventListener('offline', sync);
-  sync();
+  // Désactivé pour le web : les messages hors-ligne / connexion
+  // seront réintroduits quand Rihla sera une application.
+  const old = document.getElementById('rihlaOfflineBar');
+  if(old) old.remove();
 }
 
 // CDN everyayah-style via islamic.network (global ayah 1..6236)
@@ -5866,7 +5853,7 @@ async function toggleTafsirPanel(idx){
   }catch(e){}
   panel.innerHTML =
     (sens ? '<p style="margin:0 0 8px;"><strong>Sens (FR)</strong> — ' + sens.replace(/</g,'&lt;') + '</p>' : '') +
-    (eclairage ? '<p style="margin:0;"><strong>Éclairage (résumé)</strong> — ' + eclairage.replace(/</g,'&lt;') + '</p><p class="mt-src">Source : Tafsir Ibn Kathir (abrégé, EN) via Quran.com — pour approfondir, consulte un savant ou un tafsir complet en français.</p>' : '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">Éclairage indisponible hors-ligne. Le sens FR ci-dessus reste affiché.</p>');
+    (eclairage ? '<p style="margin:0;"><strong>Éclairage (résumé)</strong> — ' + eclairage.replace(/</g,'&lt;') + '</p><p class="mt-src">Source : Tafsir Ibn Kathir (abrégé, EN) via Quran.com — pour approfondir, consulte un savant ou un tafsir complet en français.</p>' : '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">Éclairage indisponible pour le moment. Le sens FR ci-dessus reste affiché.</p>');
   panel.dataset.loaded = '1';
 }
 
@@ -6991,7 +6978,7 @@ var RIHLA_I18N_EXTRA = {
   "pay_f2": "28 récitateurs complets (16 gratuits + 12 Premium)",
   "pay_f3": "Correction de récitation illimitée",
   "pay_f4": "Mémorisation assistée par thèmes",
-  "pay_f6": "Accès hors-ligne et support prioritaire",
+  "pay_f6": "Support prioritaire",
   "pay_btn": "💳 Payer avec Stripe",
   "pay_secure": "Paiement sécurisé — Stripe",
   "pay_setup": "Paiement en cours de mise en place.",
@@ -7219,7 +7206,7 @@ var RIHLA_I18N_EXTRA = {
   "pay_f2": "28 full reciters (16 free + 12 Premium)",
   "pay_f3": "Unlimited recitation correction",
   "pay_f4": "Guided memorization by theme",
-  "pay_f6": "Offline access and priority support",
+  "pay_f6": "Priority support",
   "pay_btn": "💳 Pay with Stripe",
   "pay_secure": "Secure payment — Stripe",
   "pay_setup": "Payment is being set up.",
@@ -7447,7 +7434,7 @@ var RIHLA_I18N_EXTRA = {
   "pay_f2": "٢٨ قارئًا كاملًا (١٦ مجانًا + ١٢ متقدمًا)",
   "pay_f3": "تصحيح التلاوة بلا حدود",
   "pay_f4": "حفظ موجّه حسب المواضيع",
-  "pay_f6": "استخدام دون اتصال ودعم ذو أولوية",
+  "pay_f6": "دعم ذو أولوية",
   "pay_btn": "💳 الدفع عبر Stripe",
   "pay_secure": "دفع آمن — Stripe",
   "pay_setup": "الدفع قيد الإعداد.",
@@ -7763,17 +7750,24 @@ function initRihlaLang(){
   if(!lang){
     lang = detectBrowserLang();
     if(!RIHLA_I18N[lang]) lang = 'fr';
-    // Mémoriser la détection pour la prochaine visite (l'utilisateur peut changer via FR/EN/ع)
     try{ localStorage.setItem('rihla_lang', lang); }catch(e){}
   }
-  document.getElementById('langSwitch')?.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-lang]');
-    if(!btn) return;
-    applyRihlaLang(btn.getAttribute('data-lang'));
-  });
+  const switchEl = document.getElementById('langSwitch');
+  if(switchEl){
+    switchEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-lang]');
+      if(!btn) return;
+      applyRihlaLang(btn.getAttribute('data-lang'));
+    });
+  }
+  // Exposer pour debug / re-appli
+  try{
+    window.applyRihlaLang = applyRihlaLang;
+    window.t = t;
+    window.RIHLA_I18N = RIHLA_I18N;
+  }catch(e){}
   applyRihlaLang(lang);
-  // Optionnel : indiquer en console d'où vient la langue (dev)
-  try{ console.info('[Rihla] langue:', lang, fromUser ? '(choix enregistré)' : '(détectée auto)'); }catch(e){}
+  try{ console.info('[Rihla] langue:', lang, fromUser ? '(choix enregistré)' : '(détectée auto)', 'clés EN:', Object.keys(RIHLA_I18N.en||{}).length); }catch(e){}
 }
 
 document.addEventListener('DOMContentLoaded', function() {
