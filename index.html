@@ -310,9 +310,63 @@ padding:5px 40px; transform:rotate(35deg); letter-spacing:0.04em;
 .price-card .premium-note{font-size:0.76rem; opacity:0.75; margin-top:-6px;}
 .price-card .price-feature-highlight{color:var(--gold-300); font-weight:600;}
 footer{
+    
 background:var(--emerald-950); color:var(--sand);
-padding:48px 24px 28px; margin-top:40px;
+//--- à ajouter dans RIHLA_I18N.fr ---
+footer_product:'Produit', footer_account:'Compte', footer_about:'À propos',
+footer_contact:'Contact', footer_copy:'Un compagnon pour ta lecture du Coran, jour après jour.',
+modal_title:'Se connecter', modal_sub:"Accède à ton suivi depuis n'importe quel appareil.",
+modal_google:'Continuer avec Google', modal_or_email:'ou avec un e-mail',
+modal_email:'Adresse e-mail', modal_password:'Mot de passe',
+modal_no_account:'Pas encore de compte ? Crée-en un', modal_have_account:'Déjà un compte ? Connecte-toi',
+modal_note:'Connexion réelle via Supabase (Google, ou e-mail + mot de passe).',
+faq_q1:"La session d'écoute enregistre-t-elle ma voix en permanence ?",
+faq_a1:"Non. L'enregistrement démarre uniquement quand tu appuies sur le bouton.",
+faq_q2:'Puis-je annuler mon abonnement Premium à tout moment ?', faq_a2:'Oui, sans engagement ni frais cachés.',
+faq_q3:'Mes données de progression sont-elles privées ?', faq_a3:'Oui, ton suivi et tes enregistrements ne sont visibles que par toi.',
+dua_count:'invocation(s) dans cette catégorie', dua_all:'Tous',
+mushaf_choose_voice:'Choisir une voix', mushaf_page:'Page', mushaf_go:'Aller',
+mushaf_dark:'Sombre', mushaf_light:'Clair', mushaf_choose_reciter:'Choisis un récitateur, puis appuie sur lecture',
+khatm_title:'📖 Plan de khatm (lecture complète)', khatm_sub:'Choisis en combien de jours tu veux lire tout le Coran (604 pages).',
+khatm_none:'Aucun plan actif', khatm_continue:'Continuer la lecture'
+
+// --- à ajouter dans RIHLA_I18N.en ---
+footer_product:'Product', footer_account:'Account', footer_about:'About',
+footer_contact:'Contact', footer_copy:"A companion for your Qur'an reading, day after day.",
+modal_title:'Log in', modal_sub:'Access your progress from any device.',
+modal_google:'Continue with Google', modal_or_email:'or with an email',
+modal_email:'Email address', modal_password:'Password',
+modal_no_account:"Don't have an account yet? Create one", modal_have_account:'Already have an account? Log in',
+modal_note:'Real sign-in via Supabase (Google, or email + password).',
+faq_q1:'Does the listening session record my voice all the time?',
+faq_a1:'No. Recording only starts when you press the button.',
+faq_q2:'Can I cancel my Premium subscription anytime?', faq_a2:'Yes, no commitment, no hidden fees.',
+faq_q3:'Is my progress data private?', faq_a3:'Yes, your tracking and recordings are only visible to you.',
+dua_count:'invocation(s) in this category', dua_all:'All',
+mushaf_choose_voice:'Choose a voice', mushaf_page:'Page', mushaf_go:'Go',
+mushaf_dark:'Dark', mushaf_light:'Light', mushaf_choose_reciter:'Pick a reciter, then press play',
+khatm_title:'📖 Khatm plan (full reading)', khatm_sub:'Choose how many days to read the whole Qur\'an (604 pages).',
+khatm_none:'No active plan', khatm_continue:'Continue reading'
+
+// --- à ajouter dans RIHLA_I18N.ar ---
+footer_product:'المنتج', footer_account:'الحساب', footer_about:'حول',
+footer_contact:'اتصل بنا', footer_copy:'رفيقك في قراءة القرآن، يومًا بعد يوم.',
+modal_title:'تسجيل الدخول', modal_sub:'تابع تقدمك من أي جهاز.',
+modal_google:'المتابعة عبر جوجل', modal_or_email:'أو عبر البريد الإلكتروني',
+modal_email:'البريد الإلكتروني', modal_password:'كلمة المرور',
+modal_no_account:'ليس لديك حساب؟ أنشئ واحدًا', modal_have_account:'لديك حساب بالفعل؟ سجّل الدخول',
+modal_note:'تسجيل دخول حقيقي عبر Supabase (جوجل أو بريد إلكتروني وكلمة مرور).',
+faq_q1:'هل تُسجَّل جلسة الاستماع صوتي باستمرار؟',
+faq_a1:'لا. يبدأ التسجيل فقط عند الضغط على الزر.',
+faq_q2:'هل يمكنني إلغاء اشتراكي المتقدم في أي وقت؟', faq_a2:'نعم، دون التزام أو رسوم خفية.',
+faq_q3:'هل بيانات تقدمي خاصة؟', faq_a3:'نعم، متابعتك وتسجيلاتك مرئية لك فقط.',
+dua_count:'دعاءً في هذه الفئة', dua_all:'الكل',
+mushaf_choose_voice:'اختر صوتًا', mushaf_page:'صفحة', mushaf_go:'اذهب',
+mushaf_dark:'داكن', mushaf_light:'فاتح', mushaf_choose_reciter:'اختر قارئًا ثم اضغط تشغيل',
+khatm_title:'📖 خطة الختم (قراءة كاملة)', khatm_sub:'اختر عدد الأيام لقراءة القرآن كاملاً (٦٠٤ صفحة).',
+khatm_none:'لا توجد خطة نشطة', khatm_continue:'متابعة القراءة'
 }
+padding:48px 24px 28px; margin-top:40px;
 .footer-inner{max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap;}
 .footer-inner .logo{color:var(--sand);}
 footer .cols{display:flex; gap:56px; flex-wrap:wrap;}
