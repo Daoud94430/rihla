@@ -310,63 +310,9 @@ padding:5px 40px; transform:rotate(35deg); letter-spacing:0.04em;
 .price-card .premium-note{font-size:0.76rem; opacity:0.75; margin-top:-6px;}
 .price-card .price-feature-highlight{color:var(--gold-300); font-weight:600;}
 footer{
-    
 background:var(--emerald-950); color:var(--sand);
-//--- à ajouter dans RIHLA_I18N.fr ---
-footer_product:'Produit', footer_account:'Compte', footer_about:'À propos',
-footer_contact:'Contact', footer_copy:'Un compagnon pour ta lecture du Coran, jour après jour.',
-modal_title:'Se connecter', modal_sub:"Accède à ton suivi depuis n'importe quel appareil.",
-modal_google:'Continuer avec Google', modal_or_email:'ou avec un e-mail',
-modal_email:'Adresse e-mail', modal_password:'Mot de passe',
-modal_no_account:'Pas encore de compte ? Crée-en un', modal_have_account:'Déjà un compte ? Connecte-toi',
-modal_note:'Connexion réelle via Supabase (Google, ou e-mail + mot de passe).',
-faq_q1:"La session d'écoute enregistre-t-elle ma voix en permanence ?",
-faq_a1:"Non. L'enregistrement démarre uniquement quand tu appuies sur le bouton.",
-faq_q2:'Puis-je annuler mon abonnement Premium à tout moment ?', faq_a2:'Oui, sans engagement ni frais cachés.',
-faq_q3:'Mes données de progression sont-elles privées ?', faq_a3:'Oui, ton suivi et tes enregistrements ne sont visibles que par toi.',
-dua_count:'invocation(s) dans cette catégorie', dua_all:'Tous',
-mushaf_choose_voice:'Choisir une voix', mushaf_page:'Page', mushaf_go:'Aller',
-mushaf_dark:'Sombre', mushaf_light:'Clair', mushaf_choose_reciter:'Choisis un récitateur, puis appuie sur lecture',
-khatm_title:'📖 Plan de khatm (lecture complète)', khatm_sub:'Choisis en combien de jours tu veux lire tout le Coran (604 pages).',
-khatm_none:'Aucun plan actif', khatm_continue:'Continuer la lecture'
-
-// --- à ajouter dans RIHLA_I18N.en ---
-footer_product:'Product', footer_account:'Account', footer_about:'About',
-footer_contact:'Contact', footer_copy:"A companion for your Qur'an reading, day after day.",
-modal_title:'Log in', modal_sub:'Access your progress from any device.',
-modal_google:'Continue with Google', modal_or_email:'or with an email',
-modal_email:'Email address', modal_password:'Password',
-modal_no_account:"Don't have an account yet? Create one", modal_have_account:'Already have an account? Log in',
-modal_note:'Real sign-in via Supabase (Google, or email + password).',
-faq_q1:'Does the listening session record my voice all the time?',
-faq_a1:'No. Recording only starts when you press the button.',
-faq_q2:'Can I cancel my Premium subscription anytime?', faq_a2:'Yes, no commitment, no hidden fees.',
-faq_q3:'Is my progress data private?', faq_a3:'Yes, your tracking and recordings are only visible to you.',
-dua_count:'invocation(s) in this category', dua_all:'All',
-mushaf_choose_voice:'Choose a voice', mushaf_page:'Page', mushaf_go:'Go',
-mushaf_dark:'Dark', mushaf_light:'Light', mushaf_choose_reciter:'Pick a reciter, then press play',
-khatm_title:'📖 Khatm plan (full reading)', khatm_sub:'Choose how many days to read the whole Qur\'an (604 pages).',
-khatm_none:'No active plan', khatm_continue:'Continue reading'
-
-// --- à ajouter dans RIHLA_I18N.ar ---
-footer_product:'المنتج', footer_account:'الحساب', footer_about:'حول',
-footer_contact:'اتصل بنا', footer_copy:'رفيقك في قراءة القرآن، يومًا بعد يوم.',
-modal_title:'تسجيل الدخول', modal_sub:'تابع تقدمك من أي جهاز.',
-modal_google:'المتابعة عبر جوجل', modal_or_email:'أو عبر البريد الإلكتروني',
-modal_email:'البريد الإلكتروني', modal_password:'كلمة المرور',
-modal_no_account:'ليس لديك حساب؟ أنشئ واحدًا', modal_have_account:'لديك حساب بالفعل؟ سجّل الدخول',
-modal_note:'تسجيل دخول حقيقي عبر Supabase (جوجل أو بريد إلكتروني وكلمة مرور).',
-faq_q1:'هل تُسجَّل جلسة الاستماع صوتي باستمرار؟',
-faq_a1:'لا. يبدأ التسجيل فقط عند الضغط على الزر.',
-faq_q2:'هل يمكنني إلغاء اشتراكي المتقدم في أي وقت؟', faq_a2:'نعم، دون التزام أو رسوم خفية.',
-faq_q3:'هل بيانات تقدمي خاصة؟', faq_a3:'نعم، متابعتك وتسجيلاتك مرئية لك فقط.',
-dua_count:'دعاءً في هذه الفئة', dua_all:'الكل',
-mushaf_choose_voice:'اختر صوتًا', mushaf_page:'صفحة', mushaf_go:'اذهب',
-mushaf_dark:'داكن', mushaf_light:'فاتح', mushaf_choose_reciter:'اختر قارئًا ثم اضغط تشغيل',
-khatm_title:'📖 خطة الختم (قراءة كاملة)', khatm_sub:'اختر عدد الأيام لقراءة القرآن كاملاً (٦٠٤ صفحة).',
-khatm_none:'لا توجد خطة نشطة', khatm_continue:'متابعة القراءة'
-}
 padding:48px 24px 28px; margin-top:40px;
+}
 .footer-inner{max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap;}
 .footer-inner .logo{color:var(--sand);}
 footer .cols{display:flex; gap:56px; flex-wrap:wrap;}
@@ -3462,36 +3408,36 @@ renderProphetes();
 // RAPPELS - HADITHS AUTHENTIQUES
 // =====================================================================
 const CURATED_HADITHS = [
-{ text: 'Les actions ne valent que par les intentions, et chacun n\'aura que ce qu\'il a intentionné.', ref: 'Boukhari & Muslim', theme: 'Intentions' },
-{ text: 'Le plus parfait des croyants dans sa foi est celui qui a le meilleur caractère.', ref: 'Tirmidhi', theme: 'Caractère' },
-{ text: 'Le croyant qui récite le Coran est comparable à un cédrat : son odeur est agréable et son goût est bon.', ref: 'Boukhari & Muslim', theme: 'Coran' },
-{ text: 'Ne vous enviez pas les uns les autres, ne vous haïssez pas, ne vous tournez pas le dos. Soyez frères, ô serviteurs d\'Allah. Le musulman est le frère du musulman.', ref: 'Muslim', theme: 'Fraternité' },
-{ text: 'Celui d\'entre vous qui voit un mal, qu\'il le change par sa main ; s\'il ne le peut pas, par sa langue ; s\'il ne le peut pas, par son cœur, et c\'est là le plus faible degré de la foi.', ref: 'Muslim', theme: 'Bien' },
-{ text: 'Allah n\'accepte que ce qui est bon. Et Allah a ordonné aux croyants ce qu\'Il a ordonné aux messagers.', ref: 'Muslim', theme: 'Sincérité' },
-{ text: 'Le sourire à ton frère est une aumône. Ordonner le bien et interdire le mal est une aumône. Guider quelqu\'un dans la voie est une aumône.', ref: 'Tirmidhi', theme: 'Aumône' },
-{ text: 'Celui qui croit en Allah et au Jour dernier, qu\'il dise du bien ou qu\'il se taise.', ref: 'Boukhari & Muslim', theme: 'Parole' },
-{ text: 'Nul d\'entre vous ne croit vraiment tant qu\'il n\'aime pas pour son frère ce qu\'il aime pour lui-même.', ref: 'Boukhari & Muslim', theme: 'Foi' },
-{ text: 'La pureté représente la moitié de la foi, et « Al-hamdu lillah » remplit la balance.', ref: 'Muslim', theme: 'Purification' },
-{ text: 'Le meilleur d\'entre vous est celui qui apprend le Coran et l\'enseigne.', ref: 'Boukhari', theme: 'Coran' },
-{ text: 'La miséricorde n\'est ôtée qu\'au malheureux.', ref: 'Abou Dawoud & Tirmidhi', theme: 'Miséricorde' },
-{ text: 'Celui qui ne remercie pas les gens ne remercie pas Allah.', ref: 'Abou Dawoud & Tirmidhi', theme: 'Gratitude' },
-{ text: 'Facilitez et ne compliquez pas. Annoncez la bonne nouvelle et ne faites pas fuir.', ref: 'Boukhari & Muslim', theme: 'Facilité' },
-{ text: 'La force n\'est pas dans la lutte ; le fort est celui qui se maîtrise dans la colère.', ref: 'Boukhari & Muslim', theme: 'Colère' },
-{ text: 'Craignez Allah où que vous soyez. Faites suivre la mauvaise action d\'une bonne qui l\'efface. Et comportez-vous avec les gens de la meilleure manière.', ref: 'Tirmidhi', theme: 'Piété' },
-{ text: 'Le monde est doux et verdoyant. Allah vous y a établis pour voir comment vous agissez.', ref: 'Muslim', theme: 'Dounia' },
-{ text: 'Celui qui se tait est sauvé.', ref: 'Tirmidhi', theme: 'Parole' },
-{ text: 'Demandez le savoir, fût-ce jusqu\'en Chine.', ref: 'Rapporté dans certaines collections (faible selon certains savants) — rappel sur l\'importance du savoir', theme: 'Savoir' },
-{ text: 'Le Paradis est sous les pieds des mères.', ref: 'Ahmad & Nassai', theme: 'Parents' },
-{ text: 'Celui qui croit en Allah et au Jour dernier, qu\'il honore son hôte.', ref: 'Boukhari & Muslim', theme: 'Hospitalité' },
-{ text: 'La modestie fait partie de la foi.', ref: 'Boukhari & Muslim', theme: 'Modestie' },
-{ text: 'Deux paroles légères sur la langue, lourdes dans la balance, aimées du Tout Miséricordieux : Subhanallahi wa bihamdihi, Subhanallahil-\'Azim.', ref: 'Boukhari & Muslim', theme: 'Dhikr' },
-{ text: 'Invoquez Allah alors que vous êtes certains d\'être exaucés. Sachez qu\'Allah n\'exauce pas une invocation d\'un cœur distrait et insouciant.', ref: 'Tirmidhi', theme: 'Invocation' },
-{ text: 'Le croyant n\'est pas piqué deux fois dans le même trou.', ref: 'Boukhari & Muslim', theme: 'Sagesse' },
-{ text: 'La meilleure des aumônes est celle donnée dans le besoin.', ref: 'Abou Dawoud', theme: 'Aumône' },
-{ text: 'Allah aime, lorsqu\'un de vous fait une œuvre, qu\'il la peaufine.', ref: 'Tabarani', theme: 'Excellence' },
-{ text: 'Sois dans ce monde comme un étranger ou un voyageur de passage.', ref: 'Boukhari', theme: 'Dounia' },
-{ text: 'La prière est lumière, l\'aumône est preuve, la patience est clarté, et le Coran est un argument pour toi ou contre toi.', ref: 'Muslim', theme: 'Piliers' },
-{ text: 'Celui qui guide vers un bien en a la même récompense que celui qui le fait.', ref: 'Muslim', theme: 'Guidance' }
+{ text: 'Les actions ne valent que par les intentions, et chacun n\'aura que ce qu\'il a intentionné.', textEn: 'Actions are but by intentions, and every person will only have what they intended.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Intentions', themeEn: 'Intentions', themeAr: 'النية' },
+{ text: 'Le plus parfait des croyants dans sa foi est celui qui a le meilleur caractère.', textEn: 'The most complete of believers in faith is the one with the best character.', ref: 'Tirmidhi', refEn: 'Tirmidhi', theme: 'Caractère', themeEn: 'Character', themeAr: 'الخلق' },
+{ text: 'Le croyant qui récite le Coran est comparable à un cédrat : son odeur est agréable et son goût est bon.', textEn: 'The believer who recites the Qur\'an is like a citron: its smell is pleasant and its taste is good.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Coran', themeEn: 'Qur\'an', themeAr: 'القرآن' },
+{ text: 'Ne vous enviez pas les uns les autres, ne vous haïssez pas, ne vous tournez pas le dos. Soyez frères, ô serviteurs d\'Allah. Le musulman est le frère du musulman.', textEn: 'Do not envy one another, do not hate one another, do not turn away from one another. Be brothers, O servants of Allah. The Muslim is the brother of the Muslim.', ref: 'Muslim', refEn: 'Muslim', theme: 'Fraternité', themeEn: 'Brotherhood', themeAr: 'الأخوة' },
+{ text: 'Celui d\'entre vous qui voit un mal, qu\'il le change par sa main ; s\'il ne le peut pas, par sa langue ; s\'il ne le peut pas, par son cœur, et c\'est là le plus faible degré de la foi.', textEn: 'Whoever among you sees a wrong, let him change it with his hand; if he cannot, then with his tongue; if he cannot, then with his heart, and that is the weakest degree of faith.', ref: 'Muslim', refEn: 'Muslim', theme: 'Bien', themeEn: 'Good', themeAr: 'الخير' },
+{ text: 'Allah n\'accepte que ce qui est bon. Et Allah a ordonné aux croyants ce qu\'Il a ordonné aux messagers.', textEn: 'Allah accepts only what is good. And Allah has commanded the believers what He commanded the messengers.', ref: 'Muslim', refEn: 'Muslim', theme: 'Sincérité', themeEn: 'Sincerity', themeAr: 'الإخلاص' },
+{ text: 'Le sourire à ton frère est une aumône. Ordonner le bien et interdire le mal est une aumône. Guider quelqu\'un dans la voie est une aumône.', textEn: 'Smiling at your brother is charity. Enjoining good and forbidding wrong is charity. Guiding someone on the way is charity.', ref: 'Tirmidhi', refEn: 'Tirmidhi', theme: 'Aumône', themeEn: 'Charity', themeAr: 'الصدقة' },
+{ text: 'Celui qui croit en Allah et au Jour dernier, qu\'il dise du bien ou qu\'il se taise.', textEn: 'Whoever believes in Allah and the Last Day should speak good or remain silent.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Parole', themeEn: 'Speech', themeAr: 'الكلام' },
+{ text: 'Nul d\'entre vous ne croit vraiment tant qu\'il n\'aime pas pour son frère ce qu\'il aime pour lui-même.', textEn: 'None of you truly believes until he loves for his brother what he loves for himself.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Foi', themeEn: 'Faith', themeAr: 'الإيمان' },
+{ text: 'La pureté représente la moitié de la foi, et « Al-hamdu lillah » remplit la balance.', textEn: 'Purity is half of faith, and "Al-hamdu lillah" fills the scale.', ref: 'Muslim', refEn: 'Muslim', theme: 'Purification', themeEn: 'Purification', themeAr: 'الطهارة' },
+{ text: 'Le meilleur d\'entre vous est celui qui apprend le Coran et l\'enseigne.', textEn: 'The best among you is the one who learns the Qur\'an and teaches it.', ref: 'Boukhari', refEn: 'Bukhari', theme: 'Coran', themeEn: 'Qur\'an', themeAr: 'القرآن' },
+{ text: 'La miséricorde n\'est ôtée qu\'au malheureux.', textEn: 'Mercy is withheld only from the wretched.', ref: 'Abou Dawoud & Tirmidhi', refEn: 'Abu Dawud & Tirmidhi', theme: 'Miséricorde', themeEn: 'Mercy', themeAr: 'الرحمة' },
+{ text: 'Celui qui ne remercie pas les gens ne remercie pas Allah.', textEn: 'Whoever does not thank people does not thank Allah.', ref: 'Abou Dawoud & Tirmidhi', refEn: 'Abu Dawud & Tirmidhi', theme: 'Gratitude', themeEn: 'Gratitude', themeAr: 'الشكر' },
+{ text: 'Facilitez et ne compliquez pas. Annoncez la bonne nouvelle et ne faites pas fuir.', textEn: 'Make things easy, not difficult. Give glad tidings, do not repel people.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Facilité', themeEn: 'Ease', themeAr: 'التيسير' },
+{ text: 'La force n\'est pas dans la lutte ; le fort est celui qui se maîtrise dans la colère.', textEn: 'Strength is not in wrestling; the strong one is he who controls himself in anger.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Colère', themeEn: 'Anger', themeAr: 'الغضب' },
+{ text: 'Craignez Allah où que vous soyez. Faites suivre la mauvaise action d\'une bonne qui l\'efface. Et comportez-vous avec les gens de la meilleure manière.', textEn: 'Fear Allah wherever you are. Follow a bad deed with a good one that erases it. And treat people with good manners.', ref: 'Tirmidhi', refEn: 'Tirmidhi', theme: 'Piété', themeEn: 'Piety', themeAr: 'التقوى' },
+{ text: 'Le monde est doux et verdoyant. Allah vous y a établis pour voir comment vous agissez.', textEn: 'The world is sweet and green. Allah has placed you in it to see how you behave.', ref: 'Muslim', refEn: 'Muslim', theme: 'Dounia', themeEn: 'This world', themeAr: 'الدنيا' },
+{ text: 'Celui qui se tait est sauvé.', textEn: 'Whoever remains silent is saved.', ref: 'Tirmidhi', refEn: 'Tirmidhi', theme: 'Parole', themeEn: 'Speech', themeAr: 'الكلام' },
+{ text: 'Demandez le savoir, fût-ce jusqu\'en Chine.', textEn: 'Seek knowledge, even as far as China.', ref: 'Rapporté dans certaines collections (faible selon certains savants) — rappel sur l\'importance du savoir', refEn: 'Narrated in some collections (weak per some scholars) — a reminder of the value of knowledge', theme: 'Savoir', themeEn: 'Knowledge', themeAr: 'العلم' },
+{ text: 'Le Paradis est sous les pieds des mères.', textEn: 'Paradise lies at the feet of mothers.', ref: 'Ahmad & Nassai', refEn: 'Ahmad & An-Nasa\'i', theme: 'Parents', themeEn: 'Parents', themeAr: 'الوالدان' },
+{ text: 'Celui qui croit en Allah et au Jour dernier, qu\'il honore son hôte.', textEn: 'Whoever believes in Allah and the Last Day should honor his guest.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Hospitalité', themeEn: 'Hospitality', themeAr: 'الضيافة' },
+{ text: 'La modestie fait partie de la foi.', textEn: 'Modesty is part of faith.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Modestie', themeEn: 'Modesty', themeAr: 'الحياء' },
+{ text: 'Deux paroles légères sur la langue, lourdes dans la balance, aimées du Tout Miséricordieux : Subhanallahi wa bihamdihi, Subhanallahil-\'Azim.', textEn: 'Two phrases light on the tongue, heavy on the scale, beloved to the Most Merciful: Subhan Allah wa bihamdihi, Subhan Allah al-\'Azim.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Dhikr', themeEn: 'Remembrance', themeAr: 'الذكر' },
+{ text: 'Invoquez Allah alors que vous êtes certains d\'être exaucés. Sachez qu\'Allah n\'exauce pas une invocation d\'un cœur distrait et insouciant.', textEn: 'Call upon Allah while certain of being answered. Know that Allah does not answer a supplication from a heedless, distracted heart.', ref: 'Tirmidhi', refEn: 'Tirmidhi', theme: 'Invocation', themeEn: 'Supplication', themeAr: 'الدعاء' },
+{ text: 'Le croyant n\'est pas piqué deux fois dans le même trou.', textEn: 'The believer is not bitten twice from the same hole.', ref: 'Boukhari & Muslim', refEn: 'Bukhari & Muslim', theme: 'Sagesse', themeEn: 'Wisdom', themeAr: 'الحكمة' },
+{ text: 'La meilleure des aumônes est celle donnée dans le besoin.', textEn: 'The best charity is that given when in need.', ref: 'Abou Dawoud', refEn: 'Abu Dawud', theme: 'Aumône', themeEn: 'Charity', themeAr: 'الصدقة' },
+{ text: 'Allah aime, lorsqu\'un de vous fait une œuvre, qu\'il la peaufine.', textEn: 'Allah loves that when one of you does a task, he perfects it.', ref: 'Tabarani', refEn: 'Tabarani', theme: 'Excellence', themeEn: 'Excellence', themeAr: 'الإتقان' },
+{ text: 'Sois dans ce monde comme un étranger ou un voyageur de passage.', textEn: 'Be in this world as a stranger or a traveler passing through.', ref: 'Boukhari', refEn: 'Bukhari', theme: 'Dounia', themeEn: 'This world', themeAr: 'الدنيا' },
+{ text: 'La prière est lumière, l\'aumône est preuve, la patience est clarté, et le Coran est un argument pour toi ou contre toi.', textEn: 'Prayer is light, charity is proof, patience is illumination, and the Qur\'an is an argument for you or against you.', ref: 'Muslim', refEn: 'Muslim', theme: 'Piliers', themeEn: 'Pillars', themeAr: 'الأركان' },
+{ text: 'Celui qui guide vers un bien en a la même récompense que celui qui le fait.', textEn: 'Whoever guides someone to good has a reward like the one who does it.', ref: 'Muslim', refEn: 'Muslim', theme: 'Guidance', themeEn: 'Guidance', themeAr: 'الهداية' }
 ];
 
 const hadithText = document.getElementById('hadithText');
@@ -3508,10 +3454,19 @@ function renderHadith(index){
   const h = CURATED_HADITHS[index];
   if(!h) return;
   hadithIndex = index;
-  hadithText.innerHTML = '<span class="hadith-quote-mark">«</span> ' + h.text + ' <span class="hadith-quote-mark">»</span>';
-  hadithRef.innerHTML = '<span class="badge">' + h.ref + '</span>';
+  const lang = typeof rihlaLang !== 'undefined' ? rihlaLang : 'fr';
+  // Le texte intégral n'est traduit qu'en anglais pour l'instant (le texte arabe
+  // authentique de chaque hadith n'est pas encore intégré, pour éviter toute
+  // approximation sur un contenu religieux). En arabe, thème et référence sont
+  // traduits ; le corps du hadith reste affiché en français avec le repère 🇫🇷.
+  const text = lang === 'en' ? (h.textEn || h.text) : h.text;
+  const ref = lang === 'en' ? (h.refEn || h.ref) : h.ref;
+  const theme = lang === 'en' ? (h.themeEn || h.theme) : (lang === 'ar' ? (h.themeAr || h.theme) : h.theme);
+  const quoteFlag = lang === 'fr' ? '' : (lang === 'en' ? '' : '🇫🇷 ');
+  hadithText.innerHTML = '<span class="hadith-quote-mark">«</span> ' + quoteFlag + text + ' <span class="hadith-quote-mark">»</span>';
+  hadithRef.innerHTML = '<span class="badge">' + ref + '</span>';
   if(hadithCountBadge){
-    hadithCountBadge.textContent = t('hadith_theme') + ' : ' + h.theme + ' · ' + (index + 1) + ' / ' + CURATED_HADITHS.length;
+    hadithCountBadge.textContent = t('hadith_theme') + ' : ' + theme + ' · ' + (index + 1) + ' / ' + CURATED_HADITHS.length;
   }
   // Sauvegarder pour stabilité du jour
   try{ localStorage.setItem('rihla_hadith_day', JSON.stringify({ day: new Date().toISOString().slice(0,10), index })); }catch(e){}
@@ -5600,6 +5555,30 @@ const categories = ['Tous', 'Matin & Soir', 'Après la prière', 'Quotidien', 'E
 const tabsContainer = document.getElementById('duasTabs');
 let currentCategory = 'Tous';
 
+const DUA_CATEGORY_I18N = {
+  'Tous': { en:'All', ar:'الكل' },
+  'Matin & Soir': { en:'Morning & Evening', ar:'الصباح والمساء' },
+  'Après la prière': { en:'After the prayer', ar:'بعد الصلاة' },
+  'Quotidien': { en:'Daily', ar:'يومي' },
+  "Entrer/Sortir des toilettes": { en:'Entering/Leaving the bathroom', ar:'دخول/الخروج من الحمام' },
+  "Entrer/Sortir de la maison": { en:'Entering/Leaving home', ar:'دخول/الخروج من المنزل' },
+  'Aller au marché': { en:'Going to the market', ar:'الذهاب إلى السوق' },
+  'Colère': { en:'Anger', ar:'الغضب' },
+  'Tristesse & inquiétude': { en:'Sadness & worry', ar:'الحزن والقلق' },
+  'Examen & étude': { en:'Exam & study', ar:'الامتحان والدراسة' },
+  'Voyage': { en:'Travel', ar:'السفر' },
+  'Dormir': { en:'Sleeping', ar:'النوم' },
+  'Réveil': { en:'Waking up', ar:'الاستيقاظ' },
+  'Événements': { en:'Events', ar:'أحداث' },
+  'Éternuement': { en:'Sneezing', ar:'العطاس' }
+};
+function duaCategoryLabel(cat){
+  const pack = DUA_CATEGORY_I18N[cat];
+  if(!pack) return cat;
+  if(rihlaLang === 'en') return pack.en;
+  if(rihlaLang === 'ar') return pack.ar;
+  return cat;
+}
 function renderTabs(){
 if(!tabsContainer) return;
 tabsContainer.innerHTML = '';
@@ -5608,7 +5587,7 @@ const btn = document.createElement('button');
 btn.type = 'button';
 btn.className = 'tab-btn' + (cat === currentCategory ? ' active' : '');
 const count = cat === 'Tous' ? duasData.length : duasData.filter(d => d.category === cat).length;
-btn.innerHTML = `${cat} <span class="count">${count}</span>`;
+btn.innerHTML = `${duaCategoryLabel(cat)} <span class="count">${count}</span>`;
 btn.dataset.category = cat;
 btn.addEventListener('click', () => {
 currentCategory = cat;
@@ -5625,19 +5604,30 @@ const countDisplay = document.getElementById('duaCountDisplay');
 if(!grid || !countDisplay) return;
 grid.innerHTML = '';
 const filtered = currentCategory === 'Tous' ? duasData : duasData.filter(d => d.category === currentCategory);
-countDisplay.textContent = `📿 ${filtered.length} invocation${filtered.length > 1 ? 's' : ''} dans cette catégorie`;
+countDisplay.textContent = `📿 ${filtered.length} ${t('dua_count')}`;
 
+const lang = rihlaLang;
 filtered.forEach(dua => {
 const card = document.createElement('div');
 card.className = 'dua-card visible';
 const safeTags = Array.isArray(dua.tags) ? dua.tags : [];
-const tagsHtml = safeTags.map(t => `<span>${t}</span>`).join('');
+const tagsHtml = safeTags.map(tg => `<span>${tg}</span>`).join('');
+let translationHtml;
+if(lang === 'en'){
+  translationHtml = `<div class="dua-translation">🇬🇧 ${dua.translationEn || dua.translation || ''}</div>`;
+} else if(lang === 'ar'){
+  // Le texte arabe authentique du du'a est déjà affiché au-dessus (dua.arabic) ;
+  // on montre ici la traduction anglaise comme repère complémentaire.
+  translationHtml = `<div class="dua-translation-en">🇬🇧 ${dua.translationEn || ''}</div>`;
+} else {
+  translationHtml = `<div class="dua-translation">🇫🇷 ${dua.translation || ''}</div>
+<div class="dua-translation-en">🇬🇧 ${dua.translationEn || ''}</div>`;
+}
 card.innerHTML = `
-<span class="dua-category">📌 ${dua.category || 'Divers'}</span>
+<span class="dua-category">📌 ${duaCategoryLabel(dua.category) || 'Divers'}</span>
 <div class="dua-arabic">${dua.arabic || ''}</div>
 <div class="dua-phonetic">${dua.phonetic || ''}</div>
-<div class="dua-translation">🇫🇷 ${dua.translation || ''}</div>
-<div class="dua-translation-en">🇬🇧 ${dua.translationEn || ''}</div>
+${translationHtml}
 <div class="dua-source">📖 ${dua.source || 'Source non précisée'}</div>
 <div class="dua-tags">${tagsHtml}</div>
 `;
@@ -7368,7 +7358,9 @@ var RIHLA_I18N_EXTRA = {
   "toast_verse_loaded_c": " chargé",
   "toast_reading_picked": "📖 Lecture sélectionnée : ",
   "toast_added_tracking_b": " ajoutée(s) à ton suivi !",
-  "loading_short": "Chargement…"
+  "loading_short": "Chargement…",
+  "dua_count": "invocation(s) dans cette catégorie",
+  "hadith_intentions_note": "Traduction anglaise disponible pour les hadiths ; le texte arabe original n'est pas encore intégré."
  },
  "en": {
   "skip_link": "Skip to main content",
@@ -7596,7 +7588,8 @@ var RIHLA_I18N_EXTRA = {
   "toast_verse_loaded_c": " loaded",
   "toast_reading_picked": "📖 Reading selected: ",
   "toast_added_tracking_b": " added to your tracking!",
-  "loading_short": "Loading…"
+  "loading_short": "Loading…",
+  "dua_count": "invocation(s) in this category"
  },
  "ar": {
   "skip_link": "انتقل إلى المحتوى الرئيسي",
@@ -7824,7 +7817,8 @@ var RIHLA_I18N_EXTRA = {
   "toast_verse_loaded_c": " تم تحميلها",
   "toast_reading_picked": "📖 القراءة المختارة: ",
   "toast_added_tracking_b": " أُضيفت إلى متابعتك!",
-  "loading_short": "جاري التحميل…"
+  "loading_short": "جاري التحميل…",
+  "dua_count": "دعاءً في هذه الفئة"
  }
 };
 Object.keys(RIHLA_I18N_EXTRA).forEach(function(lg){
@@ -7904,6 +7898,9 @@ function applyRihlaLang(lang){
   // Re-render dynamic UIs that contain labels
   try{ if(typeof renderParcours === 'function') renderParcours(); }catch(e){}
   try{ if(typeof renderToday === 'function') renderToday(); }catch(e){}
+  try{ if(typeof renderHadith === 'function' && typeof hadithIndex === 'number') renderHadith(hadithIndex); }catch(e){}
+  try{ if(typeof renderTabs === 'function') renderTabs(); }catch(e){}
+  try{ if(typeof renderDuas === 'function') renderDuas(); }catch(e){}
 }
 function detectBrowserLang(){
   // navigator.languages = préférences ordonnées (ex. ["ar-SA","ar","en-US","en"])
