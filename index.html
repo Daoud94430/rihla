@@ -3466,14 +3466,22 @@ pdLesson.querySelectorAll('[data-i18n]').forEach(function(el){
 pdLesson.innerHTML = '';
 pdLesson.style.display = 'none';
 }
-const versesText = p.verses;
-const versesWithLinks = versesText.replace(/📖 Coran ([0-9:,-]+)/g, (match, ref) => {
-const parts = ref.split(',').map(r => r.trim());
-const links = parts.map(r => {
-const [surah, ayah] = r.split(':');
-return `<a href="#" class="qref" data-surah="${surah}" data-ayah="${ayah}">Coran ${surah}:${ayah}</a>`;
-});
-return '📖 ' + links.join(', ');
+const versesText = p.verses || '';
+const qLabel = rihlaLang === 'ar' ? 'القرآن' : (rihlaLang === 'en' ? 'Qur\'an' : 'Coran');
+function toLangDigits(s){
+  if(rihlaLang !== 'ar') return String(s);
+  return String(s).replace(/[0-9]/g, function(d){ return '٠١٢٣٤٥٦٧٨٩'[d]; });
+}
+const versesWithLinks = versesText.replace(/📖\s*(?:Coran|Qur'an|القرآن)?\s*([0-9:,\-–—\s]+)/g, function(match, ref){
+  const parts = ref.split(',').map(function(r){ return r.trim(); }).filter(Boolean);
+  const links = parts.map(function(r){
+    const bits = r.split(':');
+    const surah = (bits[0]||'').trim();
+    const ayah = (bits[1]||'').trim();
+    const label = qLabel + ' ' + toLangDigits(surah) + (ayah ? (':' + toLangDigits(ayah)) : '');
+    return '<a href="#" class="qref" data-surah="'+surah+'" data-ayah="'+(ayah.split('-')[0]||ayah)+'">'+label+'</a>';
+  });
+  return '📖 ' + links.join(', ');
 });
 document.getElementById('pdVerses').innerHTML = versesWithLinks;
 document.getElementById('pdSource').textContent = t('pd_sources_long');
@@ -3561,7 +3569,7 @@ function renderHadith(index){
   hadithText.innerHTML = '<span class="hadith-quote-mark">«</span> ' + quoteFlag + text + ' <span class="hadith-quote-mark">»</span>';
   hadithRef.innerHTML = '<span class="badge">' + ref + '</span>';
   if(hadithCountBadge){
-    hadithCountBadge.textContent = t('hadith_theme') + ' : ' + theme + ' · ' + (index + 1) + ' / ' + CURATED_HADITHS.length;
+    hadithCountBadge.textContent = (typeof t==='function' ? t('hadith_theme') : (rihlaLang==='en'?'Theme':(rihlaLang==='ar'?'الموضوع':'Thème'))) + ' : ' + theme + ' · ' + (index + 1) + ' / ' + CURATED_HADITHS.length;
   }
   // Sauvegarder pour stabilité du jour
   try{ localStorage.setItem('rihla_hadith_day', JSON.stringify({ day: new Date().toISOString().slice(0,10), index })); }catch(e){}
@@ -7906,9 +7914,9 @@ Object.keys(RIHLA_I18N_EXTRA).forEach(function(lg){
 // Complément clés manquantes
 (function(){
   var more = {
-    fr: { parcours_meta_zero:'0 / 21 jours complétés', premium_reciters:'+12 récitateurs Premium' },
-    en: { parcours_meta_zero:'0 / 21 days completed', premium_reciters:'+12 Premium reciters', pd_lesson_label:'📚 Lesson to remember' },
-    ar: { parcours_meta_zero:'٠ / ٢١ يومًا مكتملًا', premium_reciters:'+١٢ قارئًا متقدمًا', pd_lesson_label:'📚 الدرس المستفاد' }
+    fr: { parcours_meta_zero:"0 / 21 jours complétés", premium_reciters:"+12 récitateurs Premium", footer_product:"Produit", footer_account:"Compte", footer_about:"À propos", footer_contact:"Contact", footer_copy:"Un compagnon pour ta lecture du Coran, jour après jour.", modal_title:"Se connecter", modal_google:"Continuer avec Google", modal_or_email:"ou avec un e-mail", modal_email:"Adresse e-mail", modal_password:"Mot de passe", modal_no_account:"Pas encore de compte ? Crée-en un", modal_have_account:"Déjà un compte ? Connecte-toi", dua_all:"Tous", mushaf_choose_voice:"Choisir une voix", mushaf_page:"Page", mushaf_go:"Aller", mushaf_dark:"Sombre", mushaf_light:"Clair", mushaf_choose_reciter:"Choisis un récitateur, puis appuie sur lecture", khatm_title:"📖 Plan de khatm (lecture complète)", khatm_sub:"Choisis en combien de jours tu veux lire tout le Coran (604 pages).", khatm_continue:"Continuer la lecture", hadith_theme_label:"Thème : ", hadith_theme_label_en:"Theme: ", quran_word:"Coran", source_unknown:"Source non précisée", cat_divers:"Divers" },
+    en: { parcours_meta_zero:"0 / 21 days completed", premium_reciters:"+12 Premium reciters", pd_lesson_label:"📚 Lesson to remember", footer_product:"Product", footer_account:"Account", footer_about:"About", footer_contact:"Contact", footer_copy:"A companion for your Qur'an reading, day after day.", modal_title:"Log in", modal_google:"Continue with Google", modal_or_email:"or with an email", modal_email:"Email address", modal_password:"Password", modal_no_account:"Don't have an account yet? Create one", modal_have_account:"Already have an account? Log in", dua_all:"All", mushaf_choose_voice:"Choose a voice", mushaf_page:"Page", mushaf_go:"Go", mushaf_dark:"Dark", mushaf_light:"Light", mushaf_choose_reciter:"Pick a reciter, then press play", khatm_title:"📖 Khatm plan (full reading)", khatm_sub:"Choose how many days to read the whole Qur'an (604 pages).", khatm_continue:"Continue reading", hadith_theme_label:"Theme: ", hadith_theme_label_en:"Theme: ", quran_word:"Qur'an", source_unknown:"Source not specified", cat_divers:"Misc" },
+    ar: { parcours_meta_zero:"٠ / ٢١ يومًا مكتملًا", premium_reciters:"+١٢ قارئًا متقدمًا", pd_lesson_label:"📚 الدرس المستفاد", footer_product:"المنتج", footer_account:"الحساب", footer_about:"حول", footer_contact:"اتصل بنا", footer_copy:"رفيقك في قراءة القرآن، يومًا بعد يوم.", modal_title:"تسجيل الدخول", modal_google:"المتابعة عبر جوجل", modal_or_email:"أو عبر البريد الإلكتروني", modal_email:"البريد الإلكتروني", modal_password:"كلمة المرور", modal_no_account:"ليس لديك حساب؟ أنشئ واحدًا", modal_have_account:"لديك حساب بالفعل؟ سجّل الدخول", dua_all:"الكل", mushaf_choose_voice:"اختر صوتًا", mushaf_page:"صفحة", mushaf_go:"اذهب", mushaf_dark:"داكن", mushaf_light:"فاتح", mushaf_choose_reciter:"اختر قارئًا ثم اضغط تشغيل", khatm_title:"📖 خطة الختم (قراءة كاملة)", khatm_sub:"اختر عدد الأيام لقراءة القرآن كاملًا (٦٠٤ صفحة).", khatm_continue:"متابعة القراءة", hadith_theme_label:"الموضوع: ", hadith_theme_label_en:"Theme: ", quran_word:"القرآن", source_unknown:"المصدر غير محدد", cat_divers:"متفرقات" }
   };
   Object.keys(more).forEach(function(lg){
     RIHLA_I18N[lg] = Object.assign({}, more[lg], RIHLA_I18N[lg] || {});
