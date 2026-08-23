@@ -4678,6 +4678,7 @@ let recordSeconds = 0;
 let speechRecognizer = null;
 let liveTranscript = '';
 let fullQuranFlat = null;
+let quranWordIndex = new Map();
 let detectedVerses = [];
 let isRecording = false;
 let sessionsUsed = 0;
@@ -4725,12 +4726,14 @@ return `${mm}:${ss}`;
 
 function normalizeArabic(text){
 return (text || '')
-.replace(/[\u064B-\u0652\u0670\u0640]/g, '')
-.replace(/[إأآا]/g, 'ا')
-.replace(/ى/g, 'ي')
-.replace(/ة/g, 'ه')
+// Voyelles, tanwîn, signes de récitation et tatwîl : ignorés pour la comparaison.
+.replace(/[\u064B-\u0652\u0670\u06D6-\u06ED\u0640]/g, '')
+// Variantes graphiques fréquemment produites par la reconnaissance vocale.
+.replace(/[إأآٱ]/g, 'ا')
 .replace(/ؤ/g, 'و')
 .replace(/ئ/g, 'ي')
+.replace(/ى/g, 'ي')
+// Ponctuation et symboles non arabes.
 .replace(/[^\u0600-\u06FF\s]/g, '')
 .replace(/\s+/g, ' ')
 .trim();
@@ -4738,6 +4741,23 @@ return (text || '')
 
 function tokenizeArabic(text){
 return normalizeArabic(text).split(' ').filter(Boolean);
+}
+
+function tokenSimilarity(a, b){
+if(a === b) return 1;
+if(!a || !b) return 0;
+// Petite tolérance aux confusions de reconnaissance, sans transformer un mot en un autre.
+if(a.length < 3 || b.length < 3) return 0;
+const prev = Array.from({length:b.length + 1}, (_, i) => i);
+for(let i=1;i<=a.length;i++){
+const cur = [i];
+for(let j=1;j<=b.length;j++){
+cur[j] = Math.min(cur[j-1] + 1, prev[j] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+}
+prev.splice(0, prev.length, ...cur);
+}
+const distance = prev[b.length];
+return distance <= 1 && Math.max(a.length,b.length) >= 4 ? 0.72 : 0;
 }
 
 async function loadFullQuranFlat(){
@@ -4748,9 +4768,8 @@ const json = await res.json();
 const flat = [];
 (json.data.surahs || []).forEach(s => {
 s.ayahs.forEach(a => {
-const normalized = normalizeArabic(a.text);
-const words = normalized.split(' ').filter(Boolean);
-flat.push({
+const words = tokenizeArabic(a.text);
+const entry = {
 surahNumber: s.number,
 surahName: s.englishName,
 surahArabicName: s.name,
@@ -4758,6 +4777,12 @@ ayahNumber: a.numberInSurah,
 textRaw: a.text,
 words,
 wordSet: new Set(words)
+};
+const index = flat.length;
+flat.push(entry);
+words.forEach(word => {
+if(!quranWordIndex.has(word)) quranWordIndex.set(word, []);
+quranWordIndex.get(word).push(index);
 });
 });
 });
@@ -4774,21 +4799,34 @@ loadFullQuranFlat().catch(()=>{});
 
 function scoreAyahMatch(transcriptWords, entry){
 if(!entry.words.length || !transcriptWords.length) return 0;
-const tSet = new Set(transcriptWords);
-let hits = 0;
-entry.words.forEach(w => { if(tSet.has(w)) hits++; });
-const coverage = hits / entry.words.length; // combien du verset est reconnu
-const precision = hits / transcriptWords.length; // combien de la récitation matche
-// Bonus si les premiers mots du verset apparaissent
-let prefixBonus = 0;
-const prefixLen = Math.min(3, entry.words.length);
-let prefixHits = 0;
-for(let i=0;i<prefixLen;i++){
-if(tSet.has(entry.words[i])) prefixHits++;
+// Alignement global : l'ordre des mots compte, contrairement à un simple Set.
+const n = transcriptWords.length, m = entry.words.length;
+const dp = Array.from({length:n+1}, () => Array(m+1).fill(0));
+for(let i=1;i<=n;i++){
+for(let j=1;j<=m;j++){
+const sim = tokenSimilarity(transcriptWords[i-1], entry.words[j-1]);
+const match = dp[i-1][j-1] + sim;
+const skipSaid = dp[i-1][j] - 0.18;
+const skipExpected = dp[i][j-1] - 0.10;
+const restart = sim;
+ dp[i][j] = Math.max(0, match, skipSaid, skipExpected, restart);
 }
-prefixBonus = 0.15 * (prefixHits / prefixLen);
-// Score combiné (privilégie la couverture du verset)
-return coverage * 0.65 + Math.min(precision, 1) * 0.2 + prefixBonus;
+}
+const aligned = dp[n][m];
+const expectedCoverage = aligned / m;
+const saidPrecision = aligned / n;
+const prefix = Math.min(4, m, n);
+let prefixScore = 0;
+for(let i=0;i<prefix;i++) prefixScore += tokenSimilarity(transcriptWords[i], entry.words[i]);
+const prefixBonus = prefix ? (prefixScore / prefix) * 0.18 : 0;
+return expectedCoverage * 0.62 + saidPrecision * 0.20 + prefixBonus;
+}
+
+function candidateAyahs(transcriptWords, flat){
+const counts = new Map();
+transcriptWords.forEach(word => (quranWordIndex.get(word) || []).forEach(i => counts.set(i, (counts.get(i) || 0) + 1)));
+const ranked = [...counts.entries()].sort((a,b) => b[1]-a[1]).slice(0, 250).map(([i]) => flat[i]);
+return ranked.length ? ranked : flat;
 }
 
 function findBestMatchingAyah(transcript, flat){
@@ -4796,16 +4834,13 @@ if(!flat || !transcript) return null;
 const transcriptWords = tokenizeArabic(transcript);
 if(transcriptWords.length < 2) return null;
 let best = null, bestScore = 0;
-// Optimisation: si peu de mots, chercher d'abord les sourates courtes / débuts
-flat.forEach(entry => {
+candidateAyahs(transcriptWords, flat).forEach(entry => {
 if(entry.words.length < 2) return;
-// skip ayahs much shorter or much longer than transcript (speed)
-if(entry.words.length > transcriptWords.length * 4 && transcriptWords.length < 8) return;
+if(entry.words.length > transcriptWords.length * 5 && transcriptWords.length < 8) return;
 const score = scoreAyahMatch(transcriptWords, entry);
 if(score > bestScore){ bestScore = score; best = entry; }
 });
-// Seuil adaptatif
-const minScore = transcriptWords.length <= 4 ? 0.35 : 0.28;
+const minScore = transcriptWords.length <= 4 ? 0.52 : 0.40;
 return best && bestScore >= minScore ? { entry: best, score: bestScore } : null;
 }
 
@@ -4813,14 +4848,23 @@ function findTopMatches(transcript, flat, n=3){
 if(!flat || !transcript) return [];
 const transcriptWords = tokenizeArabic(transcript);
 if(transcriptWords.length < 2) return [];
-const scored = [];
-flat.forEach(entry => {
-if(entry.words.length < 2) return;
-const score = scoreAyahMatch(transcriptWords, entry);
-if(score >= 0.2) scored.push({ entry, score });
-});
-scored.sort((a,b) => b.score - a.score);
+const scored = candidateAyahs(transcriptWords, flat).filter(e => e.words.length >= 2)
+.map(entry => ({entry, score: scoreAyahMatch(transcriptWords, entry)}))
+.filter(x => x.score >= 0.30)
+.sort((a,b) => b.score - a.score);
 return scored.slice(0, n);
+}
+
+function chooseConfidentMatch(transcript, flat){
+const tops = findTopMatches(transcript, flat, 3);
+if(!tops.length) return null;
+const best = tops[0];
+const runnerUp = tops[1];
+// Refuser une correction automatique si le passage est trop court ou ambigu.
+const min = tokenizeArabic(transcript).length <= 4 ? 0.58 : 0.46;
+const margin = runnerUp ? best.score - runnerUp.score : 1;
+if(best.score < min || margin < 0.035) return null;
+return best;
 }
 
 function renderComparison(entry, transcript){
@@ -4835,34 +4879,59 @@ return `<span class="${cls}">${w}</span>`;
 transcriptCompare.classList.add('visible');
 }
 
+function alignRecitation(said, expected){
+const n = said.length, m = expected.length;
+const dp = Array.from({length:n+1}, () => Array(m+1).fill(0));
+const ops = Array.from({length:n+1}, () => Array(m+1).fill(null));
+for(let i=1;i<=n;i++){ dp[i][0] = -i * 0.18; ops[i][0] = 'extra'; }
+for(let j=1;j<=m;j++){ dp[0][j] = -j * 0.10; ops[0][j] = 'missing'; }
+for(let i=1;i<=n;i++){
+for(let j=1;j<=m;j++){
+const sim = tokenSimilarity(said[i-1], expected[j-1]);
+const candidates = [
+[dp[i-1][j-1] + sim, sim === 1 ? 'match' : sim > 0 ? 'close' : 'substitute'],
+[dp[i-1][j] - 0.18, 'extra'],
+[dp[i][j-1] - 0.10, 'missing']
+];
+const best = candidates.reduce((a,b) => b[0] > a[0] ? b : a);
+dp[i][j] = best[0]; ops[i][j] = best[1];
+}
+}
+const result = [];
+let i=n, j=m;
+while(i>0 || j>0){
+const op = ops[i][j];
+if((op === 'match' || op === 'close' || op === 'substitute') && i>0 && j>0){
+result.unshift({type:op, said:said[i-1], expected:expected[j-1]}); i--; j--;
+} else if(op === 'extra' && i>0){ result.unshift({type:'extra', said:said[i-1]}); i--; }
+else if(j>0){ result.unshift({type:'missing', expected:expected[j-1]}); j--; }
+else if(i>0){ result.unshift({type:'extra', said:said[i-1]}); i--; }
+}
+return result;
+}
+
 function renderCorrections(entry, transcript){
 const panel = document.getElementById('correctionPanel');
 const list = document.getElementById('correctionList');
 const corrected = document.getElementById('correctedText');
 if(!panel || !list || !corrected || !entry) return;
 const said = tokenizeArabic(transcript);
-const expected = entry.words;
-const saidSet = new Set(said);
-const expectedSet = new Set(expected);
-const missing = expected.filter(w => !saidSet.has(w));
-const extra = said.filter(w => !expectedSet.has(w));
+const alignment = alignRecitation(said, entry.words);
+const issues = alignment.filter(x => x.type !== 'match');
 list.innerHTML = '';
-if(!missing.length && !extra.length){
+if(!issues.length){
 list.innerHTML = '<li>' + t('corr_perfect') + '</li>';
 } else {
-missing.slice(0, 12).forEach(w => {
+issues.slice(0, 16).forEach(issue => {
 const li = document.createElement('li');
-li.innerHTML = t('corr_missing') + ' : <span class="err-word">' + w + '</span>';
+if(issue.type === 'missing') li.innerHTML = t('corr_missing') + ' : <span class="err-word">' + issue.expected + '</span>';
+else if(issue.type === 'substitute' || issue.type === 'close') li.innerHTML = t('corr_heard_expected').replace('{heard}', '<span class="err-word">' + issue.said + '</span>').replace('{expected}', '<span class="ok-word">' + issue.expected + '</span>');
+else li.innerHTML = t('corr_unexpected').replace('{word}', '<span class="err-word">' + issue.said + '</span>');
 list.appendChild(li);
 });
-extra.slice(0, 6).forEach(w => {
+if(issues.length > 16){
 const li = document.createElement('li');
-li.innerHTML = `Mot non attendu dans ce verset : <span class="err-word">${w}</span>`;
-list.appendChild(li);
-});
-if(missing.length > 12){
-const li = document.createElement('li');
-li.textContent = `… et ${missing.length - 12} autre(s) mot(s)`;
+li.textContent = t('corr_more').replace('{count}', String(issues.length - 16));
 list.appendChild(li);
 }
 }
@@ -4927,8 +4996,10 @@ const recognizer = new SR();
 recognizer.lang = 'ar-SA';
 recognizer.continuous = true;
 recognizer.interimResults = true;
-recognizer.maxAlternatives = 1;
+recognizer.maxAlternatives = 3;
+recognizer.processLocally = false;
 recognizer.onresult = (event) => {
+if(!isRecording && event.results.length === 0) return;
 let interim = '';
 let finalChunk = '';
 for(let i = event.resultIndex; i < event.results.length; i++){
@@ -5027,6 +5098,7 @@ isRecording = false;
 incrementSessionUsage();
 };
 mediaRecorder.start(1000);
+isRecording = true;
 speechRecognizer = startLiveSpeechRecognition();
 recordSeconds = 0;
 recordTimer.textContent = '00:00';
@@ -5035,7 +5107,6 @@ recordTimerInterval = setInterval(() => {
 recordSeconds++;
 recordTimer.textContent = formatTimer(recordSeconds);
 }, 1000);
-isRecording = true;
 recordBtn.classList.add('recording');
 recordBtn.innerHTML = t('rec_stop');
 recordStatus.textContent = speechRecognizer
@@ -5050,8 +5121,7 @@ if(!windowText.trim() || !fullQuranFlat){
 renderDetectionUI(null, { live: false });
 return;
 }
-const tops = findTopMatches(windowText, fullQuranFlat, 3);
-const match = tops[0] || null;
+const match = chooseConfidentMatch(windowText, fullQuranFlat);
 renderDetectionUI(match, { live: false });
 if(match){
 renderComparison(match.entry, windowText);
@@ -7525,6 +7595,9 @@ var RIHLA_I18N_EXTRA = {
   "corr_correct": "Texte correct du verset",
   "corr_perfect": "✅ Excellent — tous les mots du verset ont été reconnus.",
   "corr_missing": "Mot manquant ou mal prononcé",
+  "corr_heard_expected": "Mot entendu : {heard} · attendu : {expected}",
+  "corr_unexpected": "Mot supplémentaire détecté : {word}",
+  "corr_more": "… et {count} autre(s) point(s) à vérifier",
   "sessions_left": "Sessions restantes cette semaine",
   "foot_product": "Produit",
   "foot_track": "Suivi quotidien",
@@ -7755,6 +7828,9 @@ var RIHLA_I18N_EXTRA = {
   "corr_correct": "Correct text of the verse",
   "corr_perfect": "✅ Excellent — every word of the verse was recognized.",
   "corr_missing": "Missing or mispronounced word",
+  "corr_heard_expected": "Heard word: {heard} · expected: {expected}",
+  "corr_unexpected": "Unexpected word detected: {word}",
+  "corr_more": "… and {count} more point(s) to review",
   "sessions_left": "Sessions left this week",
   "foot_product": "Product",
   "foot_track": "Daily tracking",
@@ -7984,6 +8060,9 @@ var RIHLA_I18N_EXTRA = {
   "corr_correct": "النص الصحيح للآية",
   "corr_perfect": "✅ ممتاز — تم التعرّف على كل كلمات الآية.",
   "corr_missing": "كلمة ناقصة أو غير صحيحة النطق",
+  "corr_heard_expected": "الكلمة المسموعة: {heard} · المتوقع: {expected}",
+  "corr_unexpected": "كلمة إضافية مكتشفة: {word}",
+  "corr_more": "… وهناك {count} نقطة أخرى للمراجعة",
   "sessions_left": "الجلسات المتبقية هذا الأسبوع",
   "foot_product": "المنتج",
   "foot_track": "المتابعة اليومية",
