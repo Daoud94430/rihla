@@ -25176,7 +25176,7 @@ function rihlaCachePage(page, ayahs){
   }
   MUSHAF_PAGE_CACHE.set(page, ayahs);
 }
-function applyMushafPageData(page, ayahs, { autoPlay } = {}){
+function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   mushafPage = page;
   mushafAyahs = ayahs;
   const pos = document.getElementById('mushafPagePos');
@@ -25218,7 +25218,11 @@ function applyMushafPageData(page, ayahs, { autoPlay } = {}){
     const kh = loadKhatm();
     if(kh){ kh.currentPage = page; saveKhatm(kh); renderKhatmUI(); }
   }catch(e){}
-  if(autoPlay) startMushafPlayback(0);
+  if(autoPlay){
+    const requested = Number(autoPlaySurah);
+    const targetIndex = requested > 0 ? mushafAyahs.findIndex(function(a){ return a.surah === requested; }) : -1;
+    startMushafPlayback(targetIndex >= 0 ? targetIndex : 0);
+  }
   // Précharge voisins en arrière-plan
   prefetchMushafPage(page + 1);
   prefetchMushafPage(page - 1);
@@ -25287,7 +25291,7 @@ const MUSHAF_AUDIO_SOURCES = {
   shuraim:        { every: 'Saood_ash-Shuraym_128kbps', net: 'ar.saoodshuraym' },
   maher:          { every: 'MaherAlMuaiqly128kbps', net: 'ar.mahermuaiqly' },
   qasim:          { every: 'Muhsin_Al_Qasim_192kbps', net: null, mp3quran: 'https://server8.mp3quran.net/qasm' },
-  jadaani:        { every: null, net: null, mp3quran: 'https://server16.mp3quran.net/download/hitham/Rewayat-Hafs-A-n-Assem' },
+  jadaani:        { every: null, net: null, mp3quran: 'https://server16.mp3quran.net/download/hitham/Rewayat-Hafs-A-n-Assem', surahBases: ['https://media.way2quran.com/haitham-al-jadaani/hafs-an-asim'] },
   hudhaify:       { every: 'Hudhaify_128kbps', net: 'ar.hudhaify' },
   shatri:         { every: 'Abu_Bakr_Ash-Shaatree_128kbps', net: 'ar.shaatree' },
   ajamy:          { every: 'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net', net: 'ar.ahmedajamy' },
@@ -25323,9 +25327,18 @@ function mushafBuildAudioUrls(ayah){
   // Base mp3quran propre au récitateur (ne jamais mélanger avec un autre)
   const mp3Base = src.mp3quran || (meta && meta.mp3quranBase) || null;
 
-  // Mode sourate seule (ex: Haytham, Baleela) — un fichier par sourate
+  // Mode sourate seule : une source propre au récitateur, avec variantes de nommage.
+  // Way2Quran utilise parfois 003.mp3 et parfois 3.mp3 ; on essaie les deux
+  // sans jamais changer de réciteur ni de numéro de sourate.
   if(mp3Base && !src.every && !src.net){
-    urls.push(mp3Base.replace(/\/$/, '') + '/' + s + '.mp3');
+    const bases = (Array.isArray(src.surahBases) && src.surahBases.length) ? src.surahBases : [mp3Base];
+    bases.forEach(function(base){
+      const clean = base.replace(/\/$/, '');
+      [s + '.mp3', String(ayah.surah) + '.mp3'].forEach(function(file){
+        const candidate = clean + '/' + file;
+        if(!urls.includes(candidate)) urls.push(candidate);
+      });
+    });
     return { urls: urls, mode: 'surah' };
   }
 
@@ -25359,7 +25372,7 @@ function mushafAudioUrl(globalAyah){
   return 'https://cdn.islamic.network/quran/audio/128/' + id + '/' + globalAyah + '.mp3';
 }
 
-async function loadMushafPage(page, { autoPlay } = {}){
+async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
   page = Math.max(1, Math.min(MUSHAF_TOTAL_PAGES, page));
   const token = ++mushafLoadToken;
   const box = document.getElementById('mushafAyahs');
@@ -25375,7 +25388,7 @@ async function loadMushafPage(page, { autoPlay } = {}){
   // Cache mémoire → affichage immédiat
   if(MUSHAF_PAGE_CACHE.has(page)){
     if(token !== mushafLoadToken) return;
-    applyMushafPageData(page, MUSHAF_PAGE_CACHE.get(page), { autoPlay });
+    applyMushafPageData(page, MUSHAF_PAGE_CACHE.get(page), { autoPlay, autoPlaySurah });
     return;
   }
 
@@ -25387,14 +25400,14 @@ async function loadMushafPage(page, { autoPlay } = {}){
     const ayahs = await fetchMushafPageData(page);
     if(token !== mushafLoadToken) return; // réponse trop lente, on ignore
     if(box) box.classList.remove('is-loading');
-    applyMushafPageData(page, ayahs, { autoPlay });
+    applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah });
   }catch(err){
     if(token !== mushafLoadToken) return;
     console.error(err);
     if(box){
       box.innerHTML = '<p style="text-align:center;color:#e0736b;">' + t('load_error') + '</p>'
         + '<p style="text-align:center;margin-top:8px;"><button type="button" class="mt-btn primary" id="mushafRetryBtn">Réessayer</button></p>';
-      document.getElementById('mushafRetryBtn')?.addEventListener('click', () => loadMushafPage(page, { autoPlay }));
+      document.getElementById('mushafRetryBtn')?.addEventListener('click', () => loadMushafPage(page, { autoPlay, autoPlaySurah }));
     }
     rihlaToast('Impossible de charger la page ' + page, 'error');
   }
@@ -26076,10 +26089,9 @@ async function mushafAdvanceToNextSurah(currentSurah, expectedGen){
     const nextPage = firstAyah && firstAyah.page;
     if(expectedGen != null && expectedGen !== mushafPlayGen) return;
     if(!nextPage) throw new Error('page unavailable for surah ' + nextSurah);
-    await loadMushafPage(nextPage);
+    await loadMushafPage(nextPage, { autoPlay: true, autoPlaySurah: nextSurah });
     const firstOnPage = mushafAyahs.findIndex(function(a){ return a.surah === nextSurah; });
-    if(firstOnPage >= 0) startMushafPlayback(firstOnPage);
-    else throw new Error('first ayah unavailable for surah ' + nextSurah);
+    if(firstOnPage < 0) throw new Error('first ayah unavailable for surah ' + nextSurah);
   }catch(err){
     console.error('Transition sourate suivante', err);
     if(expectedGen == null || expectedGen === mushafPlayGen){
@@ -26091,12 +26103,14 @@ async function mushafAdvanceToNextSurah(currentSurah, expectedGen){
 }
 
 /** Lance (ou reprend) une sourate complète — une seule instance audio */
-function playMushafSurahMode(ayah, recName, gen){
+function playMushafSurahMode(ayah, recName, gen, urlTry){
   const surahNum = ayah.surah;
   const infoEl = document.getElementById('mushafAudioInfo');
   const btn = document.getElementById('mushafPlayBtn');
   const built = mushafBuildAudioUrls(ayah);
-  const url = (built.urls && built.urls[0]) || null;
+  const urls = built.urls || [];
+  const tryIndex = typeof urlTry === 'number' ? urlTry : 0;
+  const url = urls[tryIndex] || null;
   if(!url){
     if(infoEl) infoEl.textContent = 'Audio indisponible';
     return;
@@ -26166,7 +26180,12 @@ function playMushafSurahMode(ayah, recName, gen){
     mushafAdvanceToNextSurah(surahNum, gen);
   };
   audio.onerror = function(){
-    if(gen !== mushafPlayGen) return;
+    if(gen !== mushafPlayGen || mushafAudio !== audio) return;
+    if(tryIndex + 1 < urls.length){
+      mushafSurahSession = null;
+      playMushafSurahMode(ayah, recName, gen, tryIndex + 1);
+      return;
+    }
     mushafSurahSession = null;
     if(infoEl) infoEl.textContent = 'Audio indisponible pour cette sourate';
     mushafPlaying = false;
@@ -26491,7 +26510,7 @@ async function goToMushafSurah(){
     const page = json.data && json.data.ayahs && json.data.ayahs[0] && json.data.ayahs[0].page;
     if(page){
       stopMushafAudio();
-      loadMushafPage(page);
+      loadMushafPage(page, { autoPlay: true, autoPlaySurah: n });
     }
   }catch(err){ console.error(err); }
 }
