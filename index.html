@@ -848,16 +848,13 @@ background:var(--emerald-950); color:var(--parchment); border-color:var(--emeral
   font-size:0.72rem; cursor:pointer; color:var(--ink-soft);
 }
 .mushaf-ayah .ma-bm.on{background:var(--gold-100); border-color:var(--gold-500); color:var(--emerald-950);}
-.mushaf-ayah.hifz-mode .ma-ar{position:relative;}
-.mushaf-ayah.hifz-mode .ma-ar::after{
-  content:''; position:absolute; left:0; top:0; bottom:0; width:42%;
-  background:linear-gradient(90deg, var(--parchment) 30%, transparent);
-  pointer-events:none;
+.mushaf-ayah.hifz-hidden .hifz-text-hidden{visibility:hidden; user-select:none;}
+.mushaf-ayah.hifz-hidden .ma-ar .hifz-text-hidden{
+  display:inline-block; min-width:3.5em; border-radius:8px; background:var(--sand);
 }
-.mushaf-page-frame.dark .mushaf-ayah.hifz-mode .ma-ar::after{
-  background:linear-gradient(90deg, #0c0c0b 30%, transparent);
-}
-.mushaf-ayah.hifz-mode .ma-tr{display:none !important;}
+.mushaf-ayah.hifz-hidden .ma-tr.hifz-text-hidden{display:block; min-height:1.4em; background:var(--sand); border-radius:6px;}
+.mushaf-page-frame.dark .mushaf-ayah.hifz-hidden .ma-ar .hifz-text-hidden,
+.mushaf-page-frame.dark .mushaf-ayah.hifz-hidden .ma-tr.hifz-text-hidden{background:#292722;}
 .mt-btn.active-tool{background:var(--emerald-950); color:var(--parchment); border-color:var(--emerald-950);}
 /* Khatm plan */
 .khatm-card{
@@ -2033,10 +2030,19 @@ Rihla
     <button type="button" class="mt-btn primary" id="quranSearchBtn">Rechercher</button>
   </div>
   <div class="rtb-actions">
-    <button type="button" class="mt-btn" id="mushafHifzToggle" title="Masque la fin des versets pour mémoriser" data-i18n-title="hifz_tip">🧠 Mode hifz</button>
+    <button type="button" class="mt-btn" id="mushafHifzToggle" title="Masque des versets entiers pour mémoriser" data-i18n-title="hifz_tip">🧠 Mode hifz</button>
     <button type="button" class="mt-btn" id="mushafBookmarksBtn" title="Mes signets" data-i18n-title="bookmarks_mine">🔖 Signets <span id="bmCount">0</span></button>
     <button type="button" class="mt-btn" id="mushafTajweedLegendBtn" data-i18n="tajweed_legend">🎨 Légende tajwid</button>
   </div>
+</div>
+<div id="hifzControls" class="hifz-controls" hidden>
+  <label for="hifzMaskMode" data-i18n="hifz_mask_label">Masquer</label>
+  <select id="hifzMaskMode">
+    <option value="alternate" data-i18n="hifz_mask_alternate">1 verset sur 2</option>
+    <option value="all" data-i18n="hifz_mask_all">Tous les versets</option>
+    <option value="none" data-i18n="hifz_mask_none">Aucun verset</option>
+  </select>
+  <button type="button" class="mt-btn" id="hifzRevealAll" data-i18n="hifz_reveal_all">Tout révéler</button>
 </div>
 <div id="quranSearchResults" class="quran-search-results" hidden></div>
 <div id="mushafBookmarksPanel" class="mushaf-side-panel" hidden>
@@ -2351,6 +2357,15 @@ function premiumListenMessage(){
 function openPremiumOffer(){
   const target = document.getElementById('view-paiement');
   if(target) showView('view-paiement');
+}
+function requirePremiumFeature(featureLabel){
+  if(isPremium) return true;
+  const lang = typeof rihlaLang !== 'undefined' ? rihlaLang : 'fr';
+  const prefix = lang === 'en' ? 'This feature is Premium: ' : lang === 'ar' ? 'هذه الميزة Premium: ' : 'Cette fonctionnalité est Premium : ';
+  const text = prefix + featureLabel;
+  if(typeof recordStatus !== 'undefined' && recordStatus) recordStatus.textContent = text;
+  openPremiumOffer();
+  return false;
 }
 function showLoggedInUI(user){
 setPremiumStatus(user);
@@ -23802,18 +23817,18 @@ const RECITERS = [
 { key: 'baleela', name: 'Bandar Baleela', premium: false, mp3quranBase: 'https://server6.mp3quran.net/balilah', tag: 'Arabie Saoudite' },
 { key: 'juhaynee', name: 'Abdullah Al-Juhaynee', premium: false, mp3quranBase: 'https://server13.mp3quran.net/jhn', tag: 'Arabie Saoudite' },
 // P R E M I U M  - 12 récitateurs
-{ key: 'minshawi', name: 'Mohamed Siddiq El-Minshawi', premium: false, quranRecitationId: 8, tag: 'Égypte · lent' },
-{ key: 'husary', name: 'Mahmoud Khalil Al-Husary', premium: false, quranRecitationId: 6, tag: 'Égypte · lent' },
-{ key: 'ayyoub', name: 'Muhammad Ayyoub', premium: false, alquranId: 'ar.muhammadayyoub', tag: 'Arabie Saoudite' },
-{ key: 'abdulbasit', name: 'Abdul Basit Abdus-Samad', premium: false, quranRecitationId: 2, tag: 'Égypte' },
-{ key: 'ghamdi', name: 'Saad Al-Ghamdi', premium: false, quranRecitationId: 5, tag: 'Arabie Saoudite' },
-{ key: 'dosari', name: 'Yasser Al-Dosari', premium: false, mp3quranBase: 'https://server11.mp3quran.net/yasser', tag: 'Arabie Saoudite' },
-{ key: 'muhaisni', name: 'Muhammad Al-Muhaisni', premium: false, mp3quranBase: 'https://server11.mp3quran.net/mhsny', tag: 'Arabie Saoudite' },
-{ key: 'afasy_murattal', name: 'Alafasy (Murattal)', premium: false, mp3quranBase: 'https://server8.mp3quran.net/afs', tag: 'Murattal' },
-{ key: 'jaleel', name: 'Khalid Al-Jaleel', premium: false, mp3quranBase: 'https://server10.mp3quran.net/jleel', tag: 'Arabie Saoudite' },
-{ key: 'fares', name: 'Fares Abbad', premium: false, mp3quranBase: 'https://server8.mp3quran.net/frs_a', tag: 'Koweït' },
-{ key: 'sudes', name: 'Ibrahim Al-Akhdar', premium: false, mp3quranBase: 'https://server6.mp3quran.net/akdr', tag: 'Arabie Saoudite' },
-{ key: 'shuraym2', name: 'Salah Al-Budair', premium: false, mp3quranBase: 'https://server6.mp3quran.net/s_bud', tag: 'Arabie Saoudite' }
+{ key: 'minshawi', name: 'Mohamed Siddiq El-Minshawi', premium: true, quranRecitationId: 8, tag: 'Égypte · lent' },
+{ key: 'husary', name: 'Mahmoud Khalil Al-Husary', premium: true, quranRecitationId: 6, tag: 'Égypte · lent' },
+{ key: 'ayyoub', name: 'Muhammad Ayyoub', premium: true, alquranId: 'ar.muhammadayyoub', tag: 'Arabie Saoudite' },
+{ key: 'abdulbasit', name: 'Abdul Basit Abdus-Samad', premium: true, quranRecitationId: 2, tag: 'Égypte' },
+{ key: 'ghamdi', name: 'Saad Al-Ghamdi', premium: true, quranRecitationId: 5, tag: 'Arabie Saoudite' },
+{ key: 'dosari', name: 'Yasser Al-Dosari', premium: true, mp3quranBase: 'https://server11.mp3quran.net/yasser', tag: 'Arabie Saoudite' },
+{ key: 'muhaisni', name: 'Muhammad Al-Muhaisni', premium: true, mp3quranBase: 'https://server11.mp3quran.net/mhsny', tag: 'Arabie Saoudite' },
+{ key: 'afasy_murattal', name: 'Alafasy (Murattal)', premium: true, mp3quranBase: 'https://server8.mp3quran.net/afs', tag: 'Murattal' },
+{ key: 'jaleel', name: 'Khalid Al-Jaleel', premium: true, mp3quranBase: 'https://server10.mp3quran.net/jleel', tag: 'Arabie Saoudite' },
+{ key: 'fares', name: 'Fares Abbad', premium: true, mp3quranBase: 'https://server8.mp3quran.net/frs_a', tag: 'Koweït' },
+{ key: 'sudes', name: 'Ibrahim Al-Akhdar', premium: true, mp3quranBase: 'https://server6.mp3quran.net/akdr', tag: 'Arabie Saoudite' },
+{ key: 'shuraym2', name: 'Salah Al-Budair', premium: true, mp3quranBase: 'https://server6.mp3quran.net/s_bud', tag: 'Arabie Saoudite' }
 ];
 const RECITERS_BY_KEY = Object.fromEntries(RECITERS.map(r => [r.key, r]));
 
@@ -25484,6 +25499,8 @@ function normalizeQuranArabic(text){
 }
 
 let mushafHifzMode = false;
+let mushafHifzMaskMode = 'alternate';
+const mushafHifzRevealed = new Set();
 
 function updateMushafTranslationButton(){
   const btn = document.getElementById('mushafToggleTr');
@@ -25517,16 +25534,19 @@ function renderMushafAyahs(){
     }
     const key = a.surah + ':' + a.ayah;
     const isBm = bookmarks.some(b => b.key === key);
-    const hifzCls = mushafHifzMode ? ' hifz-mode' : '';
+    const hiddenByMode = mushafHifzMode && mushafHifzMaskMode !== 'none' && !mushafHifzRevealed.has(key) && (mushafHifzMaskMode === 'all' || i % 2 === 1);
+    const hifzCls = hiddenByMode ? ' hifz-hidden' : '';
+    const arText = hiddenByMode ? '<span class="hifz-text-hidden">' + arHtml + '</span>' : '<span>' + arHtml + '</span>';
     return `
     <div class="mushaf-ayah${hifzCls}" data-idx="${i}" id="mushaf-ayah-${i}" data-key="${key}">
       <div class="ma-meta">${a.surah}:${a.ayah}</div>
-      <div class="ma-ar" lang="ar" dir="rtl">${arHtml}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
-      <div class="ma-tr${mushafShowTr && !mushafHifzMode ? ' show' : ''}" lang="${mushafTrLang}">${tr || '—'}</div>
+      <div class="ma-ar" lang="ar" dir="rtl">${arText}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
+      <div class="ma-tr${mushafShowTr ? ' show' : ''}${hiddenByMode ? ' hifz-text-hidden' : ''}" lang="${mushafTrLang}">${tr || '—'}</div>
       <div class="ma-tafsir" id="tafsir-${i}"></div>
       <div class="ma-tools">
         <button type="button" class="ma-bm${isBm ? ' on' : ''}" data-bm="${key}" title="Signet">${isBm ? '🔖 Signet' : '🔖'}</button>
         <button type="button" class="ma-tafsir-btn" data-tafsir-idx="${i}" data-key="${key}">Tafsir</button>
+        ${hiddenByMode ? '<button type="button" class="ma-tafsir-btn" data-hifz-reveal="' + key + '" title="Révéler ce verset">👁 Révéler</button>' : ''}
         <button type="button" class="ma-tafsir-btn" data-hifz-key="${key}" title="Planifier une révision">🧠 Hifz</button>
       </div>
     </div>`;
@@ -25554,6 +25574,13 @@ function renderMushafAyahs(){
       e.stopPropagation();
       const idx = parseInt(btn.getAttribute('data-tafsir-idx'), 10);
       toggleTafsirPanel(idx);
+    });
+  });
+  box.querySelectorAll('[data-hifz-reveal]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mushafHifzRevealed.add(btn.getAttribute('data-hifz-reveal'));
+      renderMushafAyahs();
     });
   });
   box.querySelectorAll('[data-hifz-key]').forEach(btn => {
@@ -26529,12 +26556,15 @@ const debouncedQuranSearch = debounce(function(){
 document.getElementById('quranSearchInput')?.addEventListener('input', debouncedQuranSearch);
 document.getElementById('mushafHifzToggle')?.addEventListener('click', () => {
   mushafHifzMode = !mushafHifzMode;
+  const controls = document.getElementById('hifzControls');
+  if(controls) controls.hidden = !mushafHifzMode;
+  if(!mushafHifzMode) mushafHifzRevealed.clear();
   const btn = document.getElementById('mushafHifzToggle');
   if(btn) btn.classList.toggle('active-tool', mushafHifzMode);
   renderMushafAyahs();
 });
 document.getElementById('mushafBookmarksBtn')?.addEventListener('click', () => {
-  const panel = document.getElementById('mushafBookmarksPanel');
+const panel = document.getElementById('mushafBookmarksPanel');
   if(!panel) return;
   panel.hidden = !panel.hidden;
   if(!panel.hidden) renderBookmarksPanel();
@@ -26544,8 +26574,17 @@ document.getElementById('bmCloseBtn')?.addEventListener('click', () => {
   if(panel) panel.hidden = true;
 });
 document.getElementById('mushafTajweedLegendBtn')?.addEventListener('click', () => {
-  const leg = document.getElementById('tajweedLegend');
+const leg = document.getElementById('tajweedLegend');
   if(leg) leg.hidden = !leg.hidden;
+});
+document.getElementById('hifzMaskMode')?.addEventListener('change', (e) => {
+  mushafHifzMaskMode = e.target.value;
+  mushafHifzRevealed.clear();
+  renderMushafAyahs();
+});
+document.getElementById('hifzRevealAll')?.addEventListener('click', () => {
+  mushafAyahs.forEach(a => mushafHifzRevealed.add(a.surah + ':' + a.ayah));
+  renderMushafAyahs();
 });
 try{ saveBookmarks(loadBookmarks()); }catch(e){}
 try{ initKhatmUI(); }catch(e){}
@@ -26815,7 +26854,12 @@ var RIHLA_I18N_EXTRA = {
   "close": "Fermer",
   "bookmarks_empty": "Aucun signet — clique l’icône 🔖 sur un verset.",
   "hifz_due": "Révisions hifz dues",
-  "hifz_tip": "Masque la fin des versets pour mémoriser",
+  "hifz_tip": "Masque des versets entiers pour mémoriser",
+  "hifz_mask_label": "Masquer",
+  "hifz_mask_alternate": "1 verset sur 2",
+  "hifz_mask_all": "Tous les versets",
+  "hifz_mask_none": "Aucun verset",
+  "hifz_reveal_all": "Tout révéler",
   "hifz_planned": "Révision hifz planifiée",
   "tajweed_lessons": "<strong>Mini-leçons :</strong> <em>Ghunnah</em> = nasalisation (نّ / مّ) · <em>Idgham</em> = fusion dans la lettre suivante (souvent avec chadda) · <em>Iqlab</em> = ن devient proche de م devant ب · <em>Ikhfa</em> = ن cachée, son entre izhar et idgham · <em>Qalqalah</em> = écho sur ق ط ب ج د en sukun · <em>Madd</em> = prolongation de la voyelle.",
   "go": "Aller",
@@ -27048,7 +27092,12 @@ var RIHLA_I18N_EXTRA = {
   "close": "Close",
   "bookmarks_empty": "No bookmarks — click the 🔖 icon on a verse.",
   "hifz_due": "Hifz reviews due",
-  "hifz_tip": "Hides the end of verses to help you memorize",
+  "hifz_tip": "Hides whole verses to help you memorize",
+  "hifz_mask_label": "Hide",
+  "hifz_mask_alternate": "Every other verse",
+  "hifz_mask_all": "All verses",
+  "hifz_mask_none": "No verses",
+  "hifz_reveal_all": "Reveal all",
   "hifz_planned": "Hifz review scheduled",
   "tajweed_lessons": "<strong>Mini-lessons:</strong> <em>Ghunnah</em> = nasalization (نّ / مّ) · <em>Idgham</em> = merging into the next letter (often with shadda) · <em>Iqlab</em> = ن becomes close to م before ب · <em>Ikhfa</em> = hidden ن, a sound between izhar and idgham · <em>Qalqalah</em> = echo on ق ط ب ج د with sukun · <em>Madd</em> = lengthening of the vowel.",
   "go": "Go",
@@ -27281,7 +27330,12 @@ var RIHLA_I18N_EXTRA = {
   "close": "إغلاق",
   "bookmarks_empty": "لا توجد إشارات — اضغط رمز 🔖 على آية.",
   "hifz_due": "مراجعات الحفظ المستحقة",
-  "hifz_tip": "يخفي نهاية الآيات لتسهيل الحفظ",
+  "hifz_tip": "يخفي آيات كاملة لتسهيل الحفظ",
+  "hifz_mask_label": "إخفاء",
+  "hifz_mask_alternate": "آية بعد آية",
+  "hifz_mask_all": "كل الآيات",
+  "hifz_mask_none": "لا آيات",
+  "hifz_reveal_all": "إظهار الكل",
   "hifz_planned": "تم جدولة مراجعة الحفظ",
   "tajweed_lessons": "<strong>دروس مختصرة:</strong> <em>الغنّة</em> = نَغم أنفي (نّ / مّ) · <em>الإدغام</em> = دمج في الحرف التالي (غالبًا مع شدّة) · <em>الإقلاب</em> = تصير ن قريبة من م قبل ب · <em>الإخفاء</em> = ن مخفاة، صوت بين الإظهار والإدغام · <em>القلقلة</em> = صدى على ق ط ب ج د الساكنة · <em>المدّ</em> = إطالة الحركة.",
   "go": "انتقل",
