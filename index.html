@@ -2193,8 +2193,7 @@ Rihla
 <h2 data-i18n="card_listen_t">Correction de récitation</h2>
 <p data-i18n="listen_sub">Enregistre ta voix pendant que tu lis le Coran. L'outil détecte la sourate et te montre tes erreurs avec le texte corrigé.</p>
 <div style="margin-top:12px;font-size:0.85rem;color:var(--ink-soft);">
-<span data-i18n-html="listen_quota"><span style="background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;">Gratuit</span> 3 sessions par semaine
-<span style="margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;">Premium</span> Illimité</span>
+<span data-i18n-html="listen_quota"><span style="background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;">Premium</span> Correction illimitée avec analyse détaillée</span>
 </div>
 </div>
 <div class="how-it-works">
@@ -2214,7 +2213,7 @@ Rihla
 <button class="btn btn-ghost" id="recordAgainBtn" data-i18n="rec_again">Recommencer</button>
 </div>
 <p class="record-status" id="recordStatus" data-i18n="rec_hint">Appuie pour démarrer — le navigateur va demander l'accès au micro.</p>
-<p class="record-status" id="sessionCount" style="font-size:0.8rem;opacity:0.7;">Sessions restantes cette semaine : 3</p>
+<p class="record-status" id="sessionCount" style="font-size:0.8rem;opacity:0.7;">Session réservée aux abonnés Premium</p>
 </div>
 <div class="listen-card">
 <h5 data-i18n="det_h">Sourate détectée</h5>
@@ -2333,8 +2332,28 @@ if(premiumNote && !PREMIUM_PAYMENT_LINK){
 premiumNote.textContent = "Paiement en cours de mise en place.";
 }
 let isLoggedIn = false;
+let isPremium = false;
 let currentUserEmail = '';
+function setPremiumStatus(user){
+  const meta = (user && user.user_metadata) || {};
+  const appMeta = (user && user.app_metadata) || {};
+  const status = String(meta.subscription_status || meta.subscriptionStatus || meta.plan || appMeta.subscription_status || appMeta.plan || '').toLowerCase();
+  isPremium = meta.is_premium === true || meta.isPremium === true || appMeta.is_premium === true || ['active','premium','paid','trialing'].includes(status);
+  document.documentElement.dataset.plan = isPremium ? 'premium' : 'free';
+  if(typeof updateSessionDisplay === 'function') updateSessionDisplay();
+}
+function premiumListenMessage(){
+  const lang = typeof rihlaLang !== 'undefined' ? rihlaLang : 'fr';
+  if(lang === 'en') return 'The recitation correction session is a Premium feature. Subscribe to unlock unlimited sessions.';
+  if(lang === 'ar') return 'جلسة تصحيح التلاوة متاحة للمشتركين Premium. اشترك لفتح الجلسات غير المحدودة.';
+  return 'La session de correction de récitation est réservée à Premium. Abonne-toi pour débloquer les sessions illimitées.';
+}
+function openPremiumOffer(){
+  const target = document.getElementById('view-paiement');
+  if(target) showView('view-paiement');
+}
 function showLoggedInUI(user){
+setPremiumStatus(user);
 if(!user) return;
 isLoggedIn = true;
 currentUserEmail = user.email || '';
@@ -2347,9 +2366,12 @@ userName.textContent = label;
 }
 function showLoggedOutUI(){
 isLoggedIn = false;
+isPremium = false;
+document.documentElement.dataset.plan = 'free';
 loginBtn.style.display = '';
 premiumBtn.style.display = '';
 userBadge.classList.remove('visible');
+if(typeof updateSessionDisplay === 'function') updateSessionDisplay();
 }
 supabaseClient.auth.getSession().then(({ data }) => {
 if(data.session && data.session.user) showLoggedInUI(data.session.user);
@@ -2376,6 +2398,7 @@ function closeMobileNav(){
 }
 function showView(id, scrollToId){
 if(id === 'view-reciters') id = 'view-coran';
+if(id === 'view-ecoute' && !isPremium) id = 'view-paiement';
 const prev = document.querySelector('.view.active');
 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
 const target = document.getElementById(id);
@@ -2434,6 +2457,10 @@ document.addEventListener('click', (e) => {
 const trigger = e.target.closest('[data-view]');
 if(!trigger) return;
 e.preventDefault();
+if(trigger.dataset.view === 'view-ecoute' && !isPremium){
+  openPremiumOffer();
+  return;
+}
 showView(trigger.dataset.view, trigger.dataset.scrollTo);
 if(trigger.dataset.view === 'view-dua' && typeof renderDuas === 'function'){
 renderTabs();
@@ -23848,6 +23875,8 @@ let recordSeconds = 0;
 let speechRecognizer = null;
 let liveTranscript = '';
 let fullQuranFlat = null;
+let recognitionAlternativesUsed = 0;
+let recognitionRestartTimer = null;
 let quranWordIndex = new Map();
 let detectedVerses = [];
 let isRecording = false;
@@ -23876,9 +23905,10 @@ localStorage.setItem('rihla_sessions_used', JSON.stringify({week: getWeekKey(), 
 }catch(err){}
 
 function updateSessionDisplay(){
-const remaining = Math.max(0, MAX_FREE_SESSIONS - sessionsUsed);
 if(sessionCount){
-sessionCount.textContent = `Sessions restantes cette semaine : ${remaining}`;
+  sessionCount.textContent = isPremium
+    ? (typeof rihlaLang !== 'undefined' && rihlaLang === 'en' ? 'Premium: unlimited sessions' : typeof rihlaLang !== 'undefined' && rihlaLang === 'ar' ? 'Premium: جلسات غير محدودة' : 'Premium : sessions illimitées')
+    : premiumListenMessage();
 }
 }
 
@@ -24026,14 +24056,15 @@ return scored.slice(0, n);
 }
 
 function chooseConfidentMatch(transcript, flat){
+const words = tokenizeArabic(transcript);
 const tops = findTopMatches(transcript, flat, 3);
-if(!tops.length) return null;
+if(!tops.length || words.length < 3) return null;
 const best = tops[0];
 const runnerUp = tops[1];
-// Refuser une correction automatique si le passage est trop court ou ambigu.
-const min = tokenizeArabic(transcript).length <= 4 ? 0.58 : 0.46;
+// Une correction ne doit être affichée que si la correspondance est nette.
+const min = words.length <= 5 ? 0.62 : 0.50;
 const margin = runnerUp ? best.score - runnerUp.score : 1;
-if(best.score < min || margin < 0.035) return null;
+if(best.score < min || margin < 0.08) return null;
 return best;
 }
 
@@ -24154,8 +24185,18 @@ recordStatus.textContent = `📖 ${detectedVerseCount} verset(s) détecté(s) ·
 }
 }
 
+function bestRecognitionTranscript(resultList){
+  const alternatives = Array.from(resultList || []).slice(0, 3).map(x => x.transcript || '').filter(Boolean);
+  if(alternatives.length <= 1 || !fullQuranFlat) return alternatives[0] || '';
+  const ranked = alternatives.map(text => ({text, match: findBestMatchingAyah(text, fullQuranFlat)}))
+    .sort((a,b) => (b.match ? b.match.score : 0) - (a.match ? a.match.score : 0));
+  if(ranked[0] && ranked[0].match) recognitionAlternativesUsed++;
+  return (ranked[0] && ranked[0].text) || alternatives[0] || '';
+}
+
 function startLiveSpeechRecognition(){
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+recognitionAlternativesUsed = 0;
 liveTranscript = '';
 recentWordsBuffer = [];
 detectedVerses = [];
@@ -24173,11 +24214,11 @@ if(!isRecording && event.results.length === 0) return;
 let interim = '';
 let finalChunk = '';
 for(let i = event.resultIndex; i < event.results.length; i++){
-const t = event.results[i][0].transcript;
+const chosen = bestRecognitionTranscript(event.results[i]);
 if(event.results[i].isFinal){
-finalChunk += t + ' ';
+finalChunk += chosen + ' ';
 } else {
-interim += t;
+interim += chosen;
 }
 }
 if(finalChunk.trim()){
@@ -24202,9 +24243,15 @@ recordStatus.textContent = t('rec_mic_blocked');
 }
 };
 recognizer.onend = () => {
-// Chrome arrête souvent après un silence — relancer si on enregistre encore
-if(isRecording){
-try{ recognizer.start(); }catch(err){}
+// Chrome arrête souvent après un silence : relancer une seule instance après un court délai.
+if(isRecording && !recognitionRestartTimer){
+  recognitionRestartTimer = setTimeout(() => {
+    recognitionRestartTimer = null;
+    if(!isRecording) return;
+    try{ recognizer.start(); }catch(err){
+      if(isRecording) console.warn('Relance reconnaissance différée:', err);
+    }
+  }, 300);
 }
 };
 try{ recognizer.start(); }catch(err){
@@ -24215,9 +24262,10 @@ return recognizer;
 }
 
 async function startRecording(){
-if(sessionsUsed >= MAX_FREE_SESSIONS){
-recordStatus.textContent = `⚠️ Limite de ${MAX_FREE_SESSIONS} sessions gratuites atteinte. Passe Premium pour une correction illimitée !`;
-return;
+if(!isPremium){
+  recordStatus.textContent = premiumListenMessage();
+  openPremiumOffer();
+  return;
 }
 if(isRecording) return;
 detectionResult.innerHTML = '<p style="opacity:.7;font-size:0.85rem;">' + t('rec_preparing') + '</p>';
@@ -24296,7 +24344,7 @@ renderDetectionUI(match, { live: false });
 if(match){
 renderComparison(match.entry, windowText);
 renderCorrections(match.entry, windowText);
-recordStatus.textContent = `✅ Analyse terminée — ${detectedVerseCount || 1} verset(s)`;
+recordStatus.textContent = `✅ Analyse terminée — ${detectedVerseCount || 1} verset(s)${recognitionAlternativesUsed ? ' · alternatives vérifiées' : ''}`;
 } else {
 transcriptCompare.classList.remove('visible');
 const panel = document.getElementById('correctionPanel');
@@ -24308,6 +24356,7 @@ recordStatus.textContent = t('rec_nomatch');
 function stopRecording(){
 if(!isRecording) return;
 if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+if(recognitionRestartTimer){ clearTimeout(recognitionRestartTimer); recognitionRestartTimer = null; }
 if(speechRecognizer){
 try{
 speechRecognizer.onend = null; // empêcher le relancement auto
@@ -26816,7 +26865,7 @@ var RIHLA_I18N_EXTRA = {
   "pages_word": "pages",
   "days_completed": "jours complétés",
   "listen_sub": "Enregistre ta voix pendant que tu lis le Coran. L'outil détecte la sourate et te montre tes erreurs avec le texte corrigé.",
-  "listen_quota": "<span style=\"background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;\">Gratuit</span> 3 sessions par semaine <span style=\"margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> Illimité",
+  "listen_quota": "<span style=\"background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> Correction illimitée avec analyse détaillée",
   "ls_t1": "Tu enregistres",
   "ls_d1": "Récite un passage du Coran à voix haute dans le micro.",
   "ls_t2": "Détection automatique",
@@ -27049,7 +27098,7 @@ var RIHLA_I18N_EXTRA = {
   "pages_word": "pages",
   "days_completed": "days completed",
   "listen_sub": "Record your voice while you read the Qur'an. The tool detects the surah and shows your mistakes with the corrected text.",
-  "listen_quota": "<span style=\"background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;\">Free</span> 3 sessions per week <span style=\"margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> Unlimited",
+  "listen_quota": "<span style=\"background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> Unlimited correction with detailed analysis", 
   "ls_t1": "You record",
   "ls_d1": "Recite a passage of the Qur'an aloud into the microphone.",
   "ls_t2": "Automatic detection",
@@ -27281,7 +27330,7 @@ var RIHLA_I18N_EXTRA = {
   "pages_word": "صفحات",
   "days_completed": "يومًا مكتملًا",
   "listen_sub": "سجّل صوتك أثناء قراءة القرآن. تكتشف الأداة السورة وتُظهر أخطاءك مع النص الصحيح.",
-  "listen_quota": "<span style=\"background:var(--emerald-950);color:var(--gold-300);padding:2px 12px;border-radius:999px;\">مجاني</span> ٣ جلسات أسبوعيًا <span style=\"margin-left:12px;background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">متقدم</span> بلا حدود",
+  "listen_quota": "<span style=\"background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> تصحيح غير محدود مع تحليل مفصل",
   "ls_t1": "تسجّل",
   "ls_d1": "اقرأ مقطعًا من القرآن بصوت مرتفع في الميكروفون.",
   "ls_t2": "كشف تلقائي",
