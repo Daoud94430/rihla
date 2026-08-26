@@ -25332,8 +25332,9 @@ async function loadMushafRiwayaRows(){
 
 function updateMushafRiwayaSource(){
   const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey] || MUSHAF_RIWAYAT.hafs;
+  updateMushafRiwayaOptions();
   const el = document.getElementById('mushafRiwayaSource');
-  if(el) el.textContent = cfg.label + ' · ' + cfg.source;
+  if(el) el.textContent = mushafRiwayaLabel(mushafRiwayaKey) + ' · ' + cfg.source;
 }
 
 async function fetchMushafPageData(page){
@@ -25397,17 +25398,31 @@ function initOfflineBanner(){
 // Les textes alternatifs proviennent de quran-meta; les audios sont servis par Way2Quran
 // avec une association explicite réciteur/riwāya.
 const MUSHAF_RIWAYAT = {
-  hafs:   { label: 'Hafs ʿan ʿĀṣim', file: null, source: 'Al-Quran Cloud / Quran.com' },
-  warsh:  { label: 'Warsh ʿan Nāfiʿ', file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/warshData_v2-1.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'warsh-an-nafi'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'warsh-an-nafi'}] },
-  qalun:  { label: 'Qālūn ʿan Nāfiʿ', file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/quranpedia/qaloon-data.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'qalun-an-nafi'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'qalun-an-nafi'}] },
-  duri:   { label: 'Ad-Dūrī ʿan Abī ʿAmr', file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/DouriData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'ad-duri-an-abu-amr'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'ad-duri-an-abu-amr'}] },
-  susi:   { label: 'As-Sūsī ʿan Abī ʿAmr', file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/SousiData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-sufi', audio:'as-susi-an-abu-amr'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'as-susi-an-abu-amr'}] },
-  shuba:  { label: 'Shuʿbah ʿan ʿĀṣim', file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/shubaData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'shubah-an-asim'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'shubah-an-asim'}] },
-  khalaf: { label: 'Khalaf ʿan Ḥamzah', file: null, source: 'Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-sufi', audio:'khalaf-an-hamzah'}] }
+  hafs:   { label: 'Hafs ʿan ʿĀṣim', labels: { fr: 'Hafs ʿan ʿĀṣim', en: 'Hafs from ʿĀṣim', ar: 'حفص عن عاصم' }, file: null, source: 'Al-Quran Cloud / Quran.com' },
+  warsh:  { label: 'Warsh ʿan Nāfiʿ', labels: { fr: 'Warsh ʿan Nāfiʿ', en: 'Warsh from Nāfiʿ', ar: 'ورش عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/warshData_v2-1.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'warsh-an-nafi'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'warsh-an-nafi'}] },
+  qalun:  { label: 'Qālūn ʿan Nāfiʿ', labels: { fr: 'Qālūn ʿan Nāfiʿ', en: 'Qālūn from Nāfiʿ', ar: 'قالون عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/quranpedia/qaloon-data.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'qalun-an-nafi'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'qalun-an-nafi'}] },
+  duri:   { label: 'Ad-Dūrī ʿan Abī ʿAmr', labels: { fr: 'Ad-Dūrī ʿan Abī ʿAmr', en: 'Ad-Dūrī from Abū ʿAmr', ar: 'الدوري عن أبي عمرو' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/DouriData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'ad-duri-an-abu-amr'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'ad-duri-an-abu-amr'}] },
+  susi:   { label: 'As-Sūsī ʿan Abī ʿAmr', labels: { fr: 'As-Sūsī ʿan Abī ʿAmr', en: 'As-Sūsī from Abū ʿAmr', ar: 'السوسي عن أبي عمرو' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/SousiData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-sufi', audio:'as-susi-an-abu-amr'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'as-susi-an-abu-amr'}] },
+  shuba:  { label: 'Shuʿbah ʿan ʿĀṣim', labels: { fr: 'Shuʿbah ʿan ʿĀṣim', en: 'Shuʿbah from ʿĀṣim', ar: 'شعبة عن عاصم' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/shubaData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'shubah-an-asim'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'shubah-an-asim'}] },
+  khalaf: { label: 'Khalaf ʿan Ḥamzah', labels: { fr: 'Khalaf ʿan Ḥamzah', en: 'Khalaf from Ḥamzah', ar: 'خلف عن حمزة' }, file: null, source: 'Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-sufi', audio:'khalaf-an-hamzah'}] }
 };
 let mushafRiwayaKey = 'hafs';
+let mushafRiwayaReciterIndex = 0;
 let mushafRiwayaRows = null;
 const MUSHAF_RIWAYA_CACHE = new Map();
+function mushafRiwayaLabel(key){
+  const cfg = MUSHAF_RIWAYAT[key] || MUSHAF_RIWAYAT.hafs;
+  const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
+  return (cfg.labels && cfg.labels[lang]) || cfg.label;
+}
+function updateMushafRiwayaOptions(){
+  const select = document.getElementById('mushafRiwayaSelect');
+  if(!select) return;
+  select.querySelectorAll('option').forEach(function(opt){
+    const cfg = MUSHAF_RIWAYAT[opt.value];
+    if(cfg) opt.textContent = mushafRiwayaLabel(opt.value) + (opt.value === 'khalaf' && !cfg.file ? ' — ' + (rihlaLang === 'ar' ? 'النص قيد التحقق' : rihlaLang === 'en' ? 'text under review' : 'texte à vérifier') : '');
+  });
+}
 
 // CDN everyayah-style via islamic.network (global ayah 1..6236)
 // Sources ayah-par-ayah (suivent le texte du mushaf)
@@ -25456,7 +25471,7 @@ function mushafBuildAudioUrls(ayah){
   // Aucun fallback Hafs n’est autorisé dans ce mode.
   if(mushafRiwayaKey !== 'hafs'){
     const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
-    const profile = cfg && cfg.reciters && cfg.reciters[0];
+    const profile = cfg && cfg.reciters && (cfg.reciters[mushafRiwayaReciterIndex] || cfg.reciters[0]);
     if(!profile) return { urls: [], mode: 'surah', unavailable: true };
     const base = 'https://media.way2quran.com/' + profile.slug + '/' + profile.audio;
     return {
@@ -26482,15 +26497,18 @@ function toggleMushafPlay(){
 }
 
 function renderMushafReciterChips(){
-  const list = (typeof RECITERS !== 'undefined' && Array.isArray(RECITERS)) ? RECITERS : [];
+  const allReciters = (typeof RECITERS !== 'undefined' && Array.isArray(RECITERS)) ? RECITERS : [];
+  const riwayaCfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
+  const list = mushafRiwayaKey === 'hafs' ? allReciters : ((riwayaCfg && Array.isArray(riwayaCfg.reciters)) ? riwayaCfg.reciters.map(function(p, i){ return { key: 'riwaya:' + mushafRiwayaKey + ':' + i, name: p.name, tag: mushafRiwayaLabel(mushafRiwayaKey), riwayaIndex: i }; }) : []);
   const grid = document.getElementById('mushafRecitersGrid');
   const wrap = document.getElementById('mushafReciterChips');
   const countEl = document.getElementById('mushafReciterCount');
   if(countEl) countEl.textContent = '(' + list.length + ')';
 
-  function selectReciter(key, name){
-    const same = (mushafReciterKey === key);
-    mushafReciterKey = key;
+  function selectReciter(key, name, riwayaIndex){
+    const same = mushafRiwayaKey === 'hafs' ? (mushafReciterKey === key) : (mushafRiwayaReciterIndex === riwayaIndex);
+    if(mushafRiwayaKey === 'hafs') mushafReciterKey = key;
+    else if(Number.isInteger(riwayaIndex)) mushafRiwayaReciterIndex = riwayaIndex;
     renderMushafReciterChips();
     const info = document.getElementById('mushafAudioInfo');
     const wasPlaying = mushafPlaying || (mushafAudio && !mushafAudio.paused);
@@ -26508,9 +26526,9 @@ function renderMushafReciterChips(){
     list.forEach(r => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'mr-card' + (r.key === mushafReciterKey ? ' active' : '');
+      b.className = 'mr-card' + ((mushafRiwayaKey === 'hafs' ? r.key === mushafReciterKey : r.riwayaIndex === mushafRiwayaReciterIndex) ? ' active' : '');
       b.innerHTML = '<span class="mr-name">' + r.name + '</span><span class="mr-tag">' + (r.tag || '') + '</span>';
-      b.addEventListener('click', () => selectReciter(r.key, r.name));
+      b.addEventListener('click', () => selectReciter(r.key, r.name, r.riwayaIndex));
       grid.appendChild(b);
     });
   }
@@ -26519,10 +26537,10 @@ function renderMushafReciterChips(){
     list.forEach(r => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'mb-chip' + (r.key === mushafReciterKey ? ' active' : '');
+      b.className = 'mb-chip' + ((mushafRiwayaKey === 'hafs' ? r.key === mushafReciterKey : r.riwayaIndex === mushafRiwayaReciterIndex) ? ' active' : '');
       b.textContent = r.name;
       b.title = r.name;
-      b.addEventListener('click', () => selectReciter(r.key, r.name));
+      b.addEventListener('click', () => selectReciter(r.key, r.name, r.riwayaIndex));
       wrap.appendChild(b);
     });
   }
@@ -26689,8 +26707,10 @@ document.getElementById('mushafRiwayaSelect')?.addEventListener('change', async 
   const next = e.target.value || 'hafs';
   if(next === 'khalaf') { e.target.value = mushafRiwayaKey; return; }
   mushafRiwayaKey = next;
+  mushafRiwayaReciterIndex = 0;
   mushafRiwayaRows = null;
   updateMushafRiwayaSource();
+  renderMushafReciterChips();
   stopMushafAudio();
   try{
     await loadMushafPage(mushafPage || 1, { autoPlay: true });
@@ -27591,6 +27611,11 @@ function applyRihlaLang(lang){
   if(!RIHLA_I18N[lang]) lang = 'fr';
   rihlaLang = lang;
   try{ localStorage.setItem('rihla_lang', lang); }catch(e){}
+  try{
+    if(typeof updateMushafRiwayaOptions === 'function') updateMushafRiwayaOptions();
+    if(typeof updateMushafRiwayaSource === 'function') updateMushafRiwayaSource();
+    if(typeof renderMushafReciterChips === 'function') renderMushafReciterChips();
+  }catch(e){ console.warn('riwāya language sync', e); }
   document.documentElement.lang = lang === 'ar' ? 'ar' : (lang === 'en' ? 'en' : 'fr');
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   // Traduire d'abord les fragments HTML, puis les nœuds texte. Cette
