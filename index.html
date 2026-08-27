@@ -972,8 +972,8 @@ margin-right: 0.28em;
 margin-left: 0.12em;
 padding: 0 0.28em;
 border-radius: 50%;
-border: 1.5px solid var(--gold-500);
-background: rgba(201,162,39,0.14);
+border: 1.5px solid var(--emerald-950);
+background: #fff;
 color: var(--emerald-950);
 font-family: 'Amiri', 'Noto Naskh Arabic', serif;
 font-size: 0.58em;
@@ -1070,9 +1070,9 @@ text-shadow: 0 1px 0 rgba(0,0,0,0.35);
 }
 .mushaf-page-frame.dark .mushaf-ayah.active .ma-ar{ color: #fff8e7; }
 .mushaf-page-frame.dark .mushaf-ayah .ma-ayah-end{
-border-color: #c9a227;
-background: rgba(201,162,39,0.2);
-color: #e0c25f;
+border-color: #f5ecd4;
+background: rgba(245,236,212,0.12);
+color: #f5ecd4;
 }
 .mushaf-page-frame.dark .mushaf-ayah .ma-tr{ color: #c8bfa8; }
 .mushaf-page-frame.dark .mushaf-page-footer-num{
@@ -25727,10 +25727,15 @@ function renderMushafAyahs(){
     const hiddenByMode = mushafHifzMode && mushafHifzMaskMode !== 'none' && !mushafHifzRevealed.has(key) && (mushafHifzMaskMode === 'all' || i % 2 === 1);
     const hifzCls = hiddenByMode ? ' hifz-hidden' : '';
     const arText = hiddenByMode ? '<span class="hifz-text-hidden">' + arHtml + '</span>' : '<span>' + arHtml + '</span>';
+    // Hafs (API alquran.cloud) n'a pas de fin-de-verset intégrée au texte : on
+    // ajoute nous-mêmes le petit rond numéroté. Les autres riwāyāt (police
+    // KFGQPC dédiée) ont déjà leur propre glyphe de fin de verset DANS le
+    // texte lui-même (ligature ornée) : pas besoin d'en rajouter un second.
+    const ayahEnd = mushafRiwayaKey === 'hafs' ? '<span class="ma-ayah-end" title="Verset ' + a.ayah + '">' + numAr + '</span>' : '';
     return `
     <div class="mushaf-ayah${hifzCls}" data-idx="${i}" id="mushaf-ayah-${i}" data-key="${key}">
       <div class="ma-meta">${a.surah}:${a.ayah}</div>
-      <div class="ma-ar" lang="ar" dir="rtl">${arText}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
+      <div class="ma-ar" lang="ar" dir="rtl">${arText}${ayahEnd}</div>
       <div class="ma-tr${mushafShowTr ? ' show' : ''}${hiddenByMode ? ' hifz-text-hidden' : ''}" lang="${mushafTrLang}">${tr || '—'}</div>
       <div class="ma-tafsir" id="tafsir-${i}"></div>
       <div class="ma-tools">
