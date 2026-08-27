@@ -951,11 +951,17 @@ font-feature-settings: "liga" 1, "calt" 1, "mark" 1, "mkmk" 1;
 letter-spacing: 0;
 word-spacing: 0.06em;
 }
-/* riwāya autre que Hafs (Warsh, Qālūn…) : rasm différent, police plus généraliste
-   qui porte mieux les signes diacritiques spécifiques à ces éditions */
+/* riwāya autre que Hafs (Warsh, Qālūn…) : rasm différent, police de repli
+   généraliste en attendant/à défaut du chargement de la police dédiée */
 #mushafAyahs.riwaya-alt .mushaf-ayah .ma-ar{
 font-family: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
 }
+/* Polices calligraphiques officielles KFGQPC, une par riwāya (voir <head>) */
+#mushafAyahs.riwaya-warsh .mushaf-ayah .ma-ar{ font-family: 'warsh10', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-qalun .mushaf-ayah .ma-ar{ font-family: 'qaloon10', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-duri .mushaf-ayah .ma-ar{ font-family: 'doori9', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-susi .mushaf-ayah .ma-ar{ font-family: 'soosi9', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-shuba .mushaf-ayah .ma-ar{ font-family: 'shouba8', 'Amiri Quran', 'Scheherazade New', serif; }
 .mushaf-ayah .ma-ayah-end{
 display: inline-flex;
 align-items: center;
@@ -1592,6 +1598,10 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 .dua-card .dua-arabic{font-size:1.15rem; line-height:1.9;}
 }
 </style>
+<!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
+     Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
+     calligraphique, distinct du Hafs standard. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thetruetruth/quran-data-kfgqpc@main/css/kfgqpc.font.css" />
 </head>
 <body>
 <a href="#main" class="skip-link" data-i18n="skip_link">Aller au contenu principal</a>
@@ -25259,7 +25269,12 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   mushafPage = page;
   mushafAyahs = ayahs;
   const box0 = document.getElementById('mushafAyahs');
-  if(box0) box0.classList.toggle('riwaya-alt', mushafRiwayaKey !== 'hafs');
+  if(box0){
+    const isAlt = mushafRiwayaKey !== 'hafs';
+    box0.classList.toggle('riwaya-alt', isAlt);
+    box0.classList.remove('riwaya-warsh', 'riwaya-qalun', 'riwaya-duri', 'riwaya-susi', 'riwaya-shuba');
+    if(isAlt) box0.classList.add('riwaya-' + mushafRiwayaKey);
+  }
   const pos = document.getElementById('mushafPagePos');
   if(pos) pos.textContent = `Page ${page} / ${MUSHAF_TOTAL_PAGES}`;
   const pageInp = document.getElementById('mushafPageInput');
@@ -25615,9 +25630,19 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
   if(nextB) nextB.disabled = page >= MUSHAF_TOTAL_PAGES;
 
   // Cache mémoire → affichage immédiat
-  if(MUSHAF_PAGE_CACHE.has(page)){
+  // IMPORTANT : ce cache "rapide" ne concerne QUE la riwāya Hafs. Sans ce
+  // garde-fou, changer de riwāya sur une page déjà visitée en Hafs
+  // réaffichait le texte Hafs mis en cache au lieu d'aller chercher le
+  // texte propre à la nouvelle riwāya (c'était le bug : "le Coran ne
+  // change pas quand je change de version").
+  if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)){
     if(token !== mushafLoadToken) return;
     applyMushafPageData(page, MUSHAF_PAGE_CACHE.get(page), { autoPlay, autoPlaySurah });
+    return;
+  }
+  if(mushafRiwayaKey !== 'hafs' && MUSHAF_RIWAYA_PAGE_CACHE.has(mushafRiwayaKey + ':' + page)){
+    if(token !== mushafLoadToken) return;
+    applyMushafPageData(page, MUSHAF_RIWAYA_PAGE_CACHE.get(mushafRiwayaKey + ':' + page), { autoPlay, autoPlaySurah });
     return;
   }
 
