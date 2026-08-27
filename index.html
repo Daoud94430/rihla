@@ -923,19 +923,6 @@ font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
 opacity: 0.9; direction: rtl; color: var(--gold-500);
 }
 .mushaf-ayahs{display:flex; flex-direction:column; gap: 6px;}
-.mushaf-edition-page{display:flex; flex-direction:column; align-items:center; gap:10px; padding:4px 0 18px;}
-.mushaf-edition-page img{display:block; width:min(100%, 760px); height:auto; border-radius:6px; box-shadow:0 10px 28px rgba(15,61,58,.16); background:#fff;}
-.mushaf-edition-page .mushaf-edition-caption{font-size:.76rem; color:var(--ink-soft); text-align:center;}
-.mushaf-variant-notice{
-  width:min(100%,760px); padding:12px 14px; border:1px solid rgba(201,162,39,.55);
-  border-radius:10px; background:rgba(201,162,39,.10); color:var(--ink-soft);
-  font-size:.82rem; line-height:1.55; text-align:center;
-}
-.mushaf-variant-notice strong{display:block; color:var(--emerald-950); margin-bottom:4px;}
-.mushaf-variant-notice p{margin:3px 0 0;}
-.mushaf-page-frame.dark .mushaf-variant-notice{background:rgba(201,162,39,.12); border-color:#c9a22799; color:#c8bfa8;}
-.mushaf-page-frame.dark .mushaf-variant-notice strong{color:#e0c25f;}
-.mushaf-page-frame.dark .mushaf-edition-page img{box-shadow:0 10px 28px rgba(0,0,0,.45);}
 .mushaf-ayah{
 padding: 8px 14px; border-radius: 8px;
 transition: background .22s ease, box-shadow .22s ease;
@@ -963,6 +950,11 @@ unicode-bidi: isolate;
 font-feature-settings: "liga" 1, "calt" 1, "mark" 1, "mkmk" 1;
 letter-spacing: 0;
 word-spacing: 0.06em;
+}
+/* riwāya autre que Hafs (Warsh, Qālūn…) : rasm différent, police plus généraliste
+   qui porte mieux les signes diacritiques spécifiques à ces éditions */
+#mushafAyahs.riwaya-alt .mushaf-ayah .ma-ar{
+font-family: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
 }
 .mushaf-ayah .ma-ayah-end{
 display: inline-flex;
@@ -25266,8 +25258,10 @@ function rihlaCachePage(page, ayahs){
 function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   mushafPage = page;
   mushafAyahs = ayahs;
+  const box0 = document.getElementById('mushafAyahs');
+  if(box0) box0.classList.toggle('riwaya-alt', mushafRiwayaKey !== 'hafs');
   const pos = document.getElementById('mushafPagePos');
-  if(pos) pos.textContent = t('page_label') + ' ' + page + ' / ' + MUSHAF_TOTAL_PAGES;
+  if(pos) pos.textContent = `Page ${page} / ${MUSHAF_TOTAL_PAGES}`;
   const pageInp = document.getElementById('mushafPageInput');
   if(pageInp && document.activeElement !== pageInp) pageInp.value = String(page);
   const prevB = document.getElementById('mushafPrevPage');
@@ -25299,14 +25293,7 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
     pageNumEl.textContent = toArabicIndic(page);
     pageNumEl.setAttribute('lang', 'ar');
   }
-  // En mode édition paginée, l’image est le Mushaf visible ; les ayahs restent
-  // chargés en mémoire pour l’audio, les traductions et les repères de navigation.
-  // Une variante sans texte arabe vérifié ne doit jamais tomber sur des cartes Hafs.
-  const variantUnavailable = mushafAyahs.some(function(a){ return a && a.variantUnavailable; });
-  if(variantUnavailable){
-    if(renderMushafEditionPage(page)) renderMushafVariantNotice(page);
-    else { const unavailableBox = document.getElementById('mushafAyahs'); if(unavailableBox) unavailableBox.innerHTML = ''; renderMushafVariantNotice(page); }
-  }else if(!renderMushafEditionPage(page)) renderMushafAyahs();
+  renderMushafAyahs();
   rihlaStorageSet('rihla_mushaf_page', String(page));
   try{
     const kh = loadKhatm();
@@ -25321,9 +25308,21 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   prefetchMushafPage(page + 1);
   prefetchMushafPage(page - 1);
 }
+/**
+ * Charge et indexe l'édition texte d'une riwāya PAR PAGE (et non par numéro
+ * de verset façon Hafs). Raison : le découpage des versets (et donc leur
+ * numérotation) diffère réellement d'une riwāya à l'autre — par ex. la
+ * Basmalah n'est pas comptée comme un verset séparé partout, certains
+ * versets sont fusionnés/scindés différemment. Plaquer un texte de Warsh ou
+ * Qālūn sur la numérotation Hafs (verset "n") produirait donc un texte
+ * décalé et faux au-delà des tout premiers versets. On construit ici la
+ * page telle qu'elle existe réellement dans l'édition de cette riwāya
+ * (champ "page"/"page_number" propre à chaque source), avec SA PROPRE
+ * numérotation de versets — donc fidèle à cette riwāya.
+ */
 async function loadMushafRiwayaRows(){
   if(mushafRiwayaKey === 'hafs') return null;
-  if(mushafRiwayaRows && mushafRiwayaRows.key === mushafRiwayaKey) return mushafRiwayaRows.index;
+  if(mushafRiwayaRows && mushafRiwayaRows.key === mushafRiwayaKey) return mushafRiwayaRows.pages;
   const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
   if(!cfg || !cfg.file) throw new Error('Texte variant indisponible pour ' + mushafRiwayaKey);
   let promise = MUSHAF_RIWAYA_CACHE.get(mushafRiwayaKey);
@@ -25333,151 +25332,129 @@ async function loadMushafRiwayaRows(){
       return res.json();
     }).then(function(rows){
       const list = Array.isArray(rows) ? rows : (rows.surahs ? rows.surahs.flatMap(function(s){ return s.ayahs || []; }) : (rows.data || rows.ayahs || []));
-      const index = new Map();
+      const pages = new Map(); // page(number) -> [{surah, ayah, text, juz, surahEn, surahAr}]
       list.forEach(function(row){
-        const s = row.sura_no ?? row.surah ?? row.surah_number;
-        const a = row.aya_no ?? row.ayah ?? row.verse;
-        const text = row.aya_text ?? row.text ?? row.text_uthmani ?? row.text_uthmani_simple;
-        // Conserver exactement la graphie fournie par l’édition de la riwāya.
-        // Aucune normalisation Hafs ne doit être appliquée à Warsh, Qālūn, etc.
-        if(s != null && a != null && text) index.set(String(s) + ':' + String(a), String(text));
+        const s = Number(row.sura_no ?? row.surah ?? row.surah_number);
+        // NB : le format "quranpedia" (Qālūn) numérote l'ayat via "number",
+        // pas "aya_no"/"ayah"/"verse" — sans ce cas la riwāya Qālūn ne
+        // remontait jamais aucun texte (silencieusement retombée sur Hafs).
+        const a = Number(row.aya_no ?? row.ayah ?? row.verse ?? row.number);
+        const text = row.aya_text ?? row.text ?? row.text_uthmani;
+        const rawPage = row.page ?? row.page_number;
+        // Quelques versets à cheval sur deux pages sont notés "85-86" :
+        // on les rattache à leur page de départ.
+        const pageMatch = rawPage != null ? String(rawPage).match(/\d+/) : null;
+        const page = pageMatch ? parseInt(pageMatch[0], 10) : null;
+        const juz = row.jozz ?? row.juz ?? null;
+        if(!s || !a || !text || !page) return;
+        if(!pages.has(page)) pages.set(page, []);
+        pages.get(page).push({
+          surah: s, ayah: a, text: text, juz: juz,
+          surahEn: row.sura_name_en || null,
+          surahAr: row.sura_name_ar || null
+        });
       });
-      if(index.size < 6000) throw new Error('Edition riwāya incomplète');
-      return index;
+      if(pages.size < 500) throw new Error('Edition riwāya incomplète');
+      return pages;
     });
     MUSHAF_RIWAYA_CACHE.set(mushafRiwayaKey, promise);
   }
-  const index = await promise;
-  mushafRiwayaRows = { key: mushafRiwayaKey, index: index };
-  return index;
-}
-
-function mushafEditionPageUrl(page){
-  const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
-  return cfg && cfg.pageImages ? cfg.pageImages.replace('{page}', String(page)) : '';
-}
-function renderMushafEditionPage(page){
-  const box = document.getElementById('mushafAyahs');
-  const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
-  const url = mushafEditionPageUrl(page);
-  if(!box || !cfg || !url) return false;
-  const label = mushafRiwayaLabel(mushafRiwayaKey);
-  box.classList.remove('is-loading');
-  box.innerHTML = '<div class="mushaf-edition-page" data-edition="' + mushafRiwayaKey + '">' +
-    '<img src="' + url + '" alt="' + escapeMushafText(label + ' — ' + t('page_label') + ' ' + page) + '" loading="eager" decoding="async">' +
-    '<div class="mushaf-edition-caption">' + escapeMushafText(label + ' · ' + t('page_label') + ' ' + page + ' · ' + t('source_label') + ': QuranHub') + '</div>' +
-    '</div>';
-  const img = box.querySelector('img');
-  if(img) img.addEventListener('error', function(){
-    box.innerHTML = '<p style="text-align:center;color:#e0736b;">' + (rihlaLang === 'ar' ? 'تعذر تحميل صفحة هذه الرواية' : rihlaLang === 'en' ? 'This riwāya page is unavailable' : 'Cette page de riwāya est indisponible') + '</p>';
-  }, { once:true });
-  return true;
-}
-function mushafVariantNoticeHtml(){
-  return '<strong>' + escapeMushafText(mushafRiwayaLabel(mushafRiwayaKey)) + '</strong>'
-    + '<p>' + escapeMushafText(t('riwaya_text_unavailable')) + '</p>'
-    + '<p>' + escapeMushafText(t('riwaya_no_crosslabel')) + '</p>'
-    + '<p>' + escapeMushafText(t('riwaya_audio_available')) + '</p>';
-}
-function renderMushafVariantNotice(page){
-  const box = document.getElementById('mushafAyahs');
-  if(!box) return false;
-  const pageEl = box.querySelector('.mushaf-edition-page');
-  const host = pageEl || box;
-  let note = host.querySelector('.mushaf-variant-notice');
-  if(note){ note.innerHTML = mushafVariantNoticeHtml(); return true; }
-  note = document.createElement('div');
-  note.className = 'mushaf-variant-notice';
-  note.setAttribute('role', 'status');
-  note.innerHTML = mushafVariantNoticeHtml();
-  host.appendChild(note);
-  return true;
-}
-function refreshMushafEditionLabels(){
-  const box = document.getElementById('mushafAyahs');
-  const pageEl = box && box.querySelector('.mushaf-edition-page');
-  if(!pageEl) return;
-  const label = mushafRiwayaLabel(mushafRiwayaKey);
-  const page = mushafPage || 1;
-  const img = pageEl.querySelector('img');
-  const caption = pageEl.querySelector('.mushaf-edition-caption');
-  if(img) img.alt = label + ' — ' + t('page_label') + ' ' + page;
-  if(caption) caption.textContent = label + ' · ' + t('page_label') + ' ' + page + ' · ' + t('source_label') + ': QuranHub';
-  const note = pageEl.querySelector('.mushaf-variant-notice');
-  if(note) note.innerHTML = mushafVariantNoticeHtml();
+  const pages = await promise;
+  mushafRiwayaRows = { key: mushafRiwayaKey, pages: pages };
+  return pages;
 }
 
 function updateMushafRiwayaSource(){
   const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey] || MUSHAF_RIWAYAT.hafs;
   updateMushafRiwayaOptions();
   const el = document.getElementById('mushafRiwayaSource');
-  if(el) el.textContent = mushafRiwayaLabel(mushafRiwayaKey) + ' · ' + cfg.source;
+  if(el){
+    let label = mushafRiwayaLabel(mushafRiwayaKey) + ' · ' + cfg.source;
+    if(mushafRiwayaKey !== 'hafs'){
+      const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
+      const note = lang === 'ar' ? ' — ترقيم الآيات وتقسيم الصفحات خاص بهذه الرواية'
+        : lang === 'en' ? ' — verse numbering and pagination specific to this riwāya'
+        : ' — numérotation des versets et pagination propres à cette riwāya';
+      label += note;
+    }
+    el.textContent = label;
+  }
 }
 
 async function fetchMushafPageData(page){
-  const cacheKey = mushafRiwayaKey === 'hafs' ? page : mushafRiwayaKey + ':' + page;
-  if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)) return MUSHAF_PAGE_CACHE.get(page);
-  const [metaRes, frRes, enRes, tjRes] = await Promise.all([
-    fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
-    fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
-    fetch(`https://api.alquran.cloud/v1/page/${page}/en.sahih`),
-    fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
-  ]);
-  if(!metaRes.ok) throw new Error('API page ' + page);
-  const metaJson = await metaRes.json();
-  const frJson = await frRes.json();
-  const enJson = enRes.ok ? await enRes.json() : { data: { ayahs: [] } };
-  let tjJson = { verses: [] };
-  try { tjJson = await tjRes.json(); } catch(e) {}
-  const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
-  const frAyahs = (frJson.data && frJson.data.ayahs) || [];
-  const enAyahs = (enJson.data && enJson.data.ayahs) || [];
-  const tjVerses = (tjJson.verses) || [];
-  let variantIndex = null;
-  let variantUnavailable = false;
-  if(mushafRiwayaKey !== 'hafs'){
-    try{
-      variantIndex = await loadMushafRiwayaRows();
-    }catch(err){
-      // On conserve les métadonnées et les traductions pour l’audio, mais on
-      // interdit toute substitution silencieuse par le texte Hafs.
-      variantUnavailable = true;
-      console.warn('Texte arabe de riwāya non vérifié', mushafRiwayaKey, err);
-    }
+  if(mushafRiwayaKey === 'hafs'){
+    if(MUSHAF_PAGE_CACHE.has(page)) return MUSHAF_PAGE_CACHE.get(page);
+    const [metaRes, frRes, enRes, tjRes] = await Promise.all([
+      fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
+      fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
+      fetch(`https://api.alquran.cloud/v1/page/${page}/en.sahih`),
+      fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
+    ]);
+    if(!metaRes.ok) throw new Error('API page ' + page);
+    const metaJson = await metaRes.json();
+    const frJson = await frRes.json();
+    const enJson = enRes.ok ? await enRes.json() : { data: { ayahs: [] } };
+    let tjJson = { verses: [] };
+    try { tjJson = await tjRes.json(); } catch(e) {}
+    const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
+    const frAyahs = (frJson.data && frJson.data.ayahs) || [];
+    const enAyahs = (enJson.data && enJson.data.ayahs) || [];
+    const tjVerses = (tjJson.verses) || [];
+    const ayahs = metaAyahs.map((a, i) => {
+      let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
+      tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
+      tjHtml = normalizeQuranArabic(tjHtml);
+      const plain = normalizeQuranArabic(a.text || '');
+      const html = tjHtml || plain.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return {
+        global: a.number,
+        surah: a.surah.number,
+        surahName: a.surah.englishName,
+        surahAr: a.surah.name,
+        ayah: a.numberInSurah,
+        text: plain,
+        textHtml: html,
+        hasTajweed: !!tjHtml,
+        tr: (frAyahs[i] && frAyahs[i].text) || '',
+        en: (enAyahs[i] && enAyahs[i].text) || '',
+        juz: a.juz
+      };
+    });
+    rihlaCachePage(page, ayahs);
+    return ayahs;
   }
-  const ayahs = metaAyahs.map((a, i) => {
-    const variantText = variantIndex && variantIndex.get(String(a.surah.number) + ':' + String(a.numberInSurah));
-    let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
-    tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
-    tjHtml = normalizeQuranArabic(tjHtml);
-    // Hafs utilise le texte/page tajwid existant ; les autres riwāyāt
-    // utilisent leur graphie source, sans remplacement ni normalisation.
-    const plain = mushafRiwayaKey === 'hafs'
-      ? normalizeQuranArabic(a.text || '')
-      : (variantUnavailable ? '' : String(variantText || ''));
-    const html = mushafRiwayaKey === 'hafs' && tjHtml ? tjHtml : escapeMushafText(plain);
+
+  // Riwāya autre que Hafs : la page est construite DIRECTEMENT depuis
+  // l'édition propre à cette riwāya (texte, découpage des versets et
+  // numérotation qui lui sont propres) — voir loadMushafRiwayaRows().
+  const cacheKey = mushafRiwayaKey + ':' + page;
+  if(MUSHAF_RIWAYA_PAGE_CACHE.has(cacheKey)) return MUSHAF_RIWAYA_PAGE_CACHE.get(cacheKey);
+  const pages = await loadMushafRiwayaRows();
+  const rows = (pages && pages.get(page)) || [];
+  if(!rows.length) throw new Error('Page indisponible pour cette riwāya');
+  const ayahs = rows.map(function(row){
+    const plain = normalizeQuranArabic(row.text || '');
+    const surahInfo = SURAHS[row.surah - 1];
     return {
-      global: a.number,
-      surah: a.surah.number,
-      surahName: a.surah.englishName,
-      surahAr: a.surah.name,
-      ayah: a.numberInSurah,
+      global: null,
+      surah: row.surah,
+      surahName: (surahInfo && surahInfo.englishName) || row.surahEn || '',
+      surahAr: (surahInfo && surahInfo.name) || row.surahAr || '',
+      ayah: row.ayah,
       text: plain,
-      textHtml: html,
-      riwaya: mushafRiwayaKey,
-      variantUnavailable: variantUnavailable,
-      hasTajweed: mushafRiwayaKey === 'hafs' && !!tjHtml,
-      tr: (frAyahs[i] && frAyahs[i].text) || '',
-      en: (enAyahs[i] && enAyahs[i].text) || '',
-      juz: a.juz
+      textHtml: plain.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+      hasTajweed: false,
+      tr: '',
+      en: '',
+      juz: row.juz
     };
   });
-  if(mushafRiwayaKey === 'hafs') rihlaCachePage(page, ayahs);
+  MUSHAF_RIWAYA_PAGE_CACHE.set(cacheKey, ayahs);
   return ayahs;
 }
 function prefetchMushafPage(page){
   if(page < 1 || page > MUSHAF_TOTAL_PAGES) return;
-  if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)) return;
+  if(MUSHAF_PAGE_CACHE.has(page)) return;
   if(!navigator.onLine) return;
   fetchMushafPageData(page).catch(function(){});
 }
@@ -25492,8 +25469,8 @@ function initOfflineBanner(){
 // Les textes alternatifs proviennent de quran-meta; les audios sont servis par Way2Quran
 // avec une association explicite réciteur/riwāya.
 const MUSHAF_RIWAYAT = {
-  hafs:   { label: 'Hafs ʿan ʿĀṣim', labels: { fr: 'Hafs ʿan ʿĀṣim', en: 'Hafs from ʿĀṣim', ar: 'حفص عن عاصم' }, file: null, pageImages: 'https://raw.githubusercontent.com/QuranHub/quran-pages-images/main/kfgqpc/hafs-wasat/{page}.jpg', source: 'Al-Quran Cloud / Quran.com · pages QuranHub' },
-  warsh:  { label: 'Warsh ʿan Nāfiʿ', labels: { fr: 'Warsh ʿan Nāfiʿ', en: 'Warsh from Nāfiʿ', ar: 'ورش عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/warshData_v2-1.json', pageImages: 'https://raw.githubusercontent.com/QuranHub/quran-pages-images/main/kfgqpc/warsh/{page}.jpg', source: 'quran-meta + Way2Quran · pages QuranHub', reciters: [{name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'warsh-an-nafi'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'warsh-an-nafi'}] },
+  hafs:   { label: 'Hafs ʿan ʿĀṣim', labels: { fr: 'Hafs ʿan ʿĀṣim', en: 'Hafs from ʿĀṣim', ar: 'حفص عن عاصم' }, file: null, source: 'Al-Quran Cloud / Quran.com' },
+  warsh:  { label: 'Warsh ʿan Nāfiʿ', labels: { fr: 'Warsh ʿan Nāfiʿ', en: 'Warsh from Nāfiʿ', ar: 'ورش عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/warshData_v2-1.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'warsh-an-nafi'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'warsh-an-nafi'}] },
   qalun:  { label: 'Qālūn ʿan Nāfiʿ', labels: { fr: 'Qālūn ʿan Nāfiʿ', en: 'Qālūn from Nāfiʿ', ar: 'قالون عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/quranpedia/qaloon-data.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'qalun-an-nafi'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'qalun-an-nafi'}] },
   duri:   { label: 'Ad-Dūrī ʿan Abī ʿAmr', labels: { fr: 'Ad-Dūrī ʿan Abī ʿAmr', en: 'Ad-Dūrī from Abū ʿAmr', ar: 'الدوري عن أبي عمرو' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/DouriData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'ad-duri-an-abu-amr'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'ad-duri-an-abu-amr'}] },
   susi:   { label: 'As-Sūsī ʿan Abī ʿAmr', labels: { fr: 'As-Sūsī ʿan Abī ʿAmr', en: 'As-Sūsī from Abū ʿAmr', ar: 'السوسي عن أبي عمرو' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/SousiData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-sufi', audio:'as-susi-an-abu-amr'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'as-susi-an-abu-amr'}] },
@@ -25503,7 +25480,8 @@ const MUSHAF_RIWAYAT = {
 let mushafRiwayaKey = 'hafs';
 let mushafRiwayaReciterIndex = 0;
 let mushafRiwayaRows = null;
-const MUSHAF_RIWAYA_CACHE = new Map();
+const MUSHAF_RIWAYA_CACHE = new Map(); // riwāya -> Promise<Map<page, rows[]>>
+const MUSHAF_RIWAYA_PAGE_CACHE = new Map(); // "riwāya:page" -> ayahs[]
 function mushafRiwayaLabel(key){
   const cfg = MUSHAF_RIWAYAT[key] || MUSHAF_RIWAYAT.hafs;
   const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
@@ -25628,7 +25606,7 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
   const token = ++mushafLoadToken;
   const box = document.getElementById('mushafAyahs');
   const pos = document.getElementById('mushafPagePos');
-  if(pos) pos.textContent = t('page_label') + ' ' + page + ' / ' + MUSHAF_TOTAL_PAGES;
+  if(pos) pos.textContent = `Page ${page} / ${MUSHAF_TOTAL_PAGES}`;
   const pageInp = document.getElementById('mushafPageInput');
   if(pageInp && document.activeElement !== pageInp) pageInp.value = String(page);
   const prevB = document.getElementById('mushafPrevPage');
@@ -25636,15 +25614,8 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
   if(prevB) prevB.disabled = page <= 1;
   if(nextB) nextB.disabled = page >= MUSHAF_TOTAL_PAGES;
 
-  // Les éditions paginées utilisent une vraie image de Mushaf propre à la riwāya.
-  // On affiche d’abord l’image, puis on charge quand même les ayahs afin de
-  // conserver l’audio, les transitions et les repères de la sourate.
-  if(mushafEditionPageUrl(page)) renderMushafEditionPage(page);
-
   // Cache mémoire → affichage immédiat
-  // Le cache partagé contient uniquement l’édition Hafs. Une riwāya
-  // alternative doit toujours charger son propre texte source.
-  if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)){
+  if(MUSHAF_PAGE_CACHE.has(page)){
     if(token !== mushafLoadToken) return;
     applyMushafPageData(page, MUSHAF_PAGE_CACHE.get(page), { autoPlay, autoPlaySurah });
     return;
@@ -25659,22 +25630,15 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
     if(token !== mushafLoadToken) return; // réponse trop lente, on ignore
     if(box) box.classList.remove('is-loading');
     applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah });
-  }  catch(err){
+  }catch(err){
     if(token !== mushafLoadToken) return;
     console.error(err);
     if(box){
-      if(mushafRiwayaKey !== 'hafs'){
-        // Une erreur de texte variante ne doit jamais remplacer une page
-        // authentique par du Hafs ni afficher un message générique trompeur.
-        if(mushafEditionPageUrl(page)) renderMushafEditionPage(page);
-        renderMushafVariantNotice(page);
-      }else{
-        box.innerHTML = '<p style="text-align:center;color:#e0736b;">' + t('load_error') + '</p>'
-          + '<p style="text-align:center;margin-top:8px;"><button type="button" class="mt-btn primary" id="mushafRetryBtn">Réessayer</button></p>';
-        document.getElementById('mushafRetryBtn')?.addEventListener('click', () => loadMushafPage(page, { autoPlay, autoPlaySurah }));
-      }
+      box.innerHTML = '<p style="text-align:center;color:#e0736b;">' + t('load_error') + '</p>'
+        + '<p style="text-align:center;margin-top:8px;"><button type="button" class="mt-btn primary" id="mushafRetryBtn">Réessayer</button></p>';
+      document.getElementById('mushafRetryBtn')?.addEventListener('click', () => loadMushafPage(page, { autoPlay, autoPlaySurah }));
     }
-    if(mushafRiwayaKey === 'hafs') rihlaToast('Impossible de charger la page ' + page, 'error');
+    rihlaToast('Impossible de charger la page ' + page, 'error');
   }
 }
 
@@ -25696,10 +25660,7 @@ function normalizeQuranArabic(text){
     .replace(/إِبْرَٰهِـٰم/g, 'إِبْرَاهِيم')
     .replace(/إبرٰهۦم/g, 'إبراهيم')
     .replace(/إبرٰهيم/g, 'إبراهيم')
-    .replace(/إبراهيم/g, 'إبراهيم'); // uniquement pour l'édition Hafs normalisée
-} 
-function escapeMushafText(text){
-  return String(text == null ? '' : text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    .replace(/إبراهيم/g, 'إبراهيم'); // déjà correct, no-op de sécurité
 }
 
 let mushafHifzMode = false;
@@ -25725,19 +25686,6 @@ function updateMushafTranslationButton(){
 function renderMushafAyahs(){
   const box = document.getElementById('mushafAyahs');
   if(!box) return;
-  // La page-image est le rendu principal des éditions paginées. Les ayahs
-  // restent dans mushafAyahs pour l’audio, les signets et le mode hifz.
-  const variantUnavailable = mushafAyahs.some(function(a){ return a && a.variantUnavailable; });
-  if(variantUnavailable){
-    if(typeof mushafEditionPageUrl === 'function' && mushafEditionPageUrl(mushafPage)) renderMushafEditionPage(mushafPage);
-    box.innerHTML = mushafEditionPageUrl(mushafPage) ? box.innerHTML : '';
-    renderMushafVariantNotice(mushafPage);
-    return;
-  }
-  if(typeof mushafEditionPageUrl === 'function' && mushafEditionPageUrl(mushafPage)){
-    renderMushafEditionPage(mushafPage);
-    return;
-  }
   const bookmarks = loadBookmarks();
   box.innerHTML = mushafAyahs.map((a, i) => {
     const translation = mushafTrLang === 'en' ? (a.en || '') : (a.tr || '');
@@ -26243,18 +26191,7 @@ function highlightMushafAyah(idx){
   if(el){
     el.classList.add('active');
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
   }
-  // Une image ne permet pas de positionner un surlignage DOM sur chaque ayah.
-  // On conserve néanmoins un repère synchronisé et accessible dans la légende.
-  const caption = document.querySelector('.mushaf-edition-caption');
-  const ayah = mushafAyahs && mushafAyahs[idx];
-  if(caption && ayah){
-    caption.textContent = mushafRiwayaLabel(mushafRiwayaKey) + ' · ' + t('page_label') + ' ' + mushafPage + ' · ' + t('ayah_label') + ' ' + ayah.ayah + ' · ' + t('source_label') + ': QuranHub';
-    caption.setAttribute('aria-live', 'polite');
-  }
-  const page = document.querySelector('.mushaf-edition-page');
-  if(page) page.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 let mushafPlayGen = 0;
@@ -26844,16 +26781,9 @@ document.getElementById('mushafRiwayaSelect')?.addEventListener('change', async 
   mushafRiwayaKey = next;
   mushafRiwayaReciterIndex = 0;
   mushafRiwayaRows = null;
-  // Invalider immédiatement la page précédente : elle peut appartenir à Hafs
-  // ou à une autre riwāya et ne doit jamais être rerendue pendant le fetch.
-  mushafAyahs = [];
   updateMushafRiwayaSource();
   renderMushafReciterChips();
   stopMushafAudio();
-  // Effacer immédiatement l’ancien rendu afin de ne jamais laisser croire
-  // que le texte Hafs est encore celui de la riwāya sélectionnée.
-  const box = document.getElementById('mushafAyahs');
-  if(box) box.innerHTML = '<p class="mushaf-loading">' + (rihlaLang === 'ar' ? 'جارٍ تحميل كتابة الرواية…' : rihlaLang === 'en' ? 'Loading the selected riwāya script…' : 'Chargement de l’écriture de la riwāya…') + '</p>';
   try{
     await loadMushafPage(mushafPage || 1, { autoPlay: true });
   }catch(err){
@@ -27131,8 +27061,6 @@ var RIHLA_I18N_EXTRA = {
   "prev_page": "← Page précédente",
   "next_page": "Page suivante →",
   "page_label": "Page",
-  "ayah_label": "Verset",
-  "source_label": "Source",
   "play_pause": "Lecture / Pause",
   "pick_reciter_hint": "Choisis un récitateur, puis appuie sur lecture",
   "bookmarks_tip": "Mes signets",
@@ -27140,9 +27068,6 @@ var RIHLA_I18N_EXTRA = {
   "search_none": "Aucun résultat.",
   "search_error": "Erreur de recherche. Réessaie.",
   "load_error": "Erreur de chargement. Vérifie ta connexion.",
-  "riwaya_text_unavailable": "L’édition arabe complète de cette riwāya n’est pas encore vérifiée dans cette source.",
-  "riwaya_no_crosslabel": "Aucun texte Hafs n’est affiché sous l’étiquette de cette riwāya.",
-  "riwaya_audio_available": "Les récitations compatibles restent disponibles dans le lecteur ci-dessous.",
   "play_blocked": "Lecture bloquée — réessaie",
   "track_sub": "Plan de khatm, objectif du jour et régularité — pour tenir sur la durée.",
   "khatm_h": "📖 Plan de khatm (lecture complète)",
@@ -27374,8 +27299,6 @@ var RIHLA_I18N_EXTRA = {
   "prev_page": "← Previous page",
   "next_page": "Next page →",
   "page_label": "Page",
-  "ayah_label": "Verse",
-  "source_label": "Source",
   "play_pause": "Play / Pause",
   "pick_reciter_hint": "Choose a reciter, then press play",
   "bookmarks_tip": "My bookmarks",
@@ -27383,9 +27306,6 @@ var RIHLA_I18N_EXTRA = {
   "search_none": "No results.",
   "search_error": "Search error. Try again.",
   "load_error": "Loading error. Check your connection.",
-  "riwaya_text_unavailable": "The complete Arabic edition of this riwāya has not yet been verified in this source.",
-  "riwaya_no_crosslabel": "No Hafs text is displayed under this riwāya label.",
-  "riwaya_audio_available": "Compatible recitations remain available in the player below.",
   "play_blocked": "Playback blocked — try again",
   "track_sub": "Khatm plan, daily goal and consistency — to keep going over time.",
   "khatm_h": "📖 Khatm plan (complete reading)",
@@ -27616,8 +27536,6 @@ var RIHLA_I18N_EXTRA = {
   "prev_page": "→ الصفحة السابقة",
   "next_page": "الصفحة التالية ←",
   "page_label": "صفحة",
-  "ayah_label": "آية",
-  "source_label": "المصدر",
   "play_pause": "تشغيل / إيقاف",
   "pick_reciter_hint": "اختر قارئًا ثم اضغط تشغيل",
   "bookmarks_tip": "إشاراتي",
@@ -27625,9 +27543,6 @@ var RIHLA_I18N_EXTRA = {
   "search_none": "لا نتائج.",
   "search_error": "خطأ في البحث. أعد المحاولة.",
   "load_error": "خطأ في التحميل. تحقق من اتصالك.",
-  "riwaya_text_unavailable": "لم يتم التحقق بعد من النص العربي الكامل لهذه الرواية في هذا المصدر.",
-  "riwaya_no_crosslabel": "لن يُعرض نص حفص تحت تسمية هذه الرواية.",
-  "riwaya_audio_available": "التلاوات المتوافقة متاحة في المشغل أدناه.",
   "play_blocked": "التشغيل محجوب — أعد المحاولة",
   "track_sub": "خطة الخَتم وهدف اليوم والانتظام — لتستمر على المدى الطويل.",
   "khatm_h": "📖 خطة الخَتم (قراءة كاملة)",
@@ -27772,7 +27687,6 @@ function applyRihlaLang(lang){
     if(typeof updateMushafRiwayaOptions === 'function') updateMushafRiwayaOptions();
     if(typeof updateMushafRiwayaSource === 'function') updateMushafRiwayaSource();
     if(typeof renderMushafReciterChips === 'function') renderMushafReciterChips();
-    if(typeof refreshMushafEditionLabels === 'function') refreshMushafEditionLabels();
   }catch(e){ console.warn('riwāya language sync', e); }
   document.documentElement.lang = lang === 'ar' ? 'ar' : (lang === 'en' ? 'en' : 'fr');
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
