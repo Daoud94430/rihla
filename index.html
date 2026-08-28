@@ -29,7 +29,8 @@
 <!-- ===== SEO & partage ===== -->
 <meta name="description" content="Rihla t'accompagne dans ta lecture et ta mémorisation du Coran : mushaf complet 604 pages, horaires de prière, Qibla, du'as, hadiths et suivi quotidien. Gratuit.">
 <meta name="theme-color" content="#0d1b16">
-<link rel="canonical" href="https://rihla.app/">
+<link rel="canonical" href="https://rihla-nu-pearl.vercel.app/">
+<meta property="og:url" content="https://rihla-nu-pearl.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Rihla">
 <meta property="og:title" content="Rihla — Ton compagnon quotidien du Coran">
@@ -889,6 +890,42 @@ font-family:inherit; font-size:0.88rem; background:#fff; cursor:pointer; color:v
 }
 .mushaf-toolbar button.mt-btn:hover{border-color:var(--emerald-950);}
 .mushaf-toolbar button.mt-btn.primary{background:var(--emerald-950); color:var(--parchment); border-color:transparent;}
+.mushaf-fullscreen-btn{display:inline-flex; align-items:center; gap:7px;}
+.mushaf-fullscreen-btn .mfs-icon{font-size:1.08rem; line-height:1;}
+.mushaf-reading-stage{position:relative; width:100%; min-width:0;}
+.mushaf-fullscreen-exit{display:none;}
+.mushaf-reading-stage:fullscreen,
+.mushaf-reading-stage:-webkit-full-screen{
+  background:var(--parchment); color:var(--ink); width:100vw; min-height:100vh;
+  box-sizing:border-box; overflow:auto; padding:clamp(18px,3vw,42px) clamp(12px,4vw,64px) 154px;
+  overscroll-behavior:contain;
+}
+.mushaf-reading-stage.mushaf-fullscreen-dark:fullscreen,
+.mushaf-reading-stage.mushaf-fullscreen-dark:-webkit-full-screen{background:#080807; color:#f0e6c8;}
+.mushaf-reading-stage:fullscreen .mushaf-page-frame,
+.mushaf-reading-stage:-webkit-full-screen .mushaf-page-frame{max-width:1700px; margin:0 auto;}
+.mushaf-reading-stage:fullscreen .mushaf-page-header,
+.mushaf-reading-stage:-webkit-full-screen .mushaf-page-header{max-width:1700px; margin-left:auto; margin-right:auto;}
+.mushaf-reading-stage:fullscreen .mushaf-edition-spread,
+.mushaf-reading-stage:-webkit-full-screen .mushaf-edition-spread{max-width:1700px;}
+.mushaf-reading-stage:fullscreen .mushaf-page-nav,
+.mushaf-reading-stage:-webkit-full-screen .mushaf-page-nav{max-width:1700px; margin-left:auto; margin-right:auto;}
+.mushaf-reading-stage:fullscreen .mushaf-fullscreen-exit,
+.mushaf-reading-stage:-webkit-full-screen .mushaf-fullscreen-exit{
+  display:inline-flex; align-items:center; gap:7px; position:fixed; z-index:90;
+  inset-block-start:14px; inset-inline-end:18px; padding:9px 13px; border:1px solid rgba(15,61,58,.2);
+  border-radius:999px; background:rgba(255,255,255,.88); color:var(--emerald-950); cursor:pointer;
+  font-family:inherit; font-size:.82rem; font-weight:600; line-height:1.2; backdrop-filter:blur(8px); box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.mushaf-reading-stage.mushaf-fullscreen-dark:fullscreen .mushaf-fullscreen-exit,
+.mushaf-reading-stage.mushaf-fullscreen-dark:-webkit-full-screen .mushaf-fullscreen-exit{
+  background:rgba(24,24,21,.92); border-color:#c9a22777; color:#f0e6c8;
+}
+.mushaf-reading-stage:fullscreen .mushaf-bottom-bar,
+.mushaf-reading-stage:-webkit-full-screen .mushaf-bottom-bar{
+  position:fixed; z-index:80; inset-inline-start:clamp(8px,4vw,64px); inset-inline-end:clamp(8px,4vw,64px);
+  inset-block-end:12px; margin:0 auto; max-width:1570px;
+}
 /* ===== Mushaf page — MODE JOUR (défaut, couleurs du site) ===== */
 .mushaf-page-frame{
 background: linear-gradient(180deg, #fbf8f0 0%, #f3ecdc 55%, #ede4d3 100%);
@@ -923,6 +960,47 @@ font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
 opacity: 0.9; direction: rtl; color: var(--gold-500);
 }
 .mushaf-ayahs{display:flex; flex-direction:column; gap: 6px;}
+.mushaf-page-frame.has-edition-pages{
+  background:transparent; border:0; border-radius:0; padding:0; min-height:0;
+  box-shadow:none;
+}
+.mushaf-page-frame.has-edition-pages::before,
+.mushaf-page-frame.has-edition-pages::after{display:none;}
+.mushaf-page-frame.has-edition-pages .mushaf-page-header{
+  padding:8px 0 14px; margin-bottom:0; border-bottom:1px solid rgba(15,61,58,.12);
+}
+.mushaf-edition-page{display:flex; flex-direction:column; align-items:center; gap:8px; padding:0 0 14px; width:100%;}
+.mushaf-edition-spread{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); direction:rtl;
+  width:100%; max-width:1280px; margin:0 auto; gap:clamp(2px,1vw,14px);
+  align-items:start; background:#11110f;
+}
+.mushaf-edition-leaf{min-width:0; margin:0; overflow:hidden; background:#fff;}
+.mushaf-edition-leaf img{
+  display:block; width:100%; max-width:none; height:auto; border:0; border-radius:0;
+  box-shadow:none; background:#fff;
+}
+.mushaf-edition-leaf.is-error{
+  min-height:220px; display:flex; align-items:center; justify-content:center;
+  padding:20px; background:rgba(201,162,39,.08); color:var(--ink-soft); text-align:center;
+}
+.mushaf-edition-leaf.audio-page-active{outline:3px solid var(--gold-500); outline-offset:-3px;}
+.mushaf-edition-page .mushaf-edition-caption{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+.mushaf-edition-leaf figcaption{display:none;}
+.mushaf-variant-notice{
+  width:min(100%,760px); padding:12px 14px; border:1px solid rgba(201,162,39,.55);
+  border-radius:10px; background:rgba(201,162,39,.10); color:var(--ink-soft);
+  font-size:.82rem; line-height:1.55; text-align:center;
+}
+.mushaf-variant-notice strong{display:block; color:var(--emerald-950); margin-bottom:4px;}
+.mushaf-variant-notice p{margin:3px 0 0;}
+.mushaf-page-frame.dark .mushaf-variant-notice{background:rgba(201,162,39,.12); border-color:#c9a22799; color:#c8bfa8;}
+.mushaf-page-frame.dark .mushaf-variant-notice strong{color:#e0c25f;}
+.mushaf-page-frame.dark .mushaf-edition-spread{background:#080807;}
+.mushaf-page-frame.dark .mushaf-edition-leaf.audio-page-active{outline-color:#e0c25f;}
 .mushaf-ayah{
 padding: 8px 14px; border-radius: 8px;
 transition: background .22s ease, box-shadow .22s ease;
@@ -951,17 +1029,6 @@ font-feature-settings: "liga" 1, "calt" 1, "mark" 1, "mkmk" 1;
 letter-spacing: 0;
 word-spacing: 0.06em;
 }
-/* riwāya autre que Hafs (Warsh, Qālūn…) : rasm différent, police de repli
-   généraliste en attendant/à défaut du chargement de la police dédiée */
-#mushafAyahs.riwaya-alt .mushaf-ayah .ma-ar{
-font-family: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
-}
-/* Polices calligraphiques officielles KFGQPC, une par riwāya (voir <head>) */
-#mushafAyahs.riwaya-warsh .mushaf-ayah .ma-ar{ font-family: 'warsh10', 'Amiri Quran', 'Scheherazade New', serif; }
-#mushafAyahs.riwaya-qalun .mushaf-ayah .ma-ar{ font-family: 'qaloon10', 'Amiri Quran', 'Scheherazade New', serif; }
-#mushafAyahs.riwaya-duri .mushaf-ayah .ma-ar{ font-family: 'doori9', 'Amiri Quran', 'Scheherazade New', serif; }
-#mushafAyahs.riwaya-susi .mushaf-ayah .ma-ar{ font-family: 'soosi9', 'Amiri Quran', 'Scheherazade New', serif; }
-#mushafAyahs.riwaya-shuba .mushaf-ayah .ma-ar{ font-family: 'shouba8', 'Amiri Quran', 'Scheherazade New', serif; }
 .mushaf-ayah .ma-ayah-end{
 display: inline-flex;
 align-items: center;
@@ -972,8 +1039,8 @@ margin-right: 0.28em;
 margin-left: 0.12em;
 padding: 0 0.28em;
 border-radius: 50%;
-border: 1.5px solid var(--emerald-950);
-background: #fff;
+border: 1.5px solid var(--gold-500);
+background: rgba(201,162,39,0.14);
 color: var(--emerald-950);
 font-family: 'Amiri', 'Noto Naskh Arabic', serif;
 font-size: 0.58em;
@@ -1070,9 +1137,9 @@ text-shadow: 0 1px 0 rgba(0,0,0,0.35);
 }
 .mushaf-page-frame.dark .mushaf-ayah.active .ma-ar{ color: #fff8e7; }
 .mushaf-page-frame.dark .mushaf-ayah .ma-ayah-end{
-border-color: #f5ecd4;
-background: rgba(245,236,212,0.12);
-color: #f5ecd4;
+border-color: #c9a227;
+background: rgba(201,162,39,0.2);
+color: #e0c25f;
 }
 .mushaf-page-frame.dark .mushaf-ayah .ma-tr{ color: #c8bfa8; }
 .mushaf-page-frame.dark .mushaf-page-footer-num{
@@ -1146,8 +1213,21 @@ background:rgba(247,243,232,0.2); outline:none; cursor:pointer;
 .mushaf-bottom-bar .mb-time{font-family:'IBM Plex Mono',monospace; font-size:0.72rem; opacity:0.85; min-width:78px;}
 @media (max-width:700px){
 .mushaf-page-frame{padding:16px 10px 36px; min-height:50vh;}
+.mushaf-fullscreen-btn{padding-inline:10px;}
+.mushaf-fullscreen-btn .mfs-icon{font-size:1rem;}
+.mushaf-reading-stage:fullscreen,
+.mushaf-reading-stage:-webkit-full-screen{padding:56px 8px 144px;}
+.mushaf-reading-stage:fullscreen .mushaf-fullscreen-exit,
+.mushaf-reading-stage:-webkit-full-screen .mushaf-fullscreen-exit{inset-block-start:10px; inset-inline-end:10px;}
+.mushaf-reading-stage:fullscreen .mushaf-bottom-bar,
+.mushaf-reading-stage:-webkit-full-screen .mushaf-bottom-bar{inset-inline-start:8px; inset-inline-end:8px; inset-block-end:8px;}
+
+.mushaf-page-frame.has-edition-pages{padding:0; min-height:0;}
 .mushaf-ayah .ma-ar{font-size:1.28rem; line-height:2.05;}
 .mushaf-page-frame::before, .mushaf-page-frame::after{display:none;}
+.mushaf-edition-spread{grid-template-columns:1fr; gap:0;}
+.mushaf-edition-leaf:not(:first-child){display:none;}
+.mushaf-edition-leaf.audio-page-active{outline-width:2px;}
 }
 
 /* ===== LECTEUR AUDIO ===== */
@@ -1598,10 +1678,6 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 .dua-card .dua-arabic{font-size:1.15rem; line-height:1.9;}
 }
 </style>
-<!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
-     Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
-     calligraphique, distinct du Hafs standard. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thetruetruth/quran-data-kfgqpc@main/css/kfgqpc.font.css" />
 </head>
 <body>
 <a href="#main" class="skip-link" data-i18n="skip_link">Aller au contenu principal</a>
@@ -2104,12 +2180,17 @@ Rihla
 </button>
 <button type="button" class="mt-btn" id="mushafToggleTr">Traduction FR</button>
 <button type="button" class="mt-btn primary" id="mushafPlayPage" data-i18n="play_page">▶ Lire la page</button>
+<button type="button" class="mt-btn mushaf-fullscreen-btn" id="mushafFullscreenBtn" title="Plein écran" aria-label="Mode plein écran" data-i18n-title="fullscreen_tip" data-i18n-aria="fullscreen_aria" aria-pressed="false">
+<span class="mfs-icon" aria-hidden="true">⛶</span><span id="mushafFullscreenLabel">Plein écran</span>
+</button>
 </div>
 </div>
 <div class="mushaf-reciters-panel">
 <div class="mushaf-reciters-title"><span data-i18n="pick_voice">Choisir une voix</span> <span id="mushafReciterCount"></span></div>
 <div class="mushaf-reciters-grid" id="mushafRecitersGrid"></div>
 </div>
+<div class="mushaf-reading-stage" id="mushafReadingStage">
+<button type="button" class="mushaf-fullscreen-exit" id="mushafFullscreenExit" title="Quitter le plein écran" aria-label="Quitter le plein écran" data-i18n-title="fullscreen_exit_tip" data-i18n-aria="fullscreen_exit_aria">✕ <span id="mushafFullscreenExitLabel">Quitter le plein écran</span></button>
 <div class="mushaf-page-frame">
 <div class="mushaf-page-header">
 <span id="mushafSurahLabel">—</span>
@@ -2138,6 +2219,7 @@ Rihla
 <div class="mb-progress">
 <span class="mb-time" id="mushafTime">00:00</span>
 <input type="range" id="mushafProgress" min="0" max="100" value="0">
+</div>
 </div>
 </div>
 </div>
@@ -3132,6 +3214,18 @@ desc: `<strong>Jésus (paix sur lui)</strong> est le Messie, fils de Marie.
 verses: '📖 Coran 3:45-59, 5:110-118, 19:16-34'
 },
 {
+name: 'Dhul-Kifl',
+nameAr: 'ذو الكفل',
+icon: 'ذ',
+desc: `<strong>Dhul-Kifl (paix sur lui)</strong> est cité par Allah parmi les patients et les vertueux.
+<br><br><strong>📖 Ce qui est établi :</strong> Le Coran le mentionne avec Ismaël et Idris parmi ceux qui ont fait preuve de patience, puis parmi les meilleurs (21:85-86 ; 38:48). Le Coran ne rapporte pas le déroulement de sa vie ni les détails de sa mission.
+<div class="lesson-box">
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
+<p>La patience, la constance et la vertu sont des qualités honorées par Allah, même lorsque le récit détaillé d’un serviteur n’est pas rapporté.</p>
+</div>`,
+verses: '📖 Coran 21:85-86, 38:48'
+},
+{
 name: 'Muhammad',
 nameAr: 'محمد',
 icon: 'م',
@@ -3248,6 +3342,101 @@ window.PROPHETE_EXTRA = {
 'Muhammad': `<br><br><strong>📖 Sceau des prophètes :</strong> « Muhammad n'a jamais été le père de l'un de vos hommes, mais le messager d'Allah et le dernier des prophètes. » (33:40).
 <br><br><strong>📖 Caractère :</strong> « Et tu es certes, d'une moralité éminente. » (68:4). Al-Amîn avant la révélation. Miséricorde pour l'univers entier (21:107).
 <br><br><strong>📖 Héritage :</strong> Le Coran préservé, la Sunna, une communauté mondiale. Sa vie (Sîra) est le modèle complet pour chaque domaine : foi, famille, société, guerre juste, paix et gouvernance.`
+};
+
+window.PROPHETE_EXTRA_DETAIL = {
+'Adam': `<br><br><strong>📖 Éléments établis :</strong> Allah annonça aux anges la création d’un représentant sur la terre, enseigna à Adam les noms, puis ordonna aux anges de se prosterner devant lui par obéissance à Allah. Iblis refusa par orgueil et fut maudit (2:30-34 ; 7:11-18).
+<br><br>Adam et son épouse vécurent au Paradis. Satan les incita à manger de l’arbre interdit ; ils reconnurent leur faute et invoquèrent Allah (2:35-38 ; 7:19-25 ; 20:115-123). Allah accepta leur repentir. Le Coran ne précise ni le nom de l’arbre ni le lieu exact de leur descente.
+<br><br><strong>📖 Sa descendance :</strong> Le récit des deux fils d’Adam et du premier meurtre est rapporté en 5:27-31, sans donner leurs noms. Un corbeau montra au meurtrier comment ensevelir le corps. Les détails populaires sur leurs épouses ou le nombre de leurs enfants ne sont pas affirmés par le Coran.`,
+
+'Idris': `<br><br><strong>📖 Ce qui est certain :</strong> Le Coran le nomme « véridique » et « prophète », et mentionne qu’Allah l’éleva à un haut rang (19:56-57). Il le cite aussi parmi les patients et les vertueux (21:85-86).
+<br><br>Les récits qui l’identifient à Hénoch ou lui attribuent l’invention de l’écriture, de la couture ou de métiers précis ne sont pas établis avec certitude par le Coran et la Sunna authentique. Ils ne doivent donc pas être présentés comme des faits certains.`,
+
+'Noé (Nuh)': `<br><br><strong>📖 Son appel :</strong> Noé appela son peuple nuit et jour, en secret et publiquement, à demander pardon à Allah, à abandonner les fausses divinités et à craindre leur Seigneur (71:5-20). Il resta parmi eux mille ans moins cinquante (29:14), mais peu crurent (11:40).
+<br><br><strong>📖 L’Arche :</strong> Allah lui révéla de la construire sous Sa surveillance. Son peuple se moquait de lui ; il répondit qu’ils sauraient bientôt qui subirait un châtiment humiliant (11:37-39). Au moment fixé, il embarqua les croyants et « de chaque espèce, un couple » selon l’ordre divin (11:40 ; 23:27).
+<br><br><strong>📖 Son fils :</strong> Noé appela son fils à monter, mais celui-ci compta sur une montagne. La vague les sépara. Allah expliqua à Noé que ce fils n’était pas de sa famille au sens de la foi (11:42-46). L’Arche s’arrêta sur le mont Jûdî et Noé invoqua pour lui-même, ses parents et les croyants (11:44-47 ; 71:26-28).`,
+
+'Houd': `<br><br><strong>📖 Le peuple de ‘Âd :</strong> Houd fut envoyé à ‘Âd, qui vivait dans les dunes d’Al-Ahqâf. Ils se vantaient de leur puissance, construisaient des monuments et disaient : « Qui est plus fort que nous ? » (7:65-72 ; 26:123-140 ; 41:15-16 ; 46:21-26).
+<br><br>Houd leur rappela les bienfaits reçus et demanda une adoration exclusive d’Allah, sans réclamer de salaire. Ils le traitèrent de menteur et le défièrent. Lorsqu’ils virent un nuage se diriger vers leurs vallées, ils le prirent pour une pluie ; c’était le vent destructeur annoncé.
+<br><br><strong>📖 Le châtiment :</strong> Un vent glacial et violent les frappa sept nuits et huit jours consécutifs ; seuls Houd et les croyants furent sauvés par la miséricorde d’Allah (11:50-60 ; 46:24-26 ; 54:18-21 ; 69:6-8).`,
+
+'Salih': `<br><br><strong>📖 Le peuple de Thamûd :</strong> Salih les appela à l’unicité d’Allah. Ils habitaient Al-Hijr, taillaient des demeures dans les montagnes et se croyaient en sécurité (7:73-79 ; 15:80-84 ; 26:141-159).
+<br><br>Ils demandèrent un signe : la chamelle d’Allah leur fut donnée comme épreuve. Ils devaient la laisser paître et partager l’eau avec elle selon un jour fixé ; ils reçurent l’interdiction de lui nuire (7:73 ; 11:64 ; 54:27-28). Les notables complotèrent et le plus misérable d’entre eux la tua, avec l’approbation du peuple (91:11-14 ; 54:29).
+<br><br>Salih leur annonça un délai de trois jours. Le cri et le tremblement les saisirent ; Allah sauva Salih et les croyants (11:65-68 ; 27:45-53). Le Coran ne donne pas le nom de l’assassin ni les détails légendaires souvent ajoutés.`,
+
+'Abraham (Ibrahim)': `<br><br><strong>📖 Le monothéisme :</strong> Ibrahim rejeta l’idolâtrie de son père et de son peuple avec une parole respectueuse mais ferme (6:74-83 ; 19:41-48). Il raisonna publiquement sur les astres pour montrer que le soleil, la lune et les étoiles ne peuvent être des divinités ; il proclama son orientation exclusive vers le Créateur (6:75-79).
+<br><br>Après leur départ pour une fête, il brisa les idoles et laissa la plus grande intacte afin que son peuple réfléchisse. Ils le jetèrent dans un feu, mais Allah ordonna : « Ô feu, sois fraîcheur et paix pour Ibrahim » (21:51-70 ; 37:83-98). Le nom de Nimrod n’est pas donné dans le Coran ; il est préférable de dire « le roi qui disputa avec Ibrahim » (2:258).
+<br><br><strong>📖 Les anges et les annonces :</strong> Des anges vinrent chez Ibrahim sous forme d’hôtes humains. Il leur servit rapidement un veau rôti ; lorsqu’ils ne mangèrent pas, il eut peur, puis ils le rassurèrent et annoncèrent Isaac, ainsi que Jacob après Isaac. Ils annoncèrent aussi le châtiment du peuple de Lot (11:69-76 ; 15:51-60 ; 51:24-37).
+<br><br><strong>📖 Hajar, Ismaël et La Mecque :</strong> Selon le hadith authentique, Ibrahim conduisit Hajar et son nourrisson Ismaël dans une vallée sans culture près de la future Kaaba, avec quelques dattes et de l’eau. Quand Hajar comprit qu’il obéissait à un ordre d’Allah, elle dit qu’Allah ne les abandonnerait pas. Après l’épuisement de l’eau, elle parcourut sept fois l’espace entre Safa et Marwa ; Jibril fit jaillir Zamzam. La tribu de Jurhum s’installa ensuite près d’eux avec son accord [Hadith authentique : Sahih al-Bukhari 3365].
+<br><br><strong>📖 L’épreuve du sacrifice :</strong> Le Coran ne nomme pas explicitement le fils dans 37:100-113, mais décrit un fils parvenu à l’âge de marcher avec son père. Ibrahim lui parla de son rêve ; le fils répondit : « Fais ce qui t’est commandé. » Tous deux se soumirent, puis Allah le racheta par un sacrifice immense (37:100-113). L’identification à Ismaël est l’avis largement retenu dans la tradition musulmane, tandis que le texte coranique est cité ici avec prudence.
+<br><br><strong>📖 La Kaaba et les invocations :</strong> Ibrahim et Ismaël élevèrent les fondations de la Maison, la purifièrent pour les adorateurs et invoquèrent Allah pour accepter leur œuvre, faire de leur descendance une communauté soumise, préserver La Mecque et susciter parmi ses habitants un messager (2:125-129 ; 14:35-41 ; 22:26-37).`,
+
+'Lot (Lut)': `<br><br><strong>📖 Sa mission :</strong> Lot fut envoyé à un peuple qui commettait publiquement une turpitude, agressait les voyageurs et rejetait les limites d’Allah (7:80-84 ; 29:28-35 ; 26:160-175). Le Coran décrit les actes condamnés sans réduire le récit à une formule insultante contre des personnes ; l’accent porte sur la transgression, l’agression et le refus du rappel.
+<br><br><strong>📖 La visite des anges :</strong> Des anges vinrent à Ibrahim puis à Lot sous apparence humaine. Lot fut affligé de ne pouvoir protéger ses hôtes ; les anges le rassurèrent, lui annoncèrent la destruction et lui ordonnèrent de partir de nuit avec sa famille, sauf son épouse, qui partageait le sort du peuple (11:77-83 ; 15:61-74 ; 29:31-35 ; 54:33-39).
+<br><br>Les cités furent renversées et frappées par des pierres d’argile marquées auprès de ton Seigneur (11:82-83). Le Coran ne donne pas les noms « Sodome et Gomorrhe » comme tels.`,
+
+'Ismaël (Ismail)': `<br><br><strong>📖 Son enfance et Zamzam :</strong> Le hadith authentique de Bukhari rapporte qu’Ismaël fut laissé avec Hajar dans la vallée dépourvue d’eau, puis que Zamzam jaillit après les courses répétées de sa mère entre Safa et Marwa. La venue de Jurhum permit l’établissement humain autour de la source [Sahih al-Bukhari 3365].
+<br><br><strong>📖 Sa maturité :</strong> Ismaël grandit auprès de Jurhum et apprit leur langue. Le hadith raconte les visites d’Ibrahim et les leçons données au sujet du foyer, de la gratitude et de la stabilité familiale [Sahih al-Bukhari 3365]. Ces détails doivent être cités comme hadith, et non comme versets.
+<br><br><strong>📖 Ses qualités et son œuvre :</strong> Allah le décrit comme véridique dans sa promesse, messager et prophète. Il ordonnait à sa famille la prière et l’aumône, et Allah l’agréa (19:54-55). Il aida Ibrahim à élever les fondations de la Kaaba et invoqua avec lui (2:125-129).`,
+
+'Isaac (Ishaq)': `<br><br><strong>📖 Sa naissance annoncée :</strong> Les anges annoncèrent à Ibrahim et à son épouse la naissance d’Ishaq, puis celle de Ya‘qub après lui, malgré leur âge avancé. Sarah s’étonna de cette annonce ; les anges rappelèrent que la miséricorde et les bénédictions d’Allah étaient sur la famille d’Ibrahim (11:71-73 ; 15:53-56 ; 51:28-30).
+<br><br>Le Coran le nomme explicitement prophète et le compte parmi les serviteurs élus, avec la bénédiction sur lui et sur Ya‘qub (19:49-50 ; 21:72-73 ; 37:112-113 ; 38:45-47). Les détails biographiques ultérieurs ne sont pas développés dans les textes authentiques accessibles.`,
+
+'Jacob (Ya\'qub)': `<br><br><strong>📖 Israël et la famille :</strong> Ya‘qub, appelé Israël dans la tradition islamique, reçut la prophétie et fit partie de la lignée bénie d’Ibrahim. Avant sa mort, il interrogea ses fils sur ce qu’ils adoreraient après lui ; ils affirmèrent qu’ils adoreraient le Dieu unique de leurs pères (2:132-133).
+<br><br><strong>📖 L’épreuve de Yusuf :</strong> Ses fils rapportèrent un mensonge au sujet de Yusuf. Ya‘qub répondit par une belle patience et dit qu’il ne se plaignait qu’à Allah. Son chagrin blanchit ses yeux, mais il ne désespéra pas de la miséricorde divine (12:8-18 ; 12:83-87).
+<br><br>Quand la tunique de Yusuf lui fut apportée, son odorat reconnut la présence de son fils ; le vêtement fut posé sur son visage et sa vue lui revint par la permission d’Allah (12:93-96).`,
+
+'Joseph (Yusuf)': `<br><br><strong>📖 Le rêve et le puits :</strong> Yusuf vit onze étoiles, le soleil et la lune se prosterner devant lui. Ya‘qub lui demanda de ne pas raconter le rêve à ses frères. Ceux-ci le jetèrent dans un puits, puis une caravane le recueillit et le vendit à bas prix (12:4-20).
+<br><br><strong>📖 L’épreuve en Égypte :</strong> La femme de l’intendant tenta de le séduire ; Yusuf chercha refuge auprès d’Allah. Malgré les indices de son innocence, il préféra la prison à la désobéissance. En prison, il prêcha l’unicité avant d’interpréter les rêves de deux compagnons (12:21-42).
+<br><br><strong>📖 La responsabilité et le pardon :</strong> Il interpréta le rêve du roi, proposa une gestion des années d’abondance et de famine, puis fut établi responsable des réserves. Il retrouva ses frères, leur pardonna et fit venir sa famille en Égypte. Le rêve initial se réalisa, sans que Yusuf se glorifie : il attribua la réussite à la douceur d’Allah (12:43-101).`,
+
+'Job (Ayyub)': `<br><br><strong>📖 L’épreuve :</strong> Le Coran rapporte qu’Ayyub invoqua Allah après qu’un mal l’eut touché, tout en reconnaissant la miséricorde divine. Allah le décrit comme un serviteur excellent et constamment tourné vers Lui (21:83-84 ; 38:41-44).
+<br><br>Allah lui ordonna de frapper le sol de son pied : une source fraîche lui fut donnée pour se laver et boire. Sa famille et autant qu’elle lui furent rendues comme miséricorde et rappel pour les adorateurs (38:42-44). Le Coran ne précise pas la nature exacte de sa maladie ni sa durée ; les récits très détaillés sur ces points doivent être traités avec prudence.
+<br><br>Dans son serment, Allah lui permit de prendre une poignée de brindilles et de frapper sans manquer à son serment ; cela manifeste une issue miséricordieuse (38:44).`,
+
+'Shu\'ayb': `<br><br><strong>📖 Madyan et Al-Ayka :</strong> Shu‘ayb appela son peuple à adorer Allah, à donner la pleine mesure et le juste poids, et à ne pas semer la corruption sur terre (7:85-93 ; 11:84-95 ; 26:176-191 ; 29:36-37). Il leur rappela que le licite et honnête vaut mieux que la fraude et qu’il ne cherchait pas à les contrarier.
+<br><br>Ils le menacèrent d’expulsion et rejetèrent son avertissement. Les passages mentionnent selon les contextes le tremblement, le cri et le châtiment du jour de l’ombre ; il s’agit du châtiment d’Allah contre les négateurs, tandis que Shu‘ayb et les croyants furent sauvés (11:94-95 ; 26:189-191). Les surnoms populaires qui lui sont attribués ne sont pas des textes révélés.`,
+
+'Moïse (Musa)': `<br><br><strong>📖 La naissance et la protection :</strong> Pharaon opprimait les Enfants d’Israël et tuait leurs nouveau-nés. Allah inspira à la mère de Musa de l’allaiter puis de le déposer dans un coffre sur le fleuve. La famille de Pharaon le recueillit ; la femme de Pharaon demanda qu’il soit épargné. Sa sœur le suivit et Allah le rendit à sa mère pour qu’elle soit rassurée (28:3-13 ; 20:38-40).
+<br><br><strong>📖 De Madyan au Sinaï :</strong> Devenu adulte, Musa intervint dans une rixe et regretta immédiatement son geste. Il quitta l’Égypte pour Madyan, où il aida deux femmes à abreuver leur troupeau, puis travailla plusieurs années auprès de leur père (28:14-28). Sur le chemin du retour, Allah lui parla dans la vallée sacrée de Tuwa et le choisit comme messager (20:9-48 ; 28:29-35).
+<br><br><strong>📖 Face à Pharaon :</strong> Allah lui donna le bâton et la main lumineuse comme signes, et envoya Musa et Harun auprès de Pharaon avec un discours doux. Les magiciens reconnurent la vérité et furent menacés, mais restèrent fermes (20:49-76 ; 26:10-51).
+<br><br><strong>📖 La délivrance :</strong> La mer se fendit pour les Enfants d’Israël. Pharaon et son armée furent noyés ; son repentir tardif ne fut pas accepté (10:90-92 ; 26:52-68). Après cela vinrent l’épreuve du veau, les tables, la manne et les cailles, puis l’errance de quarante ans à cause du refus d’entrer en Terre sainte (2:51-61 ; 5:20-26 ; 7:142-155).`,
+
+'Aaron (Harun)': `<br><br><strong>📖 Son rôle :</strong> Musa demanda qu’Harun soit associé à sa mission, car il était plus éloquent. Allah exauça cette demande et les envoya tous deux auprès de Pharaon (20:25-36 ; 28:34-35). Harun soutint son frère dans l’appel et dans la conduite des Enfants d’Israël.
+<br><br><strong>📖 Le veau :</strong> Pendant l’absence de Musa sur le mont, Harun tenta de retenir le peuple et lui rappela que le veau était une épreuve. Il craignit qu’une division plus grave ne se produise, raison pour laquelle il attendit le retour de son frère. Musa comprit sa situation après l’avoir interrogé (7:142-150 ; 20:90-94).`,
+
+'David (Dawud)': `<br><br><strong>📖 Le roi et le prophète :</strong> Dawud vainquit Jâlût par la permission d’Allah, puis Allah lui donna le royaume, la sagesse et la capacité de trancher les différends (2:251 ; 38:20). Le Zabur lui fut donné et les montagnes et les oiseaux glorifiaient Allah avec lui (4:163 ; 17:55 ; 21:79 ; 34:10).
+<br><br><strong>📖 Travail et justice :</strong> Allah assouplit le fer pour lui et lui enseigna la fabrication des cuirasses afin de protéger les combattants (21:80 ; 34:10-11). L’épisode des deux plaideurs lui rappelle de ne pas juger avant d’écouter et de suivre la vérité plutôt que la passion (38:21-26). Le Coran le décrit comme un serviteur excellent, constamment repentant (38:17, 24-25).`,
+
+'Salomon (Sulayman)': `<br><br><strong>📖 Les dons d’Allah :</strong> Sulayman hérita de Dawud et demanda un royaume exceptionnel. Allah lui soumit le vent, certains djinns et lui enseigna la compréhension du langage des oiseaux (21:78-82 ; 27:15-19 ; 34:12-14 ; 38:30-40). Il attribuait toujours ses dons à une épreuve et à la grâce d’Allah.
+<br><br><strong>📖 La huppe et la reine de Saba :</strong> La huppe informa Sulayman d’un peuple gouverné par une reine qui adorait le soleil. Sulayman lui adressa une lettre ; elle consulta ses notables, puis vint. En voyant le trône et le palais de verre, elle reconnut l’injustice de son ancienne adoration et se soumit avec Sulayman au Seigneur des mondes (27:20-44). Le nom « Bilqis » n’est pas donné par le Coran.
+<br><br>La mort de Sulayman révéla aux djinns qu’ils n’avaient pas connaissance de l’invisible : ils ne découvrirent son décès qu’après la chute de son bâton (34:14).`,
+
+'Élie (Ilyas)': `<br><br><strong>📖 Son appel :</strong> Ilyas rappela à son peuple : « Ne craignez-vous pas Allah ? Invoquez-vous Ba‘l et délaissez-vous le meilleur des créateurs, Allah, votre Seigneur et le Seigneur de vos premiers ancêtres ? » (37:123-126). Ils le traitèrent de menteur, tandis qu’Allah excepta Ses serviteurs sincères.
+<br><br>Allah perpétua son renom dans les générations et proclama la paix sur Ilyas. Le Coran le compte parmi les croyants et les bienfaisants (37:127-132 ; 6:85). Les récits détaillés de ses voyages et miracles ne sont pas établis dans ces passages.`,
+
+'Élisée (Al-Yasa)': `<br><br><strong>📖 Ce qui est établi :</strong> Allah cite Al-Yasa‘ parmi les prophètes et les élus, avec Ismaël, Al-Yasa‘ et Yunus (6:86), et le compte parmi les meilleurs (38:48). Le Coran ne raconte pas les épisodes de sa vie ni ne rapporte de miracles précis.
+<br><br>Il est donc correct de retenir sa vertu et son rang prophétique, mais il faut éviter de présenter comme authentiques les récits détaillés de guérisons, de résurrections ou de succession d’Ilyas lorsqu’ils ne sont pas attestés par une source fiable.`,
+
+'Jonas (Yunus)': `<br><br><strong>📖 L’épreuve du poisson :</strong> Yunus fut envoyé à son peuple. Il partit avant l’autorisation divine, embarqua sur un navire surchargé et le tirage au sort désigna son nom. Il fut jeté à la mer puis englouti par un grand poisson (37:139-145 ; 68:48-50).
+<br><br>Dans les ténèbres, il invoqua : « Il n’y a de divinité que Toi ! Gloire à Toi ! J’étais du nombre des injustes » (21:87). Allah exauça son invocation, le fit sortir affaibli sur une terre déserte, fit pousser sur lui un plant de courge et le renvoya ensuite vers une communauté nombreuse qui crut (37:146-148 ; 21:88). Son peuple est explicitement présenté comme ayant cru et bénéficié du délai accordé (10:98).`,
+
+'Zacharie (Zakariyya)': `<br><br><strong>📖 Le gardien de Maryam :</strong> Zakariyya prit en charge Maryam. Chaque fois qu’il entrait dans son lieu de prière, il trouvait auprès d’elle une provision et lui demandait d’où elle venait ; elle répondait qu’elle venait d’Allah. Cela l’encouragea à invoquer pour une descendance bonne (3:37-38).
+<br><br>Il demanda un héritier malgré son âge et la stérilité de son épouse. Allah lui annonça Yahya, lui donna ce nom auparavant inconnu et fit de lui un signe : Zakariyya ne parlerait plus aux gens pendant trois jours, sauf par gestes, tout en glorifiant Allah (3:38-41 ; 19:2-11 ; 21:89-90).`,
+
+'Jean-Baptiste (Yahya)': `<br><br><strong>📖 Ses qualités :</strong> Allah lui donna la sagesse dès l’enfance, la compassion, la pureté, la crainte révérencielle, la piété filiale et l’absence d’orgueil ou de désobéissance (19:12-15). Il fut confirmé par une parole venant d’Allah et compté parmi les vertueux (3:39).
+<br><br>Le Coran ne raconte pas les circonstances de sa mort et ne nomme pas Hérode. Les récits historiques détaillés de son martyre ne doivent donc pas être présentés ici comme des faits coraniques ou comme des hadiths authentiques sans référence précise.`,
+
+'Jésus (Isa)': `<br><br><strong>📖 Sa naissance :</strong> Maryam reçut la visite d’un ange qui lui annonça un enfant pur par la parole d’Allah, sans père. Elle se retira, accoucha dans la douleur et Allah fit couler pour elle une source et fit tomber des dattes fraîches ; elle revint ensuite avec l’enfant et le défendit par son silence (3:45-47 ; 19:16-36).
+<br><br><strong>📖 Sa mission et ses signes :</strong> Isa confirma la Torah et reçut l’Évangile. Il parla au berceau, façonna un oiseau d’argile, guérit l’aveugle-né et le lépreux, et ressuscita les morts, tout cela par la permission d’Allah. Il annonça aussi un messager nommé Ahmad (3:48-51 ; 5:110 ; 61:6).
+<br><br><strong>📖 Sa protection :</strong> Le Coran affirme qu’ils ne l’ont ni tué ni crucifié, mais qu’Allah l’a élevé vers Lui (4:157-158). Il est le Messie et serviteur d’Allah, non une divinité. Les hadiths authentiques annoncent son retour à la fin des temps ; ce point peut être développé dans une section séparée consacrée aux signes de la Fin.`,
+
+'Muhammad': `<br><br><strong>📖 Avant la mission :</strong> Muhammad ﷺ naquit à La Mecque, devint orphelin et fut élevé par son grand-père puis son oncle. Le Coran rappelle qu’Allah le trouva orphelin et le prit en charge (93:6-8). Les dates précises et plusieurs détails de la sîra doivent être distingués des textes coraniques.
+<br><br><strong>📖 La révélation :</strong> À quarante ans environ, l’ange Jibril lui transmit la révélation dans la grotte de Hira. Les premiers versets révélés sont ceux de 96:1-5 selon le hadith de la première révélation. La mission mecquoise appela au tawhid, à la résurrection et à la purification ; la période médinoise vit l’organisation de la communauté, les pactes, la justice et la transmission du message.
+<br><br><strong>📖 Son caractère et sa mission :</strong> Allah le décrit comme doté d’une éminente moralité, envoyé comme miséricorde pour les mondes et sceau des prophètes (68:4 ; 21:107 ; 33:40). Il pardonna largement lors de la conquête de La Mecque, accomplit le pèlerinage d’adieu et mourut à Médine après avoir transmis le message. Les récits de sa vie doivent être documentés par le Coran, les hadiths authentiques et une sîra vérifiée, en évitant les anecdotes faibles.`,
+
+'Dhul-Kifl': `<br><br><strong>📖 Ce qui est établi :</strong> Dhul-Kifl est cité par Allah parmi les patients et les vertueux (21:85-86), puis parmi les meilleurs (38:48). Le Coran ne donne pas le récit détaillé de sa vie, son peuple, son époque ni les épreuves particulières qu’il aurait traversées.
+<br><br>Les histoires qui l’identifient à un personnage précis ou lui attribuent des épisodes détaillés ne sont pas certaines. Cette fiche conserve donc uniquement ce qui est explicitement établi par le Coran.`,
 };
 
 window.PROPHETE_EXTRA_I18N = {
@@ -3614,7 +3803,8 @@ function prophetDescHtml(p){
   if(rihlaLang === 'en' && pack && pack.desc_en) return pack.desc_en + (extraPack ? extraPack.en : '');
   if(rihlaLang === 'ar' && pack && pack.desc_ar) return pack.desc_ar + (extraPack ? extraPack.ar : '');
   const extra = window.PROPHETE_EXTRA && window.PROPHETE_EXTRA[p.name];
-  return extra ? (p.desc + extra) : p.desc;
+  const detail = window.PROPHETE_EXTRA_DETAIL && window.PROPHETE_EXTRA_DETAIL[p.name];
+  return (p.desc + (extra || '') + (detail || ''));
 }
 function renderProphetes(){
 const grid = document.getElementById('prophetesGrid');
@@ -25268,15 +25458,8 @@ function rihlaCachePage(page, ayahs){
 function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   mushafPage = page;
   mushafAyahs = ayahs;
-  const box0 = document.getElementById('mushafAyahs');
-  if(box0){
-    const isAlt = mushafRiwayaKey !== 'hafs';
-    box0.classList.toggle('riwaya-alt', isAlt);
-    box0.classList.remove('riwaya-warsh', 'riwaya-qalun', 'riwaya-duri', 'riwaya-susi', 'riwaya-shuba');
-    if(isAlt) box0.classList.add('riwaya-' + mushafRiwayaKey);
-  }
   const pos = document.getElementById('mushafPagePos');
-  if(pos) pos.textContent = `Page ${page} / ${MUSHAF_TOTAL_PAGES}`;
+  if(pos) pos.textContent = t('page_label') + ' ' + page + ' / ' + MUSHAF_TOTAL_PAGES;
   const pageInp = document.getElementById('mushafPageInput');
   if(pageInp && document.activeElement !== pageInp) pageInp.value = String(page);
   const prevB = document.getElementById('mushafPrevPage');
@@ -25308,7 +25491,14 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
     pageNumEl.textContent = toArabicIndic(page);
     pageNumEl.setAttribute('lang', 'ar');
   }
-  renderMushafAyahs();
+  // En mode édition paginée, l’image est le Mushaf visible ; les ayahs restent
+  // chargés en mémoire pour l’audio, les traductions et les repères de navigation.
+  // Une variante sans texte arabe vérifié ne doit jamais tomber sur des cartes Hafs.
+  const variantUnavailable = mushafAyahs.some(function(a){ return a && a.variantUnavailable; });
+  if(variantUnavailable){
+    if(renderMushafEditionPage(page)) renderMushafVariantNotice(page);
+    else { const unavailableBox = document.getElementById('mushafAyahs'); if(unavailableBox) unavailableBox.innerHTML = ''; renderMushafVariantNotice(page); }
+  }else if(!renderMushafEditionPage(page)) renderMushafAyahs();
   rihlaStorageSet('rihla_mushaf_page', String(page));
   try{
     const kh = loadKhatm();
@@ -25323,21 +25513,9 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   prefetchMushafPage(page + 1);
   prefetchMushafPage(page - 1);
 }
-/**
- * Charge et indexe l'édition texte d'une riwāya PAR PAGE (et non par numéro
- * de verset façon Hafs). Raison : le découpage des versets (et donc leur
- * numérotation) diffère réellement d'une riwāya à l'autre — par ex. la
- * Basmalah n'est pas comptée comme un verset séparé partout, certains
- * versets sont fusionnés/scindés différemment. Plaquer un texte de Warsh ou
- * Qālūn sur la numérotation Hafs (verset "n") produirait donc un texte
- * décalé et faux au-delà des tout premiers versets. On construit ici la
- * page telle qu'elle existe réellement dans l'édition de cette riwāya
- * (champ "page"/"page_number" propre à chaque source), avec SA PROPRE
- * numérotation de versets — donc fidèle à cette riwāya.
- */
 async function loadMushafRiwayaRows(){
   if(mushafRiwayaKey === 'hafs') return null;
-  if(mushafRiwayaRows && mushafRiwayaRows.key === mushafRiwayaKey) return mushafRiwayaRows.pages;
+  if(mushafRiwayaRows && mushafRiwayaRows.key === mushafRiwayaKey) return mushafRiwayaRows.index;
   const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
   if(!cfg || !cfg.file) throw new Error('Texte variant indisponible pour ' + mushafRiwayaKey);
   let promise = MUSHAF_RIWAYA_CACHE.get(mushafRiwayaKey);
@@ -25347,129 +25525,189 @@ async function loadMushafRiwayaRows(){
       return res.json();
     }).then(function(rows){
       const list = Array.isArray(rows) ? rows : (rows.surahs ? rows.surahs.flatMap(function(s){ return s.ayahs || []; }) : (rows.data || rows.ayahs || []));
-      const pages = new Map(); // page(number) -> [{surah, ayah, text, juz, surahEn, surahAr}]
+      const index = new Map();
       list.forEach(function(row){
-        const s = Number(row.sura_no ?? row.surah ?? row.surah_number);
-        // NB : le format "quranpedia" (Qālūn) numérote l'ayat via "number",
-        // pas "aya_no"/"ayah"/"verse" — sans ce cas la riwāya Qālūn ne
-        // remontait jamais aucun texte (silencieusement retombée sur Hafs).
-        const a = Number(row.aya_no ?? row.ayah ?? row.verse ?? row.number);
-        const text = row.aya_text ?? row.text ?? row.text_uthmani;
-        const rawPage = row.page ?? row.page_number;
-        // Quelques versets à cheval sur deux pages sont notés "85-86" :
-        // on les rattache à leur page de départ.
-        const pageMatch = rawPage != null ? String(rawPage).match(/\d+/) : null;
-        const page = pageMatch ? parseInt(pageMatch[0], 10) : null;
-        const juz = row.jozz ?? row.juz ?? null;
-        if(!s || !a || !text || !page) return;
-        if(!pages.has(page)) pages.set(page, []);
-        pages.get(page).push({
-          surah: s, ayah: a, text: text, juz: juz,
-          surahEn: row.sura_name_en || null,
-          surahAr: row.sura_name_ar || null
-        });
+        const s = row.sura_no ?? row.surah ?? row.surah_number;
+        const a = row.aya_no ?? row.ayah ?? row.verse;
+        const text = row.aya_text ?? row.text ?? row.text_uthmani ?? row.text_uthmani_simple;
+        // Conserver exactement la graphie fournie par l’édition de la riwāya.
+        // Aucune normalisation Hafs ne doit être appliquée à Warsh, Qālūn, etc.
+        if(s != null && a != null && text) index.set(String(s) + ':' + String(a), String(text));
       });
-      if(pages.size < 500) throw new Error('Edition riwāya incomplète');
-      return pages;
+      if(index.size < 6000) throw new Error('Edition riwāya incomplète');
+      return index;
     });
     MUSHAF_RIWAYA_CACHE.set(mushafRiwayaKey, promise);
   }
-  const pages = await promise;
-  mushafRiwayaRows = { key: mushafRiwayaKey, pages: pages };
-  return pages;
+  const index = await promise;
+  mushafRiwayaRows = { key: mushafRiwayaKey, index: index };
+  return index;
+}
+
+function mushafEditionPageUrl(page){
+  const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
+  if(!cfg || !cfg.pageImages) return '';
+  // QuranPedia publie ses SVG avec trois chiffres (001.svg…604.svg),
+  // tandis que QuranHub utilise les noms non padés (1.jpg…604.jpg).
+  const token = cfg.pageImages.includes('quranpedia/quran-svg')
+    ? String(page).padStart(3, '0')
+    : String(page);
+  return cfg.pageImages.replace('{page}', token);
+}
+function mushafPageSourceLabel(){
+  const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey] || MUSHAF_RIWAYAT.hafs;
+  return cfg.pageSource || (cfg.source || '');
+}
+function setMushafEditionFrameMode(enabled){
+  const frame = document.querySelector('.mushaf-page-frame');
+  if(frame) frame.classList.toggle('has-edition-pages', !!enabled);
+}
+function mushafEditionUnavailableText(){
+  return rihlaLang === 'ar' ? 'تعذر تحميل صفحة هذه الرواية' : rihlaLang === 'en' ? 'This riwāya page is unavailable' : 'Cette page de riwāya est indisponible';
+}
+function mushafEditionLeafHtml(page, label, eager){
+  const url = mushafEditionPageUrl(page);
+  const active = page === mushafPage ? ' audio-page-active' : '';
+  return '<figure class="mushaf-edition-leaf' + active + '" data-page="' + page + '">' +
+    '<img src="' + url + '" alt="' + escapeMushafText(label + ' — ' + t('page_label') + ' ' + page) + '" loading="' + (eager ? 'eager' : 'lazy') + '" decoding="async">' +
+    '<figcaption>' + escapeMushafText(t('page_label') + ' ' + page) + '</figcaption>' +
+    '</figure>';
+}
+function renderMushafEditionPage(page){
+  const box = document.getElementById('mushafAyahs');
+  const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
+  const url = mushafEditionPageUrl(page);
+  if(!box || !cfg || !url) return false;
+  const label = mushafRiwayaLabel(mushafRiwayaKey);
+  const nextPage = page < MUSHAF_TOTAL_PAGES ? page + 1 : null;
+  setMushafEditionFrameMode(true);
+  box.classList.remove('is-loading');
+  box.innerHTML = '<div class="mushaf-edition-page" data-edition="' + mushafRiwayaKey + '" data-current-page="' + page + '">' +
+    '<div class="mushaf-edition-spread" role="group" aria-label="' + escapeMushafText(label + ' · ' + t('page_label') + ' ' + page + (nextPage ? '–' + nextPage : '')) + '">' +
+      mushafEditionLeafHtml(page, label, true) + (nextPage ? mushafEditionLeafHtml(nextPage, label, false) : '') +
+    '</div>' +
+    '<div class="mushaf-edition-caption" data-page-caption="1">' + escapeMushafText(label + ' · ' + t('page_label') + ' ' + page + (nextPage ? '–' + nextPage : '') + ' · ' + t('source_label') + ': ' + mushafPageSourceLabel()) + '</div>' +
+    '</div>';
+  box.querySelectorAll('.mushaf-edition-leaf img').forEach(function(img){
+    img.addEventListener('error', function(){
+      const leaf = img.closest('.mushaf-edition-leaf');
+      if(!leaf) return;
+      leaf.classList.add('is-error');
+      leaf.innerHTML = '<span>' + escapeMushafText(mushafEditionUnavailableText()) + '</span>';
+    }, { once:true });
+  });
+  return true;
+}
+function mushafVariantNoticeHtml(){
+  return '<strong>' + escapeMushafText(mushafRiwayaLabel(mushafRiwayaKey)) + '</strong>'
+    + '<p>' + escapeMushafText(t('riwaya_text_unavailable')) + '</p>'
+    + '<p>' + escapeMushafText(t('riwaya_no_crosslabel')) + '</p>'
+    + '<p>' + escapeMushafText(t('riwaya_audio_available')) + '</p>';
+}
+function renderMushafVariantNotice(page){
+  const box = document.getElementById('mushafAyahs');
+  if(!box) return false;
+  const pageEl = box.querySelector('.mushaf-edition-page');
+  const host = pageEl || box;
+  let note = host.querySelector('.mushaf-variant-notice');
+  if(note){ note.innerHTML = mushafVariantNoticeHtml(); return true; }
+  note = document.createElement('div');
+  note.className = 'mushaf-variant-notice';
+  note.setAttribute('role', 'status');
+  note.innerHTML = mushafVariantNoticeHtml();
+  host.appendChild(note);
+  return true;
+}
+function refreshMushafEditionLabels(){
+  const box = document.getElementById('mushafAyahs');
+  const pageEl = box && box.querySelector('.mushaf-edition-page');
+  if(!pageEl) return;
+  const label = mushafRiwayaLabel(mushafRiwayaKey);
+  const page = mushafPage || 1;
+  const imgs = pageEl.querySelectorAll('.mushaf-edition-leaf img');
+  const nextPage = page < MUSHAF_TOTAL_PAGES ? page + 1 : null;
+  imgs.forEach(function(img){
+    const leaf = img.closest('.mushaf-edition-leaf');
+    const leafPage = leaf ? Number(leaf.getAttribute('data-page')) : page;
+    img.alt = label + ' — ' + t('page_label') + ' ' + leafPage;
+  });
+  const caption = pageEl.querySelector('.mushaf-edition-caption');
+  if(caption) caption.textContent = label + ' · ' + t('page_label') + ' ' + page + (nextPage ? '–' + nextPage : '') + ' · ' + t('source_label') + ': ' + mushafPageSourceLabel();
+  const note = pageEl.querySelector('.mushaf-variant-notice');
+  if(note) note.innerHTML = mushafVariantNoticeHtml();
 }
 
 function updateMushafRiwayaSource(){
   const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey] || MUSHAF_RIWAYAT.hafs;
   updateMushafRiwayaOptions();
   const el = document.getElementById('mushafRiwayaSource');
-  if(el){
-    let label = mushafRiwayaLabel(mushafRiwayaKey) + ' · ' + cfg.source;
-    if(mushafRiwayaKey !== 'hafs'){
-      const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
-      const note = lang === 'ar' ? ' — ترقيم الآيات وتقسيم الصفحات خاص بهذه الرواية'
-        : lang === 'en' ? ' — verse numbering and pagination specific to this riwāya'
-        : ' — numérotation des versets et pagination propres à cette riwāya';
-      label += note;
-    }
-    el.textContent = label;
-  }
+  if(el) el.textContent = mushafRiwayaLabel(mushafRiwayaKey) + ' · ' + cfg.source;
 }
 
 async function fetchMushafPageData(page){
-  if(mushafRiwayaKey === 'hafs'){
-    if(MUSHAF_PAGE_CACHE.has(page)) return MUSHAF_PAGE_CACHE.get(page);
-    const [metaRes, frRes, enRes, tjRes] = await Promise.all([
-      fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
-      fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
-      fetch(`https://api.alquran.cloud/v1/page/${page}/en.sahih`),
-      fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
-    ]);
-    if(!metaRes.ok) throw new Error('API page ' + page);
-    const metaJson = await metaRes.json();
-    const frJson = await frRes.json();
-    const enJson = enRes.ok ? await enRes.json() : { data: { ayahs: [] } };
-    let tjJson = { verses: [] };
-    try { tjJson = await tjRes.json(); } catch(e) {}
-    const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
-    const frAyahs = (frJson.data && frJson.data.ayahs) || [];
-    const enAyahs = (enJson.data && enJson.data.ayahs) || [];
-    const tjVerses = (tjJson.verses) || [];
-    const ayahs = metaAyahs.map((a, i) => {
-      let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
-      tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
-      tjHtml = normalizeQuranArabic(tjHtml);
-      const plain = normalizeQuranArabic(a.text || '');
-      const html = tjHtml || plain.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      return {
-        global: a.number,
-        surah: a.surah.number,
-        surahName: a.surah.englishName,
-        surahAr: a.surah.name,
-        ayah: a.numberInSurah,
-        text: plain,
-        textHtml: html,
-        hasTajweed: !!tjHtml,
-        tr: (frAyahs[i] && frAyahs[i].text) || '',
-        en: (enAyahs[i] && enAyahs[i].text) || '',
-        juz: a.juz
-      };
-    });
-    rihlaCachePage(page, ayahs);
-    return ayahs;
+  const cacheKey = mushafRiwayaKey === 'hafs' ? page : mushafRiwayaKey + ':' + page;
+  if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)) return MUSHAF_PAGE_CACHE.get(page);
+  const [metaRes, frRes, enRes, tjRes] = await Promise.all([
+    fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
+    fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
+    fetch(`https://api.alquran.cloud/v1/page/${page}/en.sahih`),
+    fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
+  ]);
+  if(!metaRes.ok) throw new Error('API page ' + page);
+  const metaJson = await metaRes.json();
+  const frJson = await frRes.json();
+  const enJson = enRes.ok ? await enRes.json() : { data: { ayahs: [] } };
+  let tjJson = { verses: [] };
+  try { tjJson = await tjRes.json(); } catch(e) {}
+  const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
+  const frAyahs = (frJson.data && frJson.data.ayahs) || [];
+  const enAyahs = (enJson.data && enJson.data.ayahs) || [];
+  const tjVerses = (tjJson.verses) || [];
+  let variantIndex = null;
+  let variantUnavailable = false;
+  if(mushafRiwayaKey !== 'hafs'){
+    try{
+      variantIndex = await loadMushafRiwayaRows();
+    }catch(err){
+      // On conserve les métadonnées et les traductions pour l’audio, mais on
+      // interdit toute substitution silencieuse par le texte Hafs.
+      variantUnavailable = true;
+      console.warn('Texte arabe de riwāya non vérifié', mushafRiwayaKey, err);
+    }
   }
-
-  // Riwāya autre que Hafs : la page est construite DIRECTEMENT depuis
-  // l'édition propre à cette riwāya (texte, découpage des versets et
-  // numérotation qui lui sont propres) — voir loadMushafRiwayaRows().
-  const cacheKey = mushafRiwayaKey + ':' + page;
-  if(MUSHAF_RIWAYA_PAGE_CACHE.has(cacheKey)) return MUSHAF_RIWAYA_PAGE_CACHE.get(cacheKey);
-  const pages = await loadMushafRiwayaRows();
-  const rows = (pages && pages.get(page)) || [];
-  if(!rows.length) throw new Error('Page indisponible pour cette riwāya');
-  const ayahs = rows.map(function(row){
-    const plain = normalizeQuranArabic(row.text || '');
-    const surahInfo = SURAHS[row.surah - 1];
+  const ayahs = metaAyahs.map((a, i) => {
+    const variantText = variantIndex && variantIndex.get(String(a.surah.number) + ':' + String(a.numberInSurah));
+    let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
+    tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
+    tjHtml = normalizeQuranArabic(tjHtml);
+    // Hafs utilise le texte/page tajwid existant ; les autres riwāyāt
+    // utilisent leur graphie source, sans remplacement ni normalisation.
+    const plain = mushafRiwayaKey === 'hafs'
+      ? normalizeQuranArabic(a.text || '')
+      : (variantUnavailable ? '' : String(variantText || ''));
+    const html = mushafRiwayaKey === 'hafs' && tjHtml ? tjHtml : escapeMushafText(plain);
     return {
-      global: null,
-      surah: row.surah,
-      surahName: (surahInfo && surahInfo.englishName) || row.surahEn || '',
-      surahAr: (surahInfo && surahInfo.name) || row.surahAr || '',
-      ayah: row.ayah,
+      global: a.number,
+      surah: a.surah.number,
+      surahName: a.surah.englishName,
+      surahAr: a.surah.name,
+      ayah: a.numberInSurah,
       text: plain,
-      textHtml: plain.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
-      hasTajweed: false,
-      tr: '',
-      en: '',
-      juz: row.juz
+      textHtml: html,
+      riwaya: mushafRiwayaKey,
+      variantUnavailable: variantUnavailable,
+      hasTajweed: mushafRiwayaKey === 'hafs' && !!tjHtml,
+      tr: (frAyahs[i] && frAyahs[i].text) || '',
+      en: (enAyahs[i] && enAyahs[i].text) || '',
+      juz: a.juz
     };
   });
-  MUSHAF_RIWAYA_PAGE_CACHE.set(cacheKey, ayahs);
+  if(mushafRiwayaKey === 'hafs') rihlaCachePage(page, ayahs);
   return ayahs;
 }
 function prefetchMushafPage(page){
   if(page < 1 || page > MUSHAF_TOTAL_PAGES) return;
-  if(MUSHAF_PAGE_CACHE.has(page)) return;
+  if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)) return;
   if(!navigator.onLine) return;
   fetchMushafPageData(page).catch(function(){});
 }
@@ -25484,19 +25722,18 @@ function initOfflineBanner(){
 // Les textes alternatifs proviennent de quran-meta; les audios sont servis par Way2Quran
 // avec une association explicite réciteur/riwāya.
 const MUSHAF_RIWAYAT = {
-  hafs:   { label: 'Hafs ʿan ʿĀṣim', labels: { fr: 'Hafs ʿan ʿĀṣim', en: 'Hafs from ʿĀṣim', ar: 'حفص عن عاصم' }, file: null, source: 'Al-Quran Cloud / Quran.com' },
-  warsh:  { label: 'Warsh ʿan Nāfiʿ', labels: { fr: 'Warsh ʿan Nāfiʿ', en: 'Warsh from Nāfiʿ', ar: 'ورش عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/warshData_v2-1.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'warsh-an-nafi'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'warsh-an-nafi'}] },
-  qalun:  { label: 'Qālūn ʿan Nāfiʿ', labels: { fr: 'Qālūn ʿan Nāfiʿ', en: 'Qālūn from Nāfiʿ', ar: 'قالون عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/quranpedia/qaloon-data.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'qalun-an-nafi'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'qalun-an-nafi'}] },
-  duri:   { label: 'Ad-Dūrī ʿan Abī ʿAmr', labels: { fr: 'Ad-Dūrī ʿan Abī ʿAmr', en: 'Ad-Dūrī from Abū ʿAmr', ar: 'الدوري عن أبي عمرو' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/DouriData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'ad-duri-an-abu-amr'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'ad-duri-an-abu-amr'}] },
+  hafs:   { label: 'Hafs ʿan ʿĀṣim', labels: { fr: 'Hafs ʿan ʿĀṣim', en: 'Hafs from ʿĀṣim', ar: 'حفص عن عاصم' }, file: null, pageImages: 'https://raw.githubusercontent.com/QuranHub/quran-pages-images/main/kfgqpc/hafs-wasat/{page}.jpg', pageSource: 'QuranHub · KFGQPC', source: 'Al-Quran Cloud / Quran.com · pages QuranHub' },
+  warsh:  { label: 'Warsh ʿan Nāfiʿ', labels: { fr: 'Warsh ʿan Nāfiʿ', en: 'Warsh from Nāfiʿ', ar: 'ورش عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/warshData_v2-1.json', pageImages: 'https://raw.githubusercontent.com/QuranHub/quran-pages-images/main/kfgqpc/warsh/{page}.jpg', pageSource: 'QuranHub · KFGQPC', source: 'quran-meta + Way2Quran · pages QuranHub', reciters: [{name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'warsh-an-nafi'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'warsh-an-nafi'}] },
+  qalun:  { label: 'Qālūn ʿan Nāfiʿ', labels: { fr: 'Qālūn ʿan Nāfiʿ', en: 'Qālūn from Nāfiʿ', ar: 'قالون عن نافع' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/quranpedia/qaloon-data.json', pageImages: 'https://raw.githubusercontent.com/quranpedia/quran-svg/main/mushafs/qalon/kfqc/svg/{page}.svg', pageSource: 'QuranPedia SVG · KFGQC', source: 'quran-meta + Way2Quran · pages QuranPedia', reciters: [{name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'qalun-an-nafi'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'qalun-an-nafi'}] },
+  duri:   { label: 'Ad-Dūrī ʿan Abī ʿAmr', labels: { fr: 'Ad-Dūrī ʿan Abī ʿAmr', en: 'Ad-Dūrī from Abū ʿAmr', ar: 'الدوري عن أبي عمرو' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/DouriData_v2-0.json', pageImages: 'https://raw.githubusercontent.com/quranpedia/quran-svg/main/mushafs/douri/kfqc/svg/{page}.svg', pageSource: 'QuranPedia SVG · KFGQC', source: 'quran-meta + Way2Quran · pages QuranPedia', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'ad-duri-an-abu-amr'}, {name:'Mahmoud Khalil Al Hosary', slug:'mahmoud-khalil-al-hosary', audio:'ad-duri-an-abu-amr'}] },
   susi:   { label: 'As-Sūsī ʿan Abī ʿAmr', labels: { fr: 'As-Sūsī ʿan Abī ʿAmr', en: 'As-Sūsī from Abū ʿAmr', ar: 'السوسي عن أبي عمرو' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/SousiData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-sufi', audio:'as-susi-an-abu-amr'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'as-susi-an-abu-amr'}] },
-  shuba:  { label: 'Shuʿbah ʿan ʿĀṣim', labels: { fr: 'Shuʿbah ʿan ʿĀṣim', en: 'Shuʿbah from ʿĀṣim', ar: 'شعبة عن عاصم' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/shubaData_v2-0.json', source: 'quran-meta + Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'shubah-an-asim'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'shubah-an-asim'}] },
+  shuba:  { label: 'Shuʿbah ʿan ʿĀṣim', labels: { fr: 'Shuʿbah ʿan ʿĀṣim', en: 'Shuʿbah from ʿĀṣim', ar: 'شعبة عن عاصم' }, file: 'https://raw.githubusercontent.com/quran-center/quran-meta/master/examples/data-check/data/shubaData_v2-0.json', pageImages: 'https://raw.githubusercontent.com/quranpedia/quran-svg/main/mushafs/shubah/kfqc/svg/{page}.svg', pageSource: 'QuranPedia SVG · KFGQC', source: 'quran-meta + Way2Quran · pages QuranPedia', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-soufi', audio:'shubah-an-asim'}, {name:'Ahmed Al Haddad', slug:'ahmed-al-haddad', audio:'shubah-an-asim'}] },
   khalaf: { label: 'Khalaf ʿan Ḥamzah', labels: { fr: 'Khalaf ʿan Ḥamzah', en: 'Khalaf from Ḥamzah', ar: 'خلف عن حمزة' }, file: null, source: 'Way2Quran', reciters: [{name:'Abdul Rashid Sufi', slug:'abdul-rashid-sufi', audio:'khalaf-an-hamzah'}] }
 };
 let mushafRiwayaKey = 'hafs';
 let mushafRiwayaReciterIndex = 0;
 let mushafRiwayaRows = null;
-const MUSHAF_RIWAYA_CACHE = new Map(); // riwāya -> Promise<Map<page, rows[]>>
-const MUSHAF_RIWAYA_PAGE_CACHE = new Map(); // "riwāya:page" -> ayahs[]
+const MUSHAF_RIWAYA_CACHE = new Map();
 function mushafRiwayaLabel(key){
   const cfg = MUSHAF_RIWAYAT[key] || MUSHAF_RIWAYAT.hafs;
   const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
@@ -25621,7 +25858,7 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
   const token = ++mushafLoadToken;
   const box = document.getElementById('mushafAyahs');
   const pos = document.getElementById('mushafPagePos');
-  if(pos) pos.textContent = `Page ${page} / ${MUSHAF_TOTAL_PAGES}`;
+  if(pos) pos.textContent = t('page_label') + ' ' + page + ' / ' + MUSHAF_TOTAL_PAGES;
   const pageInp = document.getElementById('mushafPageInput');
   if(pageInp && document.activeElement !== pageInp) pageInp.value = String(page);
   const prevB = document.getElementById('mushafPrevPage');
@@ -25629,20 +25866,17 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
   if(prevB) prevB.disabled = page <= 1;
   if(nextB) nextB.disabled = page >= MUSHAF_TOTAL_PAGES;
 
+  // Les éditions paginées utilisent une vraie image de Mushaf propre à la riwāya.
+  // On affiche d’abord l’image, puis on charge quand même les ayahs afin de
+  // conserver l’audio, les transitions et les repères de la sourate.
+  if(mushafEditionPageUrl(page)) renderMushafEditionPage(page);
+
   // Cache mémoire → affichage immédiat
-  // IMPORTANT : ce cache "rapide" ne concerne QUE la riwāya Hafs. Sans ce
-  // garde-fou, changer de riwāya sur une page déjà visitée en Hafs
-  // réaffichait le texte Hafs mis en cache au lieu d'aller chercher le
-  // texte propre à la nouvelle riwāya (c'était le bug : "le Coran ne
-  // change pas quand je change de version").
+  // Le cache partagé contient uniquement l’édition Hafs. Une riwāya
+  // alternative doit toujours charger son propre texte source.
   if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)){
     if(token !== mushafLoadToken) return;
     applyMushafPageData(page, MUSHAF_PAGE_CACHE.get(page), { autoPlay, autoPlaySurah });
-    return;
-  }
-  if(mushafRiwayaKey !== 'hafs' && MUSHAF_RIWAYA_PAGE_CACHE.has(mushafRiwayaKey + ':' + page)){
-    if(token !== mushafLoadToken) return;
-    applyMushafPageData(page, MUSHAF_RIWAYA_PAGE_CACHE.get(mushafRiwayaKey + ':' + page), { autoPlay, autoPlaySurah });
     return;
   }
 
@@ -25655,15 +25889,22 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
     if(token !== mushafLoadToken) return; // réponse trop lente, on ignore
     if(box) box.classList.remove('is-loading');
     applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah });
-  }catch(err){
+  }  catch(err){
     if(token !== mushafLoadToken) return;
     console.error(err);
     if(box){
-      box.innerHTML = '<p style="text-align:center;color:#e0736b;">' + t('load_error') + '</p>'
-        + '<p style="text-align:center;margin-top:8px;"><button type="button" class="mt-btn primary" id="mushafRetryBtn">Réessayer</button></p>';
-      document.getElementById('mushafRetryBtn')?.addEventListener('click', () => loadMushafPage(page, { autoPlay, autoPlaySurah }));
+      if(mushafRiwayaKey !== 'hafs'){
+        // Une erreur de texte variante ne doit jamais remplacer une page
+        // authentique par du Hafs ni afficher un message générique trompeur.
+        if(mushafEditionPageUrl(page)) renderMushafEditionPage(page);
+        renderMushafVariantNotice(page);
+      }else{
+        box.innerHTML = '<p style="text-align:center;color:#e0736b;">' + t('load_error') + '</p>'
+          + '<p style="text-align:center;margin-top:8px;"><button type="button" class="mt-btn primary" id="mushafRetryBtn">Réessayer</button></p>';
+        document.getElementById('mushafRetryBtn')?.addEventListener('click', () => loadMushafPage(page, { autoPlay, autoPlaySurah }));
+      }
     }
-    rihlaToast('Impossible de charger la page ' + page, 'error');
+    if(mushafRiwayaKey === 'hafs') rihlaToast('Impossible de charger la page ' + page, 'error');
   }
 }
 
@@ -25685,7 +25926,10 @@ function normalizeQuranArabic(text){
     .replace(/إِبْرَٰهِـٰم/g, 'إِبْرَاهِيم')
     .replace(/إبرٰهۦم/g, 'إبراهيم')
     .replace(/إبرٰهيم/g, 'إبراهيم')
-    .replace(/إبراهيم/g, 'إبراهيم'); // déjà correct, no-op de sécurité
+    .replace(/إبراهيم/g, 'إبراهيم'); // uniquement pour l'édition Hafs normalisée
+} 
+function escapeMushafText(text){
+  return String(text == null ? '' : text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 let mushafHifzMode = false;
@@ -25711,6 +25955,21 @@ function updateMushafTranslationButton(){
 function renderMushafAyahs(){
   const box = document.getElementById('mushafAyahs');
   if(!box) return;
+  // La page-image est le rendu principal des éditions paginées. Les ayahs
+  // restent dans mushafAyahs pour l’audio, les signets et le mode hifz.
+  const imageUrl = typeof mushafEditionPageUrl === 'function' ? mushafEditionPageUrl(mushafPage) : '';
+  const variantUnavailable = mushafAyahs.some(function(a){ return a && a.variantUnavailable; });
+  if(variantUnavailable){
+    if(imageUrl) renderMushafEditionPage(mushafPage);
+    else { setMushafEditionFrameMode(false); box.innerHTML = ''; }
+    renderMushafVariantNotice(mushafPage);
+    return;
+  }
+  if(imageUrl){
+    renderMushafEditionPage(mushafPage);
+    return;
+  }
+  setMushafEditionFrameMode(false);
   const bookmarks = loadBookmarks();
   box.innerHTML = mushafAyahs.map((a, i) => {
     const translation = mushafTrLang === 'en' ? (a.en || '') : (a.tr || '');
@@ -25727,15 +25986,10 @@ function renderMushafAyahs(){
     const hiddenByMode = mushafHifzMode && mushafHifzMaskMode !== 'none' && !mushafHifzRevealed.has(key) && (mushafHifzMaskMode === 'all' || i % 2 === 1);
     const hifzCls = hiddenByMode ? ' hifz-hidden' : '';
     const arText = hiddenByMode ? '<span class="hifz-text-hidden">' + arHtml + '</span>' : '<span>' + arHtml + '</span>';
-    // Hafs (API alquran.cloud) n'a pas de fin-de-verset intégrée au texte : on
-    // ajoute nous-mêmes le petit rond numéroté. Les autres riwāyāt (police
-    // KFGQPC dédiée) ont déjà leur propre glyphe de fin de verset DANS le
-    // texte lui-même (ligature ornée) : pas besoin d'en rajouter un second.
-    const ayahEnd = mushafRiwayaKey === 'hafs' ? '<span class="ma-ayah-end" title="Verset ' + a.ayah + '">' + numAr + '</span>' : '';
     return `
     <div class="mushaf-ayah${hifzCls}" data-idx="${i}" id="mushaf-ayah-${i}" data-key="${key}">
       <div class="ma-meta">${a.surah}:${a.ayah}</div>
-      <div class="ma-ar" lang="ar" dir="rtl">${arText}${ayahEnd}</div>
+      <div class="ma-ar" lang="ar" dir="rtl">${arText}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
       <div class="ma-tr${mushafShowTr ? ' show' : ''}${hiddenByMode ? ' hifz-text-hidden' : ''}" lang="${mushafTrLang}">${tr || '—'}</div>
       <div class="ma-tafsir" id="tafsir-${i}"></div>
       <div class="ma-tools">
@@ -26217,11 +26471,30 @@ const _loadMushafPageOrig = typeof loadMushafPage === 'function' ? loadMushafPag
 
 function highlightMushafAyah(idx){
   document.querySelectorAll('.mushaf-ayah').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.mushaf-edition-leaf').forEach(el => el.classList.remove('audio-page-active'));
   const el = document.getElementById('mushaf-ayah-' + idx);
   if(el){
     el.classList.add('active');
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
   }
+  // Une image ne permet pas de positionner un surlignage DOM sur chaque ayah.
+  // On conserve néanmoins un repère synchronisé et accessible dans la légende,
+  // et on souligne la feuille correspondant à la page audio courante.
+  const caption = document.querySelector('.mushaf-edition-caption');
+  const ayah = mushafAyahs && mushafAyahs[idx];
+  if(caption && ayah){
+    caption.textContent = mushafRiwayaLabel(mushafRiwayaKey) + ' · ' + t('page_label') + ' ' + mushafPage + ' · ' + t('ayah_label') + ' ' + ayah.ayah + ' · ' + t('source_label') + ': ' + mushafPageSourceLabel();
+    caption.setAttribute('aria-live', 'polite');
+  }
+  const activeLeaf = document.querySelector('.mushaf-edition-leaf[data-page="' + mushafPage + '"]');
+  if(activeLeaf){
+    activeLeaf.classList.add('audio-page-active');
+    activeLeaf.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  const page = document.querySelector('.mushaf-edition-page');
+  if(page) page.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 let mushafPlayGen = 0;
@@ -26735,6 +27008,7 @@ function applyMushafTheme(dark){
   if(icon) icon.textContent = mushafDarkMode ? '☀️' : '🌙';
   if(label) label.textContent = mushafDarkMode ? 'mode jour pour plus de visibilité' : 'mode nuit pour un apprentissage noctunre';
   try{ localStorage.setItem('rihla_mushaf_theme', mushafDarkMode ? 'dark' : 'light'); }catch(e){}
+  try{ updateMushafFullscreenUI(); }catch(e){}
 }
 function initMushafTheme(){
   let dark = false;
@@ -26744,6 +27018,61 @@ function initMushafTheme(){
 document.getElementById('mushafThemeToggle')?.addEventListener('click', () => {
   applyMushafTheme(!mushafDarkMode);
 });
+
+// Plein écran du lecteur : on agrandit uniquement la zone de lecture afin de
+// garder le Mushaf, la navigation et la barre audio ensemble, sans masquer le
+// reste de l’application de manière irréversible.
+let mushafFullscreenActive = false;
+function getMushafFullscreenElement(){
+  return document.fullscreenElement || document.webkitFullscreenElement || null;
+}
+function updateMushafFullscreenUI(){
+  const stage = document.getElementById('mushafReadingStage');
+  const active = !!stage && getMushafFullscreenElement() === stage;
+  mushafFullscreenActive = active;
+  if(stage) stage.classList.toggle('mushaf-fullscreen-dark', !!mushafDarkMode);
+  const btn = document.getElementById('mushafFullscreenBtn');
+  const label = document.getElementById('mushafFullscreenLabel');
+  const exitLabel = document.getElementById('mushafFullscreenExitLabel');
+  if(btn){
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btn.setAttribute('title', t(active ? 'fullscreen_exit_tip' : 'fullscreen_tip'));
+    btn.setAttribute('aria-label', t(active ? 'fullscreen_exit_aria' : 'fullscreen_aria'));
+  }
+  if(label) label.textContent = t(active ? 'fullscreen_exit' : 'fullscreen_open');
+  if(exitLabel) exitLabel.textContent = t('fullscreen_exit');
+}
+async function enterMushafFullscreen(){
+  const stage = document.getElementById('mushafReadingStage');
+  if(!stage) return;
+  try{
+    if(stage.requestFullscreen){
+      try{ await stage.requestFullscreen({ navigationUI:'hide' }); }
+      catch(err){ await stage.requestFullscreen(); }
+    }else if(stage.webkitRequestFullscreen){
+      stage.webkitRequestFullscreen();
+    }else{
+      showToast(t('fullscreen_unavailable'));
+    }
+  }catch(err){
+    console.warn('Mushaf fullscreen unavailable', err);
+    showToast(t('fullscreen_unavailable'));
+  }
+}
+function exitMushafFullscreen(){
+  try{
+    if(document.exitFullscreen) return document.exitFullscreen();
+    if(document.webkitExitFullscreen) return document.webkitExitFullscreen();
+  }catch(err){ console.warn('Mushaf fullscreen exit', err); }
+}
+async function toggleMushafFullscreen(){
+  if(getMushafFullscreenElement()) exitMushafFullscreen();
+  else await enterMushafFullscreen();
+}
+document.getElementById('mushafFullscreenBtn')?.addEventListener('click', toggleMushafFullscreen);
+document.getElementById('mushafFullscreenExit')?.addEventListener('click', exitMushafFullscreen);
+document.addEventListener('fullscreenchange', updateMushafFullscreenUI);
+document.addEventListener('webkitfullscreenchange', updateMushafFullscreenUI);
 
 // Recherche / hifz / signets / légende tajwid
 document.getElementById('quranSearchBtn')?.addEventListener('click', runQuranSearch);
@@ -26811,9 +27140,16 @@ document.getElementById('mushafRiwayaSelect')?.addEventListener('change', async 
   mushafRiwayaKey = next;
   mushafRiwayaReciterIndex = 0;
   mushafRiwayaRows = null;
+  // Invalider immédiatement la page précédente : elle peut appartenir à Hafs
+  // ou à une autre riwāya et ne doit jamais être rerendue pendant le fetch.
+  mushafAyahs = [];
   updateMushafRiwayaSource();
   renderMushafReciterChips();
   stopMushafAudio();
+  // Effacer immédiatement l’ancien rendu afin de ne jamais laisser croire
+  // que le texte Hafs est encore celui de la riwāya sélectionnée.
+  const box = document.getElementById('mushafAyahs');
+  if(box) box.innerHTML = '<p class="mushaf-loading">' + (rihlaLang === 'ar' ? 'جارٍ تحميل كتابة الرواية…' : rihlaLang === 'en' ? 'Loading the selected riwāya script…' : 'Chargement de l’écriture de la riwāya…') + '</p>';
   try{
     await loadMushafPage(mushafPage || 1, { autoPlay: true });
   }catch(err){
@@ -27086,11 +27422,20 @@ var RIHLA_I18N_EXTRA = {
   "theme_aria": "Mode d'affichage",
   "theme_dark": "Sombre",
   "theme_light": "Clair",
+  "fullscreen_open": "Plein écran",
+  "fullscreen_exit": "Quitter le plein écran",
+  "fullscreen_tip": "Ouvrir le lecteur en plein écran",
+  "fullscreen_exit_tip": "Quitter le plein écran",
+  "fullscreen_aria": "Ouvrir le lecteur Mushaf en plein écran",
+  "fullscreen_exit_aria": "Quitter le plein écran",
+  "fullscreen_unavailable": "Le plein écran n’est pas disponible dans ce navigateur.",
   "pick_voice": "Choisir une voix",
   "page_loading": "Chargement de la page…",
   "prev_page": "← Page précédente",
   "next_page": "Page suivante →",
   "page_label": "Page",
+  "ayah_label": "Verset",
+  "source_label": "Source",
   "play_pause": "Lecture / Pause",
   "pick_reciter_hint": "Choisis un récitateur, puis appuie sur lecture",
   "bookmarks_tip": "Mes signets",
@@ -27098,6 +27443,9 @@ var RIHLA_I18N_EXTRA = {
   "search_none": "Aucun résultat.",
   "search_error": "Erreur de recherche. Réessaie.",
   "load_error": "Erreur de chargement. Vérifie ta connexion.",
+  "riwaya_text_unavailable": "L’édition arabe complète de cette riwāya n’est pas encore vérifiée dans cette source.",
+  "riwaya_no_crosslabel": "Aucun texte Hafs n’est affiché sous l’étiquette de cette riwāya.",
+  "riwaya_audio_available": "Les récitations compatibles restent disponibles dans le lecteur ci-dessous.",
   "play_blocked": "Lecture bloquée — réessaie",
   "track_sub": "Plan de khatm, objectif du jour et régularité — pour tenir sur la durée.",
   "khatm_h": "📖 Plan de khatm (lecture complète)",
@@ -27324,11 +27672,20 @@ var RIHLA_I18N_EXTRA = {
   "theme_aria": "Display mode",
   "theme_dark": "Dark",
   "theme_light": "Light",
+  "fullscreen_open": "Full screen",
+  "fullscreen_exit": "Exit full screen",
+  "fullscreen_tip": "Open the reader in full screen",
+  "fullscreen_exit_tip": "Exit full screen",
+  "fullscreen_aria": "Open the Mushaf reader in full screen",
+  "fullscreen_exit_aria": "Exit full screen",
+  "fullscreen_unavailable": "Full screen is not available in this browser.",
   "pick_voice": "Choose a voice",
   "page_loading": "Loading page…",
   "prev_page": "← Previous page",
   "next_page": "Next page →",
   "page_label": "Page",
+  "ayah_label": "Verse",
+  "source_label": "Source",
   "play_pause": "Play / Pause",
   "pick_reciter_hint": "Choose a reciter, then press play",
   "bookmarks_tip": "My bookmarks",
@@ -27336,6 +27693,9 @@ var RIHLA_I18N_EXTRA = {
   "search_none": "No results.",
   "search_error": "Search error. Try again.",
   "load_error": "Loading error. Check your connection.",
+  "riwaya_text_unavailable": "The complete Arabic edition of this riwāya has not yet been verified in this source.",
+  "riwaya_no_crosslabel": "No Hafs text is displayed under this riwāya label.",
+  "riwaya_audio_available": "Compatible recitations remain available in the player below.",
   "play_blocked": "Playback blocked — try again",
   "track_sub": "Khatm plan, daily goal and consistency — to keep going over time.",
   "khatm_h": "📖 Khatm plan (complete reading)",
@@ -27561,11 +27921,20 @@ var RIHLA_I18N_EXTRA = {
   "theme_aria": "وضع العرض",
   "theme_dark": "ليلي",
   "theme_light": "نهاري",
+  "fullscreen_open": "ملء الشاشة",
+  "fullscreen_exit": "الخروج من ملء الشاشة",
+  "fullscreen_tip": "فتح القارئ بملء الشاشة",
+  "fullscreen_exit_tip": "الخروج من ملء الشاشة",
+  "fullscreen_aria": "فتح قارئ المصحف بملء الشاشة",
+  "fullscreen_exit_aria": "الخروج من ملء الشاشة",
+  "fullscreen_unavailable": "ملء الشاشة غير متاح في هذا المتصفح.",
   "pick_voice": "اختر صوتًا",
   "page_loading": "جاري تحميل الصفحة…",
   "prev_page": "→ الصفحة السابقة",
   "next_page": "الصفحة التالية ←",
   "page_label": "صفحة",
+  "ayah_label": "آية",
+  "source_label": "المصدر",
   "play_pause": "تشغيل / إيقاف",
   "pick_reciter_hint": "اختر قارئًا ثم اضغط تشغيل",
   "bookmarks_tip": "إشاراتي",
@@ -27573,6 +27942,9 @@ var RIHLA_I18N_EXTRA = {
   "search_none": "لا نتائج.",
   "search_error": "خطأ في البحث. أعد المحاولة.",
   "load_error": "خطأ في التحميل. تحقق من اتصالك.",
+  "riwaya_text_unavailable": "لم يتم التحقق بعد من النص العربي الكامل لهذه الرواية في هذا المصدر.",
+  "riwaya_no_crosslabel": "لن يُعرض نص حفص تحت تسمية هذه الرواية.",
+  "riwaya_audio_available": "التلاوات المتوافقة متاحة في المشغل أدناه.",
   "play_blocked": "التشغيل محجوب — أعد المحاولة",
   "track_sub": "خطة الخَتم وهدف اليوم والانتظام — لتستمر على المدى الطويل.",
   "khatm_h": "📖 خطة الخَتم (قراءة كاملة)",
@@ -27717,6 +28089,7 @@ function applyRihlaLang(lang){
     if(typeof updateMushafRiwayaOptions === 'function') updateMushafRiwayaOptions();
     if(typeof updateMushafRiwayaSource === 'function') updateMushafRiwayaSource();
     if(typeof renderMushafReciterChips === 'function') renderMushafReciterChips();
+    if(typeof refreshMushafEditionLabels === 'function') refreshMushafEditionLabels();
   }catch(e){ console.warn('riwāya language sync', e); }
   document.documentElement.lang = lang === 'ar' ? 'ar' : (lang === 'en' ? 'en' : 'fr');
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -27765,6 +28138,7 @@ function applyRihlaLang(lang){
   if(window.mushafSyncTranslationLanguage) window.mushafSyncTranslationLanguage();
   const playBtn = document.getElementById('mushafPlayPage');
   if(playBtn) playBtn.textContent = t('play_page');
+  try{ if(typeof updateMushafFullscreenUI === 'function') updateMushafFullscreenUI(); }catch(e){}
   document.querySelectorAll('.back-link').forEach(el => { el.textContent = t('back'); });
   const openQ = document.getElementById('todayOpenQuran');
   if(openQ) openQ.textContent = t('open_quran');
