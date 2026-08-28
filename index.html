@@ -1039,8 +1039,8 @@ margin-right: 0.28em;
 margin-left: 0.12em;
 padding: 0 0.28em;
 border-radius: 50%;
-border: 1.5px solid var(--gold-500);
-background: rgba(201,162,39,0.14);
+border: 1.5px solid var(--emerald-950);
+background: #fff;
 color: var(--emerald-950);
 font-family: 'Amiri', 'Noto Naskh Arabic', serif;
 font-size: 0.58em;
@@ -1051,6 +1051,17 @@ box-sizing: border-box;
 direction: ltr;
 unicode-bidi: isolate;
 }
+/* riwāya autre que Hafs (Warsh, Qālūn…) : rasm différent, police de repli
+   généraliste en attendant/à défaut du chargement de la police dédiée */
+#mushafAyahs.riwaya-alt .mushaf-ayah .ma-ar{
+font-family: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+}
+/* Polices calligraphiques officielles KFGQPC, une par riwāya (voir <head>) */
+#mushafAyahs.riwaya-warsh .mushaf-ayah .ma-ar{ font-family: 'warsh10', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-qalun .mushaf-ayah .ma-ar{ font-family: 'qaloon10', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-duri .mushaf-ayah .ma-ar{ font-family: 'doori9', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-susi .mushaf-ayah .ma-ar{ font-family: 'soosi9', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-shuba .mushaf-ayah .ma-ar{ font-family: 'shouba8', 'Amiri Quran', 'Scheherazade New', serif; }
 /* ===== TAJWID (couleurs type mushaf / Quran.com) ===== */
 .mushaf-ayah .ma-ar tajweed,
 .mushaf-ayah .ma-ar .tajweed,
@@ -1137,9 +1148,9 @@ text-shadow: 0 1px 0 rgba(0,0,0,0.35);
 }
 .mushaf-page-frame.dark .mushaf-ayah.active .ma-ar{ color: #fff8e7; }
 .mushaf-page-frame.dark .mushaf-ayah .ma-ayah-end{
-border-color: #c9a227;
-background: rgba(201,162,39,0.2);
-color: #e0c25f;
+border-color: #f5ecd4;
+background: rgba(245,236,212,0.12);
+color: #f5ecd4;
 }
 .mushaf-page-frame.dark .mushaf-ayah .ma-tr{ color: #c8bfa8; }
 .mushaf-page-frame.dark .mushaf-page-footer-num{
@@ -1678,6 +1689,10 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 .dua-card .dua-arabic{font-size:1.15rem; line-height:1.9;}
 }
 </style>
+<!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
+     Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
+     calligraphique, distinct du Hafs standard. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thetruetruth/quran-data-kfgqpc@main/css/kfgqpc.font.css" />
 </head>
 <body>
 <a href="#main" class="skip-link" data-i18n="skip_link">Aller au contenu principal</a>
@@ -25386,11 +25401,24 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   // Le Mushaf affiché suit le modèle texte du code de référence : chaque ayah
   // reste sélectionnable, traduisible et utilisable par le hifz et l'audio.
   // Une variante sans texte arabe vérifié ne doit jamais tomber sur des cartes Hafs.
+  const box0 = document.getElementById('mushafAyahs');
+  if(box0){
+    const isAlt = mushafRiwayaKey !== 'hafs';
+    box0.classList.toggle('riwaya-alt', isAlt);
+    box0.classList.remove('riwaya-warsh', 'riwaya-qalun', 'riwaya-duri', 'riwaya-susi', 'riwaya-shuba');
+    if(isAlt) box0.classList.add('riwaya-' + mushafRiwayaKey);
+  }
   const variantUnavailable = mushafAyahs.some(function(a){ return a && a.variantUnavailable; });
   if(variantUnavailable){
-    const unavailableBox = document.getElementById('mushafAyahs');
-    setMushafEditionFrameMode(false);
-    if(unavailableBox) unavailableBox.innerHTML = '';
+    // Texte source indisponible pour cette riwāya : on montre la page
+    // scannée officielle si on en a une, sinon juste la notice — jamais de
+    // repli silencieux sur le texte Hafs.
+    if(mushafEditionPageUrl(page)){
+      renderMushafEditionPage(page);
+    }else{
+      setMushafEditionFrameMode(false);
+      if(box0) box0.innerHTML = '';
+    }
     renderMushafVariantNotice(page);
   }else{
     renderMushafAyahs();
@@ -25409,9 +25437,19 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   prefetchMushafPage(page + 1);
   prefetchMushafPage(page - 1);
 }
+/**
+ * Charge et indexe l'édition texte d'une riwāya PAR PAGE (et non par
+ * "sourate:verset façon Hafs"). La numérotation des versets diffère
+ * réellement d'une riwāya à l'autre (Bismillah comptée ou non comme verset
+ * séparé, versets fusionnés/scindés différemment) : plaquer le texte de
+ * Warsh/Qālūn sur la numérotation Hafs décale et fausse le texte au-delà des
+ * tout premiers versets. On construit donc la page telle qu'elle existe
+ * réellement dans l'édition de cette riwāya (champ "page"/"page_number"
+ * propre à chaque source), avec SA PROPRE numérotation de versets.
+ */
 async function loadMushafRiwayaRows(){
   if(mushafRiwayaKey === 'hafs') return null;
-  if(mushafRiwayaRows && mushafRiwayaRows.key === mushafRiwayaKey) return mushafRiwayaRows.index;
+  if(mushafRiwayaRows && mushafRiwayaRows.key === mushafRiwayaKey) return mushafRiwayaRows.pages;
   const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
   if(!cfg || !cfg.file) throw new Error('Texte variant indisponible pour ' + mushafRiwayaKey);
   let promise = MUSHAF_RIWAYA_CACHE.get(mushafRiwayaKey);
@@ -25421,23 +25459,38 @@ async function loadMushafRiwayaRows(){
       return res.json();
     }).then(function(rows){
       const list = Array.isArray(rows) ? rows : (rows.surahs ? rows.surahs.flatMap(function(s){ return s.ayahs || []; }) : (rows.data || rows.ayahs || []));
-      const index = new Map();
+      const pages = new Map(); // page(number) -> [{surah, ayah, text, juz, surahEn, surahAr}]
       list.forEach(function(row){
-        const s = row.sura_no ?? row.surah ?? row.surah_number;
-        const a = row.aya_no ?? row.ayah ?? row.verse;
+        const s = Number(row.sura_no ?? row.surah ?? row.surah_number);
+        // NB : le format "quranpedia" (Qālūn) numérote l'ayat via "number",
+        // pas "aya_no"/"ayah"/"verse" — sans ce cas la riwāya Qālūn ne
+        // remontait jamais aucun texte (silencieusement vide).
+        const a = Number(row.aya_no ?? row.ayah ?? row.verse ?? row.number);
         const text = row.aya_text ?? row.text ?? row.text_uthmani ?? row.text_uthmani_simple;
-        // Conserver exactement la graphie fournie par l’édition de la riwāya.
+        const rawPage = row.page ?? row.page_number;
+        // Quelques versets à cheval sur deux pages sont notés "85-86" :
+        // on les rattache à leur page de départ.
+        const pageMatch = rawPage != null ? String(rawPage).match(/\d+/) : null;
+        const page = pageMatch ? parseInt(pageMatch[0], 10) : null;
+        const juz = row.jozz ?? row.juz ?? null;
+        if(!s || !a || !text || !page) return;
+        if(!pages.has(page)) pages.set(page, []);
+        // Conserver exactement la graphie fournie par l'édition de la riwāya.
         // Aucune normalisation Hafs ne doit être appliquée à Warsh, Qālūn, etc.
-        if(s != null && a != null && text) index.set(String(s) + ':' + String(a), String(text));
+        pages.get(page).push({
+          surah: s, ayah: a, text: String(text), juz: juz,
+          surahEn: row.sura_name_en || null,
+          surahAr: row.sura_name_ar || null
+        });
       });
-      if(index.size < 6000) throw new Error('Edition riwāya incomplète');
-      return index;
+      if(pages.size < 500) throw new Error('Edition riwāya incomplète');
+      return pages;
     });
     MUSHAF_RIWAYA_CACHE.set(mushafRiwayaKey, promise);
   }
-  const index = await promise;
-  mushafRiwayaRows = { key: mushafRiwayaKey, index: index };
-  return index;
+  const pages = await promise;
+  mushafRiwayaRows = { key: mushafRiwayaKey, pages: pages };
+  return pages;
 }
 
 function mushafEditionPageUrl(page){
@@ -25541,64 +25594,89 @@ function updateMushafRiwayaSource(){
 }
 
 async function fetchMushafPageData(page){
-  const cacheKey = mushafRiwayaKey === 'hafs' ? page : mushafRiwayaKey + ':' + page;
-  if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)) return MUSHAF_PAGE_CACHE.get(page);
-  const [metaRes, frRes, enRes, tjRes] = await Promise.all([
-    fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
-    fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
-    fetch(`https://api.alquran.cloud/v1/page/${page}/en.sahih`),
-    fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
-  ]);
-  if(!metaRes.ok) throw new Error('API page ' + page);
-  const metaJson = await metaRes.json();
-  const frJson = await frRes.json();
-  const enJson = enRes.ok ? await enRes.json() : { data: { ayahs: [] } };
-  let tjJson = { verses: [] };
-  try { tjJson = await tjRes.json(); } catch(e) {}
-  const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
-  const frAyahs = (frJson.data && frJson.data.ayahs) || [];
-  const enAyahs = (enJson.data && enJson.data.ayahs) || [];
-  const tjVerses = (tjJson.verses) || [];
-  let variantIndex = null;
-  let variantUnavailable = false;
-  if(mushafRiwayaKey !== 'hafs'){
-    try{
-      variantIndex = await loadMushafRiwayaRows();
-    }catch(err){
-      // On conserve les métadonnées et les traductions pour l’audio, mais on
-      // interdit toute substitution silencieuse par le texte Hafs.
-      variantUnavailable = true;
-      console.warn('Texte arabe de riwāya non vérifié', mushafRiwayaKey, err);
-    }
+  if(mushafRiwayaKey === 'hafs'){
+    if(MUSHAF_PAGE_CACHE.has(page)) return MUSHAF_PAGE_CACHE.get(page);
+    const [metaRes, frRes, enRes, tjRes] = await Promise.all([
+      fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
+      fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
+      fetch(`https://api.alquran.cloud/v1/page/${page}/en.sahih`),
+      fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
+    ]);
+    if(!metaRes.ok) throw new Error('API page ' + page);
+    const metaJson = await metaRes.json();
+    const frJson = await frRes.json();
+    const enJson = enRes.ok ? await enRes.json() : { data: { ayahs: [] } };
+    let tjJson = { verses: [] };
+    try { tjJson = await tjRes.json(); } catch(e) {}
+    const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
+    const frAyahs = (frJson.data && frJson.data.ayahs) || [];
+    const enAyahs = (enJson.data && enJson.data.ayahs) || [];
+    const tjVerses = (tjJson.verses) || [];
+    const ayahs = metaAyahs.map((a, i) => {
+      let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
+      tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
+      tjHtml = normalizeQuranArabic(tjHtml);
+      const plain = normalizeQuranArabic(a.text || '');
+      const html = tjHtml || escapeMushafText(plain);
+      return {
+        global: a.number,
+        surah: a.surah.number,
+        surahName: a.surah.englishName,
+        surahAr: a.surah.name,
+        ayah: a.numberInSurah,
+        text: plain,
+        textHtml: html,
+        riwaya: 'hafs',
+        variantUnavailable: false,
+        hasTajweed: !!tjHtml,
+        tr: (frAyahs[i] && frAyahs[i].text) || '',
+        en: (enAyahs[i] && enAyahs[i].text) || '',
+        juz: a.juz
+      };
+    });
+    rihlaCachePage(page, ayahs);
+    return ayahs;
   }
-  const ayahs = metaAyahs.map((a, i) => {
-    const variantText = variantIndex && variantIndex.get(String(a.surah.number) + ':' + String(a.numberInSurah));
-    let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
-    tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
-    tjHtml = normalizeQuranArabic(tjHtml);
-    // Hafs utilise le texte/page tajwid existant ; les autres riwāyāt
-    // utilisent leur graphie source, sans remplacement ni normalisation.
-    const plain = mushafRiwayaKey === 'hafs'
-      ? normalizeQuranArabic(a.text || '')
-      : (variantUnavailable ? '' : String(variantText || ''));
-    const html = mushafRiwayaKey === 'hafs' && tjHtml ? tjHtml : escapeMushafText(plain);
+
+  // Riwāya autre que Hafs : la page est construite DIRECTEMENT depuis
+  // l'édition propre à cette riwāya (texte, découpage des versets et
+  // numérotation qui lui sont propres) — voir loadMushafRiwayaRows(). Si
+  // cette édition texte est indisponible, on ne substitue JAMAIS le texte
+  // Hafs : la page scannée (mushafEditionPageUrl) + une notice prennent le
+  // relais (voir applyMushafPageData / renderMushafAyahs).
+  const cacheKey = mushafRiwayaKey + ':' + page;
+  if(MUSHAF_RIWAYA_PAGE_CACHE.has(cacheKey)) return MUSHAF_RIWAYA_PAGE_CACHE.get(cacheKey);
+  let pages, rows;
+  try{
+    pages = await loadMushafRiwayaRows();
+    rows = (pages && pages.get(page)) || [];
+  }catch(err){
+    console.warn('Texte arabe de riwāya non vérifié', mushafRiwayaKey, err);
+    rows = [];
+  }
+  if(!rows.length){
+    return [{ variantUnavailable: true, surah: null, ayah: null, riwaya: mushafRiwayaKey }];
+  }
+  const ayahs = rows.map(function(row){
+    const plain = String(row.text || '');
+    const surahInfo = SURAHS[row.surah - 1];
     return {
-      global: a.number,
-      surah: a.surah.number,
-      surahName: a.surah.englishName,
-      surahAr: a.surah.name,
-      ayah: a.numberInSurah,
+      global: null,
+      surah: row.surah,
+      surahName: (surahInfo && surahInfo.englishName) || row.surahEn || '',
+      surahAr: (surahInfo && surahInfo.name) || row.surahAr || '',
+      ayah: row.ayah,
       text: plain,
-      textHtml: html,
+      textHtml: escapeMushafText(plain),
       riwaya: mushafRiwayaKey,
-      variantUnavailable: variantUnavailable,
-      hasTajweed: mushafRiwayaKey === 'hafs' && !!tjHtml,
-      tr: (frAyahs[i] && frAyahs[i].text) || '',
-      en: (enAyahs[i] && enAyahs[i].text) || '',
-      juz: a.juz
+      variantUnavailable: false,
+      hasTajweed: false,
+      tr: '',
+      en: '',
+      juz: row.juz
     };
   });
-  if(mushafRiwayaKey === 'hafs') rihlaCachePage(page, ayahs);
+  MUSHAF_RIWAYA_PAGE_CACHE.set(cacheKey, ayahs);
   return ayahs;
 }
 function prefetchMushafPage(page){
@@ -25629,7 +25707,8 @@ const MUSHAF_RIWAYAT = {
 let mushafRiwayaKey = 'hafs';
 let mushafRiwayaReciterIndex = 0;
 let mushafRiwayaRows = null;
-const MUSHAF_RIWAYA_CACHE = new Map();
+const MUSHAF_RIWAYA_CACHE = new Map(); // riwāya -> Promise<Map<page, rows[]>>
+const MUSHAF_RIWAYA_PAGE_CACHE = new Map(); // "riwāya:page" -> ayahs[]
 function mushafRiwayaLabel(key){
   const cfg = MUSHAF_RIWAYAT[key] || MUSHAF_RIWAYAT.hafs;
   const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
@@ -25773,6 +25852,11 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
     applyMushafPageData(page, MUSHAF_PAGE_CACHE.get(page), { autoPlay, autoPlaySurah });
     return;
   }
+  if(mushafRiwayaKey !== 'hafs' && MUSHAF_RIWAYA_PAGE_CACHE.has(mushafRiwayaKey + ':' + page)){
+    if(token !== mushafLoadToken) return;
+    applyMushafPageData(page, MUSHAF_RIWAYA_PAGE_CACHE.get(mushafRiwayaKey + ':' + page), { autoPlay, autoPlaySurah });
+    return;
+  }
 
   if(box){
     box.classList.add('is-loading');
@@ -25876,10 +25960,15 @@ function renderMushafAyahs(){
     const hiddenByMode = mushafHifzMode && mushafHifzMaskMode !== 'none' && !mushafHifzRevealed.has(key) && (mushafHifzMaskMode === 'all' || i % 2 === 1);
     const hifzCls = hiddenByMode ? ' hifz-hidden' : '';
     const arText = hiddenByMode ? '<span class="hifz-text-hidden">' + arHtml + '</span>' : '<span>' + arHtml + '</span>';
+    // Hafs (API alquran.cloud) n'a pas de fin-de-verset intégrée au texte : on
+    // ajoute nous-mêmes le petit rond numéroté. Les autres riwāyāt (police
+    // KFGQPC dédiée) ont déjà leur propre glyphe de fin de verset DANS le
+    // texte lui-même (ligature ornée) : pas besoin d'en rajouter un second.
+    const ayahEnd = mushafRiwayaKey === 'hafs' ? '<span class="ma-ayah-end" title="Verset ' + a.ayah + '">' + numAr + '</span>' : '';
     return `
     <div class="mushaf-ayah${hifzCls}" data-idx="${i}" id="mushaf-ayah-${i}" data-key="${key}">
       <div class="ma-meta">${a.surah}:${a.ayah}</div>
-      <div class="ma-ar" lang="ar" dir="rtl">${arText}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
+      <div class="ma-ar" lang="ar" dir="rtl">${arText}${ayahEnd}</div>
       <div class="ma-tr${mushafShowTr ? ' show' : ''}${hiddenByMode ? ' hifz-text-hidden' : ''}" lang="${mushafTrLang}">${tr || '—'}</div>
       <div class="ma-tafsir" id="tafsir-${i}"></div>
       <div class="ma-tools">
