@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -1820,7 +1821,7 @@ Rihla
 <button class="nav-link" data-view="view-rappel" data-i18n="nav_hadith">Rappel</button>
 <button class="nav-link" data-view="view-prophete" data-i18n="nav_prophets">Histoires des Prophètes</button>
 <button class="nav-link" data-view="view-coran" data-i18n="nav_quran">Qur'an</button>
-<button class="nav-link" data-view="view-tafsir">Tafsir</button>
+<button class="nav-link" data-view="view-tafsir" data-i18n="nav_tafsir">Tafsir</button>
 <button class="nav-link" data-view="view-suivi" data-i18n="nav_track">Suivi</button>
 <button class="nav-link" data-view="view-home" data-scroll-to="tarifs" data-i18n="nav_pricing">Tarifs</button>
 </nav>
@@ -27273,7 +27274,7 @@ var RIHLA_I18N = {
     login:'Se connecter', premium:'Passer Premium', logout:'Déconnexion',
     nav_home:'Accueil', nav_today:"Aujourd'hui", nav_path:'Parcours', nav_duas:"Du'as",
     nav_prayer:'Prières', nav_hadith:'Rappel', nav_prophets:'Histoires des Prophètes',
-    nav_quran:"Qur'an", nav_track:'Suivi', nav_pricing:'Tarifs',
+    nav_quran:"Qur'an", nav_tafsir:'Tafsir', nav_track:'Suivi', nav_pricing:'Tarifs',
      tafsir_eyebrow:'Étude du Coran', tafsir_title:'Tafsir — le Coran et son explication', tafsir_lead:'Lis chaque sourate intégralement à gauche et ouvre l’explication vérifiée de chaque verset à droite.', tafsir_surah_label:'Sourate', tafsir_ayah_label:'Verset', tafsir_search_label:'Recherche dans la sourate', tafsir_prev:'← Précédent', tafsir_next:'Suivant →', tafsir_quran_panel:'Coran', tafsir_detail_panel:'Explication du verset', tafsir_loading:'Chargement du Coran…', tafsir_choose:'Sélectionne un verset pour afficher son tafsir complet.', tafsir_no_result:'Aucun verset ne correspond à cette recherche.', tafsir_source:'Source vérifiée :', tafsir_error:'Impossible de charger les données pour le moment.', tafsir_search_ph:'Mot arabe ou traduction…',
     hero_eyebrow:'Accompagnement quotidien du Coran',
     hero_title:'Avance dans ta lecture, <em>un jour</em> à la fois.',
@@ -27293,13 +27294,14 @@ var RIHLA_I18N = {
     tr_fr:'Traduction FR', play_page:'▶ Lire la page', back:'← Retour à l\'accueil',
     open_quran:"Ouvrir le Qur'an", day_prayer:'Prière', day_read:'Lecture', day_adhkar:'Adhkar',
     tag_routine:'Routine', tag_beginner:'Débutant', tag_prayer:'Prières', tag_reminder:'Rappel',
-    tag_story:'Histoire', tag_audio:'Lecture & audio', tag_track:'Suivi', tag_fix:'Correction', tag_duas:'Invocations',
+    tag_story:'Histoire', tag_audio:'Lecture & audio', tag_tafsir:'Étude', tag_track:'Suivi', tag_fix:'Correction', tag_duas:'Invocations',
     card_today_t:"Aujourd'hui", card_today_d:"Ta page du plan, un adhkar et une du'a — le minimum pour avancer chaque jour.",
     card_path_t:'Parcours 21 jours', card_path_d:'Un cadre simple : prière, courte lecture et un adhkar, jour après jour.',
     card_prayer_t:'Horaires & Qibla', card_prayer_d:'Les 5 horaires calculés pour ta position et le sens de la Qibla.',
     card_hadith_t:'Un hadith par jour', card_hadith_d:'Des hadiths authentiques de Boukhari, Muslim et du Jardin des Vertueux.',
     card_prophets_t:'Histoires des Prophètes', card_prophets_d:'Les 25 prophètes cités dans le Coran, avec leurs récits authentiques et détaillés.',
     card_quran_t:"Qur'an", card_quran_d:'Mushaf complet (604 pages), tous les récitateurs et lecture synchronisée verset par verset.',
+    card_tafsir_t:'Tafsir', card_tafsir_d:'Lis le Coran et consulte l’explication de chaque verset dans un espace dédié.',
     card_track_t:'Mon suivi quotidien', card_track_d:'Coche tes lectures, suis ta régularité et garde ta série active.',
     card_listen_t:'Correction de récitation', card_listen_d:'Enregistre ta voix, détecte la sourate et corrige tes erreurs de lecture.',
     card_duas_t:"Du'as quotidiens", card_duas_d:'50+ invocations classées par catégories avec phonétique et traductions.',
@@ -27315,7 +27317,7 @@ var RIHLA_I18N = {
     login:'Log in', premium:'Go Premium', logout:'Log out',
     nav_home:'Home', nav_today:'Today', nav_path:'Path', nav_duas:"Du'as",
     nav_prayer:'Prayer', nav_hadith:'Reminder', nav_prophets:'Stories of the Prophets',
-    nav_quran:"Qur'an", nav_track:'Tracker', nav_pricing:'Pricing',
+    nav_quran:"Qur'an", nav_tafsir:'Tafsir', nav_track:'Tracker', nav_pricing:'Pricing',
      tafsir_eyebrow:'Qur’an study', tafsir_title:'Tafsir — Qur’an and explanation', tafsir_lead:'Read the whole surah on the left and open the verified explanation of each verse on the right.', tafsir_surah_label:'Surah', tafsir_ayah_label:'Verse', tafsir_search_label:'Search this surah', tafsir_prev:'← Previous', tafsir_next:'Next →', tafsir_quran_panel:'Qur’an', tafsir_detail_panel:'Verse explanation', tafsir_loading:'Loading Qur’an…', tafsir_choose:'Select a verse to display its complete tafsir.', tafsir_no_result:'No verse matches this search.', tafsir_source:'Verified source:', tafsir_error:'The data could not be loaded right now.', tafsir_search_ph:'Arabic word or translation…',
     hero_eyebrow:"Daily Qur'an companion",
     hero_title:'Grow in your reading, <em>one day</em> at a time.',
@@ -27335,13 +27337,14 @@ var RIHLA_I18N = {
     tr_fr:'Translation', play_page:'▶ Play page', back:'← Back to home',
     open_quran:"Open Qur'an", day_prayer:'Prayer', day_read:'Reading', day_adhkar:'Adhkar',
     tag_routine:'Routine', tag_beginner:'Beginner', tag_prayer:'Prayer', tag_reminder:'Reminder',
-    tag_story:'Stories', tag_audio:'Reading & audio', tag_track:'Tracker', tag_fix:'Correction', tag_duas:'Invocations',
+    tag_story:'Stories', tag_audio:'Reading & audio', tag_tafsir:'Study', tag_track:'Tracker', tag_fix:'Correction', tag_duas:'Invocations',
     card_today_t:'Today', card_today_d:"Your plan page, an adhkar and a du'a — the minimum to move forward each day.",
     card_path_t:'21-day path', card_path_d:'A simple frame: prayer, short reading and one adhkar, day after day.',
     card_prayer_t:'Times & Qibla', card_prayer_d:'The 5 prayer times for your location and the direction of the Qibla.',
     card_hadith_t:'A hadith a day', card_hadith_d:'Authentic hadiths from Bukhari, Muslim and Riyad as-Salihin.',
     card_prophets_t:'Stories of the Prophets', card_prophets_d:'The 25 prophets mentioned in the Qur\'an, with authentic detailed narratives.',
     card_quran_t:"Qur'an", card_quran_d:'Full mushaf (604 pages), all reciters and verse-synced playback.',
+    card_tafsir_t:'Tafsir', card_tafsir_d:'Read the Qur’an and open the explanation of each verse in a dedicated space.',
     card_track_t:'My daily tracker', card_track_d:'Tick your readings, follow your consistency and keep your streak.',
     card_listen_t:'Recitation correction', card_listen_d:'Record your voice, detect the surah and correct reading mistakes.',
     card_duas_t:"Daily du'as", card_duas_d:'50+ invocations by category with phonetic help and translations.',
@@ -27357,7 +27360,7 @@ var RIHLA_I18N = {
     login:'تسجيل الدخول', premium:'الترقية', logout:'خروج',
     nav_home:'الرئيسية', nav_today:'اليوم', nav_path:'المسار', nav_duas:'الأدعية',
     nav_prayer:'الصلاة', nav_hadith:'تذكير', nav_prophets:'قصص الأنبياء',
-    nav_quran:'القرآن', nav_track:'المتابعة', nav_pricing:'الأسعار',
+    nav_quran:'القرآن', nav_tafsir:'التفسير', nav_track:'المتابعة', nav_pricing:'الأسعار',
      tafsir_eyebrow:'دراسة القرآن', tafsir_title:'التفسير — القرآن وشرحه', tafsir_lead:'اقرأ السورة كاملةً على اليسار وافتح التفسير الموثق لكل آية على اليمين.', tafsir_surah_label:'السورة', tafsir_ayah_label:'الآية', tafsir_search_label:'البحث في السورة', tafsir_prev:'← السابق', tafsir_next:'التالي →', tafsir_quran_panel:'القرآن', tafsir_detail_panel:'شرح الآية', tafsir_loading:'جارٍ تحميل القرآن…', tafsir_choose:'اختر آية لعرض تفسيرها الكامل.', tafsir_no_result:'لا توجد آية تطابق هذا البحث.', tafsir_source:'المصدر الموثق:', tafsir_error:'تعذر تحميل البيانات حاليًا.', tafsir_search_ph:'كلمة عربية أو ترجمة…',
     hero_eyebrow:'مرافق يومي للقرآن',
     hero_title:'تقدّم في قراءتك، <em>يومًا</em> بعد يوم.',
@@ -27377,13 +27380,14 @@ var RIHLA_I18N = {
     tr_fr:'الترجمة', play_page:'▶ قراءة الصفحة', back:'← العودة للرئيسية',
     open_quran:'فتح القرآن', day_prayer:'الصلاة', day_read:'القراءة', day_adhkar:'الذكر',
     tag_routine:'روتين', tag_beginner:'مبتدئ', tag_prayer:'الصلاة', tag_reminder:'تذكير',
-    tag_story:'قصص', tag_audio:'قراءة وصوت', tag_track:'متابعة', tag_fix:'تصحيح', tag_duas:'أدعية',
+    tag_story:'قصص', tag_audio:'قراءة وصوت', tag_tafsir:'دراسة', tag_track:'متابعة', tag_fix:'تصحيح', tag_duas:'أدعية',
     card_today_t:'اليوم', card_today_d:'صفحتك في الخطة وذكر ودعاء — الحد الأدنى للتقدم كل يوم.',
     card_path_t:'مسار ٢١ يومًا', card_path_d:'إطار بسيط: صلاة وقراءة قصيرة وذكر، يومًا بعد يوم.',
     card_prayer_t:'المواقيت والقبلة', card_prayer_d:'الصلوات الخمس حسب موقعك واتجاه القبلة.',
     card_hadith_t:'حديث كل يوم', card_hadith_d:'أحاديث صحيحة من البخاري ومسلم ورياض الصالحين.',
     card_prophets_t:'قصص الأنبياء', card_prophets_d:'الأنبياء الخمسة والعشرون في القرآن مع روايات موثوقة.',
     card_quran_t:'القرآن', card_quran_d:'مصحف كامل (٦٠٤ صفحة) وجميع القراء وتلاوة متزامنة مع الآيات.',
+    card_tafsir_t:'التفسير', card_tafsir_d:'اقرأ القرآن واطّلع على شرح كل آية في مساحة مخصّصة.',
     card_track_t:'متابعتي اليومية', card_track_d:'سجّل قراءاتك وتابع انتظامك واحفظ سلسلتك.',
     card_listen_t:'تصحيح التلاوة', card_listen_d:'سجّل صوتك واكتشف السورة وصحح أخطاء القراءة.',
     card_duas_t:'أدعية يومية', card_duas_d:'أكثر من ٥٠ دعاءً مصنّفًا مع النطق والترجمة.',
@@ -28362,3 +28366,4 @@ window.addEventListener('hashchange', function(){
 </script>
 </body>
 </html>
+Mushaf French Tafsir Translation Length - Grok
