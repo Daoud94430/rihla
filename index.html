@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -3676,7 +3675,7 @@ window.PROPHET_I18N = {
     desc_en: "<strong>Isaac (peace be upon him)</strong> — son of Abraham, given as a glad tiding in old age; a righteous prophet.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Allah’s gift comes in its time. Righteous children are a blessing.</p></div>",
     desc_ar: "<strong>إسحاق عليه السلام</strong> ابن إبراهيم، نبي من الصالحين.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>رزق الله في أوانه.</p></div>"
   },
-  "Jacob (Ya'qub)": {
+  "Jacob (Ya\\'qub)": {
     name_en: "Jacob (Yaqub)",
     desc_en: "<strong>Jacob (peace be upon him)</strong> — also called Israel — father of the tribes.\n<br><br>He bore the loss of Joseph with beautiful patience until Allah reunited them.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Beautiful patience and good hope in Allah.</p></div>",
     desc_ar: "<strong>يعقوب عليه السلام</strong> صبر على فقد يوسف حتى جمع الله شمله.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصبر الجميل.</p></div>"
@@ -3691,7 +3690,7 @@ window.PROPHET_I18N = {
     desc_en: "<strong>Job (peace be upon him)</strong> was tested with illness and loss, yet never abandoned faith.\n<br><br>He called upon Allah; He healed him and restored his family.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Patience and dua in hardship bring relief.</p></div>",
     desc_ar: "<strong>أيوب عليه السلام</strong> صبر على البلاء ففرّج الله كربه.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصبر والدعاء.</p></div>"
   },
-  "Shu'ayb": {
+  "Shu\\'ayb": {
     name_en: "Shuayb",
     desc_en: "<strong>Shuayb (peace be upon him)</strong> was sent to Madyan: fair weights and measures, no corruption.\n<br><br>They denied him and were punished; the believers were saved.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Honesty in trade is part of faith.</p></div>",
     desc_ar: "<strong>شعيب عليه السلام</strong> أمر بالعدل في الكيل ونهى عن الفساد.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصدق في التجارة من الإيمان.</p></div>"
@@ -3766,23 +3765,14 @@ function prophetLearningFor(p){
   const key = Object.keys(map).find(k => k.replace(/\\/g, '') === normalized);
   return key ? map[key] : null;
 }
-function prophetLookupKey(map, name){
-  if(!map || !name) return null;
-  if(map[name]) return name;
-  const norm = String(name).replace(/\\/g, '');
-  return Object.keys(map).find(k => String(k).replace(/\\/g, '') === norm) || null;
-}
 function prophetDescHtml(p){
+  const pack = window.PROPHET_I18N && window.PROPHET_I18N[p.name];
+  const extraPack = window.PROPHETE_EXTRA_I18N && window.PROPHETE_EXTRA_I18N[p.name];
   const learning = prophetLearningFor(p);
   if(learning && learning[rihlaLang]) return learning[rihlaLang];
-  const k1 = prophetLookupKey(window.PROPHET_I18N, p.name);
-  const pack = k1 && window.PROPHET_I18N[k1];
-  const k2 = prophetLookupKey(window.PROPHETE_EXTRA_I18N, p.name);
-  const extraPack = k2 && window.PROPHETE_EXTRA_I18N[k2];
-  if(rihlaLang === 'en' && pack && pack.desc_en) return pack.desc_en + (extraPack && extraPack.en ? extraPack.en : '');
-  if(rihlaLang === 'ar' && pack && pack.desc_ar) return pack.desc_ar + (extraPack && extraPack.ar ? extraPack.ar : '');
-  const k3 = prophetLookupKey(window.PROPHETE_EXTRA, p.name);
-  const extra = k3 && window.PROPHETE_EXTRA[k3];
+  if(rihlaLang === 'en' && pack && pack.desc_en) return pack.desc_en + (extraPack ? extraPack.en : '');
+  if(rihlaLang === 'ar' && pack && pack.desc_ar) return pack.desc_ar + (extraPack ? extraPack.ar : '');
+  const extra = window.PROPHETE_EXTRA && window.PROPHETE_EXTRA[p.name];
   return extra ? (p.desc + extra) : p.desc;
 }
 function renderProphetes(){
