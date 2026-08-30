@@ -2100,9 +2100,9 @@ Rihla
 <button class="overview-card" data-view="view-coran">
 <div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h6"/></svg></div>
 <span class="tag" data-i18n="tag_audio">Lecture & audio</span>
-<h3 data-i18n="card_quran_t">Qur'an</h3>
+<h3 data-i18n="card_quran_t">Qur'an — Mushaf</h3>
 <p data-i18n="card_quran_d">Mushaf complet (604 pages), tous les récitateurs et lecture synchronisée verset par verset.</p>
-<span class="expand-hint" data-i18n="discover_arrow">Découvrir →</span>
+<span class="expand-hint" data-i18n="discover_arrow">Ouvrir le mushaf →</span>
 </button>
 <button class="overview-card overview-card-featured" data-view="view-tafsir">
 <div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/><path d="M14 18l4-2 2 4"/></svg></div>
@@ -3232,22 +3232,22 @@ const prophetesData = [
 name: 'Adam',
 nameAr: 'آدم',
 icon: 'آ',
-desc: `<strong>Adam (paix sur lui)</strong> est le premier homme et le premier prophète. Allah le créa d'argile, de Ses propres mains, puis lui insuffla de Son esprit : il devint le père de l'humanité et le premier dépositaire de la guidance.
-<br><br><strong>📖 La création :</strong> Allah annonça aux anges qu'Il allait établir un successeur (khalîfa) sur terre. Les anges s'interrogèrent sur le sang qui y serait versé ; Allah répondit qu'Il savait ce qu'ils ne savaient pas. Il enseigna à Adam les noms de toutes choses, puis les présenta aux anges, qui reconnurent leur ignorance relative et la sagesse divine. Allah ordonna aux anges de se prosterner devant Adam en signe d'honneur : tous obéirent, excepté Iblîs, qui s'enorgueillit, argua qu'il était de feu tandis qu'Adam était de terre, et refusa. Il fut alors banni de la miséricorde pour son orgueil.
-<br><br><strong>📖 Le Jardin et la faute :</strong> Adam et son épouse Ḥawwā' furent établis dans le Jardin, avec liberté de jouir de ses biens sauf un arbre interdit. Iblîs, jaloux, les tenta par le mensonge et la promesse d'éternité. Ils y goûtèrent, découvrirent leur nudité, et se couvrirent des feuilles du Jardin. Ils reconnurent leur faute et dirent : « Notre Seigneur, nous nous sommes fait du tort à nous-mêmes ; si Tu ne nous pardonnes pas et ne nous fais pas miséricorde, nous serons du nombre des perdants. » Allah agréa leur repentir : la porte du retour resta ouverte.
-<br><br><strong>📖 Sur terre :</strong> Ils furent fait descendre sur terre pour y vivre, y transmettre le monothéisme et y peupler la terre. Parmi leurs fils, Hābîl et Qābîl offrirent un sacrifice ; celui de Hābîl fut agréé. Qābîl, jaloux, tua son frère — premier meurtre de l'humanité — et connut le remords. Adam demeura prophète et enseignant pour sa descendance jusqu'à sa mort.
-<div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>L'orgueil d'Iblîs mène à la perte ; l'humilité et la repentance d'Adam ouvrent le chemin du retour. La connaissance n'élève l'homme que jointe à la soumission.</p></div>`,
+desc: `<strong>Adam (paix sur lui)</strong> est le premier homme et le premier prophète. Allah le créa d'argile, de Ses propres mains, puis lui insuffla de Son esprit : il devint le père de l'humanité et le premier dépositaire de la guidance sur terre.
+<br><br><strong>📖 La création et le khalifat :</strong> Allah annonça aux anges qu'Il allait établir un successeur (khalîfa) sur terre. Les anges s'interrogèrent : « Y placerez-Vous quelqu'un qui y sèmera le désordre et versera le sang, alors que nous glorifions Votre louange ? » Allah répondit : « Je sais ce que vous ne savez pas. » Il enseigna à Adam les noms de toutes choses, puis les présenta aux anges, qui dirent : « Gloire à Vous ! Nous n'avons de savoir que ce que Vous nous avez appris. » Allah ordonna aux anges de se prosterner devant Adam en signe d'honneur : tous obéirent, excepté Iblîs, qui refusa, s'enorgueillit et fut du nombre des mécréants. Interrogé, il répondit qu'il était meilleur qu'Adam, créé de feu tandis qu'Adam l'était de terre. Pour cet orgueil, il fut banni de la miséricorde, mais obtint un délai jusqu'au Jour connu.
+<br><br><strong>📖 Le Jardin, la tentation et le repentir :</strong> Adam et son épouse Ḥawwā' furent établis dans le Jardin et autorisés à en jouir librement, sauf un arbre. Iblîs, jaloux, leur jura qu'il était un bon conseiller et les tenta par la promesse d'éternité ou d'une royauté qui ne disparaît pas. Ils y goûtèrent, découvrirent leur nudité et se couvrirent des feuilles du Jardin. Ils reconnurent leur faute et dirent : « Notre Seigneur, nous nous sommes fait du tort à nous-mêmes ; si Tu ne nous pardonnes pas et ne nous fais pas miséricorde, nous serons du nombre des perdants. » Allah agréa leur repentir et leur enseigna des paroles de retour. La porte du tawba resta ouverte pour leur descendance.
+<br><br><strong>📖 Sur terre :</strong> Ils furent fait descendre sur terre pour y vivre, y mourir et en être sortis pour le jugement. Adam transmit le monothéisme. Parmi ses fils, Hābîl et Qābîl présentèrent un sacrifice ; celui de Hābîl fut agréé. Qābîl, jaloux, tua son frère — premier meurtre — et connut le remords en voyant un corbeau lui enseigner comment ensevelir un corps. Adam demeura prophète et enseignant jusqu'à sa mort.
+<div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>L'orgueil d'Iblîs mène à la perte ; l'humilité et la repentance d'Adam ouvrent le chemin du retour. La connaissance n'élève que jointe à la soumission.</p></div>`,
 verses: '📖 Coran 2:31-34, 7:11-27, 20:115-123'
 },
 {
 name: 'Idris',
 nameAr: 'إدريس',
 icon: 'إ',
-desc: `<strong>Idrîs (paix sur lui)</strong> est mentionné dans le Coran comme un homme véridique et un prophète, élevé à un rang élevé auprès d'Allah.
-<br><br><strong>📖 Dans le Livre :</strong> « Et mentionne Idrîs dans le Livre. C'était un véridique, un prophète. Et Nous l'élevâmes à un haut rang. » (sourate Maryam, 19:56-57). Le Coran fixe ainsi sa véracité (ṣidq) et son élévation, sans dérouler une biographie longue.
-<br><br><strong>📖 Sa place dans la chaîne prophétique :</strong> Il appartient à la lignée de ceux qui appelèrent à l'unicité d'Allah avant le Déluge, dans la continuité d'Adam. Les traditions rapportent qu'il exhortait à la droiture et au rappel ; ce qui est certain, c'est le témoignage coranique : un prophète véridique, honoré.
-<br><br><strong>📖 Limite du récit :</strong> Beaucoup de détails circulant hors du Coran et de la Sunna authentique ne sont pas établis avec la même force. Le croyant s'attache d'abord à ce qu'Allah a explicitement dit.
-<div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La véracité est un trait prophétique. Allah élève ceux qui s'attachent à la vérité sans ostentation.</p></div>`,
+desc: `<strong>Idrîs (paix sur lui)</strong> est mentionné dans le Coran comme un homme véridique et un prophète, élevé par Allah à un rang élevé.
+<br><br><strong>📖 Témoignage du Livre :</strong> « Et mentionne Idrîs dans le Livre. C'était un véridique, un prophète. Et Nous l'élevâmes à un haut rang. » (Maryam, 19:56-57). Ces versets fixent trois réalités : sa mention prescrite, sa véracité (ṣidq), sa prophétie, et son élévation. Le Coran n'en déroule pas une biographie longue, ce qui invite à la retenue face aux récits non établis.
+<br><br><strong>📖 Place dans la guidance :</strong> Idrîs appartient à la chaîne de ceux qui, après Adam, appelèrent au monothéisme et à la droiture. Les traditions rapportent qu'il exhortait son peuple à l'adoration d'Allah et à l'abandon du mal ; ce qui est certain, c'est le témoignage divin : un prophète véridique, honoré.
+<br><br><strong>📖 Attitude du croyant :</strong> On affirme ce qu'Allah a affirmé. On n'érige pas en dogme les détails historiques non solidement transmis. L'essentiel demeure : la véracité et l'élévation de ceux qu'Allah choisit.
+<div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La véracité est un trait prophétique. Allah élève ceux qui s'attachent à la vérité sans ostentation ni mensonge.</p></div>`,
 verses: '📖 Coran 19:56-57, 21:85-86'
 },
 {
@@ -3255,10 +3255,10 @@ name: 'Noé (Nuh)',
 nameAr: 'نوح',
 icon: 'ن',
 desc: `<strong>Noé — Nûḥ (paix sur lui)</strong> est le prophète de la patience longue. Le Coran indique qu'il demeura parmi son peuple neuf cent cinquante ans, les appelant à n'adorer qu'Allah.
-<br><br><strong>📖 Un appel inlassable :</strong> Il appela de nuit et de jour, en secret et en public. Une minorité crut ; la majorité se moqua, se boucha les oreilles et s'endurcit. Noé se plaignit à son Seigneur de leur obstination, tout en restant dans l'appel, non dans la vengeance personnelle.
-<br><br><strong>📖 L'Arche :</strong> Allah lui ordonna de construire l'Arche sous Ses yeux et Son inspiration. Il la bâtit sur terre sèche, tandis que les notables passaient et le raillaient. Chaque planche était un acte d'obéissance face au ridicule.
-<br><br><strong>📖 Le Déluge :</strong> Lorsque vint l'ordre divin, le four bouillonna, les sources jaillirent, le ciel déversa une pluie torrentielle. Montèrent dans l'Arche ceux qui avaient cru, ainsi qu'un couple de chaque espèce selon le commandement. Un fils de Noé refusa de s'embarquer, se croyant à l'abri sur une montagne ; il périt avec les négateurs. Noé invoqua pour lui ; Allah répondit que ce fils n'était pas de sa « famille » au sens de la foi agréée, et lui interdit de demander ce dont il n'avait pas connaissance.
-<br><br><strong>📖 Après le reflux :</strong> L'Arche se posa sur le mont al-Jûdî. Noé bénit Allah. Une humanité nouvelle repartit sur le monothéisme. Il est souvent appelé le second père de l'humanité après Adam.
+<br><br><strong>📖 Un appel sous tous les angles :</strong> « Seigneur, j'ai appelé mon peuple nuit et jour. Mais mon appel n'a fait qu'accroître leur fuite. » Il appela en secret et à haute voix, sans se lasser. Une minorité crut ; la majorité se boucha les oreilles, se couvrit de vêtements et s'enorgueillit. Noé se plaignit à Allah de leur obstination, non pour se venger, mais pour remettre l'affaire au Juge suprême.
+<br><br><strong>📖 L'Arche :</strong> Allah lui ordonna de construire l'Arche sous Ses yeux et Son inspiration, et de ne plus Lui adresser de demande concernant les injustes : ils seraient noyés. Noé bâtit sur terre sèche ; chaque fois que des notables passaient, ils se moquaient. Il répondait que se moquerait celui qui se moque, au moment du châtiment.
+<br><br><strong>📖 Le Déluge :</strong> Lorsque l'ordre vint et que le four bouillonna, Noé chargea un couple de chaque espèce, sa famille — sauf ceux contre qui le décret avait été prononcé — et les croyants, peu nombreux. Un fils refusa de monter, se croyant à l'abri sur une montagne. Noé l'appela ; le fils refusa ; une vague s'interposa. Noé invoqua pour lui ; Allah répondit que ce fils n'était pas de sa « famille » agréée, et lui interdit de demander ce dont il n'avait pas connaissance. Noé se repentit de cette demande.
+<br><br><strong>📖 Après le reflux :</strong> Il fut dit : « Ô terre, absorbe ton eau ! Ô ciel, cesse ! » L'Arche se posa sur al-Jûdî. Noé sortit avec une bénédiction sur lui et sur les communautés avec lui. Il demeure le second père de l'humanité après Adam.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La patience dans l'appel n'est pas vaine. La filiation de sang ne protège pas face au refus de la guidance.</p></div>`,
 verses: '📖 Coran 7:59-64, 11:25-49, 71:1-28'
 },
@@ -3266,10 +3266,10 @@ verses: '📖 Coran 7:59-64, 11:25-49, 71:1-28'
 name: 'Houd',
 nameAr: 'هود',
 icon: 'ه',
-desc: `<strong>Hûd (paix sur lui)</strong> fut envoyé au peuple de ʿÂd, dans la région d'al-Aḥqâf. ʿÂd était un peuple puissant, bâtisseur, fier de sa force et de ses édifices élevés.
-<br><br><strong>📖 L'orgueil de ʿÂd :</strong> Ils disaient qui était plus fort qu'eux. Ils multipliaient les constructions et s'attachaient aux idoles. Hûd les appela à l'unicité, à abandonner les fausses divinités et à craindre Allah qui les avait comblés de biens. Ils le traitèrent de sot et de menteur.
-<br><br><strong>📖 Le défi :</strong> Ils demandèrent à voir le châtiment s'il disait vrai. Hûd affirma qu'il était un messager loyal, sans salaire demandé, et que le savoir de l'heure du châtiment appartenait à Allah.
-<br><br><strong>📖 Le vent stérile :</strong> Un vent furieux, stérile, les frappa pendant des jours et des nuits. Rien de ce qu'ils avaient bâti ne les protégea. Allah sauva Hûd et ceux qui avaient cru avec lui. Leur destin reste un signe contre l'orgueil qui se mesure à la pierre et au muscle.
+desc: `<strong>Hûd (paix sur lui)</strong> fut envoyé au peuple de ʿÂd, dans al-Aḥqâf. ʿÂd était puissant, bâtisseur, fier de sa force.
+<br><br><strong>📖 L'orgueil de ʿÂd :</strong> Ils disaient : « Qui est plus fort que nous ? » Ils multipliaient les édifices et s'attachaient aux idoles. Hûd les appela : « Ô mon peuple, adorez Allah ! Vous n'avez pas d'autre divinité que Lui. » Il leur rappela les bienfaits et les mit en garde contre le sort des peuples précédents.
+<br><br><strong>📖 Le rejet :</strong> Ils le traitèrent de sot et de menteur. Ils dirent que leurs dieux l'avaient frappé de folie. Hûd affirma qu'il était un messager loyal, qu'il ne demandait pas de salaire, et que le savoir de l'heure du châtiment appartenait à Allah.
+<br><br><strong>📖 Le vent stérile :</strong> Lorsqu'ils virent un nuage approcher de leurs vallées, ils crurent à une pluie. C'était un vent furieux, stérile, qui les détruisit pendant des jours et des nuits. Rien de ce qu'ils avaient bâti ne les protégea. Allah sauva Hûd et ceux qui avaient cru. Leur destin est un signe pour quiconque s'enorgueillit de la force créée.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Nulle puissance créée ne tient devant le commandement d'Allah. La force sans foi prépare la chute.</p></div>`,
 verses: '📖 Coran 7:65-72, 11:50-60, 26:123-140'
 },
@@ -3277,10 +3277,10 @@ verses: '📖 Coran 7:65-72, 11:50-60, 26:123-140'
 name: 'Salih',
 nameAr: 'صالح',
 icon: 'ص',
-desc: `<strong>Ṣâliḥ (paix sur lui)</strong> fut envoyé au peuple de Thamûd, qui taillait ses demeures dans le roc et se confiait à son savoir-faire.
-<br><br><strong>📖 L'appel :</strong> Ṣâliḥ les invita à adorer Allah seul et à ne pas semer la corruption. Une partie de l'élite s'opposa ; les opprimés furent parfois plus proches de l'écoute.
-<br><br><strong>📖 La chamelle :</strong> Ils réclamèrent un signe. Allah fit sortir une chamelle comme prodige clair, avec des règles de partage de l'eau entre elle et eux. Au lieu de respecter le signe qu'ils avaient demandé, un groupe la tua, défiant ouvertement le châtiment.
-<br><br><strong>📖 Le cri qui anéantit :</strong> Ils furent saisis par un cataclysme — un cri terrible — qui les laissa gisants dans leurs demeures. Ṣâliḥ et les croyants furent préservés. Les maisons de pierre demeurèrent comme vestiges pour les voyageurs et les méditatifs.
+desc: `<strong>Ṣâliḥ (paix sur lui)</strong> fut envoyé à Thamûd, peuple qui taillait ses maisons dans le roc et se confiait à son art.
+<br><br><strong>📖 L'appel :</strong> « Ô mon peuple, adorez Allah ! Vous n'avez pas d'autre divinité que Lui. » Il rappela qu'Allah les avait faits successeurs après ʿÂd et leur avait donné puissance sur la terre. Une partie de l'élite s'opposa avec arrogance ; d'autres, plus humbles, furent plus proches de l'écoute.
+<br><br><strong>📖 La chamelle :</strong> Ils réclamèrent un signe. Allah fit sortir une chamelle comme prodige clair, avec un droit sur l'eau à tour de rôle. Ṣâliḥ les mit en garde : ne pas la toucher d'un mal, sous peine d'un châtiment proche. Un groupe la tua malgré tout, et défièrent : « Fais venir ce dont tu menaces, si tu es du nombre des envoyés. »
+<br><br><strong>📖 Le châtiment :</strong> Ils furent saisis par un cri terrible dans leurs demeures et devinrent comme le chaume fauché. Ṣâliḥ se détourna d'eux en disant qu'il leur avait transmis le message de son Seigneur et qu'il leur avait donné un conseil sincère, mais qu'ils n'aimaient pas les conseillers sincères. Les maisons de pierre restèrent comme vestiges.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Demander un signe puis le violer aggrave la faute. L'habileté technique ne sauve pas de la justice divine.</p></div>`,
 verses: '📖 Coran 7:73-79, 11:61-68, 26:141-159'
 },
@@ -3288,11 +3288,11 @@ verses: '📖 Coran 7:73-79, 11:61-68, 26:141-159'
 name: 'Abraham (Ibrahim)',
 nameAr: 'إبراهيم',
 icon: 'إ',
-desc: `<strong>Abraham — Ibrâhîm (paix sur lui)</strong> est le père des prophètes, l'ami intime d'Allah (Khalîlullâh), modèle du ḥanîf purement monothéiste.
-<br><br><strong>📖 La quête :</strong> Face à son peuple idolâtre, il montra la vanité des astres : l'étoile, la lune, le soleil se couchent ; il se tourna vers Celui qui créa les cieux et la terre, sans association. Il brisa les idoles du temple, laissant la plus grande, puis interrogea son peuple : « Est-ce elle qui l'a fait ? Interrogez-les, si elles parlent. » Ils reconnurent en eux-mêmes la vérité, puis s'obstinèrent.
-<br><br><strong>📖 Le feu :</strong> Ils le jetèrent dans un brasier. Allah dit : « Ô feu, sois fraîcheur et paix sur Abraham. » Il sortit indemne. Le tyran de son temps fut confondu sans que la force brute eût le dernier mot.
-<br><br><strong>📖 L'émigration et les fils :</strong> Il émigra pour Allah. De Hâjar naquit Ismâʿîl, établi près de la vallée de La Mecque ; de Sârah, en leur vieillesse, naquit Isaac. L'ordre de sacrifier son fils fut l'épreuve suprême de soumission : le fils accepta, le père se soumit, Allah rançonna la vie par une victime immolée.
-<br><br><strong>📖 La Kaʿba :</strong> Avec Ismâʿîl, il éleva les fondations de la Maison sacrée et formula des invocations pour une communauté musulmane, un messager issu d'eux, la sécurité du lieu et la provision de ses habitants. Sa religion est celle que le Coran ordonne de suivre : le monothéisme pur.
+desc: `<strong>Abraham — Ibrâhîm (paix sur lui)</strong> est le père des prophètes, Khalîlullâh (l'ami intime d'Allah), modèle du ḥanîf purement monothéiste.
+<br><br><strong>📖 La quête du Créateur :</strong> Face à un peuple idolâtre, il montra la vanité des astres : l'étoile, la lune, le soleil se couchent. Il dit : « Je tourne mon visage vers Celui qui a créé les cieux et la terre, en pur monothéiste, et je ne suis point du nombre des associateurs. » Il disputa avec son peuple et avec un roi qui prétendait donner la vie et la mort ; Abraham répondit qu'Allah fait venir le soleil de l'Orient : qu'il le fasse venir de l'Occident. Le négateur fut confondu.
+<br><br><strong>📖 Les idoles et le feu :</strong> Il brisa les idoles à l'exception de la plus grande, puis interrogea : « Est-ce elle qui l'a fait ? Interrogez-les, si elles parlent. » Ils reconnurent en eux-mêmes la vérité, puis s'obstinèrent et le jetèrent dans un brasier. Allah dit : « Ô feu, sois fraîcheur et paix sur Abraham. » Il sortit indemne.
+<br><br><strong>📖 L'émigration, les fils, le sacrifice :</strong> Il émigra pour Allah. De Hâjar naquit Ismâʿîl, près de la vallée de La Mecque ; de Sârah, en leur vieillesse, naquit Isaac. L'ordre de sacrifier son fils fut l'épreuve suprême : le fils accepta, le père se soumit, Allah rançonna la vie par une victime. Cette soumission fonde le rite du sacrifice.
+<br><br><strong>📖 La Kaʿba :</strong> Avec Ismâʿîl, il éleva les fondations de la Maison et formula des invocations pour une communauté musulmane, un messager issu d'eux, la sécurité du lieu et la provision de ses habitants. Le Coran ordonne de suivre la religion d'Abraham, pur monothéiste.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Rompre avec l'idolâtrie, même héritée, est le fondement. La soumission d'Abraham unit raison, courage et abandon à Allah.</p></div>`,
 verses: '📖 Coran 2:124-140, 14:35-41, 21:51-73, 37:83-113'
 },
@@ -3301,9 +3301,9 @@ name: 'Lot (Lut)',
 nameAr: 'لوط',
 icon: 'ل',
 desc: `<strong>Lot — Lûṭ (paix sur lui)</strong> fut envoyé à un peuple qui pratiquait l'iniquité ouverte, agressait le sens naturel et violait l'hospitalité.
-<br><br><strong>📖 L'appel :</strong> Il les exhorta à craindre Allah et à renoncer à leurs pratiques. Ils répondirent par la moquerie et la menace de bannissement. Lot demeura parmi eux comme un homme droit dans une cité corrompue.
-<br><br><strong>📖 Les hôtes angéliques :</strong> Des anges vinrent sous forme de jeunes hommes. Le peuple se précipita vers eux dans une intention criminelle. Lot, angoissé, défendit l'honneur de ses hôtes et proposa — selon le récit coranique — une voie licite qu'ils refusèrent.
-<br><br><strong>📖 La destruction :</strong> Les anges lui ordonnèrent de partir de nuit avec sa famille, sauf sa femme qui était du parti des négateurs. Au matin, un cataclysme renversa leurs cités et fit pleuvoir sur eux une pluie de destruction. Le Coran en fait un signe pour qui craint le châtiment de l'au-delà.
+<br><br><strong>📖 L'appel :</strong> « Voici que vous approchez les hommes au lieu des femmes, d'une façon jamais vue avant vous. » Il les exhorta à craindre Allah et à ne pas le couvrir de honte devant ses hôtes. Ils répondirent par la moquerie et la menace de bannissement.
+<br><br><strong>📖 Les anges :</strong> Des anges vinrent sous forme de jeunes hommes. Le peuple se précipita vers eux. Lot, angoissé, dit : « Voici un jour terrible. » Il défendit ses hôtes. Les anges le rassurèrent : ils étaient envoyés pour détruire ce peuple ; il devait partir de nuit avec sa famille, sauf sa femme, qui serait de ceux qui resteraient.
+<br><br><strong>📖 La destruction :</strong> Au matin, un cri les saisit, leurs cités furent renversées, une pluie de pierres s'abattit. Le Coran en fait un signe pour qui craint le châtiment de l'au-delà. Lot fut sauvé avec les siens croyants.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Normaliser le vice n'en fait pas une vertu. La fidélité à Allah peut isoler, mais Sa protection ne trahit pas les messagers.</p></div>`,
 verses: '📖 Coran 7:80-84, 11:77-83, 26:160-175'
 },
@@ -3311,10 +3311,10 @@ verses: '📖 Coran 7:80-84, 11:77-83, 26:160-175'
 name: 'Ismaël (Ismail)',
 nameAr: 'إسماعيل',
 icon: 'إ',
-desc: `<strong>Ismâʿîl (paix sur lui)</strong> est le fils d'Abraham et de Hâjar, prophète et ancêtre de la lignée arabe dont est issu le dernier Messager ﷺ.
-<br><br><strong>📖 La vallée stérile :</strong> Abraham laissa Hâjar et le nourrisson Ismâʿîl en un lieu sans culture, près de la future Maison. Hâjar courut entre Ṣafâ et Marwa en quête d'eau ; Zamzam jaillit. Des voyageurs s'installèrent ; le lieu devint peuplé.
-<br><br><strong>📖 Le sacrifice :</strong> Abraham vit en songe l'ordre de sacrifier son fils. Ismâʿîl répondit : « Ô mon père, fais ce qui t'est commandé ; tu me trouveras, si Allah veut, du nombre des endurants. » Au moment de l'acte, Allah appela Abraham et rançonna le fils par une victime. Cette soumission reste le fondement du rite du sacrifice.
-<br><br><strong>📖 La Kaʿba et le caractère :</strong> Père et fils élevèrent les fondations de la Maison. Le Coran décrit Ismâʿîl comme véridique dans la promesse, messager et prophète, qui ordonnait à sa famille la prière et l'aumône, et qui était agréé auprès de son Seigneur.
+desc: `<strong>Ismâʿîl (paix sur lui)</strong> est le fils d'Abraham et de Hâjar, prophète, et ancêtre de la lignée dont est issu le dernier Messager ﷺ.
+<br><br><strong>📖 La vallée stérile et Zamzam :</strong> Abraham laissa Hâjar et le nourrisson en un lieu sans culture, près de la future Maison, confiant Allah pour leur provision. Hâjar courut entre Ṣafâ et Marwa ; Zamzam jaillit. Des voyageurs de Jurhum s'installèrent ; le lieu devint peuplé. Cette course est rappelée dans le rituel du Ḥajj et de la ʿumra.
+<br><br><strong>📖 Le sacrifice :</strong> Abraham dit : « Ô mon fils, je me vois en songe te sacrifiant. » Ismâʿîl répondit : « Ô mon père, fais ce qui t'est commandé ; tu me trouveras, si Allah veut, du nombre des endurants. » Lorsqu'ils se furent soumis et qu'Abraham l'eut renversé front contre terre, Allah appela : le rêve s'était réalisé ; la rançon fut une victime immense. Cette soumission reste le fondement du rite.
+<br><br><strong>📖 La Kaʿba et le caractère :</strong> Père et fils élevèrent les fondations de la Maison et purifièrent le lieu pour les gens du ṭawâf, de l'iʿtikâf et de la prière. Le Coran décrit Ismâʿîl comme véridique dans la promesse, messager et prophète, qui ordonnait à sa famille la prière et l'aumône, agréé auprès de son Seigneur.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La confiance dans le dénuement ouvre des bienfaits durables. Tenir sa promesse et établir la prière sont un héritage prophétique concret.</p></div>`,
 verses: '📖 Coran 2:125-129, 19:54-55, 37:100-113'
 },
@@ -3322,10 +3322,10 @@ verses: '📖 Coran 2:125-129, 19:54-55, 37:100-113'
 name: 'Isaac (Ishaq)',
 nameAr: 'إسحاق',
 icon: 'إ',
-desc: `<strong>Isaac — Isḥâq (paix sur lui)</strong> est le fils annoncé à Abraham et Sârah en leur vieillesse, par des anges porteurs de bonne nouvelle.
-<br><br><strong>📖 L'annonce :</strong> Les hôtes d'Abraham annoncèrent un fils savant. Sârah s'étonna : « Vais-je enfanter alors que je suis vieille, et que mon époux est un vieillard ? » On lui répondit que telle était la chose d'Allah, le Savant, le Sage. Isaac naquit béni.
-<br><br><strong>📖 La lignée :</strong> De lui naquit Jacob (Isrâ'îl), père des douze tribus. Le Coran cite Isaac parmi les justes guidés, aux côtés d'Abraham et de Jacob, modèles de pureté dans le culte.
-<br><br><strong>📖 Sa place :</strong> Il ne fut pas le fils de l'épreuve du sacrifice selon l'exégèse majoritaire musulmane — celle-ci concerne Ismâʿîl — mais il fut un prophète de la même maison monothéiste, dont la bénédiction se prolongea dans les Enfants d'Israël jusqu'aux messagers ultérieurs.
+desc: `<strong>Isaac — Isḥâq (paix sur lui)</strong> est le fils annoncé à Abraham et Sârah en leur vieillesse.
+<br><br><strong>📖 L'annonce :</strong> Les anges hôtes d'Abraham annoncèrent un fils savant. Sârah s'étonna : enfanter à un âge avancé, avec un époux vieux ? On lui répondit que telle était la chose d'Allah, le Savant, le Sage. Isaac naquit béni, promesse tenue hors des causes ordinaires.
+<br><br><strong>📖 La lignée :</strong> De lui naquit Jacob (Isrâ'îl), père des douze tribus. Le Coran cite Isaac parmi les justes guidés, avec Abraham et Jacob, modèles de pureté dans le culte, sans association.
+<br><br><strong>📖 Sa place :</strong> Selon l'exégèse musulmane majoritaire, le fils de l'épreuve du sacrifice est Ismâʿîl ; Isaac est un prophète de la même maison monothéiste, dont la bénédiction se prolongea dans les Enfants d'Israël jusqu'aux messagers ultérieurs, jusqu'à Jésus fils de Marie.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La promesse d'Allah s'accomplit à Son terme, même lorsque les causes humaines semblent épuisées.</p></div>`,
 verses: '📖 Coran 11:71-73, 19:49-50, 37:112-113'
 },
@@ -3333,10 +3333,10 @@ verses: '📖 Coran 11:71-73, 19:49-50, 37:112-113'
 name: 'Jacob (Ya\'qub)',
 nameAr: 'يعقوب',
 icon: 'ي',
-desc: `<strong>Jacob — Yaʿqûb (paix sur lui)</strong>, aussi nommé Isrâ'îl, fils d'Isaac, est le père des douze tribus. Son récit est indissociable de celui de Joseph dans la sourate Yûsuf.
-<br><br><strong>📖 L'amour et la jalousie :</strong> Il préférait ouvertement Joseph et son jeune frère. Les aînés, jaloux, ourdirent un plan : ils emmenèrent Joseph, le jetèrent dans un puits, et rapportèrent une tunique tachée d'un faux sang. Jacob ne les crut pas pleinement et dit : « Votre âme vous a suggéré un stratagème. Patience belle ! Allah m'aidera contre ce que vous décrivez. »
-<br><br><strong>📖 La longue attente :</strong> Des années passèrent. Jacob pleura Joseph jusqu'à perdre la vue, sans désespérer de l'esprit d'Allah. Il envoya ses fils en Égypte chercher des provisions ; le destin les plaça face à Joseph, devenu homme de pouvoir.
-<br><br><strong>📖 La réunion :</strong> Lorsque la tunique de Joseph fut jetée sur son visage, Jacob recouvra la vue. La famille se réunit en Égypte. Jacob rappela à ses fils, avant sa mort, de ne mourir qu'en musulmans, sur la religion d'Abraham, d'Ismâʿîl et d'Isaac.
+desc: `<strong>Jacob — Yaʿqûb (paix sur lui)</strong>, aussi nommé Isrâ'îl, fils d'Isaac, est le père des douze tribus. Son récit s'entrelace à celui de Joseph dans la sourate Yûsuf.
+<br><br><strong>📖 L'amour et la jalousie :</strong> Il préférait Joseph et son jeune frère. Les aînés, jaloux, dirent : « Joseph et son frère sont plus aimés de notre père que nous, alors que nous sommes un groupe. » Ils proposèrent de tuer Joseph ou de le jeter dans une terre lointaine. L'un d'eux suggéra la citerne : quelque caravane le retirerait. Ils demandèrent à Jacob d'envoyer Joseph avec eux ; Jacob craignit le loup, puis céda. Ils le jetèrent dans le puits et rapportèrent une tunique tachée d'un faux sang. Jacob dit : « Votre âme vous a suggéré un stratagème. Patience belle ! Allah m'aidera contre ce que vous décrivez. »
+<br><br><strong>📖 La longue attente :</strong> Des années passèrent. Jacob pleura Joseph jusqu'à ce que ses yeux blanchissent de chagrin, tout en retenant sa plainte pour Allah seul. Il ne désespéra point de l'esprit d'Allah. Il envoya ses fils en Égypte chercher des provisions ; le destin les plaça face à Joseph, devenu intendant.
+<br><br><strong>📖 La réunion :</strong> Après des épreuves destinées à ramener les frères au repentir, Joseph se fit connaître. La tunique jetée sur le visage de Jacob lui rendit la vue. La famille se réunit. Jacob rappela à ses fils, avant de mourir, de n'adorer que Allah et de ne mourir qu'en musulmans, sur la religion de leurs pères Abraham, Ismâʿîl et Isaac.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La patience belle unit endurance et espoir en Allah. La famille se reconstruit dans le monothéisme transmis, non dans la rancune.</p></div>`,
 verses: '📖 Coran 12:1-111, 19:49-50, 21:72-73'
 },
@@ -3345,10 +3345,10 @@ name: 'Joseph (Yusuf)',
 nameAr: 'يوسف',
 icon: 'ي',
 desc: `<strong>Joseph — Yûsuf (paix sur lui)</strong> est le fils de Jacob. Le Coran lui consacre une sourate entière, « le plus beau des récits ».
-<br><br><strong>📖 Le rêve et le puits :</strong> Il vit onze étoiles, le soleil et la lune se prosterner devant lui. Jacob lui conseilla de ne pas raconter ce rêve à ses frères. Ceux-ci, jaloux, le jetèrent dans une citerne. Des voyageurs le retirèrent et le vendirent en Égypte.
-<br><br><strong>📖 La maison du notable et la prison :</strong> Il grandit dans la demeure d'un grand Égyptien. L'épouse de celui-ci tenta de le séduire ; Joseph préféra la prison au péché et demanda la protection d'Allah. En prison, il interpréta les rêves de deux compagnons avec science et appel au monothéisme.
-<br><br><strong>📖 Du cachot au trône :</strong> Le roi vit un rêve d'années de graisse et de maigreur. Joseph interpréta et proposa une politique de stockage. Le roi le fit sortir ; sa innocence fut établie. Il fut placé sur les trésors du pays et géra la famine avec justice.
-<br><br><strong>📖 Les frères et le pardon :</strong> Ses frères vinrent en Égypte en quête de vivres, sans le reconnaître. Après des épreuves destinées à les amener au repentir, il se fit connaître : « Je suis Joseph, et voici mon frère. » Ils reconnurent leur faute. Il répondit : « Nul reproche sur vous aujourd'hui. Allah pardonne. » Il fit venir ses parents et les éleva sur le trône ; le rêve d'enfance s'accomplit.
+<br><br><strong>📖 Le rêve et le puits :</strong> Il vit onze étoiles, le soleil et la lune se prosterner. Jacob lui conseilla le silence face à ses frères. Ceux-ci, jaloux, le jetèrent dans une citerne. Des voyageurs le retirèrent et le vendirent à vil prix en Égypte.
+<br><br><strong>📖 La demeure et la prison :</strong> Il grandit chez un notable. L'épouse de celui-ci tenta de le séduire ; Joseph courut vers la porte ; sa tunique fut déchirée par-derrière — preuve de son innocence. Malgré cela, après un scandale étouffé, il fut emprisonné. Il demanda la protection d'Allah plutôt que ce à quoi elles l'appelaient. En prison, il interpréta les rêves de deux compagnons et appela au monothéisme.
+<br><br><strong>📖 Du cachot au pouvoir :</strong> Le roi vit sept vaches grasses dévorées par sept maigres, et des épis. Les magiciens échouèrent ; le survivant des deux compagnons se souvint de Joseph. Joseph interpréta : sept années d'abondance à stocker, sept de famine. Le roi le fit sortir ; les femmes reconnurent sa pureté. Il fut placé sur les trésors du pays et géra la famine avec justice.
+<br><br><strong>📖 Les frères et le pardon :</strong> Ses frères vinrent en quête de vivres. Il les reconnut sans être reconnu. Après des épreuves (dont la rétention du plus jeune frère), il se révéla : « Je suis Joseph, et voici mon frère. » Ils reconnurent leur faute. Il dit : « Nul reproche sur vous aujourd'hui. Allah pardonne. » Il fit venir ses parents ; le rêve d'enfance s'accomplit. Il conclut en reconnaissant qu'Allah avait été bon envers lui.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Chasteté, patience et pardon élèvent celui qu'Allah veut élever. La ruse des hommes ne prévaut pas contre Son décret.</p></div>`,
 verses: '📖 Coran 12:1-111'
 },
@@ -3357,9 +3357,9 @@ name: 'Job (Ayyub)',
 nameAr: 'أيوب',
 icon: 'أ',
 desc: `<strong>Job — Ayyûb (paix sur lui)</strong> est le modèle de la patience dans l'épreuve du corps, des biens et de la famille.
-<br><br><strong>📖 L'affliction :</strong> Homme comblé, il fut touché par une maladie durable, la perte de ses biens et de ses enfants. Il ne se révolta pas contre son Seigneur. Son invocation demeura digne : il exposa sa détresse sans insolence ni désespoir.
-<br><br><strong>📖 Le soulagement :</strong> Allah lui ordonna de frapper le sol : une eau jaillit, qui guérit son mal. Sa famille lui fut rendue, et il reçut autant en plus, par miséricorde. Le Coran le cite parmi les endurants excellents.
-<br><br><strong>📖 La portée :</strong> Son histoire n'invite ni au culte de la souffrance ni au fatalisme : elle enseigne que l'épreuve, dans la patience et l'invocation, devient voie de rapprochement, et que le soulagement vient d'Allah à Son heure.
+<br><br><strong>📖 L'affliction :</strong> Homme comblé de biens et d'enfants, il fut touché par une maladie durable, la perte de sa fortune et de sa famille. Il ne se révolta pas. Son invocation demeura digne : « Le mal m'a touché, et Tu es le plus miséricordieux des miséricordieux. » Il exposa sa détresse sans insolence ni désespoir.
+<br><br><strong>📖 Le soulagement :</strong> Allah lui ordonna de frapper le sol de son pied : une eau fraîche pour se laver et boire, qui guérit son mal. Sa famille lui fut rendue, et autant avec eux, par miséricorde. Le Coran le cite parmi les excellents endurants.
+<br><br><strong>📖 Portée du récit :</strong> L'histoire n'invite ni au culte de la souffrance ni au fatalisme passif. Elle enseigne que l'épreuve, dans la patience et l'invocation, devient voie de rapprochement, et que le soulagement vient d'Allah à Son heure, parfois par une cause simple après une longue attente.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La patience dans la souffrance est une adoration. Invoquer Allah dans l'épreuve est reconnaissance de Sa seigneurie, non faiblesse.</p></div>`,
 verses: '📖 Coran 21:83-84, 38:41-44'
 },
@@ -3367,10 +3367,10 @@ verses: '📖 Coran 21:83-84, 38:41-44'
 name: 'Shu\'ayb',
 nameAr: 'شعيب',
 icon: 'ش',
-desc: `<strong>Shuʿayb (paix sur lui)</strong> fut envoyé à Madyan, et le Coran évoque aussi les gens d'al-Aykah. On le surnomme « l'orateur des prophètes » pour la force de sa parole.
-<br><br><strong>📖 L'appel à l'équité :</strong> Son peuple adora d'autres qu'Allah et fraudait dans les poids et mesures. Shuʿayb les appela à l'unicité et à l'honnêteté commerciale : ne pas diminuer les biens des gens, ne pas semer le désordre après la réforme. La foi, chez lui, incluait l'éthique des transactions.
-<br><br><strong>📖 Le refus :</strong> Ils se moquèrent de sa prière, le menacèrent de bannissement s'il ne revenait pas à leur religion, et mirent en doute sa sincérité. Shuʿayb s'en remit à Allah et affirma qu'il avait transmis le message.
-<br><br><strong>📖 Le châtiment :</strong> Un cri, un séisme ou une nuée de châtiment — selon les formulations coraniques — les saisit. Shuʿayb et les croyants furent sauvés. Leur fin rappelle que l'économie sans justice est une oppression que la révélation condamne.
+desc: `<strong>Shuʿayb (paix sur lui)</strong> fut envoyé à Madyan ; le Coran évoque aussi les gens d'al-Aykah. On le surnomme l'orateur des prophètes pour la clarté de sa parole.
+<br><br><strong>📖 L'appel à l'unicité et à l'équité :</strong> « Ô mon peuple, adorez Allah ! Vous n'avez pas d'autre divinité que Lui. » Son peuple fraudait dans les poids et mesures et retenait le bien d'autrui. Shuʿayb fit de l'éthique commerciale une part du message : « Donnez la pleine mesure et le poids, ne diminuez pas aux gens leurs choses, ne semez pas le désordre sur terre après sa réforme. » La foi, chez lui, n'était pas séparée de la justice dans les transactions.
+<br><br><strong>📖 Le rejet :</strong> Ils se moquèrent de sa prière, dirent qu'ils le banniraient avec les croyants s'il ne revenait pas à leur religion, et mirent en doute son indépendance. Shuʿayb s'en remit à Allah : il avait transmis le message ; Il est le meilleur juge.
+<br><br><strong>📖 Le châtiment :</strong> Un cri, un séisme ou une nuée de châtiment les saisit. Shuʿayb et les croyants furent sauvés. Leur fin rappelle que l'économie sans justice est une oppression que la révélation condamne explicitement.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La foi n'est pas confinée au rituel : l'équité dans le commerce en fait partie. La fraude collective expose à un châtiment collectif.</p></div>`,
 verses: '📖 Coran 7:85-93, 11:84-95, 26:176-191'
 },
@@ -3378,12 +3378,12 @@ verses: '📖 Coran 7:85-93, 11:84-95, 26:176-191'
 name: 'Moïse (Musa)',
 nameAr: 'موسى',
 icon: 'م',
-desc: `<strong>Moïse — Mûsâ (paix sur lui)</strong> est le prophète le plus cité dans le Coran. Envoyé à Pharaon et aux Enfants d'Israël, il reçut la Torah et affronta la tyrannie.
-<br><br><strong>📖 Naissance et palais :</strong> Pharaon ordonna de tuer les nouveau-nés mâles des Enfants d'Israël. La mère de Moïse, inspirée, le confia au fleuve. La famille de Pharaon le recueillit ; il fut élevé dans le palais même du tyran, tandis que sa sœur veillait et que sa mère fut rappelée comme nourrice.
-<br><br><strong>📖 L'exil et l'appel :</strong> Adulte, il tua involontairement un Égyptien qui se battait avec un Israélite, puis s'enfuit à Madyan, où il maria l'une des filles d'un digne vieillard et garda les troupeaux. Au mont Ṭuwâ, Allah lui parla depuis un feu, lui donna des signes (le bâton, la main lumineuse) et lui confia la mission, avec Aaron pour soutien.
-<br><br><strong>📖 Face à Pharaon :</strong> Moïse et Aaron présentèrent le message : adorer Allah, libérer les Enfants d'Israël. Pharaon s'enorgueillit. Les magiciens furent vaincus et crurent. Vinrent les signes : sang, grenouilles, poux, sauterelles, ténèbres… Pharaon promit puis trahit.
-<br><br><strong>📖 L'Exode :</strong> Moïse fit sortir son peuple de nuit. Au bord de la mer, Pharaon les rattrapa. Allah ordonna à Moïse de frapper la mer : elle s'ouvrit. Les Enfants d'Israël passèrent ; Pharaon et ses troupes furent engloutis. Son corps fut conservé comme signe.
-<br><br><strong>📖 Au Sinaï et dans le désert :</strong> Moïse reçut les tablettes. En son absence, le peuple adora un veau d'or façonné par as-Sâmirî ; Aaron avait tenté de les retenir. Moïse, de retour, se mit en colère puis intercéda. Suivirent d'autres épreuves : demandes excessives, refus d'entrer dans la terre sainte, errance. Moïse demeura le guide patient et ferme jusqu'à la fin de sa mission.
+desc: `<strong>Moïse — Mûsâ (paix sur lui)</strong> est le prophète le plus cité dans le Coran. Envoyé à Pharaon et aux Enfants d'Israël, il reçut la Torah.
+<br><br><strong>📖 Naissance et palais :</strong> Pharaon ordonna de tuer les nouveau-nés mâles. La mère de Moïse, inspirée, le mit dans un coffre sur le fleuve. La famille de Pharaon le recueillit ; Âsiya demanda qu'on ne le tuât pas. Sa sœur veilla ; sa mère fut rappelée comme nourrice. Il grandit dans le palais du tyran.
+<br><br><strong>📖 L'exil et le buisson :</strong> Adulte, il tua involontairement un Égyptien, s'enfuit à Madyan, maria une des filles d'un digne homme et garda les troupeaux. Au mont Ṭuwâ, Allah l'appela depuis un feu : retirer ses sandales, ce lieu était sacré. Il reçut les signes du bâton et de la main lumineuse, et la mission d'aller à Pharaon, avec Aaron pour soutien.
+<br><br><strong>📖 Face à Pharaon :</strong> Ils demandèrent d'envoyer avec eux les Enfants d'Israël et d'adorer le Seigneur des mondes. Pharaon s'enorgueillit, demanda qui était ce Seigneur, menaça, réunit les magiciens. Ceux-ci furent vaincus et se prosternèrent, affirmant croire au Seigneur de Mûsâ et Hârûn. Vinrent les plaies : sang, grenouilles, poux, sauterelles, ténèbres… Pharaon promit puis trahit.
+<br><br><strong>📖 L'Exode :</strong> Moïse sortit de nuit avec son peuple. Au bord de la mer, Pharaon les rattrapa. Les gens de Moïse dirent : « Nous voilà rejoints. » Moïse dit : « Jamais, mon Seigneur est avec moi, Il me guidera. » Allah ordonna de frapper la mer : elle s'ouvrit en chemins. Les Enfants d'Israël passèrent ; Pharaon et ses troupes furent engloutis. Son corps fut rejeté comme signe.
+<br><br><strong>📖 Sinaï et désert :</strong> Moïse reçut les tablettes. En son absence, as-Sâmirî façonna un veau d'or ; Aaron tenta de retenir le peuple. Moïse, de retour, se mit en colère puis intercéda. Suivirent demandes excessives, refus d'entrer dans la terre sainte, errance de quarante années. Moïse demeura le guide ferme et patient jusqu'à la fin de sa mission.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La vérité s'affirme face au pouvoir injuste. Le guide prophétique unit fermeté, patience envers un peuple difficile, et recours permanent à Allah.</p></div>`,
 verses: '📖 Coran 7:103-162, 20:1-98, 28:1-46'
 },
@@ -3392,9 +3392,9 @@ name: 'Aaron (Harun)',
 nameAr: 'هارون',
 icon: 'ه',
 desc: `<strong>Aaron — Hârûn (paix sur lui)</strong> est le frère de Moïse, prophète et porte-parole associé à sa mission.
-<br><br><strong>📖 La demande de Moïse :</strong> Moïse demanda à Allah d'associer Aaron pour affermir son dos et partager la charge, car il craignait pour sa propre éloquence face à Pharaon. Allah accepta et leur confia ensemble le message.
-<br><br><strong>📖 Devant Pharaon :</strong> Aaron soutint Moïse dans la confrontation, les signes et l'appel à libérer les Enfants d'Israël. Les deux frères furent menacés, traités de magiciens, mais tinrent bon.
-<br><br><strong>📖 Le veau d'or :</strong> Lorsque Moïse se rendit au rendez-vous du Mont, le peuple s'égara. Aaron tenta de les dissuader et de maintenir l'unité. Moïse, de retour, le reprit vivement puis comprit la difficulté de sa position. Le Coran absout Aaron et le compte parmi les messagers purs.
+<br><br><strong>📖 La demande de Moïse :</strong> Moïse dit : « Donne-moi un assistant de ma famille, Aaron mon frère ; renforce par lui mon dos et associe-le à ma mission. » Allah accepta : « Votre demande est exaucée. » Les deux frères reçurent les signes et l'ordre d'aller à Pharaon avec douceur dans la parole, afin qu'il se rappelle ou craigne.
+<br><br><strong>📖 Devant Pharaon :</strong> Aaron soutint Moïse dans la confrontation, les signes et l'appel à libérer les Enfants d'Israël. Ensemble ils affrontèrent menaces et accusations de magie.
+<br><br><strong>📖 Le veau d'or :</strong> Lorsque Moïse se rendit au rendez-vous du Mont, le peuple s'égara. Aaron dit : « Ô mon peuple, vous n'êtes qu'éprouvés par cela ; votre Seigneur est le Tout Miséricordieux ; suivez-moi et obéissez à mon commandement. » Ils refusèrent jusqu'au retour de Moïse. Celui-ci reprit son frère vivement, puis comprit qu'Aaron avait craint la division. Le Coran honore Aaron parmi les messagers.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Le soutien dans le bien est une force. Rappeler la vérité au sein de sa communauté exige courage et mesure.</p></div>`,
 verses: '📖 Coran 7:142-150, 20:29-36, 28:34-35'
 },
@@ -3402,10 +3402,10 @@ verses: '📖 Coran 7:142-150, 20:29-36, 28:34-35'
 name: 'David (Dawud)',
 nameAr: 'داود',
 icon: 'د',
-desc: `<strong>David — Dâwûd (paix sur lui)</strong> fut prophète et roi. Jeune homme, il terrassa Jâlût (Goliath) ; Allah lui donna ensuite la royauté, la sagesse et le Zabûr.
-<br><br><strong>📖 Le combat contre Jâlût :</strong> Les Enfants d'Israël, sous Ṭâlût, affrontèrent l'armée de Jâlût. David, encore jeune, le vainquit par la permission d'Allah. Cette victoire ouvrit la voie à son rôle ultérieur.
-<br><br><strong>📖 Royauté et louange :</strong> Il jugeait avec équité. Les montagnes et les oiseaux célébraient Allah avec lui. Le fer fut assoupli entre ses mains : il fabriquait des cottes de mailles, mettant la technique au service de la protection, non de l'oppression gratuite.
-<br><br><strong>📖 L'épreuve du jugement :</strong> Deux plaideurs grimpèrent au miḥrāb ; David rendit un jugement, puis comprit qu'il s'agissait d'une épreuve. Il demanda pardon et se prosterna. Le Coran montre un roi qui revient à Allah lorsqu'il se reconnaît en défaut.
+desc: `<strong>David — Dâwûd (paix sur lui)</strong> fut prophète et roi. Jeune homme, il terrassa Jâlût ; Allah lui donna ensuite la royauté, la sagesse et le Zabûr.
+<br><br><strong>📖 Jâlût :</strong> Sous Ṭâlût, les Enfants d'Israël affrontèrent l'armée de Jâlût. Beaucoup échouèrent à l'épreuve de la rivière. David, encore jeune, vainquit Jâlût par la permission d'Allah. Cette victoire ouvrit la voie à son rôle.
+<br><br><strong>📖 Royauté et louange :</strong> Il jugeait avec équité. Les montagnes et les oiseaux célébraient Allah avec lui. Le fer fut assoupli entre ses mains : il fabriquait des cottes de mailles, mettant la technique au service de la protection.
+<br><br><strong>📖 L'épreuve du jugement :</strong> Deux plaideurs grimpèrent au miḥrāb ; David trancha, puis comprit qu'il s'agissait d'une épreuve. Il demanda pardon et se prosterna. Le Coran montre un roi qui revient à Allah lorsqu'il se reconnaît en défaut — modèle pour tout détenteur d'autorité.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Le pouvoir n'a de valeur que lié à la justice et au rappel. La force véritable s'accompagne d'humilité et de louange.</p></div>`,
 verses: '📖 Coran 2:251, 17:55, 21:78-80, 38:17-26'
 },
@@ -3414,9 +3414,9 @@ name: 'Salomon (Sulayman)',
 nameAr: 'سليمان',
 icon: 'س',
 desc: `<strong>Salomon — Sulaymân (paix sur lui)</strong>, fils de David, hérita de la prophétie et de la royauté. Allah lui soumit le vent, les djinns, et lui enseigna le langage des oiseaux.
-<br><br><strong>📖 Un royaume sans égal :</strong> Son armée comptait hommes, djinns et oiseaux, ordonnés en rangs. Il ne tirait pas orgueil de ces dons : il demandait un royaume que nul après lui n'aurait, tout en restant un serviteur reconnaissant.
-<br><br><strong>📖 La reine de Saba' :</strong> La huppe rapporta qu'une reine et son peuple adoraient le soleil. Salomon envoya une lettre les invitant à se soumettre à Allah. Après échanges et l'épreuve du trône déplacé en un clin d'œil, la reine reconnut la vérité et se soumit avec Salomon à Allah, Seigneur des mondes.
-<br><br><strong>📖 Sa mort :</strong> Il mourut debout, appuyé sur son bâton. Les djinns poursuivirent leurs travaux sans savoir qu'il était mort, jusqu'à ce que des bêtes eussent rongé le bois et qu'il s'effondrât. Le Coran en tire une leçon : les créatures, même invisibles, ne connaissent pas l'invisible du destin.
+<br><br><strong>📖 Les dons :</strong> Il demanda un royaume que nul après lui n'aurait, tout en restant un serviteur reconnaissant. Son armée — hommes, djinns, oiseaux — avançait en rangs ordonnés. Il comprenait la fourmi qui mettait sa colonie en garde ; il sourit et remercia Allah.
+<br><br><strong>📖 La reine de Saba' :</strong> La huppe rapporta qu'une reine et son peuple adoraient le soleil. Salomon envoya une lettre : « Au nom d'Allah, le Tout Miséricordieux, le Très Miséricordieux. Ne vous élevez pas contre moi et venez à moi soumis. » Après délibération et envoi de cadeaux refusés, le trône de la reine fut apporté en un clin d'œil. Elle reconnut la vérité et se soumit avec Salomon à Allah, Seigneur des mondes.
+<br><br><strong>📖 Sa mort :</strong> Il mourut debout, appuyé sur son bâton. Les djinns poursuivirent le travail sans savoir qu'il était mort, jusqu'à ce que le bois fût rongé et qu'il s'effondrât. Leçon : les créatures ne connaissent pas l'invisible du destin.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Les dons extraordinaires n'exemptent pas de la gratitude. Tout pouvoir doit être orienté vers l'adoration d'Allah seul.</p></div>`,
 verses: '📖 Coran 21:78-82, 27:15-44, 34:12-14'
 },
@@ -3424,10 +3424,10 @@ verses: '📖 Coran 21:78-82, 27:15-44, 34:12-14'
 name: 'Élie (Ilyas)',
 nameAr: 'إلياس',
 icon: 'إ',
-desc: `<strong>Élie — Ilyâs (paix sur lui)</strong> fut envoyé à un peuple qui adorait Baʿl, une idole.
-<br><br><strong>📖 L'appel :</strong> Il les interrogea : invoquez-vous Baʿl et délaisez-vous le meilleur des créateurs, Allah, votre Seigneur et le Seigneur de vos premiers ancêtres ? Le Coran le compte parmi les messagers et les justes.
-<br><br><strong>📖 La portée :</strong> Son récit, sobre dans le Livre, rappelle la permanence du combat contre l'idolâtrie sous toutes ses formes. L'unicité n'est pas négociable, quelle que soit la coutume du moment.
-<div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Adorer autre qu'Allah demeure l'injustice majeure. Le rappel prophétique tranche avec clarté, sans diluer le tawḥîd.</p></div>`,
+desc: `<strong>Élie — Ilyâs (paix sur lui)</strong> fut envoyé à un peuple qui adorait Baʿl.
+<br><br><strong>📖 L'appel :</strong> « Invoquez-vous Baʿl et délaisser-vous le meilleur des créateurs, Allah, votre Seigneur et le Seigneur de vos premiers ancêtres ? » Le Coran le compte parmi les messagers et les justes, dans la continuité du combat contre l'idolâtrie.
+<br><br><strong>📖 Portée :</strong> Son récit, sobre dans le Livre, rappelle que l'associationnisme reprend de nouveaux masques selon les époques. L'unicité n'est pas négociable, quelle que soit la coutume. Le prophète tranche avec clarté, sans diluer le tawḥîd.
+<div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Adorer autre qu'Allah demeure l'injustice majeure. Le rappel prophétique ne négocie pas l'unicité.</p></div>`,
 verses: '📖 Coran 37:123-132'
 },
 {
@@ -3436,18 +3436,18 @@ nameAr: 'اليسع',
 icon: 'ا',
 desc: `<strong>Élisée — al-Yasaʿ (paix sur lui)</strong> est mentionné dans le Coran parmi les élus et les meilleurs.
 <br><br><strong>📖 Dans le Livre :</strong> Il apparaît aux côtés d'autres prophètes dans des listes qui soulignent la continuité de la guidance. Allah l'a choisi et guidé vers un chemin droit.
-<br><br><strong>📖 Attitude du croyant :</strong> Faute de récit coranique long, on s'abstient d'inventer. On affirme ce qu'Allah a affirmé : un prophète honorable, dans la chaîne de ceux qui appelèrent au monothéisme et à la droiture.
-<div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Honorer les prophètes, c'est suivre leur voie d'unicité, non combler les silences du Livre par des fables.</p></div>`,
+<br><br><strong>📖 Attitude :</strong> Faute de récit coranique long, on s'abstient d'inventer. On affirme ce qu'Allah a affirmé : un prophète honorable, dans la chaîne de ceux qui appelèrent au monothéisme et à la droiture. Honorer les prophètes, c'est suivre leur voie, non combler les silences du Livre par des fables.
+<div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La guidance se transmet de prophète en prophète. S'attacher à ce que le Livre a dit est plus sûr que d'amplifier ce qu'il n'a pas dit.</p></div>`,
 verses: '📖 Coran 6:86, 38:48'
 },
 {
 name: 'Jonas (Yunus)',
 nameAr: 'يونس',
 icon: 'ي',
-desc: `<strong>Jonas — Yûnus (paix sur lui)</strong>, aussi appelé Dhû n-Nûn (le compagnon du poisson), fut envoyé à un peuple qui rejeta d'abord l'appel.
-<br><br><strong>📖 Le départ précipité :</strong> Irrité par leur refus, il partit avant que le décret divin ne fût déployé comme Allah l'avait ordonné. Il embarqua ; le sort le désigna ; il fut jeté à la mer et englouti par un grand poisson.
-<br><br><strong>📖 L'invocation dans les ténèbres :</strong> Dans les triple obscurité — ventre du poisson, mer, nuit — il dit : « Nulle divinité sauf Toi ! Gloire à Toi ! J'ai été du nombre des injustes. » Allah le sauva. Rejeté sur le rivage, malade, une plante (yaçtîn) lui fit ombre.
-<br><br><strong>📖 Le peuple qui crut :</strong> Son peuple, exceptionnellement, crut avant la survenue du châtiment et fut épargné jusqu'à un terme. Le Coran ordonne au Prophète ﷺ de ne pas être comme l'homme du poisson, dont le sein s'était resserré d'angoisse.
+desc: `<strong>Jonas — Yûnus (paix sur lui)</strong>, Dhû n-Nûn, fut envoyé à un peuple qui rejeta d'abord l'appel.
+<br><br><strong>📖 Le départ :</strong> Irrité par leur refus, il partit comme un fuyard, avant que le décret ne fût déployé comme Allah l'avait ordonné. Il embarqua ; le sort le désigna ; il fut jeté à la mer et englouti par un grand poisson.
+<br><br><strong>📖 L'invocation :</strong> Dans les triple obscurité — ventre, mer, nuit — il dit : « Nulle divinité sauf Toi ! Gloire à Toi ! J'ai été du nombre des injustes. » Allah le sauva. Rejeté sur le rivage, malade, une plante lui fit ombre. Il fut renvoyé à son peuple.
+<br><br><strong>📖 Le peuple qui crut :</strong> Exceptionnellement, ils crurent avant la survenue du châtiment et furent épargnés jusqu'à un terme. Le Coran ordonne au Prophète ﷺ de ne pas être comme l'homme du poisson, dont le sein s'était resserré d'angoisse.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>L'invocation sincère dans la détresse ouvre des portes. La patience dans la mission fait partie de la prophétie.</p></div>`,
 verses: '📖 Coran 21:87-88, 37:139-148, 68:48-50'
 },
@@ -3455,9 +3455,9 @@ verses: '📖 Coran 21:87-88, 37:139-148, 68:48-50'
 name: 'Zacharie (Zakariyya)',
 nameAr: 'زكريا',
 icon: 'ز',
-desc: `<strong>Zacharie — Zakariyyâ (paix sur lui)</strong> était un prophète âgé, dévoué au service du lieu de prière, qui vit la grâce d'Allah se renouveler auprès de Marie.
-<br><br><strong>📖 L'invocation :</strong> Voyant Marie recevoir une provision hors du commun, il demanda à Allah une descendance pure, craignant pour la suite de l'appel après lui. Les anges lui annoncèrent Jean (Yaḥyâ), malgré sa vieillesse et la stérilité de son épouse.
-<br><br><strong>📖 Le signe :</strong> Il demanda un signe ; il lui fut répondu qu'il ne parlerait aux gens que par gestes pendant trois jours, tout en étant invité à beaucoup glorifier Allah.
+desc: `<strong>Zacharie — Zakariyyâ (paix sur lui)</strong> était un prophète âgé, dévoué au service du lieu de prière.
+<br><br><strong>📖 L'invocation :</strong> Voyant Marie recevoir une provision hors du commun, il demanda une descendance pure, craignant pour la suite de l'appel après lui. Les anges lui annoncèrent Jean, malgré sa vieillesse et la stérilité de son épouse. Il dit : « Seigneur, comment aurais-je un garçon ? » — « Ainsi. Allah fait ce qu'Il veut. »
+<br><br><strong>📖 Le signe :</strong> Il demanda un signe ; il ne parlerait aux gens que par gestes pendant trois jours, tout en étant invité à glorifier Allah beaucoup, soir et matin.
 <br><br><strong>📖 La maison de la miséricorde :</strong> Son histoire prépare celle de Jean et de Marie : une famille où la promesse divine traverse les causes ordinaires, sans jamais sortir de la servitude envers Allah.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Invoquer avec pudeur et certitude, même lorsque les causes sont taries, est la voie des justes.</p></div>`,
 verses: '📖 Coran 3:38-41, 19:2-11, 21:89-90'
@@ -3467,8 +3467,8 @@ name: 'Jean-Baptiste (Yahya)',
 nameAr: 'يحيى',
 icon: 'ي',
 desc: `<strong>Jean — Yaḥyâ (paix sur lui)</strong>, fils de Zacharie, reçut dès l'enfance sagesse, tendresse et pureté.
-<br><br><strong>📖 Les qualités coraniques :</strong> Allah lui ordonna de saisir le Livre avec force. Il était pieux, dévoué à ses parents, ni violent ni insolent. Paix sur lui le jour de sa naissance, le jour de sa mort et le jour de sa résurrection.
-<br><br><strong>📖 Sa mission :</strong> Confirmer une parole venant d'Allah relative au Messie, et appeler à la droiture. Il vécut dans la sobriété et le rappel, sans céder à la dureté ni à la complaisance face aux puissants de son temps.
+<br><br><strong>📖 Qualités coraniques :</strong> Allah lui donna le jugement alors qu'il était enfant, de la tendresse de Sa part, et la pureté. Il était pieux, dévoué à ses parents, ni violent ni insolent. « Paix sur lui le jour où il naquit, le jour où il mourra et le jour où il sera ressuscité vivant. »
+<br><br><strong>📖 Mission :</strong> Saisir le Livre avec force, confirmer une parole venant d'Allah relative au Messie, appeler à la droiture. Il vécut dans la sobriété et le rappel, sans céder à la dureté ni à la complaisance face aux puissants.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Douceur envers les parents et force dans la religion se conjuguent. La pureté du cœur précède l'ampleur de l'appel.</p></div>`,
 verses: '📖 Coran 3:39, 6:85, 19:12-15'
 },
@@ -3477,10 +3477,10 @@ name: 'Jésus (Isa)',
 nameAr: 'عيسى',
 icon: 'ع',
 desc: `<strong>Jésus fils de Marie — ʿÎsâ ibn Maryam (paix sur lui)</strong> est le Messie, parole d'Allah lancée vers Marie, et un esprit venant de Lui. Il n'est ni fils de Dieu ni troisième d'une trinité : il est serviteur et messager.
-<br><br><strong>📖 Naissance :</strong> Les anges annoncèrent à Marie un enfant pur. Elle s'étonna de concevoir sans homme ; on lui répondit qu'Allah crée ce qu'Il veut. Elle se retira, enfanta près d'un palmier, et le nourrisson parla dans le berceau pour la défendre : il se déclara serviteur d'Allah, prophète, ordonné à la prière et à l'aumône.
-<br><br><strong>📖 Signes et Évangile :</strong> Par permission d'Allah, il forma un oiseau d'argile qui prit vie, guérit l'aveugle-né et le lépreux, et fit revivre des morts. Il reçut l'Évangile, confirma la Torah, et appela à l'unicité. Un groupe de disciples le soutint.
-<br><br><strong>📖 La table et l'élévation :</strong> Les disciples demandèrent une table descendue du ciel : elle fut un signe et une fête. Face au complot de le tuer, Allah dit qu'Il le rappellerait et l'élèverait vers Lui. Ils ne le mirent pas à mort avec certitude ; Allah l'éleva. Selon la tradition authentique, il reviendra comme signe de l'heure, brisera la croix et établira la justice.
-<br><br><strong>📖 Son message :</strong> Adorer Allah seul, honorer sa mère, ne pas dépasser les limites à son sujet. Le Coran le disculpe de toute prétention à la divinité.
+<br><br><strong>📖 Naissance :</strong> Les anges annoncèrent à Marie un enfant pur. Elle s'étonna de concevoir sans homme ; on lui répondit qu'Allah crée ce qu'Il veut. Elle se retira, enfanta près d'un palmier ; le nourrisson parla dans le berceau pour la défendre : serviteur d'Allah, prophète, ordonné à la prière et à l'aumône, bon envers sa mère.
+<br><br><strong>📖 Signes et Évangile :</strong> Par permission d'Allah, il forma un oiseau d'argile qui prit vie, guérit l'aveugle-né et le lépreux, fit revivre des morts. Il reçut l'Évangile, confirma la Torah, rendit licite une part de ce qui avait été interdit, et appela à l'unicité. Des disciples le soutinrent.
+<br><br><strong>📖 La table et l'élévation :</strong> Les disciples demandèrent une table du ciel : signe et fête. Face au complot de le tuer, Allah dit qu'Il le rappellerait et l'élèverait vers Lui. Ils ne le mirent pas à mort avec certitude ; Allah l'éleva. Selon la tradition authentique, il reviendra comme signe de l'heure.
+<br><br><strong>📖 Message :</strong> Adorer Allah seul, ne pas dépasser les limites à son sujet. Le Coran le disculpe de toute prétention à la divinité.
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Honorer Jésus, c'est le tenir pour prophète et serviteur, non pour divinité. Tout miracle n'a lieu que par permission d'Allah.</p></div>`,
 verses: '📖 Coran 3:45-59, 5:110-118, 19:16-34'
 },
@@ -3854,7 +3854,7 @@ window.PROPHET_I18N = {
     desc_en: "<strong>Isaac (peace be upon him)</strong> — son of Abraham, given as a glad tiding in old age; a righteous prophet.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Allah’s gift comes in its time. Righteous children are a blessing.</p></div>",
     desc_ar: "<strong>إسحاق عليه السلام</strong> ابن إبراهيم، نبي من الصالحين.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>رزق الله في أوانه.</p></div>"
   },
-  "Jacob (Ya\\'qub)": {
+  "Jacob (Ya'qub)": {
     name_en: "Jacob (Yaqub)",
     desc_en: "<strong>Jacob (peace be upon him)</strong> — also called Israel — father of the tribes.\n<br><br>He bore the loss of Joseph with beautiful patience until Allah reunited them.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Beautiful patience and good hope in Allah.</p></div>",
     desc_ar: "<strong>يعقوب عليه السلام</strong> صبر على فقد يوسف حتى جمع الله شمله.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصبر الجميل.</p></div>"
@@ -3869,7 +3869,7 @@ window.PROPHET_I18N = {
     desc_en: "<strong>Job (peace be upon him)</strong> was tested with illness and loss, yet never abandoned faith.\n<br><br>He called upon Allah; He healed him and restored his family.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Patience and dua in hardship bring relief.</p></div>",
     desc_ar: "<strong>أيوب عليه السلام</strong> صبر على البلاء ففرّج الله كربه.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصبر والدعاء.</p></div>"
   },
-  "Shu\\'ayb": {
+  "Shu'ayb": {
     name_en: "Shuayb",
     desc_en: "<strong>Shuayb (peace be upon him)</strong> was sent to Madyan: fair weights and measures, no corruption.\n<br><br>They denied him and were punished; the believers were saved.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 Lesson</h4><p>Honesty in trade is part of faith.</p></div>",
     desc_ar: "<strong>شعيب عليه السلام</strong> أمر بالعدل في الكيل ونهى عن الفساد.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>الصدق في التجارة من الإيمان.</p></div>"
@@ -3944,13 +3944,35 @@ function prophetLearningFor(p){
   const key = Object.keys(map).find(k => k.replace(/\\/g, '') === normalized);
   return key ? map[key] : null;
 }
+function prophetI18nPack(name){
+  if(!window.PROPHET_I18N || !name) return null;
+  if(window.PROPHET_I18N[name]) return window.PROPHET_I18N[name];
+  // Clés parfois sur-échappées (Ya\'qub, Shu\'ayb) dans l'objet i18n
+  const variants = [
+    name,
+    name.replace(/'/g, "\'"),
+    name.replace(/'/g, ''),
+    name.replace(/'/g, '’'),
+  ];
+  const keys = Object.keys(window.PROPHET_I18N);
+  for(let i = 0; i < variants.length; i++){
+    if(window.PROPHET_I18N[variants[i]]) return window.PROPHET_I18N[variants[i]];
+  }
+  const norm = function(s){ return String(s||'').replace(/[\\'’]/g,'').toLowerCase(); };
+  const target = norm(name);
+  for(let k = 0; k < keys.length; k++){
+    if(norm(keys[k]) === target) return window.PROPHET_I18N[keys[k]];
+  }
+  return null;
+}
 function prophetDescHtml(p){
-  const pack = window.PROPHET_I18N && window.PROPHET_I18N[p.name];
-  const extraPack = window.PROPHETE_EXTRA_I18N && window.PROPHETE_EXTRA_I18N[p.name];
+  const pack = prophetI18nPack(p.name);
+  const extraPack = window.PROPHETE_EXTRA_I18N && (window.PROPHETE_EXTRA_I18N[p.name] || prophetI18nPack(p.name) && window.PROPHETE_EXTRA_I18N[p.name]);
   const learning = prophetLearningFor(p);
   if(learning && learning[rihlaLang]) return learning[rihlaLang];
-  if(rihlaLang === 'en' && pack && pack.desc_en) return pack.desc_en + (extraPack ? extraPack.en : '');
-  if(rihlaLang === 'ar' && pack && pack.desc_ar) return pack.desc_ar + (extraPack ? extraPack.ar : '');
+  if(rihlaLang === 'en' && pack && pack.desc_en) return pack.desc_en + (extraPack && extraPack.en ? extraPack.en : '');
+  if(rihlaLang === 'ar' && pack && pack.desc_ar) return pack.desc_ar + (extraPack && extraPack.ar ? extraPack.ar : '');
+  // FR (ou repli) : toujours le récit long de prophetesData
   const extra = window.PROPHETE_EXTRA && window.PROPHETE_EXTRA[p.name];
   return extra ? (p.desc + extra) : p.desc;
 }
