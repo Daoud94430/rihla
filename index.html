@@ -1,147 +1,4 @@
-Passer au contenu principal
-⌘K
-⌘J
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-index.html
-
-Fichiers
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -414,7 +271,7 @@ background:#fff; border:1px solid var(--line); border-radius:var(--radius);
 padding:26px; text-align:left; display:flex; flex-direction:column; gap:12px;
 transition:transform .2s ease, box-shadow .2s ease; width:100%; cursor:pointer;
 }
-.overview-card:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:transparent;}
+.overview-card:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:rgba(27,90,84,0.25);}
 .overview-card .product-icon{width:40px; height:40px; border-radius:9px; background:var(--emerald-950); display:flex; align-items:center; justify-content:center;}
 .overview-card .product-icon svg{width:20px;height:20px;stroke:var(--gold-300);}
 .overview-card h3{margin:0; font-size:1.08rem; color:var(--emerald-950);}
@@ -2002,20 +1859,49 @@ html[dir="rtl"] #view-home .hero-note{
   min-height: 200px;
   background: #fff;
   border: 1px solid var(--line);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+#view-home .overview-card::before{
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--emerald-600), var(--gold-500));
+  opacity: 0;
+  transition: opacity .2s ease;
 }
 #view-home .overview-card:hover,
 #view-home .overview-card:focus-visible{
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow);
-  border-color: rgba(27,90,84,0.2);
+  border-color: rgba(27,90,84,0.28);
   outline: none;
+}
+#view-home .overview-card:hover::before,
+#view-home .overview-card:focus-visible::before{
+  opacity: 1;
 }
 #view-home .overview-card .product-icon{
   width: 42px;
   height: 42px;
   border-radius: 10px;
+  background: var(--emerald-950);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s ease, transform .2s ease;
+}
+#view-home .overview-card .product-icon svg{
+  width: 20px;
+  height: 20px;
+  stroke: var(--gold-300);
+}
+#view-home .overview-card:hover .product-icon{
+  background: var(--emerald-600);
+  transform: scale(1.05);
 }
 #view-home .overview-card .tag{
   display: inline-flex;
@@ -2025,8 +1911,8 @@ html[dir="rtl"] #view-home .hero-note{
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--emerald-800);
-  background: var(--sand);
-  border: 1px solid var(--line);
+  background: rgba(27,90,84,0.08);
+  border: 1px solid rgba(27,90,84,0.18);
   border-radius: 6px;
   padding: 3px 9px;
 }
@@ -2045,6 +1931,10 @@ html[dir="rtl"] #view-home .hero-note{
 #view-home .overview-card .expand-hint{
   font-size: 0.8rem;
   font-weight: 600;
+  color: var(--gold-500);
+  transition: color .2s ease, transform .2s ease;
+}
+#view-home .overview-card:hover .expand-hint{
   color: var(--emerald-600);
 }
 #view-home .overview-card-featured{
@@ -28780,4 +28670,3 @@ window.addEventListener('hashchange', function(){
 </script>
 </body>
 </html>
-Mushaf French Tafsir Translation Length - Grok
