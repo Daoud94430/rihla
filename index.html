@@ -49,7 +49,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <!-- Police coranique Uthmanic : utilisée seulement dans le mushaf, donc chargée sans bloquer le premier rendu -->
 <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin>
-<link href="https://fonts.cdnfonts.com/css/kfgqpc-uthmanic-script-hafs" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
+<link href="https://fonts.cdnfonts.com/css/kfgqpc-uthmanic-script-hafs" rel="stylesheet">
 
 <!-- Supabase : téléchargé tôt, exécuté en bas de page pour ne pas bloquer le rendu -->
 <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin>
@@ -1058,11 +1058,11 @@ unicode-bidi: isolate;
 font-family: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
 }
 /* Polices calligraphiques officielles KFGQPC, une par riwāya (voir <head>) */
-#mushafAyahs.riwaya-warsh .mushaf-ayah .ma-ar{ font-family: 'warsh10', 'Amiri Quran', 'Scheherazade New', serif; }
-#mushafAyahs.riwaya-qalun .mushaf-ayah .ma-ar{ font-family: 'qaloon10', 'Amiri Quran', 'Scheherazade New', serif; }
-#mushafAyahs.riwaya-duri .mushaf-ayah .ma-ar{ font-family: 'doori9', 'Amiri Quran', 'Scheherazade New', serif; }
-#mushafAyahs.riwaya-susi .mushaf-ayah .ma-ar{ font-family: 'soosi9', 'Amiri Quran', 'Scheherazade New', serif; }
-#mushafAyahs.riwaya-shuba .mushaf-ayah .ma-ar{ font-family: 'shouba8', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-warsh .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
+#mushafAyahs.riwaya-qalun .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
+#mushafAyahs.riwaya-duri .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
+#mushafAyahs.riwaya-susi .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
+#mushafAyahs.riwaya-shuba .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
 /* ===== TAJWID (couleurs type mushaf / Quran.com) ===== */
 .mushaf-ayah .ma-ar tajweed,
 .mushaf-ayah .ma-ar .tajweed,
@@ -26270,9 +26270,9 @@ function renderMushafAyahs(){
   }).join('');
   box.querySelectorAll('.mushaf-ayah').forEach(el => {
     el.addEventListener('click', (e) => {
-      if(e.target.closest('.ma-bm')) return;
+      if(e.target.closest('.ma-bm, .ma-tools, button')) return;
       const idx = parseInt(el.dataset.idx, 10);
-      startMushafPlayback(idx);
+      if(!isNaN(idx)) startMushafPlayback(idx);
     });
   });
   box.querySelectorAll('.ma-bm').forEach(btn => {
@@ -27201,16 +27201,17 @@ function ensureMushafReady(){
   }
 }
 
-async 
 function ensureMushafSurahOptions(){
   const sel = document.getElementById('mushafSurahSelect');
   if(!sel) return;
-  if(sel.options && sel.options.length > 1) return;
   if(typeof SURAHS === 'undefined' || !SURAHS || !SURAHS.length) return;
   const current = sel.value;
-  sel.innerHTML = SURAHS.map(function(s){
-    return '<option value="' + s.number + '">' + s.number + '. ' + (s.englishName || '') + ' — ' + (s.name || '') + '</option>';
-  }).join('');
+  const needsFill = !sel.options || sel.options.length < 100;
+  if(needsFill){
+    sel.innerHTML = SURAHS.map(function(s){
+      return '<option value="' + s.number + '">' + s.number + '. ' + (s.englishName || '') + ' — ' + (s.name || '') + '</option>';
+    }).join('');
+  }
   if(current) sel.value = current;
 }
 
@@ -28548,13 +28549,17 @@ document.addEventListener('DOMContentLoaded', function() {
   try{ loadDailyHadith(false); }catch(e){}
   try{ initPrayerTimes(); }catch(e){}
   try{ if(apVolumeBar) apVolumeBar.value = 70; }catch(e){}
+  // Mushaf : init immédiat (audio / riwāya), liste des sourates en parallèle
+  try{ initMushaf(); }catch(e){ console.error(e); try{ renderMushafReciterChips(); }catch(_e){} }
   loadSurahList().then(function(){
     try{ ensureMushafSurahOptions(); }catch(e){}
-    try{ initMushaf(); }catch(e){ console.error(e); try{ renderMushafReciterChips(); }catch(_e){} }
-  }).catch(function(err){
-    console.warn('surah list', err);
-    try{ initMushaf(); }catch(e){ console.error(e); try{ renderMushafReciterChips(); }catch(_e){} }
-  });
+    try{
+      const sel = document.getElementById('mushafSurahSelect');
+      if(sel && mushafAyahs && mushafAyahs[0] && mushafAyahs[0].surah){
+        sel.value = String(mushafAyahs[0].surah);
+      }
+    }catch(e){}
+  }).catch(function(err){ console.warn('surah list', err); });
 
   // Raccourcis globaux utiles
   document.addEventListener('keydown', function(e){
