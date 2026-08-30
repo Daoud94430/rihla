@@ -1503,6 +1503,53 @@ padding:8px 16px; font-size:0.82rem; color:var(--emerald-950);
 cursor:pointer;
 }
 .hadith-refresh:hover{border-color:var(--emerald-950);}
+/* ===== Page Tafsir dédiée ===== */
+.tafsir-picker{
+display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px;
+}
+.tafsir-picker-field{
+display:flex; flex-direction:column; gap:6px; font-size:0.78rem; color:var(--ink-soft);
+font-family:'IBM Plex Mono', monospace; text-transform:uppercase; letter-spacing:0.06em;
+flex:1 1 220px; min-width:180px;
+}
+.tafsir-picker-field select{
+font-family:'Inter', sans-serif; font-size:0.95rem; color:var(--emerald-950);
+padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:#fff;
+text-transform:none; letter-spacing:normal;
+}
+.tafsir-page-card{
+background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+padding:28px 30px; display:flex; flex-direction:column; gap:18px;
+}
+.tafsir-ar{
+font-family:var(--quran-font); font-size:clamp(1.4rem, 3vw, 1.9rem); line-height:2.3;
+color:var(--emerald-950); padding:20px 22px; background:var(--sand); border-radius:var(--radius);
+border-right:4px solid var(--gold-500);
+}
+.tafsir-nav{
+display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+}
+.tafsir-nav .btn{
+background:none; border:1px solid var(--line); border-radius:999px; padding:9px 18px;
+font-size:0.85rem; color:var(--emerald-950); cursor:pointer;
+}
+.tafsir-nav .btn:hover{border-color:var(--emerald-950);}
+.tafsir-nav .btn:disabled{opacity:0.4; cursor:not-allowed;}
+.tafsir-ref{
+font-family:'IBM Plex Mono', monospace; font-size:0.85rem; color:var(--emerald-600);
+background:var(--emerald-950); color:var(--gold-300); padding:5px 14px; border-radius:999px;
+}
+.tafsir-body{
+font-family:'Inter', sans-serif; font-size:1rem; line-height:1.75; color:var(--emerald-950);
+}
+.tafsir-body p{margin:0 0 12px;}
+.tafsir-body p:last-child{margin-bottom:0;}
+.tafsir-body .tf-src{
+margin-top:6px; font-size:0.8rem; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace;
+}
+.tafsir-body .tf-note{
+margin-top:4px; font-size:0.8rem; color:var(--ink-soft); font-style:italic;
+}
 .verse-line{
 font-family:var(--arabic-font); font-size:1.7rem; line-height:2.4; direction:rtl; text-align:right; unicode-bidi:plaintext;
 }
@@ -1717,6 +1764,7 @@ Rihla
 <button class="nav-link" data-view="view-rappel" data-i18n="nav_hadith">Rappel</button>
 <button class="nav-link" data-view="view-prophete" data-i18n="nav_prophets">Histoires des Prophètes</button>
 <button class="nav-link" data-view="view-coran" data-i18n="nav_quran">Qur'an</button>
+<button class="nav-link" data-view="view-tafsir" data-i18n="nav_tafsir">Tafsir</button>
 <button class="nav-link" data-view="view-suivi" data-i18n="nav_track">Suivi</button>
 <button class="nav-link" data-view="view-home" data-scroll-to="tarifs" data-i18n="nav_pricing">Tarifs</button>
 </nav>
@@ -2241,6 +2289,37 @@ Rihla
 </section>
 </div>
 
+<!-- VUE TAFSIR DÉDIÉE -->
+<div class="view" id="view-tafsir">
+<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
+<section class="reveal">
+<div class="section-head">
+<span class="eyebrow" data-i18n="tafsir_eyebrow">Tafsir du Coran</span>
+<h2 data-i18n="tafsir_h2">Al-Mukhtasar fî Tafsîr al-Qur'ân al-Karîm</h2>
+<p data-i18n="tafsir_sub">Une exégèse authentique et détaillée, verset par verset, dans ta langue.</p>
+</div>
+<div class="tafsir-picker">
+<label class="tafsir-picker-field">
+<span data-i18n="tafsir_surah_label">Sourate</span>
+<select id="tafsirSurahSelect" aria-label="Sourate"></select>
+</label>
+<label class="tafsir-picker-field">
+<span data-i18n="tafsir_ayah_label">Verset</span>
+<select id="tafsirAyahSelect" aria-label="Verset"></select>
+</label>
+</div>
+<div class="tafsir-page-card">
+<div class="tafsir-ar" id="tafsirArText" lang="ar" dir="rtl">…</div>
+<div class="tafsir-nav">
+<button type="button" class="btn" id="tafsirPrevBtn" data-i18n="tafsir_prev">← Verset précédent</button>
+<span id="tafsirRefLabel" class="tafsir-ref">1:1</span>
+<button type="button" class="btn" id="tafsirNextBtn" data-i18n="tafsir_next">Verset suivant →</button>
+</div>
+<div class="tafsir-body" id="tafsirBody"></div>
+</div>
+</section>
+</div>
+
 <!-- VUE SUIVI -->
 <div class="view" id="view-suivi">
 <button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
@@ -2563,6 +2642,9 @@ if(id === 'view-aujourdhui'){
 if(id === 'view-parcours'){
   try{ if(typeof renderParcours === 'function') renderParcours(); }catch(e){}
   try{ if(typeof renderProphetes === 'function') renderProphetes(); }catch(e){}
+}
+if(id === 'view-tafsir'){
+  try{ if(typeof initTafsirPage === 'function') initTafsirPage(); }catch(e){}
 }
 document.querySelectorAll('.nav-link').forEach(b => {
   // Ne pas activer « Tarifs » (scroll) juste parce que la vue est view-home
@@ -26051,6 +26133,183 @@ async function toggleTafsirPanel(idx){
   panel.dataset.loaded = '1';
 }
 
+/* =====================================================================
+   PAGE TAFSIR DÉDIÉE (menu "Tafsir") — totalement indépendante du petit
+   panneau tafsir sous chaque verset du Mushaf (toggleTafsirPanel ci-dessus,
+   volontairement inchangé). Ici : Al-Mukhtasar fî Tafsîr al-Qur'ân al-Karîm
+   (« Résumé dans l'exégèse du noble Coran »), rédigé par le Markaz Tafsîr
+   li-d-Dirâsât al-Qur'âniyya (Médine), disponible en arabe/français/anglais
+   via l'Encyclopédie du Noble Coran (quranenc.com) — un tafsir authentique,
+   détaillé et automatiquement dans la langue active du site.
+   ===================================================================== */
+let tafsirPageState = { surah: 1, ayah: 1, ready: false };
+function tafsirPageSourceForLang(lang){
+  if(lang === 'ar') return { key: 'arabic_mokhtasar', label: 'المختصر في تفسير القرآن الكريم — مركز تفسير للدراسات القرآنية' };
+  if(lang === 'en') return { key: 'english_mokhtasar', label: 'Al-Mukhtasar (Concise Commentary on the Quran) — Tafsir Center for Quranic Studies' };
+  return { key: 'french_mokhtasar', label: 'Al-Mukhtasar (Résumé dans l\u2019exégèse du noble Coran) — Centre de Tafsir pour les études coraniques' };
+}
+async function fetchTafsirPageText(key, surah, ayah){
+  const res = await fetch('https://quranenc.com/api/v1/translation/aya/' + key + '/' + surah + '/' + ayah);
+  if(!res.ok) throw new Error('tafsir indisponible');
+  const j = await res.json();
+  const text = String((j && j.translation) || '').trim();
+  if(!text) throw new Error('tafsir vide');
+  return text;
+}
+function populateTafsirSurahSelect(){
+  const sel = document.getElementById('tafsirSurahSelect');
+  if(!sel || sel.options.length) return; // déjà rempli
+  (SURAHS || []).forEach(function(s){
+    const opt = document.createElement('option');
+    opt.value = String(s.number);
+    const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
+    const label = lang === 'ar' ? (s.name || s.englishName) : (s.englishName || s.name);
+    opt.textContent = s.number + '. ' + label;
+    sel.appendChild(opt);
+  });
+}
+function populateTafsirAyahSelect(surahNumber, keepAyah){
+  const sel = document.getElementById('tafsirAyahSelect');
+  if(!sel) return;
+  const info = (SURAHS || []).find(function(s){ return s.number === surahNumber; });
+  const count = (info && info.numberOfAyahs) || 7;
+  sel.innerHTML = '';
+  for(let i = 1; i <= count; i++){
+    const opt = document.createElement('option');
+    opt.value = String(i);
+    opt.textContent = String(i);
+    sel.appendChild(opt);
+  }
+  sel.value = String(Math.min(keepAyah || 1, count));
+}
+async function loadTafsirPageEntry(surah, ayah){
+  tafsirPageState = { surah: surah, ayah: ayah, ready: true };
+  const arBox = document.getElementById('tafsirArText');
+  const body = document.getElementById('tafsirBody');
+  const ref = document.getElementById('tafsirRefLabel');
+  const prevBtn = document.getElementById('tafsirPrevBtn');
+  const nextBtn = document.getElementById('tafsirNextBtn');
+  const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
+  if(ref) ref.textContent = surah + ':' + ayah;
+  if(prevBtn) prevBtn.disabled = (surah === 1 && ayah === 1);
+  const info = (SURAHS || []).find(function(s){ return s.number === surah; });
+  if(nextBtn) nextBtn.disabled = !!(surah === 114 && info && ayah >= info.numberOfAyahs);
+  const loadingTxt = lang === 'ar' ? 'جارٍ التحميل…' : lang === 'en' ? 'Loading…' : 'Chargement…';
+  if(arBox) arBox.textContent = loadingTxt;
+  if(body) body.innerHTML = '';
+
+  // Texte arabe de référence (Hafs, pour situer le verset)
+  try{
+    const res = await fetch('https://api.alquran.cloud/v1/ayah/' + surah + ':' + ayah + '/quran-uthmani');
+    if(res.ok){
+      const j = await res.json();
+      const txt = (j && j.data && j.data.text) || '';
+      if(arBox) arBox.textContent = normalizeQuranArabic(txt);
+    }
+  }catch(e){ if(arBox) arBox.textContent = ''; }
+
+  const primary = tafsirPageSourceForLang(lang);
+  let text = '', sourceLabel = primary.label, usedFallback = false;
+  try{
+    text = await fetchTafsirPageText(primary.key, surah, ayah);
+  }catch(e1){
+    for(const alt of [{ key:'french_mokhtasar', label:'Al-Mukhtasar (FR) — Centre de Tafsir pour les études coraniques' },
+                       { key:'english_mokhtasar', label:'Al-Mukhtasar (EN) — Tafsir Center for Quranic Studies' }]){
+      if(alt.key === primary.key) continue;
+      try{
+        text = await fetchTafsirPageText(alt.key, surah, ayah);
+        sourceLabel = alt.label;
+        usedFallback = true;
+        break;
+      }catch(e2){}
+    }
+  }
+  if(!body) return;
+  if(!text){
+    const failTxt = lang === 'ar' ? 'التفسير غير متاح حاليًا لهذه الآية.' : lang === 'en' ? 'Tafsir is currently unavailable for this ayah.' : 'Le tafsir est indisponible pour le moment pour ce verset.';
+    body.innerHTML = '<p>' + failTxt + '</p>';
+    return;
+  }
+  const paragraphs = text.split(/\s*•\s*/).map(function(s){ return s.trim(); }).filter(Boolean);
+  const html = paragraphs.map(function(p){ return '<p>' + p.replace(/</g,'&lt;') + '</p>'; }).join('');
+  const srcLine = '<p class="tf-src">' + (lang === 'ar' ? 'المصدر: ' : lang === 'en' ? 'Source: ' : 'Source : ') + sourceLabel.replace(/</g,'&lt;')
+    + (usedFallback ? (lang === 'ar' ? ' (النسخة بلغتك غير متوفرة لهذه الآية)' : lang === 'en' ? ' (edition in your language unavailable for this ayah)' : ' (édition dans votre langue indisponible pour ce verset)') : '') + '</p>';
+  body.innerHTML = html + srcLine;
+}
+function reloadTafsirPageEntry(){
+  const view = document.getElementById('view-tafsir');
+  if(!view || !view.classList.contains('active') || !tafsirPageState.ready) return;
+  populateTafsirSurahSelect(); // re-libellé si la langue a changé (noms de sourates)
+  loadTafsirPageEntry(tafsirPageState.surah, tafsirPageState.ayah);
+}
+let tafsirPageWired = false;
+function initTafsirPage(){
+  populateTafsirSurahSelect();
+  const surahSel = document.getElementById('tafsirSurahSelect');
+  const ayahSel = document.getElementById('tafsirAyahSelect');
+  if(!tafsirPageState.ready){
+    // Continuité douce : démarre sur le premier verset de la page du
+    // Mushaf actuellement ouverte, si disponible et en Hafs (numérotation
+    // fiable), sinon Al-Fatiha 1:1.
+    let startSurah = 1, startAyah = 1;
+    try{
+      if(typeof mushafAyahs !== 'undefined' && mushafAyahs && mushafAyahs[0] && mushafRiwayaKey === 'hafs'){
+        startSurah = mushafAyahs[0].surah || 1;
+        startAyah = mushafAyahs[0].ayah || 1;
+      }
+    }catch(e){}
+    tafsirPageState = { surah: startSurah, ayah: startAyah, ready: false };
+  }
+  if(surahSel) surahSel.value = String(tafsirPageState.surah);
+  populateTafsirAyahSelect(tafsirPageState.surah, tafsirPageState.ayah);
+  loadTafsirPageEntry(tafsirPageState.surah, tafsirPageState.ayah);
+  if(tafsirPageWired) return;
+  tafsirPageWired = true;
+  if(surahSel){
+    surahSel.addEventListener('change', function(){
+      const s = parseInt(surahSel.value, 10) || 1;
+      populateTafsirAyahSelect(s, 1);
+      loadTafsirPageEntry(s, 1);
+    });
+  }
+  if(ayahSel){
+    ayahSel.addEventListener('change', function(){
+      const s = parseInt(surahSel.value, 10) || 1;
+      const a = parseInt(ayahSel.value, 10) || 1;
+      loadTafsirPageEntry(s, a);
+    });
+  }
+  const prevBtn = document.getElementById('tafsirPrevBtn');
+  const nextBtn = document.getElementById('tafsirNextBtn');
+  if(prevBtn){
+    prevBtn.addEventListener('click', function(){
+      let { surah, ayah } = tafsirPageState;
+      if(ayah > 1){ ayah -= 1; }
+      else if(surah > 1){
+        surah -= 1;
+        const info = (SURAHS || []).find(function(s){ return s.number === surah; });
+        ayah = (info && info.numberOfAyahs) || 1;
+      } else return;
+      if(surahSel) surahSel.value = String(surah);
+      populateTafsirAyahSelect(surah, ayah);
+      loadTafsirPageEntry(surah, ayah);
+    });
+  }
+  if(nextBtn){
+    nextBtn.addEventListener('click', function(){
+      let { surah, ayah } = tafsirPageState;
+      const info = (SURAHS || []).find(function(s){ return s.number === surah; });
+      const count = (info && info.numberOfAyahs) || 1;
+      if(ayah < count){ ayah += 1; }
+      else if(surah < 114){ surah += 1; ayah = 1; }
+      else return;
+      if(surahSel) surahSel.value = String(surah);
+      populateTafsirAyahSelect(surah, ayah);
+      loadTafsirPageEntry(surah, ayah);
+    });
+  }
+}
+
 /* ===== Révisions hifz (espacées : 1j, 3j, 7j, 14j) ===== */
 const HIFZ_INTERVALS_DAYS = [1, 3, 7, 14];
 function loadHifzReviews(){
@@ -27164,7 +27423,7 @@ var RIHLA_I18N = {
     login:'Se connecter', premium:'Passer Premium', logout:'Déconnexion',
     nav_home:'Accueil', nav_today:"Aujourd'hui", nav_path:'Parcours', nav_duas:"Du'as",
     nav_prayer:'Prières', nav_hadith:'Rappel', nav_prophets:'Histoires des Prophètes',
-    nav_quran:"Qur'an", nav_track:'Suivi', nav_pricing:'Tarifs',
+    nav_quran:"Qur'an", nav_track:'Suivi', nav_pricing:'Tarifs', nav_tafsir:'Tafsir',
     hero_eyebrow:'Accompagnement quotidien du Coran',
     hero_title:'Avance dans ta lecture, <em>un jour</em> à la fois.',
     hero_lead:"Rihla t'accompagne dans ta mémorisation et ta lecture du Coran : suivi quotidien, lecture automatique, et sessions d'écoute pour progresser sereinement.",
@@ -27174,6 +27433,10 @@ var RIHLA_I18N = {
     overview_lead:"Choisis un outil pour l'ouvrir en entier — chacun a son propre espace.",
     quran_eyebrow:'Mushaf · 604 pages',
     quran_lead:'Lecture, tajwid, tafsir court, signets et mode hifz — page par page.',
+    tafsir_eyebrow:'Tafsir du Coran', tafsir_h2:"Al-Mukhtasar fî Tafsîr al-Qur'ân al-Karîm",
+    tafsir_sub:'Une exégèse authentique et détaillée, verset par verset, dans ta langue.',
+    tafsir_surah_label:'Sourate', tafsir_ayah_label:'Verset',
+    tafsir_prev:'← Verset précédent', tafsir_next:'Verset suivant →',
     today_eyebrow:'Routine',
     today_lead:"Trois gestes simples : lire ta page, dire un adhkar, faire une du'a. Sans pression.",
     path_eyebrow:'Débutant · 21 jours', path_title:'Parcours de régularité',
@@ -27205,7 +27468,7 @@ var RIHLA_I18N = {
     login:'Log in', premium:'Go Premium', logout:'Log out',
     nav_home:'Home', nav_today:'Today', nav_path:'Path', nav_duas:"Du'as",
     nav_prayer:'Prayer', nav_hadith:'Reminder', nav_prophets:'Stories of the Prophets',
-    nav_quran:"Qur'an", nav_track:'Tracker', nav_pricing:'Pricing',
+    nav_quran:"Qur'an", nav_track:'Tracker', nav_pricing:'Pricing', nav_tafsir:'Tafsir',
     hero_eyebrow:"Daily Qur'an companion",
     hero_title:'Grow in your reading, <em>one day</em> at a time.',
     hero_lead:"Rihla supports your memorization and Qur'an reading: daily tracking, synced recitation, and listening sessions to progress calmly.",
@@ -27215,6 +27478,10 @@ var RIHLA_I18N = {
     overview_lead:'Pick a tool to open it fully — each has its own space.',
     quran_eyebrow:'Mushaf · 604 pages',
     quran_lead:'Reading, tajweed, short tafsir, bookmarks and hifz mode — page by page.',
+    tafsir_eyebrow:"Qur'an Tafsir", tafsir_h2:'Al-Mukhtasar (Concise Commentary on the Quran)',
+    tafsir_sub:'An authentic, detailed exegesis, verse by verse, in your language.',
+    tafsir_surah_label:'Surah', tafsir_ayah_label:'Ayah',
+    tafsir_prev:'← Previous ayah', tafsir_next:'Next ayah →',
     today_eyebrow:'Routine',
     today_lead:"Three simple steps: read your page, say an adhkar, make a du'a. No pressure.",
     path_eyebrow:'Beginner · 21 days', path_title:'Consistency path',
@@ -27246,7 +27513,7 @@ var RIHLA_I18N = {
     login:'تسجيل الدخول', premium:'الترقية', logout:'خروج',
     nav_home:'الرئيسية', nav_today:'اليوم', nav_path:'المسار', nav_duas:'الأدعية',
     nav_prayer:'الصلاة', nav_hadith:'تذكير', nav_prophets:'قصص الأنبياء',
-    nav_quran:'القرآن', nav_track:'المتابعة', nav_pricing:'الأسعار',
+    nav_quran:'القرآن', nav_track:'المتابعة', nav_pricing:'الأسعار', nav_tafsir:'التفسير',
     hero_eyebrow:'مرافق يومي للقرآن',
     hero_title:'تقدّم في قراءتك، <em>يومًا</em> بعد يوم.',
     hero_lead:'رحلة ترافقك في الحفظ والقراءة: متابعة يومية، تلاوة متزامنة، وجلسات استماع لتتقدم بطمأنينة.',
@@ -27256,6 +27523,10 @@ var RIHLA_I18N = {
     overview_lead:'اختر أداة لفتحها بالكامل — لكل واحدة مساحتها.',
     quran_eyebrow:'مصحف · ٦٠٤ صفحة',
     quran_lead:'قراءة، تجويد، تفسير موجز، إشارات ووضع الحفظ — صفحة بصفحة.',
+    tafsir_eyebrow:'تفسير القرآن', tafsir_h2:'المختصر في تفسير القرآن الكريم',
+    tafsir_sub:'تفسير موثوق ومفصّل، آية بآية، بلغتك.',
+    tafsir_surah_label:'السورة', tafsir_ayah_label:'الآية',
+    tafsir_prev:'→ الآية السابقة', tafsir_next:'الآية التالية ←',
     today_eyebrow:'روتين',
     today_lead:'ثلاث خطوات بسيطة: اقرأ صفحتك، اذكر ذكرًا، وادعُ. بلا ضغط.',
     path_eyebrow:'للمبتدئين · ٢١ يومًا', path_title:'مسار الاستمرار',
@@ -28129,6 +28400,7 @@ function applyRihlaLang(lang){
   }catch(e){}
   try{ if(typeof renderTabs === 'function') renderTabs(); }catch(e){}
   try{ if(typeof renderDuas === 'function') renderDuas(); }catch(e){}
+  try{ if(typeof reloadTafsirPageEntry === 'function') reloadTafsirPageEntry(); }catch(e){}
 }
 function detectBrowserLang(){
   // navigator.languages = préférences ordonnées (ex. ["ar-SA","ar","en-US","en"])
