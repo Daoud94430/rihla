@@ -25410,9 +25410,6 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   }
   const variantUnavailable = mushafAyahs.some(function(a){ return a && a.variantUnavailable; });
   if(variantUnavailable){
-    // Texte source indisponible pour cette riwāya : on montre la page
-    // scannée officielle si on en a une, sinon juste la notice — jamais de
-    // repli silencieux sur le texte Hafs.
     if(mushafEditionPageUrl(page)){
       renderMushafEditionPage(page);
     }else{
@@ -25492,6 +25489,7 @@ async function loadMushafRiwayaRows(){
   mushafRiwayaRows = { key: mushafRiwayaKey, pages: pages };
   return pages;
 }
+
 
 function mushafEditionPageUrl(page){
   const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
@@ -25642,8 +25640,7 @@ async function fetchMushafPageData(page){
   // l'édition propre à cette riwāya (texte, découpage des versets et
   // numérotation qui lui sont propres) — voir loadMushafRiwayaRows(). Si
   // cette édition texte est indisponible, on ne substitue JAMAIS le texte
-  // Hafs : la page scannée (mushafEditionPageUrl) + une notice prennent le
-  // relais (voir applyMushafPageData / renderMushafAyahs).
+  // Hafs : la notice de riwāya (renderMushafVariantNotice) prend le relais.
   const cacheKey = mushafRiwayaKey + ':' + page;
   if(MUSHAF_RIWAYA_PAGE_CACHE.has(cacheKey)) return MUSHAF_RIWAYA_PAGE_CACHE.get(cacheKey);
   let pages, rows;
@@ -26024,109 +26021,34 @@ function renderMushafAyahs(){
   });
 }
 
-/* =====================================================================
-   Tafsir détaillé et localisé — Al-Mukhtasar fî Tafsîr al-Qur'ân al-Karîm
-   (« Résumé dans l'exégèse du noble Coran »), rédigé par le Markaz Tafsîr
-   li-d-Dirâsât al-Qur'âniyya (Médine) et révisé par un comité de savants ;
-   c'est un tafsir authentique, reconnu, et déjà disponible en arabe,
-   français et anglais via l'Encyclopédie du Noble Coran (quranenc.com).
-   On choisit l'édition selon la langue active du site ; si elle est
-   indisponible pour un verset, on retente en français puis en anglais,
-   et en dernier recours seulement le résumé Ibn Kathir (EN) sert de repli.
-   ===================================================================== */
-function mushafTafsirSource(){
-  const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
-  if(lang === 'ar') return { key: 'arabic_mokhtasar', label: 'المختصر في تفسير القرآن الكريم — مركز تفسير للدراسات القرآنية' };
-  if(lang === 'en') return { key: 'english_mokhtasar', label: 'Al-Mukhtasar (Concise Commentary on the Quran) — Tafsir Center for Quranic Studies' };
-  return { key: 'french_mokhtasar', label: 'Al-Mukhtasar (Résumé dans l\u2019exégèse du noble Coran) — Centre de Tafsir pour les études coraniques' };
-}
-async function fetchMushafTafsirText(key, surah, ayah){
-  const res = await fetch('https://quranenc.com/api/v1/translation/aya/' + key + '/' + surah + '/' + ayah);
-  if(!res.ok) throw new Error('tafsir indisponible');
-  const j = await res.json();
-  const text = String((j && j.translation) || '').trim();
-  if(!text) throw new Error('tafsir vide');
-  return text;
-}
+/* ===== Tafsir court (traduction FR + éclairage résumé EN Ibn Kathir si dispo) ===== */
 async function toggleTafsirPanel(idx){
   const panel = document.getElementById('tafsir-' + idx);
   if(!panel) return;
-  const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
-  // Un panneau déjà chargé mais dans une AUTRE langue (changement FR/EN/ar
-  // pendant que le panneau était resté ouvert/en cache) doit être rechargé —
-  // sinon on affiche un tafsir resté dans l'ancienne langue malgré le
-  // changement de langue du site.
-  const staleLang = panel.dataset.loaded === '1' && panel.dataset.loadedLang !== lang;
-  if(panel.classList.contains('show') && panel.dataset.loaded === '1' && !staleLang){
+  if(panel.classList.contains('show') && panel.dataset.loaded === '1'){
     panel.classList.remove('show');
     return;
   }
   const a = mushafAyahs[idx];
   if(!a) return;
   panel.classList.add('show');
-  if(panel.dataset.loaded === '1' && !staleLang) return;
-  const loadingTxt = lang === 'ar' ? 'جارٍ التحميل…' : lang === 'en' ? 'Loading…' : 'Chargement…';
-  panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">' + loadingTxt + '</p>';
-
-  const primary = mushafTafsirSource();
-  let text = '', sourceLabel = primary.label, usedFallback = false;
+  if(panel.dataset.loaded === '1') return;
+  panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;" data-i18n="loading">Chargement…</p>';
+  const sens = (a.tr || '').trim();
+  let eclairage = '';
   try{
-    text = await fetchMushafTafsirText(primary.key, a.surah, a.ayah);
-  }catch(e1){
-    // Repli 1 : édition française (la plus étoffée après l'arabe), puis anglaise
-    for(const alt of [{ key:'french_mokhtasar', label:'Al-Mukhtasar (FR) — Centre de Tafsir pour les études coraniques' },
-                       { key:'english_mokhtasar', label:'Al-Mukhtasar (EN) — Tafsir Center for Quranic Studies' }]){
-      if(alt.key === primary.key) continue;
-      try{
-        text = await fetchMushafTafsirText(alt.key, a.surah, a.ayah);
-        sourceLabel = alt.label;
-        usedFallback = true;
-        break;
-      }catch(e2){}
+    const res = await fetch('https://api.quran.com/api/v4/tafsirs/en-tafisr-ibn-kathir/by_ayah/' + a.surah + ':' + a.ayah);
+    if(res.ok){
+      const j = await res.json();
+      const raw = (j.tafsir && (j.tafsir.text || j.tafsir)) || '';
+      const text = String(raw).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      if(text) eclairage = text.length > 480 ? text.slice(0, 480) + '…' : text;
     }
-  }
-  // Dernier repli seulement : résumé Ibn Kathir (EN) via Quran.com
-  if(!text){
-    try{
-      const res = await fetch('https://api.quran.com/api/v4/tafsirs/en-tafisr-ibn-kathir/by_ayah/' + a.surah + ':' + a.ayah);
-      if(res.ok){
-        const j = await res.json();
-        const raw = (j.tafsir && (j.tafsir.text || j.tafsir)) || '';
-        text = String(raw).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-        sourceLabel = 'Tafsir Ibn Kathir (résumé, EN) — Quran.com';
-        usedFallback = true;
-      }
-    }catch(e3){}
-  }
-
-  if(!text){
-    const failTxt = lang === 'ar' ? 'التفسير غير متاح حاليًا لهذه الآية.' : lang === 'en' ? 'Tafsir is currently unavailable for this ayah.' : 'Le tafsir est indisponible pour le moment pour ce verset.';
-    panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">' + failTxt + '</p>';
-    panel.dataset.loaded = '1';
-    panel.dataset.loadedLang = lang;
-    return;
-  }
-
-  // Certaines entrées du Mukhtasar distinguent plusieurs points avec « • » :
-  // on les affiche comme des paragraphes séparés plutôt qu'un bloc compact.
-  const paragraphs = text.split(/\s*•\s*/).map(s => s.trim()).filter(Boolean);
-  const body = paragraphs.map(p => '<p style="margin:0 0 8px;">' + p.replace(/</g,'&lt;') + '</p>').join('');
-
-  const riwayaNote = (mushafRiwayaKey !== 'hafs')
-    ? '<p class="mt-src" style="margin-top:6px;">' + (lang === 'ar'
-        ? 'ملاحظة: ترقيم الآيات في هذا التفسير يتبع رواية حفص، وقد يختلف بمقدار آية واحدة عن ترقيم رواية ' + mushafRiwayaLabel(mushafRiwayaKey) + '.'
-        : lang === 'en'
-        ? 'Note: this tafsir\u2019s ayah numbering follows the Hafs riwāya and may be off by one ayah from the ' + mushafRiwayaLabel(mushafRiwayaKey) + ' numbering.'
-        : 'Remarque : la numérotation des versets de ce tafsir suit la riwāya Hafs et peut être décalée d\u2019un verset par rapport à la numérotation ' + mushafRiwayaLabel(mushafRiwayaKey) + '.') + '</p>'
-    : '';
-
-  panel.innerHTML = body
-    + '<p class="mt-src">' + (lang === 'ar' ? 'المصدر: ' : lang === 'en' ? 'Source: ' : 'Source : ') + sourceLabel.replace(/</g,'&lt;')
-    + (usedFallback ? (lang === 'ar' ? ' (تفسير باللغة العربية أو الفرنسية غير متوفر لهذه الآية)' : lang === 'en' ? ' (Arabic/French edition unavailable for this ayah)' : ' (édition dans votre langue indisponible pour ce verset)') : '')
-    + '</p>'
-    + riwayaNote;
+  }catch(e){}
+  panel.innerHTML =
+    (sens ? '<p style="margin:0 0 8px;"><strong>Sens (FR)</strong> — ' + sens.replace(/</g,'&lt;') + '</p>' : '') +
+    (eclairage ? '<p style="margin:0;"><strong>Éclairage (résumé)</strong> — ' + eclairage.replace(/</g,'&lt;') + '</p><p class="mt-src">Source : Tafsir Ibn Kathir (abrégé, EN) via Quran.com — pour approfondir, consulte un savant ou un tafsir complet en français.</p>' : '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">Éclairage indisponible pour le moment. Le sens FR ci-dessus reste affiché.</p>');
   panel.dataset.loaded = '1';
-  panel.dataset.loadedLang = lang;
 }
 
 /* ===== Révisions hifz (espacées : 1j, 3j, 7j, 14j) ===== */
