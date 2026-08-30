@@ -133,6 +133,12 @@ Passer au contenu principal
 
 
 
+
+
+
+
+
+
 index.html
 
 Fichiers
@@ -1195,11 +1201,11 @@ unicode-bidi: isolate;
 font-family: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
 }
 /* Polices calligraphiques officielles KFGQPC, une par riwāya (voir <head>) */
-#mushafAyahs.riwaya-warsh .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
-#mushafAyahs.riwaya-qalun .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
-#mushafAyahs.riwaya-duri .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
-#mushafAyahs.riwaya-susi .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
-#mushafAyahs.riwaya-shuba .mushaf-ayah .ma-ar{ font-family: 'KFGQPC Uthmanic Script HAFS', 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif; }
+#mushafAyahs.riwaya-warsh .mushaf-ayah .ma-ar{ font-family: 'warsh10', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-qalun .mushaf-ayah .ma-ar{ font-family: 'qaloon10', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-duri .mushaf-ayah .ma-ar{ font-family: 'doori9', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-susi .mushaf-ayah .ma-ar{ font-family: 'soosi9', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-shuba .mushaf-ayah .ma-ar{ font-family: 'shouba8', 'Amiri Quran', 'Scheherazade New', serif; }
 /* ===== TAJWID (couleurs type mushaf / Quran.com) ===== */
 .mushaf-ayah .ma-ar tajweed,
 .mushaf-ayah .ma-ar .tajweed,
@@ -25798,14 +25804,13 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
     if(isAlt) box0.classList.add('riwaya-' + mushafRiwayaKey);
   }
   const variantUnavailable = mushafAyahs.some(function(a){ return a && a.variantUnavailable; });
-  // Riwāyāt non-Hafs : afficher d'abord les pages calligraphiques officielles (KFGQPC)
-  // lorsque disponibles, pour coller au mushaf de référence.
-  if(mushafRiwayaKey !== 'hafs' && mushafEditionPageUrl(page)){
-    renderMushafEditionPage(page);
-    if(variantUnavailable) renderMushafVariantNotice(page);
-  }else if(variantUnavailable){
-    setMushafEditionFrameMode(false);
-    if(box0) box0.innerHTML = '';
+  if(variantUnavailable){
+    if(mushafEditionPageUrl(page)){
+      renderMushafEditionPage(page);
+    }else{
+      setMushafEditionFrameMode(false);
+      if(box0) box0.innerHTML = '';
+    }
     renderMushafVariantNotice(page);
   }else{
     renderMushafAyahs();
@@ -28775,3 +28780,4 @@ window.addEventListener('hashchange', function(){
 </script>
 </body>
 </html>
+Mushaf French Tafsir Translation Length - Grok
