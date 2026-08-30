@@ -408,8 +408,6 @@ cursor:pointer;
   border-left:3px solid var(--gold-500);
 }
 .ma-tafsir.show{display:block;}
-.ma-tafsir .mt-body{white-space:pre-wrap; overflow-wrap:anywhere;}
-.ma-tafsir .mt-body[dir="rtl"]{direction:rtl; text-align:right;}
 .ma-tafsir .mt-src{font-size:0.72rem; color:var(--ink-soft); margin-top:6px;}
 .hifz-review-box{
   margin-bottom:14px; padding:14px; background:#fff; border:1px solid var(--line); border-radius:var(--radius);
@@ -582,20 +580,6 @@ font-family:var(--arabic-font); font-size:2.4rem;
 .prophet-detail .pd-verses a:hover{color:var(--emerald-800);}
 .prophet-detail .pd-source{font-size:0.75rem; color:var(--ink-soft); opacity:0.7; margin-top:8px;}
 .prophet-detail .pd-section-title{font-family:'Amiri',serif; font-size:1.2rem; color:var(--emerald-800); margin:16px 0 8px;}
-
-/* Présentation éditoriale des récits prophétiques */
-.prophet-detail .pd-desc .prophet-story{display:grid;gap:20px;}
-.prophet-detail .pd-desc .story-intro{margin:0;padding:18px 20px;background:linear-gradient(135deg,rgba(240,228,184,.72),rgba(255,255,255,.7));border:1px solid rgba(201,162,39,.35);border-radius:12px;color:var(--ink);font-size:1.02rem;line-height:1.8;}
-.prophet-detail .pd-desc .story-section{padding-bottom:18px;border-bottom:1px solid var(--line);}
-.prophet-detail .pd-desc .story-section:last-of-type{padding-bottom:0;border-bottom:0;}
-.prophet-detail .pd-desc .story-section h3{font-family:'Amiri',serif;font-size:1.25rem;line-height:1.25;color:var(--emerald-800);margin:0 0 8px;}
-.prophet-detail .pd-desc .story-section p,.prophet-detail .pd-desc .story-note{margin:0;}
-.prophet-detail .pd-desc blockquote{margin:14px 0;padding:12px 16px;border-left:3px solid var(--gold-500);background:rgba(240,228,184,.48);border-radius:0 10px 10px 0;color:var(--emerald-950);font-family:'Amiri',serif;font-size:1.05rem;line-height:1.55;}
-.prophet-detail .pd-desc blockquote cite{display:block;margin-top:5px;font-family:'Work Sans',sans-serif;font-size:.78rem;font-style:normal;color:var(--ink-soft);}
-.prophet-detail .pd-desc .story-ref{display:inline-block;margin-top:5px;color:var(--emerald-600);font-family:'IBM Plex Mono',monospace;font-size:.76rem;font-weight:500;}
-.prophet-detail .pd-desc .story-note{padding:13px 16px;background:var(--sand);border-radius:10px;font-size:.85rem;line-height:1.65;color:var(--ink-soft);}
-html[dir="rtl"] .prophet-detail .pd-desc blockquote{border-left:0;border-right:3px solid var(--gold-500);border-radius:10px 0 0 10px;}
-
 .demo-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:30px;}
 .how-it-works{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:32px 0 40px;}
 .how-step{background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px;}
@@ -1055,8 +1039,8 @@ margin-right: 0.28em;
 margin-left: 0.12em;
 padding: 0 0.28em;
 border-radius: 50%;
-border: 1.5px solid var(--gold-500);
-background: rgba(201,162,39,0.14);
+border: 1.5px solid var(--emerald-950);
+background: #fff;
 color: var(--emerald-950);
 font-family: 'Amiri', 'Noto Naskh Arabic', serif;
 font-size: 0.58em;
@@ -1067,6 +1051,17 @@ box-sizing: border-box;
 direction: ltr;
 unicode-bidi: isolate;
 }
+/* riwāya autre que Hafs (Warsh, Qālūn…) : rasm différent, police de repli
+   généraliste en attendant/à défaut du chargement de la police dédiée */
+#mushafAyahs.riwaya-alt .mushaf-ayah .ma-ar{
+font-family: 'Amiri Quran', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+}
+/* Polices calligraphiques officielles KFGQPC, une par riwāya (voir <head>) */
+#mushafAyahs.riwaya-warsh .mushaf-ayah .ma-ar{ font-family: 'warsh10', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-qalun .mushaf-ayah .ma-ar{ font-family: 'qaloon10', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-duri .mushaf-ayah .ma-ar{ font-family: 'doori9', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-susi .mushaf-ayah .ma-ar{ font-family: 'soosi9', 'Amiri Quran', 'Scheherazade New', serif; }
+#mushafAyahs.riwaya-shuba .mushaf-ayah .ma-ar{ font-family: 'shouba8', 'Amiri Quran', 'Scheherazade New', serif; }
 /* ===== TAJWID (couleurs type mushaf / Quran.com) ===== */
 .mushaf-ayah .ma-ar tajweed,
 .mushaf-ayah .ma-ar .tajweed,
@@ -1153,9 +1148,9 @@ text-shadow: 0 1px 0 rgba(0,0,0,0.35);
 }
 .mushaf-page-frame.dark .mushaf-ayah.active .ma-ar{ color: #fff8e7; }
 .mushaf-page-frame.dark .mushaf-ayah .ma-ayah-end{
-border-color: #c9a227;
-background: rgba(201,162,39,0.2);
-color: #e0c25f;
+border-color: #f5ecd4;
+background: rgba(245,236,212,0.12);
+color: #f5ecd4;
 }
 .mushaf-page-frame.dark .mushaf-ayah .ma-tr{ color: #c8bfa8; }
 .mushaf-page-frame.dark .mushaf-page-footer-num{
@@ -1693,42 +1688,11 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 .dua-card{padding:18px;}
 .dua-card .dua-arabic{font-size:1.15rem; line-height:1.9;}
 }
-
-/* ===== Outil Tafsir autonome ===== */
-.tafsir-tool-shell{max-width:1400px;margin:0 auto;}
-.tafsir-tool-intro{max-width:850px;}
-.tafsir-toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:end;padding:16px;background:var(--paper,#fff);border:1px solid var(--line);border-radius:14px;margin:18px 0;box-shadow:0 8px 26px rgba(20,55,42,.06);}
-.tafsir-field{display:flex;flex-direction:column;gap:6px;min-width:190px;flex:1;}
-.tafsir-field label{font-size:.72rem;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);}
-.tafsir-field select,.tafsir-search{min-height:42px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg,#faf8f2);color:var(--ink);font:inherit;}
-.tafsir-tool-status{margin:0 0 14px;color:var(--ink-soft);font-size:.86rem;}
-.tafsir-split{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:18px;align-items:start;}
-.tafsir-pane{background:var(--paper,#fff);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 8px 26px rgba(20,55,42,.06);}
-.tafsir-pane-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,rgba(201,163,81,.13),rgba(22,91,70,.06));}
-.tafsir-pane-head h3{margin:0;font-size:1rem;}
-.tafsir-pane-scroll{max-height:72vh;overflow:auto;padding:10px;}
-.tafsir-ayah-row{padding:16px 14px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .18s ease,transform .18s ease;}
-.tafsir-ayah-row:last-child{border-bottom:0;}
-.tafsir-ayah-row:hover,.tafsir-ayah-row.active{background:rgba(201,163,81,.1);}
-.tafsir-ayah-row.active{box-shadow:inset 3px 0 var(--gold-500);}
-.tafsir-ayah-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--ink-soft);font-size:.75rem;margin-bottom:9px;}
-.tafsir-ayah-number{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:27px;border-radius:50%;background:var(--emerald-800);color:#fff;font-family:'IBM Plex Mono',monospace;}
-.tafsir-ayah-ar{font-family:var(--arabic-font);font-size:1.45rem;line-height:2.15;direction:rtl;text-align:right;color:var(--emerald-950);margin:0 0 8px;}
-.tafsir-ayah-tr{font-size:.9rem;line-height:1.65;color:var(--ink-soft);margin:0;}
-.tafsir-detail{position:sticky;top:18px;}
-.tafsir-detail-body{padding:20px;min-height:280px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere;}
-.tafsir-detail-body[dir="rtl"]{text-align:right;font-family:var(--arabic-font),serif;}
-.tafsir-detail-ayah{font-family:var(--arabic-font);font-size:1.65rem;line-height:2.2;direction:rtl;text-align:right;color:var(--emerald-950);padding-bottom:15px;margin-bottom:15px;border-bottom:1px solid var(--line);}
-.tafsir-detail-text{white-space:pre-wrap;}
-.asbab-badge{display:inline-flex;align-items:center;background:var(--gold-100);color:var(--emerald-950);border:1px solid rgba(201,162,39,.45);border-radius:999px;padding:3px 8px;font-size:.68rem;font-weight:600;white-space:nowrap;}
-.asbab-detail{margin-top:18px;padding:14px 16px;border-left:3px solid var(--gold-500);background:rgba(240,228,184,.28);border-radius:8px;}
-.asbab-detail h4{margin:0 0 8px;color:var(--emerald-950);font-size:.92rem;}
-.asbab-detail p{margin:0;white-space:pre-wrap;line-height:1.65;}
-.tafsir-detail-source{padding:0 20px 18px;color:var(--ink-soft);font-size:.78rem;}
-.tafsir-empty{color:var(--ink-soft);text-align:center;padding:45px 20px;}
-@media(max-width:900px){.tafsir-split{grid-template-columns:1fr}.tafsir-detail{position:static}.tafsir-pane-scroll{max-height:none}.tafsir-detail-body{min-height:220px}}
-@media(max-width:600px){.tafsir-toolbar{display:grid;grid-template-columns:1fr}.tafsir-field{min-width:0}.tafsir-ayah-ar{font-size:1.25rem}}
 </style>
+<!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
+     Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
+     calligraphique, distinct du Hafs standard. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thetruetruth/quran-data-kfgqpc@main/css/kfgqpc.font.css" />
 </head>
 <body>
 <a href="#main" class="skip-link" data-i18n="skip_link">Aller au contenu principal</a>
@@ -1753,7 +1717,6 @@ Rihla
 <button class="nav-link" data-view="view-rappel" data-i18n="nav_hadith">Rappel</button>
 <button class="nav-link" data-view="view-prophete" data-i18n="nav_prophets">Histoires des Prophètes</button>
 <button class="nav-link" data-view="view-coran" data-i18n="nav_quran">Qur'an</button>
-<button class="nav-link" data-view="view-tafsir" data-i18n="nav_tafsir">Tafsir</button>
 <button class="nav-link" data-view="view-suivi" data-i18n="nav_track">Suivi</button>
 <button class="nav-link" data-view="view-home" data-scroll-to="tarifs" data-i18n="nav_pricing">Tarifs</button>
 </nav>
@@ -1857,13 +1820,6 @@ Rihla
 <span class="tag" data-i18n="tag_audio">Lecture & audio</span>
 <h3 data-i18n="card_quran_t">Qur'an</h3>
 <p data-i18n="card_quran_d">Mushaf complet (604 pages), tous les récitateurs et lecture synchronisée verset par verset.</p>
-<span class="expand-hint" data-i18n="discover_arrow">Découvrir →</span>
-</button>
-<button class="overview-card" data-view="view-tafsir">
-<div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5z"/><path d="M8 7h8M8 11h6M8 15h8"/></svg></div>
-<span class="tag" data-i18n="tag_tafsir">Étude</span>
-<h3 data-i18n="card_tafsir_t">Tafsir</h3>
-<p data-i18n="card_tafsir_d">Lis le Coran et consulte l’explication de chaque verset dans un espace dédié.</p>
 <span class="expand-hint" data-i18n="discover_arrow">Découvrir →</span>
 </button>
 <button class="overview-card" data-view="view-suivi">
@@ -2282,38 +2238,6 @@ Rihla
 </div>
 </div>
 </div>
-</section>
-</div>
-
-
-<!-- OUTIL TAFSIR AUTONOME -->
-<div class="view" id="view-tafsir">
-<button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
-<section class="reveal tafsir-tool-shell">
-  <div class="section-head tafsir-tool-intro">
-    <span class="eyebrow" data-i18n="tafsir_eyebrow">Étude du Coran</span>
-    <h2 data-i18n="tafsir_title">Tafsir — le Coran et son explication</h2>
-    <p data-i18n="tafsir_lead">Lis chaque sourate intégralement à gauche et ouvre l’explication vérifiée de chaque verset à droite.</p>
-  </div>
-  <div class="tafsir-toolbar" role="search">
-    <div class="tafsir-field"><label for="tafsirSurahSelect" data-i18n="tafsir_surah_label">Sourate</label><select id="tafsirSurahSelect"></select></div>
-    <div class="tafsir-field"><label for="tafsirAyahSelect" data-i18n="tafsir_ayah_label">Verset</label><select id="tafsirAyahSelect"><option value="0">—</option></select></div>
-    <div class="tafsir-field"><label for="tafsirSearchInput" data-i18n="tafsir_search_label">Recherche dans la sourate</label><input class="tafsir-search" id="tafsirSearchInput" type="search" placeholder="Mot arabe ou traduction…" autocomplete="off"></div>
-    <button type="button" class="mt-btn" id="tafsirPrevBtn" data-i18n="tafsir_prev">← Précédent</button>
-    <button type="button" class="mt-btn primary" id="tafsirNextBtn" data-i18n="tafsir_next">Suivant →</button>
-  </div>
-  <p class="tafsir-tool-status" id="tafsirToolStatus" aria-live="polite"></p>
-  <div class="tafsir-split">
-    <div class="tafsir-pane">
-      <div class="tafsir-pane-head"><h3 data-i18n="tafsir_quran_panel">Coran</h3><span id="tafsirSurahCount" class="mushaf-riwaya-source"></span></div>
-      <div class="tafsir-pane-scroll" id="tafsirQuranList"><p class="tafsir-empty" data-i18n="tafsir_loading">Chargement du Coran…</p></div>
-    </div>
-    <div class="tafsir-pane tafsir-detail">
-      <div class="tafsir-pane-head"><h3 id="tafsirDetailHeading" data-i18n="tafsir_detail_panel">Explication du verset</h3><span id="tafsirDetailRef" class="mushaf-riwaya-source">—</span></div>
-      <div class="tafsir-detail-body" id="tafsirDetailBody"><p class="tafsir-empty" data-i18n="tafsir_choose">Sélectionne un verset pour afficher son tafsir complet.</p></div>
-      <div class="tafsir-detail-source" id="tafsirDetailSource"></div>
-    </div>
-  </div>
 </section>
 </div>
 
@@ -3111,8 +3035,15 @@ verses: '📖 Coran 11:71-73, 19:49-50, 37:112-113'
 name: 'Jacob (Ya\'qub)',
 nameAr: 'يعقوب',
 icon: 'ي',
-desc: `<div class="story-intro"><strong>Ya‘qûb (paix sur lui)</strong>, appelé Israël dans le Coran, est un prophète de la lignée d’Ibrâhîm et le père de Yûsuf. Son récit est celui d’une foi patiente qui traverse l’absence, la douleur et l’épreuve jusqu’aux retrouvailles.</div><div class="lesson-box"><h4 data-i18n="pd_lesson_label">Leçon à retenir</h4><p>La patience belle s’accompagne d’espérance, de prière et de confiance en Allah.</p></div>`,
-verses: '📖 Coran 12:4-101, 12:83-101, 2:132-133'
+desc: `<strong>Jacob (paix sur lui)</strong> est le fils d'Isaac et le père des douze tribus d'Israël.
+<br><br><strong>📖 Sa vie :</strong> Jacob est connu pour sa patience face aux épreuves, notamment la perte de son fils Joseph qu'il crut mort pendant de longues années. Il pleura tellement qu'il perdit la vue, mais il garda espoir en la miséricorde d'Allah.
+<br><br><strong>📖 Sa mission :</strong> Il fut un prophète qui appela à la foi en Allah et à l'unicité. Il bénit ses enfants avant de mourir et leur recommanda de rester attachés à la religion d'Abraham. Il les exhorta à rester unis et à suivre la voie droite.
+<br><br><strong>📖 Son héritage :</strong> Ses douze fils donnèrent naissance aux douze tribus d'Israël. Sa descendance est à l'origine de nombreux prophètes, dont Moïse, David et Jésus.
+<div class="lesson-box">
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
+<p>La patience dans l'épreuve est une vertu des prophètes. La foi se transmet aux générations futures. La confiance en Allah, même dans les moments les plus sombres, est une source de force. La famille est un pilier de la foi.</p>
+</div>`,
+verses: '📖 Coran 12:1-111, 19:49-50, 21:72-73'
 },
 {
 name: 'Joseph (Yusuf)',
@@ -3146,7 +3077,14 @@ verses: '📖 Coran 21:83-84, 38:41-44'
 name: 'Shu\'ayb',
 nameAr: 'شعيب',
 icon: 'ش',
-desc: `<div class="story-intro"><strong>Shu‘ayb (paix sur lui)</strong> fut envoyé à Madyan pour appeler à l’adoration d’Allah seul et à une justice concrète dans les échanges. Son récit rappelle que la foi se reconnaît aussi dans l’honnêteté, la mesure et le respect du droit d’autrui.</div><div class="lesson-box"><h4 data-i18n="pd_lesson_label">Leçon à retenir</h4><p>La droiture dans le commerce est une responsabilité spirituelle et sociale.</p></div>`,
+desc: `<strong>Shu\'ayb (paix sur lui)</strong> fut envoyé au peuple de Madyan.
+<br><br><strong>📖 Son peuple :</strong> Madyan était une région où les habitants étaient connus pour leur malhonnêteté dans les transactions commerciales. Ils trompaient sur les poids et les mesures, et ils étaient injustes dans leurs affaires.
+<br><br><strong>📖 Sa mission :</strong> Shu\'ayb les appela à la justice, à la droiture et à la piété. Il leur ordonna de donner le juste poids et la juste mesure. Il les mit en garde contre l'injustice et l'oppression.
+<br><br><strong>📖 Le châtiment :</strong> Ils rejetèrent son message et furent punis par un tremblement de terre qui les anéantit. Shu\'ayb est souvent appelé le "prédicateur des commerçants" pour son insistance sur l'honnêteté dans le commerce.
+<div class="lesson-box">
+<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
+<p>La justice dans les affaires est un devoir religieux. La fraude mène au châtiment. L'honnêteté et l'intégrité sont des valeurs fondamentales de l'Islam. Le commerce doit être basé sur la confiance et la droiture.</p>
+</div>`,
 verses: '📖 Coran 7:85-93, 11:84-95, 26:176-191'
 },
 {
@@ -3361,6 +3299,8 @@ window.PROPHETE_EXTRA = {
 'Isaac (Ishaq)': `<br><br><strong>📖 Annonce :</strong> Annoncé à Abraham et Sarah âgés par des anges (11:71-73). Père de Jacob, maillon de la lignée des prophètes d'Israël.
 <br><br><strong>📖 Caractère :</strong> Prophète pieux, patient, transmis le monothéisme d'Abraham.`,
 
+'Jacob (Ya\'qub)': `<br><br><strong>📖 Israël :</strong> Surnommé Isra'îl. Père des douze tribus. Son chagrin pour Yusuf le rendit aveugle ; son odorat reconnut la tunique de Joseph et sa vue lui fut rendue (sourate Yusuf).
+<br><br><strong>📖 Conseil final :</strong> Il demanda à ses fils de rester sur la religion d'Abraham, Ismaël et Isaac avant de mourir.`,
 
 'Joseph (Yusuf)': `<br><br><strong>📖 « La plus belle des histoires » :</strong> Sourate 12 entière. Rêve, jalousie des frères, puits, esclavage, tentation de la femme de l'Aziz, prison, interprétation des rêves, pouvoir en Égypte, pardon fraternel.
 <br><br><strong>📖 Qualités :</strong> Beauté, chasteté ('ihsan), patience, science de l'interprétation, clémence.`,
@@ -3368,6 +3308,8 @@ window.PROPHETE_EXTRA = {
 'Job (Ayyub)': `<br><br><strong>📖 Épreuve exemplaire :</strong> Perte des biens, des enfants et de la santé. Son invocation : « Le mal m'a touché. Mais Toi, Tu es le plus miséricordieux des miséricordieux ! » (21:83).
 <br><br><strong>📖 Guérison :</strong> Allah lui ordonna de frapper le sol : une eau pure le guérit. Tout lui fut rendu en double. Modèle absolu de sabr.`,
 
+'Shu\'ayb': `<br><br><strong>📖 Madyan / Al-Ayka :</strong> Peuple de commerçants malhonnêtes (poids et mesures faussés). Shu'ayb insiste sur la justice économique et le monothéisme.
+<br><br><strong>📖 Châtiment :</strong> Cri terrible ou tremblement selon les passages. Surnommé « l'orateur des prophètes » pour son éloquence.`,
 
 'Moïse (Musa)': `<br><br><strong>📖 Kalîmullâh :</strong> Celui à qui Allah a parlé directement. Bâton devenu serpent, main lumineuse, neuf signes contre Pharaon, fente de la mer, Torah au Sinaï, quarante ans dans le Sinaï.
 <br><br><strong>📖 Pharaon :</strong> Type du tyran orgueilleux qui dit « je suis votre seigneur le plus haut ». Noyé pendant que les Enfants d'Israël étaient sauvés.`,
@@ -3747,94 +3689,9 @@ window.PROPHET_I18N = {
     desc_ar: "<strong>محمد ﷺ</strong> خاتم النبيين ورحمة للعالمين.\n<br><br>بلّغ القرآن وترك هديًا كاملًا للأمة.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>محبته باتباع سنته.</p></div>"
   },
 };
-
-/* Récits enrichis : version française éditorialisée et sourcée. */
-window.PROPHET_LEARNING["Jacob (Ya'qub)"] = {
-  fr: 
-`<article class="prophet-story">
-  <p class="story-intro"><strong>Ya‘qûb (paix sur lui)</strong>, appelé <em>Israël</em> dans le Coran, appartient à la lignée prophétique d’Ibrâhîm et d’Isḥâq. Son parcours se déploie surtout dans la sourate Yûsuf : il y apparaît comme un père attentif, un croyant éprouvé et un guide qui maintient l’espérance au cœur de l’épreuve.</p>
-
-  <section class="story-section">
-    <h3>Une foi transmise au sein de la famille</h3>
-    <p>Le Coran présente Ya‘qûb comme un homme choisi pour la guidée. Dès le rêve de son fils Yûsuf — les astres, le soleil et la lune se prosternant devant lui — il perçoit la portée spirituelle de ce signe. Avec tendresse et prudence, il conseille à son fils de ne pas raconter ce rêve à ses frères, par crainte que la jalousie ne les conduise à mal agir. Son rôle ne consiste donc pas seulement à protéger : il éduque à la confiance en Allah et à la lucidité face aux fragilités humaines <span class="story-ref">Coran 12:4-6</span>.</p>
-  </section>
-
-  <section class="story-section">
-    <h3>L’épreuve de l’absence et la « belle patience »</h3>
-    <p>Lorsque les frères de Yûsuf reviennent avec une version mensongère de sa disparition, Ya‘qûb comprend que la situation est grave. Il ne répond ni par le désespoir ni par une accusation incontrôlée. Il remet l’affaire à Allah et prononce la formule qui résume son attitude : <em>« une belle patience »</em>. Cette patience n’est pas une résignation silencieuse ; elle est une fidélité active, portée par la prière et par la certitude qu’Allah connaît ce qui est caché <span class="story-ref">Coran 12:18</span>.</p>
-    <blockquote>« Je ne me plains de ma détresse et de mon chagrin qu’à Allah. » <cite>— Coran 12:86</cite></blockquote>
-    <p>Les années passent et le chagrin de Ya‘qûb s’intensifie. Pourtant, il ne ferme jamais la porte de l’espérance. Il invite ses fils à rechercher Yûsuf et son frère, puis leur rappelle de ne pas désespérer de la miséricorde d’Allah. Le récit relie ainsi intimement la patience, l’action et l’espérance <span class="story-ref">Coran 12:83-87</span>.</p>
-  </section>
-
-  <section class="story-section">
-    <h3>Une nouvelle épreuve, une même confiance</h3>
-    <p>Quand un autre de ses fils demeure retenu en Égypte, Ya‘qûb est de nouveau confronté à une épreuve familiale. Sa réponse conserve la même dignité : il s’en remet à Allah tout en demandant à ses fils de retourner, de chercher et de ne pas abandonner leurs efforts. Cette constance montre que la confiance en Allah ne dispense pas d’agir avec persévérance ; elle donne au contraire la force de continuer lorsque les raisons d’espérer semblent faibles <span class="story-ref">Coran 12:81-87</span>.</p>
-  </section>
-
-  <section class="story-section">
-    <h3>Les retrouvailles et la guérison du cœur</h3>
-    <p>Le dénouement apporte une consolation profonde. La chemise de Yûsuf est portée à Ya‘qûb ; le Coran rapporte alors le retour de sa vue. Peu après, la famille est réunie en Égypte et le rêve ancien de Yûsuf s’accomplit. La joie ne se transforme pas en reproche : le récit s’achève sur la reconnaissance envers Allah, le pardon et le rétablissement des liens familiaux <span class="story-ref">Coran 12:93-101</span>.</p>
-  </section>
-
-  <section class="story-section">
-    <h3>Le testament spirituel d’un prophète</h3>
-    <p>Au-delà de l’épreuve de Yûsuf, le Coran retient de Ya‘qûb l’essentiel de son héritage : transmettre une foi sincère à ses enfants. À l’approche de la mort, il les interroge sur Celui qu’ils adoreront après lui. Leur réponse affirme l’adoration d’Allah, le Dieu d’Ibrâhîm, d’Ismâ‘îl et d’Isḥâq. L’héritage de Ya‘qûb n’est donc pas un privilège de naissance, mais une invitation à choisir la foi et à y demeurer attaché <span class="story-ref">Coran 2:132-133</span>.</p>
-  </section>
-
-  <aside class="lesson-box">
-    <h4 data-i18n="pd_lesson_label">Leçon à retenir</h4>
-    <p>Le récit de Ya‘qûb enseigne une patience habitée par l’espérance : reconnaître sa douleur, la confier à Allah, rechercher les moyens justes et préserver les liens par le pardon. Il rappelle que l’épreuve n’annule pas la promesse d’Allah et que la transmission de la foi commence dans la bienveillance du foyer.</p>
-  </aside>
-
-  <p class="story-note"><strong>Repère de lecture :</strong> ce récit s’appuie sur les passages coraniques cités et s’abstient d’ajouter des détails non établis par le texte.</p>
-</article>`
-};
-
-window.PROPHET_LEARNING["Shu'ayb"] = {
-  fr: 
-`<article class="prophet-story">
-  <p class="story-intro"><strong>Shu‘ayb (paix sur lui)</strong> fut envoyé au peuple de Madyan. Son appel associe étroitement la foi et la justice : adorer Allah seul, respecter le droit des autres et refuser que l’enrichissement se fasse au moyen de la fraude ou de la corruption.</p>
-
-  <section class="story-section">
-    <h3>Un appel au monothéisme et à l’équité</h3>
-    <p>Le message de Shu‘ayb commence par le fondement commun aux prophètes : <em>« Adorez Allah : vous n’avez pas d’autre divinité que Lui. »</em> Mais le Coran montre aussi la dimension concrète de cet appel. Il ordonne à son peuple de donner pleine mesure et plein poids, de ne pas diminuer les droits des gens et de ne pas semer la corruption sur terre. La justice dans les transactions n’est donc pas un simple détail économique : elle fait partie de la cohérence même de la foi <span class="story-ref">Coran 7:85 ; 11:84-86</span>.</p>
-  </section>
-
-  <section class="story-section">
-    <h3>La réforme d’une société habituée à l’injustice</h3>
-    <p>Shu‘ayb appelle son peuple à abandonner les pratiques qui dégradent la confiance collective. Il leur rappelle que le gain licite, même modeste, est meilleur que le profit obtenu par le tort. Il précise aussi le sens de sa mission : il ne cherche pas à imposer un avantage personnel, mais souhaite réformer autant qu’il le peut. Sa parole relie ainsi la spiritualité à une éthique publique : l’adoration d’Allah doit se traduire par une conduite fiable, loyale et respectueuse d’autrui <span class="story-ref">Coran 11:86-88</span>.</p>
-    <blockquote>« Je ne veux que la réforme, autant que je le peux. Et ma réussite ne dépend que d’Allah. » <cite>— Coran 11:88</cite></blockquote>
-  </section>
-
-  <section class="story-section">
-    <h3>Le rejet et les menaces</h3>
-    <p>Une partie des notables répond avec ironie et hostilité. Ils s’étonnent que la prière de Shu‘ayb lui commande de remettre en cause ce que leurs pères adoraient ou leur manière de disposer de leurs biens. Puis les menaces se font plus directes : l’exil ou le retour forcé à leurs anciennes croyances. Face à cette pression, Shu‘ayb ne renonce pas au message. Il affirme que revenir à l’association serait une grave erreur après avoir reçu la guidée, et il s’en remet au jugement juste d’Allah <span class="story-ref">Coran 7:88-89 ; 11:87</span>.</p>
-  </section>
-
-  <section class="story-section">
-    <h3>Le dénouement du récit</h3>
-    <p>Après l’obstination dans le rejet, le Coran rapporte le salut de Shu‘ayb et des croyants par miséricorde d’Allah, tandis que ceux qui persistèrent furent atteints par le châtiment. Les passages relatifs à Madyan évoquent notamment un tremblement qui les saisit ; d’autres versets mentionnent le « Jour de l’Ombre » à propos des compagnons d’Al-Ayka. Pour une présentation fidèle, il convient de rapporter ces formulations sans les confondre ni ajouter de détails que le texte ne précise pas <span class="story-ref">Coran 7:91-93 ; 11:94-95 ; 26:176-191</span>.</p>
-  </section>
-
-  <section class="story-section">
-    <h3>Une leçon durable sur la justice économique</h3>
-    <p>Le récit de Shu‘ayb rappelle que la dévotion ne peut être séparée du comportement social. Tromper sur la quantité, abuser d’une position de force ou priver quelqu’un de son droit détruit la confiance sur laquelle toute communauté repose. À l’inverse, la mesure juste, la transparence et le respect des engagements sont des formes d’adoration lorsqu’ils sont accomplis par conscience d’Allah.</p>
-  </section>
-
-  <aside class="lesson-box">
-    <h4 data-i18n="pd_lesson_label">Leçon à retenir</h4>
-    <p>Shu‘ayb enseigne que la foi éclaire aussi le marché, le travail et les relations quotidiennes. La droiture consiste à protéger les droits d’autrui, à refuser le profit injuste et à poursuivre la réforme avec sagesse, patience et confiance en Allah.</p>
-  </aside>
-
-  <p class="story-note"><strong>Repère de lecture :</strong> ce récit s’appuie sur les passages coraniques cités et distingue ce qui est explicitement rapporté de ce qui relève de récits non établis.</p>
-</article>`
-};
-
 let currentProphetIndex = 0;
 function prophetDisplayName(p){
   const pack = window.PROPHET_I18N && window.PROPHET_I18N[p.name];
-  if(rihlaLang === 'fr' && p.name === "Jacob (Ya'qub)") return "Ya‘qûb (Jacob)";
-  if(rihlaLang === 'fr' && p.name === "Shu'ayb") return "Shu‘ayb";
   if(rihlaLang === 'en' && pack && pack.name_en) return pack.name_en;
   if(rihlaLang === 'ar') return p.nameAr || p.name;
   return p.name;
@@ -3883,34 +3740,14 @@ const lesson = lessonEl ? lessonEl.outerHTML : '';
 if(lessonEl) lessonEl.remove();
 return { body: wrapper.innerHTML.trim(), lesson };
 }
-const prophetTranslationCache = {};
-async function translateProphetHtml(p, target){
-  const learning = prophetLearningFor(p);
-  const source = (learning && learning.fr) ? learning.fr : p.desc;
-  if(target === 'fr') return source;
-  const key = target + ':' + p.name;
-  if(prophetTranslationCache[key]) return prophetTranslationCache[key];
-  try{
-    const url='https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl='+target+'&dt=t&dj=1&source=is&format=html&q='+encodeURIComponent(source);
-    const r=await fetch(url);
-    if(r.ok){
-      const j=await r.json();
-      const out=Array.isArray(j.sentences)?j.sentences.map(x=>x.trans||'').join(''):'';
-      if(out && out.length > 0){prophetTranslationCache[key]=out;return out;}
-    }
-  }catch(e){}
-  return prophetDescHtml(p);
-}
-async function openProphetDetail(index){
- currentProphetIndex = index;
- const p = prophetesData[index];
- if(!p) return;
- document.getElementById('pdIcon').textContent = p.icon;
- document.getElementById('pdName').textContent = prophetDisplayName(p);
- document.getElementById('pdNameAr').textContent = p.nameAr;
- document.getElementById('pdDesc').innerHTML = '<p style="text-align:center;color:var(--ink-soft)">'+(rihlaLang==='ar'?'جارٍ تحميل القصة…':rihlaLang==='en'?'Loading the detailed story…':'Chargement du récit détaillé…')+'</p>';
- const translatedDesc = (rihlaLang === 'fr') ? prophetDescHtml(p) : await translateProphetHtml(p, rihlaLang);
- const { body, lesson } = splitProphetContent(translatedDesc);
+function openProphetDetail(index){
+currentProphetIndex = index;
+const p = prophetesData[index];
+if(!p) return;
+document.getElementById('pdIcon').textContent = p.icon;
+document.getElementById('pdName').textContent = prophetDisplayName(p);
+document.getElementById('pdNameAr').textContent = p.nameAr;
+const { body, lesson } = splitProphetContent(prophetDescHtml(p));
 document.getElementById('pdDesc').innerHTML = body;
 const pdLesson = document.getElementById('pdLesson');
 if(lesson){
@@ -25564,11 +25401,24 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   // Le Mushaf affiché suit le modèle texte du code de référence : chaque ayah
   // reste sélectionnable, traduisible et utilisable par le hifz et l'audio.
   // Une variante sans texte arabe vérifié ne doit jamais tomber sur des cartes Hafs.
+  const box0 = document.getElementById('mushafAyahs');
+  if(box0){
+    const isAlt = mushafRiwayaKey !== 'hafs';
+    box0.classList.toggle('riwaya-alt', isAlt);
+    box0.classList.remove('riwaya-warsh', 'riwaya-qalun', 'riwaya-duri', 'riwaya-susi', 'riwaya-shuba');
+    if(isAlt) box0.classList.add('riwaya-' + mushafRiwayaKey);
+  }
   const variantUnavailable = mushafAyahs.some(function(a){ return a && a.variantUnavailable; });
   if(variantUnavailable){
-    const unavailableBox = document.getElementById('mushafAyahs');
-    setMushafEditionFrameMode(false);
-    if(unavailableBox) unavailableBox.innerHTML = '';
+    // Texte source indisponible pour cette riwāya : on montre la page
+    // scannée officielle si on en a une, sinon juste la notice — jamais de
+    // repli silencieux sur le texte Hafs.
+    if(mushafEditionPageUrl(page)){
+      renderMushafEditionPage(page);
+    }else{
+      setMushafEditionFrameMode(false);
+      if(box0) box0.innerHTML = '';
+    }
     renderMushafVariantNotice(page);
   }else{
     renderMushafAyahs();
@@ -25587,9 +25437,19 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
   prefetchMushafPage(page + 1);
   prefetchMushafPage(page - 1);
 }
+/**
+ * Charge et indexe l'édition texte d'une riwāya PAR PAGE (et non par
+ * "sourate:verset façon Hafs"). La numérotation des versets diffère
+ * réellement d'une riwāya à l'autre (Bismillah comptée ou non comme verset
+ * séparé, versets fusionnés/scindés différemment) : plaquer le texte de
+ * Warsh/Qālūn sur la numérotation Hafs décale et fausse le texte au-delà des
+ * tout premiers versets. On construit donc la page telle qu'elle existe
+ * réellement dans l'édition de cette riwāya (champ "page"/"page_number"
+ * propre à chaque source), avec SA PROPRE numérotation de versets.
+ */
 async function loadMushafRiwayaRows(){
   if(mushafRiwayaKey === 'hafs') return null;
-  if(mushafRiwayaRows && mushafRiwayaRows.key === mushafRiwayaKey) return mushafRiwayaRows.index;
+  if(mushafRiwayaRows && mushafRiwayaRows.key === mushafRiwayaKey) return mushafRiwayaRows.pages;
   const cfg = MUSHAF_RIWAYAT[mushafRiwayaKey];
   if(!cfg || !cfg.file) throw new Error('Texte variant indisponible pour ' + mushafRiwayaKey);
   let promise = MUSHAF_RIWAYA_CACHE.get(mushafRiwayaKey);
@@ -25599,23 +25459,38 @@ async function loadMushafRiwayaRows(){
       return res.json();
     }).then(function(rows){
       const list = Array.isArray(rows) ? rows : (rows.surahs ? rows.surahs.flatMap(function(s){ return s.ayahs || []; }) : (rows.data || rows.ayahs || []));
-      const index = new Map();
+      const pages = new Map(); // page(number) -> [{surah, ayah, text, juz, surahEn, surahAr}]
       list.forEach(function(row){
-        const s = row.sura_no ?? row.surah ?? row.surah_number ?? row.surahNumber ?? row.surah_id;
-        const a = row.aya_no ?? row.ayah ?? row.number_in_surah ?? row.numberInSurah ?? row.verse ?? row.number;
+        const s = Number(row.sura_no ?? row.surah ?? row.surah_number);
+        // NB : le format "quranpedia" (Qālūn) numérote l'ayat via "number",
+        // pas "aya_no"/"ayah"/"verse" — sans ce cas la riwāya Qālūn ne
+        // remontait jamais aucun texte (silencieusement vide).
+        const a = Number(row.aya_no ?? row.ayah ?? row.verse ?? row.number);
         const text = row.aya_text ?? row.text ?? row.text_uthmani ?? row.text_uthmani_simple;
-        // Conserver exactement la graphie fournie par l’édition de la riwāya.
+        const rawPage = row.page ?? row.page_number;
+        // Quelques versets à cheval sur deux pages sont notés "85-86" :
+        // on les rattache à leur page de départ.
+        const pageMatch = rawPage != null ? String(rawPage).match(/\d+/) : null;
+        const page = pageMatch ? parseInt(pageMatch[0], 10) : null;
+        const juz = row.jozz ?? row.juz ?? null;
+        if(!s || !a || !text || !page) return;
+        if(!pages.has(page)) pages.set(page, []);
+        // Conserver exactement la graphie fournie par l'édition de la riwāya.
         // Aucune normalisation Hafs ne doit être appliquée à Warsh, Qālūn, etc.
-        if(s != null && a != null && text) index.set(String(s) + ':' + String(a), String(text));
+        pages.get(page).push({
+          surah: s, ayah: a, text: String(text), juz: juz,
+          surahEn: row.sura_name_en || null,
+          surahAr: row.sura_name_ar || null
+        });
       });
-      if(index.size < 6000) throw new Error('Edition riwāya incomplète');
-      return index;
+      if(pages.size < 500) throw new Error('Edition riwāya incomplète');
+      return pages;
     });
     MUSHAF_RIWAYA_CACHE.set(mushafRiwayaKey, promise);
   }
-  const index = await promise;
-  mushafRiwayaRows = { key: mushafRiwayaKey, index: index };
-  return index;
+  const pages = await promise;
+  mushafRiwayaRows = { key: mushafRiwayaKey, pages: pages };
+  return pages;
 }
 
 function mushafEditionPageUrl(page){
@@ -25719,64 +25594,89 @@ function updateMushafRiwayaSource(){
 }
 
 async function fetchMushafPageData(page){
-  const cacheKey = mushafRiwayaKey === 'hafs' ? page : mushafRiwayaKey + ':' + page;
-  if(mushafRiwayaKey === 'hafs' && MUSHAF_PAGE_CACHE.has(page)) return MUSHAF_PAGE_CACHE.get(page);
-  const [metaRes, frRes, enRes, tjRes] = await Promise.all([
-    fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
-    fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
-    fetch(`https://api.alquran.cloud/v1/page/${page}/en.sahih`),
-    fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
-  ]);
-  if(!metaRes.ok) throw new Error('API page ' + page);
-  const metaJson = await metaRes.json();
-  const frJson = await frRes.json();
-  const enJson = enRes.ok ? await enRes.json() : { data: { ayahs: [] } };
-  let tjJson = { verses: [] };
-  try { tjJson = await tjRes.json(); } catch(e) {}
-  const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
-  const frAyahs = (frJson.data && frJson.data.ayahs) || [];
-  const enAyahs = (enJson.data && enJson.data.ayahs) || [];
-  const tjVerses = (tjJson.verses) || [];
-  let variantIndex = null;
-  let variantUnavailable = false;
-  if(mushafRiwayaKey !== 'hafs'){
-    try{
-      variantIndex = await loadMushafRiwayaRows();
-    }catch(err){
-      // On conserve les métadonnées et les traductions pour l’audio, mais on
-      // interdit toute substitution silencieuse par le texte Hafs.
-      variantUnavailable = true;
-      console.warn('Texte arabe de riwāya non vérifié', mushafRiwayaKey, err);
-    }
+  if(mushafRiwayaKey === 'hafs'){
+    if(MUSHAF_PAGE_CACHE.has(page)) return MUSHAF_PAGE_CACHE.get(page);
+    const [metaRes, frRes, enRes, tjRes] = await Promise.all([
+      fetch(`https://api.alquran.cloud/v1/page/${page}/quran-uthmani`),
+      fetch(`https://api.alquran.cloud/v1/page/${page}/fr.hamidullah`),
+      fetch(`https://api.alquran.cloud/v1/page/${page}/en.sahih`),
+      fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?page_number=${page}`)
+    ]);
+    if(!metaRes.ok) throw new Error('API page ' + page);
+    const metaJson = await metaRes.json();
+    const frJson = await frRes.json();
+    const enJson = enRes.ok ? await enRes.json() : { data: { ayahs: [] } };
+    let tjJson = { verses: [] };
+    try { tjJson = await tjRes.json(); } catch(e) {}
+    const metaAyahs = (metaJson.data && metaJson.data.ayahs) || [];
+    const frAyahs = (frJson.data && frJson.data.ayahs) || [];
+    const enAyahs = (enJson.data && enJson.data.ayahs) || [];
+    const tjVerses = (tjJson.verses) || [];
+    const ayahs = metaAyahs.map((a, i) => {
+      let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
+      tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
+      tjHtml = normalizeQuranArabic(tjHtml);
+      const plain = normalizeQuranArabic(a.text || '');
+      const html = tjHtml || escapeMushafText(plain);
+      return {
+        global: a.number,
+        surah: a.surah.number,
+        surahName: a.surah.englishName,
+        surahAr: a.surah.name,
+        ayah: a.numberInSurah,
+        text: plain,
+        textHtml: html,
+        riwaya: 'hafs',
+        variantUnavailable: false,
+        hasTajweed: !!tjHtml,
+        tr: (frAyahs[i] && frAyahs[i].text) || '',
+        en: (enAyahs[i] && enAyahs[i].text) || '',
+        juz: a.juz
+      };
+    });
+    rihlaCachePage(page, ayahs);
+    return ayahs;
   }
-  const ayahs = metaAyahs.map((a, i) => {
-    const variantText = variantIndex && variantIndex.get(String(a.surah.number) + ':' + String(a.numberInSurah));
-    let tjHtml = (tjVerses[i] && tjVerses[i].text_uthmani_tajweed) || '';
-    tjHtml = tjHtml.replace(/<span class=["']?end["']?>[\s\S]*?<\/span>/gi, '');
-    tjHtml = normalizeQuranArabic(tjHtml);
-    // Hafs utilise le texte/page tajwid existant ; les autres riwāyāt
-    // utilisent leur graphie source, sans remplacement ni normalisation.
-    const plain = mushafRiwayaKey === 'hafs'
-      ? normalizeQuranArabic(a.text || '')
-      : (variantUnavailable ? '' : String(variantText || ''));
-    const html = mushafRiwayaKey === 'hafs' && tjHtml ? tjHtml : escapeMushafText(plain);
+
+  // Riwāya autre que Hafs : la page est construite DIRECTEMENT depuis
+  // l'édition propre à cette riwāya (texte, découpage des versets et
+  // numérotation qui lui sont propres) — voir loadMushafRiwayaRows(). Si
+  // cette édition texte est indisponible, on ne substitue JAMAIS le texte
+  // Hafs : la page scannée (mushafEditionPageUrl) + une notice prennent le
+  // relais (voir applyMushafPageData / renderMushafAyahs).
+  const cacheKey = mushafRiwayaKey + ':' + page;
+  if(MUSHAF_RIWAYA_PAGE_CACHE.has(cacheKey)) return MUSHAF_RIWAYA_PAGE_CACHE.get(cacheKey);
+  let pages, rows;
+  try{
+    pages = await loadMushafRiwayaRows();
+    rows = (pages && pages.get(page)) || [];
+  }catch(err){
+    console.warn('Texte arabe de riwāya non vérifié', mushafRiwayaKey, err);
+    rows = [];
+  }
+  if(!rows.length){
+    return [{ variantUnavailable: true, surah: null, ayah: null, riwaya: mushafRiwayaKey }];
+  }
+  const ayahs = rows.map(function(row){
+    const plain = String(row.text || '');
+    const surahInfo = SURAHS[row.surah - 1];
     return {
-      global: a.number,
-      surah: a.surah.number,
-      surahName: a.surah.englishName,
-      surahAr: a.surah.name,
-      ayah: a.numberInSurah,
+      global: null,
+      surah: row.surah,
+      surahName: (surahInfo && surahInfo.englishName) || row.surahEn || '',
+      surahAr: (surahInfo && surahInfo.name) || row.surahAr || '',
+      ayah: row.ayah,
       text: plain,
-      textHtml: html,
+      textHtml: escapeMushafText(plain),
       riwaya: mushafRiwayaKey,
-      variantUnavailable: variantUnavailable,
-      hasTajweed: mushafRiwayaKey === 'hafs' && !!tjHtml,
-      tr: (frAyahs[i] && frAyahs[i].text) || '',
-      en: (enAyahs[i] && enAyahs[i].text) || '',
-      juz: a.juz
+      variantUnavailable: false,
+      hasTajweed: false,
+      tr: '',
+      en: '',
+      juz: row.juz
     };
   });
-  if(mushafRiwayaKey === 'hafs') rihlaCachePage(page, ayahs);
+  MUSHAF_RIWAYA_PAGE_CACHE.set(cacheKey, ayahs);
   return ayahs;
 }
 function prefetchMushafPage(page){
@@ -25807,7 +25707,8 @@ const MUSHAF_RIWAYAT = {
 let mushafRiwayaKey = 'hafs';
 let mushafRiwayaReciterIndex = 0;
 let mushafRiwayaRows = null;
-const MUSHAF_RIWAYA_CACHE = new Map();
+const MUSHAF_RIWAYA_CACHE = new Map(); // riwāya -> Promise<Map<page, rows[]>>
+const MUSHAF_RIWAYA_PAGE_CACHE = new Map(); // "riwāya:page" -> ayahs[]
 function mushafRiwayaLabel(key){
   const cfg = MUSHAF_RIWAYAT[key] || MUSHAF_RIWAYAT.hafs;
   const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
@@ -25951,6 +25852,11 @@ async function loadMushafPage(page, { autoPlay, autoPlaySurah } = {}){
     applyMushafPageData(page, MUSHAF_PAGE_CACHE.get(page), { autoPlay, autoPlaySurah });
     return;
   }
+  if(mushafRiwayaKey !== 'hafs' && MUSHAF_RIWAYA_PAGE_CACHE.has(mushafRiwayaKey + ':' + page)){
+    if(token !== mushafLoadToken) return;
+    applyMushafPageData(page, MUSHAF_RIWAYA_PAGE_CACHE.get(mushafRiwayaKey + ':' + page), { autoPlay, autoPlaySurah });
+    return;
+  }
 
   if(box){
     box.classList.add('is-loading');
@@ -26054,10 +25960,15 @@ function renderMushafAyahs(){
     const hiddenByMode = mushafHifzMode && mushafHifzMaskMode !== 'none' && !mushafHifzRevealed.has(key) && (mushafHifzMaskMode === 'all' || i % 2 === 1);
     const hifzCls = hiddenByMode ? ' hifz-hidden' : '';
     const arText = hiddenByMode ? '<span class="hifz-text-hidden">' + arHtml + '</span>' : '<span>' + arHtml + '</span>';
+    // Hafs (API alquran.cloud) n'a pas de fin-de-verset intégrée au texte : on
+    // ajoute nous-mêmes le petit rond numéroté. Les autres riwāyāt (police
+    // KFGQPC dédiée) ont déjà leur propre glyphe de fin de verset DANS le
+    // texte lui-même (ligature ornée) : pas besoin d'en rajouter un second.
+    const ayahEnd = mushafRiwayaKey === 'hafs' ? '<span class="ma-ayah-end" title="Verset ' + a.ayah + '">' + numAr + '</span>' : '';
     return `
     <div class="mushaf-ayah${hifzCls}" data-idx="${i}" id="mushaf-ayah-${i}" data-key="${key}">
       <div class="ma-meta">${a.surah}:${a.ayah}</div>
-      <div class="ma-ar" lang="ar" dir="rtl">${arText}<span class="ma-ayah-end" title="Verset ${a.ayah}">${numAr}</span></div>
+      <div class="ma-ar" lang="ar" dir="rtl">${arText}${ayahEnd}</div>
       <div class="ma-tr${mushafShowTr ? ' show' : ''}${hiddenByMode ? ' hifz-text-hidden' : ''}" lang="${mushafTrLang}">${tr || '—'}</div>
       <div class="ma-tafsir" id="tafsir-${i}"></div>
       <div class="ma-tools">
@@ -26113,78 +26024,109 @@ function renderMushafAyahs(){
   });
 }
 
-/* ===== Tafsir trilingue : même tafsir de référence, traduit selon la langue active ===== */
-const MUSHAF_TAFSIR_CACHE = Object.create(null);
-const MUSHAF_TAFSIR_BASE_CACHE = Object.create(null);
-function mushafTafsirLanguage(){
-  const lang = typeof rihlaLang !== 'undefined' ? rihlaLang : mushafTrLang;
-  return lang === 'ar' ? 'ar' : (lang === 'en' ? 'en' : 'fr');
+/* =====================================================================
+   Tafsir détaillé et localisé — Al-Mukhtasar fî Tafsîr al-Qur'ân al-Karîm
+   (« Résumé dans l'exégèse du noble Coran »), rédigé par le Markaz Tafsîr
+   li-d-Dirâsât al-Qur'âniyya (Médine) et révisé par un comité de savants ;
+   c'est un tafsir authentique, reconnu, et déjà disponible en arabe,
+   français et anglais via l'Encyclopédie du Noble Coran (quranenc.com).
+   On choisit l'édition selon la langue active du site ; si elle est
+   indisponible pour un verset, on retente en français puis en anglais,
+   et en dernier recours seulement le résumé Ibn Kathir (EN) sert de repli.
+   ===================================================================== */
+function mushafTafsirSource(){
+  const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
+  if(lang === 'ar') return { key: 'arabic_mokhtasar', label: 'المختصر في تفسير القرآن الكريم — مركز تفسير للدراسات القرآنية' };
+  if(lang === 'en') return { key: 'english_mokhtasar', label: 'Al-Mukhtasar (Concise Commentary on the Quran) — Tafsir Center for Quranic Studies' };
+  return { key: 'french_mokhtasar', label: 'Al-Mukhtasar (Résumé dans l\u2019exégèse du noble Coran) — Centre de Tafsir pour les études coraniques' };
 }
-function mushafTafsirLabels(lang){
-  return {
-    fr: { loading:'Chargement du tafsir…', heading:'Tafsir en français', source:'Explication française vérifiée — QuranEnc / Al-Mukhtasar', unavailable:'L’explication française vérifiée est indisponible pour le moment.' },
-    en: { loading:'Loading tafsir…', heading:'Tafsir in English', source:'Ibn Kathir (abridged) — Quran.com', unavailable:'The verified English tafsir is currently unavailable.' },
-    ar: { loading:'جارٍ تحميل التفسير…', heading:'التفسير بالعربية', source:'تفسير ابن كثير — Quran.com', unavailable:'التفسير العربي الموثق غير متاح حاليًا.' }
-  }[lang];
-}
-function cleanMushafTafsir(raw){
-  return String(raw || '')
-    .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<\/p\s*>/gi, '\n\n')
-    .replace(/<\/h[1-6]\s*>/gi, '\n\n')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&').replace(/&quot;/gi, '"').replace(/&#39;/gi, "'")
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n[ \t]+/g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-}
-async function fetchMushafTafsir(a, lang){
-  const key = lang + ':' + a.surah + ':' + a.ayah;
-  if(MUSHAF_TAFSIR_CACHE[key]) return MUSHAF_TAFSIR_CACHE[key];
-  const ref = a.surah + ':' + a.ayah;
-  try{
-    let url, extract;
-    if(lang === 'fr'){
-      url = 'https://quranenc.com/api/v1/translation/aya/french_mokhtasar/' + a.surah + '/' + a.ayah;
-      extract = j => j && j.result && j.result.translation;
-    }else if(lang === 'ar'){
-      url = 'https://api.quran.com/api/v4/tafsirs/ar-tafsir-ibn-kathir/by_ayah/' + ref;
-      extract = j => j && j.tafsir && (j.tafsir.text || j.tafsir);
-    }else{
-      url = 'https://api.quran.com/api/v4/tafsirs/en-tafisr-ibn-kathir/by_ayah/' + ref;
-      extract = j => j && j.tafsir && (j.tafsir.text || j.tafsir);
-    }
-    const res = await fetch(url);
-    if(!res.ok) return '';
-    const raw = extract(await res.json());
-    const full = cleanMushafTafsir(raw);
-    if(full) MUSHAF_TAFSIR_CACHE[key] = full;
-    return full;
-  }catch(e){ return ''; }
+async function fetchMushafTafsirText(key, surah, ayah){
+  const res = await fetch('https://quranenc.com/api/v1/translation/aya/' + key + '/' + surah + '/' + ayah);
+  if(!res.ok) throw new Error('tafsir indisponible');
+  const j = await res.json();
+  const text = String((j && j.translation) || '').trim();
+  if(!text) throw new Error('tafsir vide');
+  return text;
 }
 async function toggleTafsirPanel(idx){
   const panel = document.getElementById('tafsir-' + idx);
   if(!panel) return;
-  if(panel.classList.contains('show') && panel.dataset.loaded === '1'){
+  const lang = (typeof rihlaLang !== 'undefined' && rihlaLang) || 'fr';
+  // Un panneau déjà chargé mais dans une AUTRE langue (changement FR/EN/ar
+  // pendant que le panneau était resté ouvert/en cache) doit être rechargé —
+  // sinon on affiche un tafsir resté dans l'ancienne langue malgré le
+  // changement de langue du site.
+  const staleLang = panel.dataset.loaded === '1' && panel.dataset.loadedLang !== lang;
+  if(panel.classList.contains('show') && panel.dataset.loaded === '1' && !staleLang){
     panel.classList.remove('show');
     return;
   }
   const a = mushafAyahs[idx];
   if(!a) return;
   panel.classList.add('show');
-  if(panel.dataset.loaded === '1') return;
-  const lang = mushafTafsirLanguage();
-  const labels = mushafTafsirLabels(lang);
-  panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;" lang="' + lang + '">' + labels.loading + '</p>';
-  const eclairage = await fetchMushafTafsir(a, lang);
-  if(!document.getElementById('tafsir-' + idx)) return;
-  const esc = s => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  panel.innerHTML = eclairage
-    ? '<div class="mt-body" lang="' + lang + '" dir="' + (lang === 'ar' ? 'rtl' : 'ltr') + '"><strong>' + labels.heading + '</strong> — ' + esc(eclairage) + '</div><p class="mt-src">' + labels.source + '</p>'
-    : '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">' + labels.unavailable + '</p>';
+  if(panel.dataset.loaded === '1' && !staleLang) return;
+  const loadingTxt = lang === 'ar' ? 'جارٍ التحميل…' : lang === 'en' ? 'Loading…' : 'Chargement…';
+  panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">' + loadingTxt + '</p>';
+
+  const primary = mushafTafsirSource();
+  let text = '', sourceLabel = primary.label, usedFallback = false;
+  try{
+    text = await fetchMushafTafsirText(primary.key, a.surah, a.ayah);
+  }catch(e1){
+    // Repli 1 : édition française (la plus étoffée après l'arabe), puis anglaise
+    for(const alt of [{ key:'french_mokhtasar', label:'Al-Mukhtasar (FR) — Centre de Tafsir pour les études coraniques' },
+                       { key:'english_mokhtasar', label:'Al-Mukhtasar (EN) — Tafsir Center for Quranic Studies' }]){
+      if(alt.key === primary.key) continue;
+      try{
+        text = await fetchMushafTafsirText(alt.key, a.surah, a.ayah);
+        sourceLabel = alt.label;
+        usedFallback = true;
+        break;
+      }catch(e2){}
+    }
+  }
+  // Dernier repli seulement : résumé Ibn Kathir (EN) via Quran.com
+  if(!text){
+    try{
+      const res = await fetch('https://api.quran.com/api/v4/tafsirs/en-tafisr-ibn-kathir/by_ayah/' + a.surah + ':' + a.ayah);
+      if(res.ok){
+        const j = await res.json();
+        const raw = (j.tafsir && (j.tafsir.text || j.tafsir)) || '';
+        text = String(raw).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        sourceLabel = 'Tafsir Ibn Kathir (résumé, EN) — Quran.com';
+        usedFallback = true;
+      }
+    }catch(e3){}
+  }
+
+  if(!text){
+    const failTxt = lang === 'ar' ? 'التفسير غير متاح حاليًا لهذه الآية.' : lang === 'en' ? 'Tafsir is currently unavailable for this ayah.' : 'Le tafsir est indisponible pour le moment pour ce verset.';
+    panel.innerHTML = '<p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">' + failTxt + '</p>';
+    panel.dataset.loaded = '1';
+    panel.dataset.loadedLang = lang;
+    return;
+  }
+
+  // Certaines entrées du Mukhtasar distinguent plusieurs points avec « • » :
+  // on les affiche comme des paragraphes séparés plutôt qu'un bloc compact.
+  const paragraphs = text.split(/\s*•\s*/).map(s => s.trim()).filter(Boolean);
+  const body = paragraphs.map(p => '<p style="margin:0 0 8px;">' + p.replace(/</g,'&lt;') + '</p>').join('');
+
+  const riwayaNote = (mushafRiwayaKey !== 'hafs')
+    ? '<p class="mt-src" style="margin-top:6px;">' + (lang === 'ar'
+        ? 'ملاحظة: ترقيم الآيات في هذا التفسير يتبع رواية حفص، وقد يختلف بمقدار آية واحدة عن ترقيم رواية ' + mushafRiwayaLabel(mushafRiwayaKey) + '.'
+        : lang === 'en'
+        ? 'Note: this tafsir\u2019s ayah numbering follows the Hafs riwāya and may be off by one ayah from the ' + mushafRiwayaLabel(mushafRiwayaKey) + ' numbering.'
+        : 'Remarque : la numérotation des versets de ce tafsir suit la riwāya Hafs et peut être décalée d\u2019un verset par rapport à la numérotation ' + mushafRiwayaLabel(mushafRiwayaKey) + '.') + '</p>'
+    : '';
+
+  panel.innerHTML = body
+    + '<p class="mt-src">' + (lang === 'ar' ? 'المصدر: ' : lang === 'en' ? 'Source: ' : 'Source : ') + sourceLabel.replace(/</g,'&lt;')
+    + (usedFallback ? (lang === 'ar' ? ' (تفسير باللغة العربية أو الفرنسية غير متوفر لهذه الآية)' : lang === 'en' ? ' (Arabic/French edition unavailable for this ayah)' : ' (édition dans votre langue indisponible pour ce verset)') : '')
+    + '</p>'
+    + riwayaNote;
   panel.dataset.loaded = '1';
+  panel.dataset.loadedLang = lang;
 }
 
 /* ===== Révisions hifz (espacées : 1j, 3j, 7j, 14j) ===== */
@@ -27300,7 +27242,7 @@ var RIHLA_I18N = {
     login:'Se connecter', premium:'Passer Premium', logout:'Déconnexion',
     nav_home:'Accueil', nav_today:"Aujourd'hui", nav_path:'Parcours', nav_duas:"Du'as",
     nav_prayer:'Prières', nav_hadith:'Rappel', nav_prophets:'Histoires des Prophètes',
-    nav_quran:"Qur'an", nav_tafsir:'Tafsir', nav_track:'Suivi', nav_pricing:'Tarifs',
+    nav_quran:"Qur'an", nav_track:'Suivi', nav_pricing:'Tarifs',
     hero_eyebrow:'Accompagnement quotidien du Coran',
     hero_title:'Avance dans ta lecture, <em>un jour</em> à la fois.',
     hero_lead:"Rihla t'accompagne dans ta mémorisation et ta lecture du Coran : suivi quotidien, lecture automatique, et sessions d'écoute pour progresser sereinement.",
@@ -27310,7 +27252,6 @@ var RIHLA_I18N = {
     overview_lead:"Choisis un outil pour l'ouvrir en entier — chacun a son propre espace.",
     quran_eyebrow:'Mushaf · 604 pages',
     quran_lead:'Lecture, tajwid, tafsir court, signets et mode hifz — page par page.',
-     tafsir_eyebrow:'Étude du Coran', tafsir_title:'Tafsir — le Coran et son explication', tafsir_lead:'Lis chaque sourate intégralement à gauche et ouvre l’explication vérifiée de chaque verset à droite.', tafsir_surah_label:'Sourate', tafsir_ayah_label:'Verset', tafsir_search_label:'Recherche dans la sourate', tafsir_prev:'← Précédent', tafsir_next:'Suivant →', tafsir_quran_panel:'Coran', tafsir_detail_panel:'Explication du verset', tafsir_loading:'Chargement du Coran…', tafsir_choose:'Sélectionne un verset pour afficher son tafsir complet.', tafsir_no_result:'Aucun verset ne correspond à cette recherche.', tafsir_source:'Source vérifiée :', tafsir_error:'Impossible de charger les données pour le moment.',
     today_eyebrow:'Routine',
     today_lead:"Trois gestes simples : lire ta page, dire un adhkar, faire une du'a. Sans pression.",
     path_eyebrow:'Débutant · 21 jours', path_title:'Parcours de régularité',
@@ -27320,14 +27261,13 @@ var RIHLA_I18N = {
     tr_fr:'Traduction FR', play_page:'▶ Lire la page', back:'← Retour à l\'accueil',
     open_quran:"Ouvrir le Qur'an", day_prayer:'Prière', day_read:'Lecture', day_adhkar:'Adhkar',
     tag_routine:'Routine', tag_beginner:'Débutant', tag_prayer:'Prières', tag_reminder:'Rappel',
-    tag_story:'Histoire', tag_audio:'Lecture & audio', tag_track:'Suivi', tag_fix:'Correction', tag_duas:'Invocations', tag_tafsir:'Étude',
+    tag_story:'Histoire', tag_audio:'Lecture & audio', tag_track:'Suivi', tag_fix:'Correction', tag_duas:'Invocations',
     card_today_t:"Aujourd'hui", card_today_d:"Ta page du plan, un adhkar et une du'a — le minimum pour avancer chaque jour.",
     card_path_t:'Parcours 21 jours', card_path_d:'Un cadre simple : prière, courte lecture et un adhkar, jour après jour.',
     card_prayer_t:'Horaires & Qibla', card_prayer_d:'Les 5 horaires calculés pour ta position et le sens de la Qibla.',
     card_hadith_t:'Un hadith par jour', card_hadith_d:'Des hadiths authentiques de Boukhari, Muslim et du Jardin des Vertueux.',
     card_prophets_t:'Histoires des Prophètes', card_prophets_d:'Les 25 prophètes cités dans le Coran, avec leurs récits authentiques et détaillés.',
     card_quran_t:"Qur'an", card_quran_d:'Mushaf complet (604 pages), tous les récitateurs et lecture synchronisée verset par verset.',
-    card_tafsir_t:'Tafsir', card_tafsir_d:'Lis le Coran et consulte l’explication de chaque verset dans un espace dédié.',
     card_track_t:'Mon suivi quotidien', card_track_d:'Coche tes lectures, suis ta régularité et garde ta série active.',
     card_listen_t:'Correction de récitation', card_listen_d:'Enregistre ta voix, détecte la sourate et corrige tes erreurs de lecture.',
     card_duas_t:"Du'as quotidiens", card_duas_d:'50+ invocations classées par catégories avec phonétique et traductions.',
@@ -27343,7 +27283,7 @@ var RIHLA_I18N = {
     login:'Log in', premium:'Go Premium', logout:'Log out',
     nav_home:'Home', nav_today:'Today', nav_path:'Path', nav_duas:"Du'as",
     nav_prayer:'Prayer', nav_hadith:'Reminder', nav_prophets:'Stories of the Prophets',
-    nav_quran:"Qur'an", nav_tafsir:'Tafsir', nav_track:'Tracker', nav_pricing:'Pricing',
+    nav_quran:"Qur'an", nav_track:'Tracker', nav_pricing:'Pricing',
     hero_eyebrow:"Daily Qur'an companion",
     hero_title:'Grow in your reading, <em>one day</em> at a time.',
     hero_lead:"Rihla supports your memorization and Qur'an reading: daily tracking, synced recitation, and listening sessions to progress calmly.",
@@ -27353,7 +27293,6 @@ var RIHLA_I18N = {
     overview_lead:'Pick a tool to open it fully — each has its own space.',
     quran_eyebrow:'Mushaf · 604 pages',
     quran_lead:'Reading, tajweed, short tafsir, bookmarks and hifz mode — page by page.',
-     tafsir_eyebrow:'Qur’an study', tafsir_title:'Tafsir — Qur’an and explanation', tafsir_lead:'Read the whole surah on the left and open the verified explanation of each verse on the right.', tafsir_surah_label:'Surah', tafsir_ayah_label:'Verse', tafsir_search_label:'Search this surah', tafsir_prev:'← Previous', tafsir_next:'Next →', tafsir_quran_panel:'Qur’an', tafsir_detail_panel:'Verse explanation', tafsir_loading:'Loading Qur’an…', tafsir_choose:'Select a verse to display its complete tafsir.', tafsir_no_result:'No verse matches this search.', tafsir_source:'Verified source:', tafsir_error:'The data could not be loaded right now.',
     today_eyebrow:'Routine',
     today_lead:"Three simple steps: read your page, say an adhkar, make a du'a. No pressure.",
     path_eyebrow:'Beginner · 21 days', path_title:'Consistency path',
@@ -27363,14 +27302,13 @@ var RIHLA_I18N = {
     tr_fr:'Translation', play_page:'▶ Play page', back:'← Back to home',
     open_quran:"Open Qur'an", day_prayer:'Prayer', day_read:'Reading', day_adhkar:'Adhkar',
     tag_routine:'Routine', tag_beginner:'Beginner', tag_prayer:'Prayer', tag_reminder:'Reminder',
-    tag_story:'Stories', tag_audio:'Reading & audio', tag_track:'Tracker', tag_fix:'Correction', tag_duas:'Invocations', tag_tafsir:'Study',
+    tag_story:'Stories', tag_audio:'Reading & audio', tag_track:'Tracker', tag_fix:'Correction', tag_duas:'Invocations',
     card_today_t:'Today', card_today_d:"Your plan page, an adhkar and a du'a — the minimum to move forward each day.",
     card_path_t:'21-day path', card_path_d:'A simple frame: prayer, short reading and one adhkar, day after day.',
     card_prayer_t:'Times & Qibla', card_prayer_d:'The 5 prayer times for your location and the direction of the Qibla.',
     card_hadith_t:'A hadith a day', card_hadith_d:'Authentic hadiths from Bukhari, Muslim and Riyad as-Salihin.',
     card_prophets_t:'Stories of the Prophets', card_prophets_d:'The 25 prophets mentioned in the Qur\'an, with authentic detailed narratives.',
     card_quran_t:"Qur'an", card_quran_d:'Full mushaf (604 pages), all reciters and verse-synced playback.',
-    card_tafsir_t:'Tafsir', card_tafsir_d:'Read the Qur’an and open the explanation of each verse in a dedicated space.',
     card_track_t:'My daily tracker', card_track_d:'Tick your readings, follow your consistency and keep your streak.',
     card_listen_t:'Recitation correction', card_listen_d:'Record your voice, detect the surah and correct reading mistakes.',
     card_duas_t:"Daily du'as", card_duas_d:'50+ invocations by category with phonetic help and translations.',
@@ -27386,7 +27324,7 @@ var RIHLA_I18N = {
     login:'تسجيل الدخول', premium:'الترقية', logout:'خروج',
     nav_home:'الرئيسية', nav_today:'اليوم', nav_path:'المسار', nav_duas:'الأدعية',
     nav_prayer:'الصلاة', nav_hadith:'تذكير', nav_prophets:'قصص الأنبياء',
-    nav_quran:'القرآن', nav_tafsir:'التفسير', nav_track:'المتابعة', nav_pricing:'الأسعار',
+    nav_quran:'القرآن', nav_track:'المتابعة', nav_pricing:'الأسعار',
     hero_eyebrow:'مرافق يومي للقرآن',
     hero_title:'تقدّم في قراءتك، <em>يومًا</em> بعد يوم.',
     hero_lead:'رحلة ترافقك في الحفظ والقراءة: متابعة يومية، تلاوة متزامنة، وجلسات استماع لتتقدم بطمأنينة.',
@@ -27396,7 +27334,6 @@ var RIHLA_I18N = {
     overview_lead:'اختر أداة لفتحها بالكامل — لكل واحدة مساحتها.',
     quran_eyebrow:'مصحف · ٦٠٤ صفحة',
     quran_lead:'قراءة، تجويد، تفسير موجز، إشارات ووضع الحفظ — صفحة بصفحة.',
-     tafsir_eyebrow:'دراسة القرآن', tafsir_title:'التفسير — القرآن وشرحه', tafsir_lead:'اقرأ السورة كاملةً على اليسار وافتح التفسير الموثق لكل آية على اليمين.', tafsir_surah_label:'السورة', tafsir_ayah_label:'الآية', tafsir_search_label:'البحث في السورة', tafsir_prev:'← السابق', tafsir_next:'التالي →', tafsir_quran_panel:'القرآن', tafsir_detail_panel:'شرح الآية', tafsir_loading:'جارٍ تحميل القرآن…', tafsir_choose:'اختر آية لعرض تفسيرها الكامل.', tafsir_no_result:'لا توجد آية تطابق هذا البحث.', tafsir_source:'المصدر الموثق:', tafsir_error:'تعذر تحميل البيانات حاليًا.',
     today_eyebrow:'روتين',
     today_lead:'ثلاث خطوات بسيطة: اقرأ صفحتك، اذكر ذكرًا، وادعُ. بلا ضغط.',
     path_eyebrow:'للمبتدئين · ٢١ يومًا', path_title:'مسار الاستمرار',
@@ -27406,14 +27343,13 @@ var RIHLA_I18N = {
     tr_fr:'الترجمة', play_page:'▶ قراءة الصفحة', back:'← العودة للرئيسية',
     open_quran:'فتح القرآن', day_prayer:'الصلاة', day_read:'القراءة', day_adhkar:'الذكر',
     tag_routine:'روتين', tag_beginner:'مبتدئ', tag_prayer:'الصلاة', tag_reminder:'تذكير',
-    tag_story:'قصص', tag_audio:'قراءة وصوت', tag_track:'متابعة', tag_fix:'تصحيح', tag_duas:'أدعية', tag_tafsir:'دراسة',
+    tag_story:'قصص', tag_audio:'قراءة وصوت', tag_track:'متابعة', tag_fix:'تصحيح', tag_duas:'أدعية',
     card_today_t:'اليوم', card_today_d:'صفحتك في الخطة وذكر ودعاء — الحد الأدنى للتقدم كل يوم.',
     card_path_t:'مسار ٢١ يومًا', card_path_d:'إطار بسيط: صلاة وقراءة قصيرة وذكر، يومًا بعد يوم.',
     card_prayer_t:'المواقيت والقبلة', card_prayer_d:'الصلوات الخمس حسب موقعك واتجاه القبلة.',
     card_hadith_t:'حديث كل يوم', card_hadith_d:'أحاديث صحيحة من البخاري ومسلم ورياض الصالحين.',
     card_prophets_t:'قصص الأنبياء', card_prophets_d:'الأنبياء الخمسة والعشرون في القرآن مع روايات موثوقة.',
     card_quran_t:'القرآن', card_quran_d:'مصحف كامل (٦٠٤ صفحة) وجميع القراء وتلاوة متزامنة مع الآيات.',
-    card_tafsir_t:'التفسير', card_tafsir_d:'اقرأ القرآن وافتح شرح كل آية في مساحة مخصصة.',
     card_track_t:'متابعتي اليومية', card_track_d:'سجّل قراءاتك وتابع انتظامك واحفظ سلسلتك.',
     card_listen_t:'تصحيح التلاوة', card_listen_d:'سجّل صوتك واكتشف السورة وصحح أخطاء القراءة.',
     card_duas_t:'أدعية يومية', card_duas_d:'أكثر من ٥٠ دعاءً مصنّفًا مع النطق والترجمة.',
@@ -28271,7 +28207,6 @@ function applyRihlaLang(lang){
   }catch(e){}
   try{ if(typeof renderTabs === 'function') renderTabs(); }catch(e){}
   try{ if(typeof renderDuas === 'function') renderDuas(); }catch(e){}
-  try{ document.dispatchEvent(new CustomEvent('rihla:language-changed', { detail: { lang: lang } })); }catch(e){}
 }
 function detectBrowserLang(){
   // navigator.languages = préférences ordonnées (ex. ["ar-SA","ar","en-US","en"])
@@ -28369,8 +28304,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if(sel && typeof SURAHS !== 'undefined' && SURAHS.length){
       sel.innerHTML = SURAHS.map(s => '<option value="' + s.number + '">' + s.number + '. ' + s.englishName + ' — ' + s.name + '</option>').join('');
     }
-    // La liste globale est maintenant disponible : remplir aussi le sélecteur Tafsir.
-    if(typeof window.initTafsirTool === 'function') window.initTafsirTool();
   }).catch(err => console.warn('surah list', err));
 
   try{ loadReciters(); }catch(e){}
@@ -28392,107 +28325,6 @@ document.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('hashchange', function(){
   try{ initViewFromUrl(); }catch(e){ console.warn(e); }
 });
-
-/* ===== Tafsir autonome : Coran complet + explication par verset ===== */
-(function(){
-  const state={surah:1,ayah:1,verses:[],loaded:false,request:0,tafCache:{},searchIndex:[],searchPromise:null,asbab:{}};
-  const $=id=>document.getElementById(id);
-  const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  const lang=()=>{const v=(typeof window.rihlaLang==='string'?window.rihlaLang:(document.documentElement.lang||'fr'));return v==='en'||v==='ar'?'en'===v?'en':'ar':'fr';};
-  const pack=()=>RIHLA_I18N[lang()]||RIHLA_I18N.fr;
-  const clean=v=>String(v||'').replace(/<br\s*\/?>/gi,'\n').replace(/<\/p\s*>/gi,'\n\n').replace(/<\/h[1-6]\s*>/gi,'\n\n').replace(/<[^>]+>/g,'').replace(/&nbsp;/gi,' ').replace(/&amp;/gi,'&').replace(/&quot;/gi,'"').replace(/&#39;/gi,"'").replace(/[ \t]+/g,' ').replace(/\n[ \t]+/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
-  function surahs(){return (typeof SURAHS!=='undefined'&&Array.isArray(SURAHS))?SURAHS:[];}
-  function setStatus(text){if($('tafsirToolStatus')) $('tafsirToolStatus').textContent=text;}
-  function sourceLabel(){return lang()==='fr'?'QuranEnc · Al-Mukhtasar':lang()==='ar'?'Quran.com · Tafsir Ibn Kathir':'Quran.com · Ibn Kathir';}
-  function tafUrl(s,a){const ref=s+':'+a;if(lang()==='fr')return 'https://quranenc.com/api/v1/translation/aya/french_mokhtasar/'+s+'/'+a;return 'https://api.quran.com/api/v4/tafsirs/'+(lang()==='ar'?'ar-tafsir-ibn-kathir':'en-tafisr-ibn-kathir')+'/by_ayah/'+ref;}
-  async function fetchTaf(s,a){const key=lang()+':'+s+':'+a;if(state.tafCache[key])return state.tafCache[key];try{const r=await fetch(tafUrl(s,a));if(!r.ok)throw Error('taf');const j=await r.json();const raw=lang()==='fr'?(j.result&&j.result.translation):j.tafsir&&(j.tafsir.text||j.tafsir);const text=clean(raw);if(text)state.tafCache[key]=text;return text;}catch(e){return '';}}
-  async function fetchSurah(n){
-    const editions=lang()==='fr'?'fr.hamidullah':lang()==='en'?'en.sahih':'ar.muyassar';
-    const [ar,tr]=await Promise.all([fetch('https://api.alquran.cloud/v1/surah/'+n+'/quran-uthmani'),fetch('https://api.alquran.cloud/v1/surah/'+n+'/'+editions)]);
-    if(!ar.ok||!tr.ok)throw Error('quran');const aj=await ar.json(),tj=await tr.json();
-    const ta=tj.data.ayahs||[];return (aj.data.ayahs||[]).map((v,i)=>({number:v.numberInSurah,text:v.text,tr:ta[i]?.text||'',key:n+':'+v.numberInSurah}));
-  }
-  function fillSelectors(){
-    const ss=$('tafsirSurahSelect');if(!ss)return;const list=surahs();ss.innerHTML=list.map(x=>'<option value="'+x.number+'">'+esc(x.number+'. '+(x.name||x.englishName||''))+'</option>').join('');ss.value=String(state.surah);fillAyahs();
-  }
-  function fillAyahs(){const as=$('tafsirAyahSelect');if(!as)return;as.innerHTML=state.verses.map(v=>'<option value="'+v.number+'">'+esc(v.number)+'</option>').join('');as.value=String(state.ayah);}
-  async function loadAsbab(s){
-    if(state.asbab[s])return state.asbab[s];
-    try{
-      const r=await fetch('https://cdn.jsdelivr.net/gh/spa5k/tafsir_api@main/tafsir/en-asbab-al-nuzul-by-al-wahidi/'+s+'.json');
-      if(!r.ok)throw Error('asbab');
-      const j=await r.json();const rows=Array.isArray(j.ayahs)?j.ayahs:[];
-      state.asbab[s]=Object.fromEntries(rows.map(x=>[Number(x.ayah),String(x.text||'')]));return state.asbab[s];
-    }catch(e){state.asbab[s]={};return state.asbab[s];}
-  }
-  function asbabText(s,a){return state.asbab[s]?.[a]||'';}
-  const asbabLangCache={};
-  async function asbabForLanguage(s,a){
-    const raw=asbabText(s,a);if(!raw)return '';
-    const target=lang();if(target==='en')return raw;
-    const key=target+':'+s+':'+a;if(asbabLangCache[key])return asbabLangCache[key];
-    try{
-      const google='https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl='+target+'&dt=t&q='+encodeURIComponent(raw);
-      const r=await fetch(google);if(r.ok){const j=await r.json();const out=Array.isArray(j)&&Array.isArray(j[0])?j[0].map(x=>x&&x[0]?x[0]:'').join(''):'';if(out){asbabLangCache[key]=out;return out;}}
-    }catch(e){}
-    return raw;
-  }
-  function hasAsbab(s,a){return /(was revealed|were revealed|revealed concerning|reason for revelation|occasion of revelation|revealed because|sent down because)/i.test(asbabText(s,a));}
-  function asbabLabel(){return lang()==='ar'?'سبب النزول':lang()==='en'?'Cause of revelation':'Cause de révélation';}
-  function normalizeSearch(value){
-    return String(value??'').toLowerCase().normalize('NFD')
-      .replace(/[\u0300-\u036f]/g,'').replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'')
-      .replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ـ/g,'')
-      .replace(/[^\p{L}\p{N}]+/gu,' ').trim();
-  }
-  async function ensureSearchIndex(){
-    if(state.searchIndex.length||state.searchPromise)return state.searchPromise;
-    state.searchPromise=Promise.allSettled([
-      fetch('https://api.alquran.cloud/v1/quran/quran-uthmani').then(r=>r.ok?r.json():null),
-      fetch('https://api.alquran.cloud/v1/quran/fr.hamidullah').then(r=>r.ok?r.json():null),
-      fetch('https://api.alquran.cloud/v1/quran/en.sahih').then(r=>r.ok?r.json():null)
-    ]).then(results=>{
-      const payloads=results.map(r=>r.status==='fulfilled'&&r.value?r.value:{data:{ayahs:[]}});
-      const arabic=payloads[0].data?.ayahs||[], french=payloads[1].data?.ayahs||[], english=payloads[2].data?.ayahs||[];
-      if(!arabic.length&&!french.length&&!english.length)throw Error('search');
-      state.searchIndex=arabic.map((v,i)=>{
-        const surah=Number(v.surah?.number||0), number=Number(v.numberInSurah||0);
-        const fr=french[i]?.text||'', en=english[i]?.text||'';
-        const meta=surahs().find(s=>Number(s.number)===surah)||{};
-        return {number,text:v.text,tr:lang()==='fr'?fr:lang()==='en'?en:fr,key:surah+':'+number,surah,searchText:normalizeSearch([v.text,fr,en,meta.name,meta.englishName].join(' '))};
-      }).filter(v=>v.surah&&v.number);
-      state.searchPromise=null;renderList();return state.searchIndex;
-    }).catch(()=>{state.searchPromise=null;const box=$('tafsirQuranList');if(box)box.innerHTML='<p class="tafsir-empty">Impossible de charger la recherche. Vérifie ta connexion puis réessaie.</p>';return [];});
-    return state.searchPromise;
-  }
-  function renderList(){
-    const box=$('tafsirQuranList');if(!box)return;
-    const q=($('tafsirSearchInput')?.value||'').trim().toLowerCase();
-    if(q){
-      if(!state.searchIndex.length){box.innerHTML='<p class="tafsir-empty">Recherche dans les 114 sourates…</p>';ensureSearchIndex();return;}
-      const needle=normalizeSearch(q);
-      const rows=state.searchIndex.filter(v=>needle && v.searchText.includes(needle));
-      if(!rows.length){box.innerHTML='<p class="tafsir-empty">'+esc(pack().tafsir_no_result)+'</p>';return;}
-      box.innerHTML=rows.map(v=>'<article class="tafsir-ayah-row '+(v.surah===state.surah&&v.number===state.ayah?'active':'')+'" data-ayah="'+v.number+'" data-surah="'+v.surah+'"><div class="tafsir-ayah-meta"><span>'+esc(v.key)+'</span><span class="tafsir-ayah-number">'+esc(v.number)+'</span></div><p class="tafsir-ayah-ar" lang="ar">'+esc(v.text)+'</p><p class="tafsir-ayah-tr" lang="'+esc(lang())+'">'+esc(v.tr)+'</p></article>').join('');
-      box.querySelectorAll('[data-ayah]').forEach(el=>el.addEventListener('click',()=>{const s=+el.dataset.surah,a=+el.dataset.ayah;s===state.surah?selectAyah(a):loadSurah(s,a);}));
-      return;
-    }
-    const rows=state.verses;
-    if(!rows.length){box.innerHTML='<p class="tafsir-empty">'+esc(pack().tafsir_no_result)+'</p>';return;}
-    box.innerHTML=rows.map(v=>'<article class="tafsir-ayah-row '+(v.number===state.ayah?'active':'')+'" data-ayah="'+v.number+'"><div class="tafsir-ayah-meta"><span>'+esc(state.surah+':'+v.number)+'</span><span class="tafsir-ayah-number">'+esc(v.number)+'</span>'+(hasAsbab(state.surah,v.number)?'<span class="asbab-badge" title="'+esc(asbabLabel())+'">'+esc(asbabLabel())+'</span>':'')+'</div><p class="tafsir-ayah-ar" lang="ar">'+esc(v.text)+'</p><p class="tafsir-ayah-tr" lang="'+esc(lang())+'">'+esc(v.tr)+'</p></article>').join('');
-    box.querySelectorAll('[data-ayah]').forEach(el=>el.addEventListener('click',()=>selectAyah(+el.dataset.ayah)));
-  }
-  async function selectAyah(n){state.ayah=n;const v=state.verses.find(x=>x.number===n);if(!v)return;fillAyahs();renderList();const body=$('tafsirDetailBody'),src=$('tafsirDetailSource');if(!body)return;const rtl=lang()==='ar';body.dir=rtl?'rtl':'ltr';body.innerHTML='<div class="tafsir-detail-ayah" lang="ar">'+esc(v.text)+'</div><div class="tafsir-detail-text">'+esc(pack().tafsir_loading)+'</div>';if(src)src.textContent='';const token=++state.request;const text=await fetchTaf(state.surah,n);const cause=hasAsbab(state.surah,n)?await asbabForLanguage(state.surah,n):'';if(token!==state.request)return;const causeHtml=cause?'<section class="asbab-detail"><h4>'+esc(asbabLabel())+'</h4><p>'+esc(cause)+'</p></section>':'';body.innerHTML='<div class="tafsir-detail-ayah" lang="ar">'+esc(v.text)+'</div><div class="tafsir-detail-text">'+esc(text||pack().tafsir_error)+'</div>'+causeHtml;if(src)src.textContent=pack().tafsir_source+' '+sourceLabel()+' · '+state.surah+':'+n;const ref=$('tafsirDetailRef');if(ref)ref.textContent=state.surah+':'+n;}
-  async function loadSurah(n,focusAyah){state.surah=+n||1;state.ayah=focusAyah||1;state.loaded=false;fillSelectors();const token=++state.request;setStatus(pack().tafsir_loading);$('tafsirQuranList').innerHTML='<p class="tafsir-empty">'+esc(pack().tafsir_loading)+'</p>';try{const [verses]=await Promise.all([fetchSurah(state.surah),loadAsbab(state.surah)]);state.verses=verses;if(token!==state.request)return;state.loaded=true;fillAyahs();renderList();const info=$('tafsirSurahCount');if(info)info.textContent=state.verses.length+' '+(lang()==='ar'?'آية':lang()==='en'?'verses':'versets');setStatus((surahs().find(x=>x.number===state.surah)?.englishName||'')+' · '+state.verses.length);selectAyah(state.ayah);}catch(e){if(token!==state.request)return;$('tafsirQuranList').innerHTML='<p class="tafsir-empty">'+esc(pack().tafsir_error)+'</p>';setStatus('');}}
-  function next(delta){const i=state.verses.findIndex(v=>v.number===state.ayah),j=i+delta;if(j>=0&&j<state.verses.length)selectAyah(state.verses[j].number);else if(delta>0&&state.surah<114)loadSurah(state.surah+1,1);else if(delta<0&&state.surah>1)loadSurah(state.surah-1,9999);}
-  function init(){if(!$('view-tafsir')||state.loaded)return;fillSelectors();loadSurah(state.surah,state.ayah);$('tafsirSurahSelect')?.addEventListener('change',e=>loadSurah(+e.target.value,1));$('tafsirAyahSelect')?.addEventListener('change',e=>selectAyah(+e.target.value));$('tafsirSearchInput')?.addEventListener('input',()=>renderList());$('tafsirPrevBtn')?.addEventListener('click',()=>next(-1));$('tafsirNextBtn')?.addEventListener('click',()=>next(1));}
-  document.addEventListener('click',e=>{const b=e.target.closest?.('[data-view="view-tafsir"]');if(b)setTimeout(init,0);});
-  function refreshForLanguage(){if(!$('view-tafsir')?.classList.contains('active'))return;state.tafCache={};state.loaded=false;state.request++;loadSurah(state.surah,state.ayah);}
-  document.getElementById('langSwitch')?.addEventListener('click',()=>setTimeout(refreshForLanguage,120));
-  window.initTafsirTool=init;
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0)); else setTimeout(init,0);
-})();
-
 </script>
 </body>
 </html>
