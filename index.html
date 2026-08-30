@@ -1768,6 +1768,195 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 .asbab-detail h4{margin:0 0 8px;color:var(--emerald-950);font-size:.92rem;}
 .asbab-detail p{margin:0;white-space:pre-wrap;line-height:1.65;}
 .tafsir-detail-source{padding:0 20px 18px;color:var(--ink-soft);font-size:.78rem;}
+
+/* ===== Accueil — lisibilité & présentation ===== */
+#view-home .hero{
+  padding: 72px 24px 48px;
+  gap: 48px;
+  align-items: center;
+}
+#view-home .hero-copy{ max-width: 36rem; }
+#view-home .hero h1{
+  font-size: clamp(2.45rem, 4.6vw, 3.75rem);
+  line-height: 1.08;
+  margin: 0 0 18px;
+  letter-spacing: -0.02em;
+}
+#view-home .hero h1 em{
+  color: var(--gold-500);
+  font-style: normal;
+  position: relative;
+}
+#view-home .hero p.lead{
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+  max-width: 42ch;
+}
+#view-home .hero-pills{
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0 0 26px;
+}
+#view-home .hero-pills li{
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--emerald-950);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 12px;
+  box-shadow: 0 4px 14px -8px rgba(11,46,43,0.2);
+}
+#view-home .hero-cta{ gap: 12px; margin-bottom: 18px; }
+#view-home .hero-note{
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  background: rgba(201,162,39,0.1);
+  border: 1px solid rgba(201,162,39,0.25);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: inline-block;
+}
+#view-home .girih-frame{
+  border-radius: 28px;
+  box-shadow: var(--shadow-lg);
+  min-height: 320px;
+}
+#view-home .girih-caption{
+  background: linear-gradient(to top, rgba(11,46,43,0.92), transparent);
+  padding: 28px 22px 22px;
+  border-radius: 0 0 28px 28px;
+}
+#view-home .hero-quote-text{
+  -webkit-line-clamp: 5;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+#view-home #apercu.reveal{
+  padding-top: 40px;
+  padding-bottom: 28px;
+}
+#view-home .section-head{
+  max-width: 720px;
+  margin-bottom: 36px;
+}
+#view-home .section-head h2{
+  font-size: clamp(1.9rem, 3.2vw, 2.55rem);
+  line-height: 1.15;
+}
+#view-home .section-head p{
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+#view-home .overview-grid{
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+#view-home .overview-card{
+  padding: 22px 22px 20px;
+  gap: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 18px;
+  min-height: 210px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+#view-home .overview-card::before{
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--emerald-600), var(--gold-500));
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+#view-home .overview-card:hover,
+#view-home .overview-card:focus-visible{
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: rgba(27,90,84,0.22);
+  outline: none;
+}
+#view-home .overview-card:hover::before,
+#view-home .overview-card:focus-visible::before{ opacity: 1; }
+#view-home .overview-card .product-icon{
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, var(--emerald-950), var(--emerald-600));
+  box-shadow: 0 8px 18px -10px rgba(11,46,43,0.55);
+}
+#view-home .overview-card .tag{
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--emerald-800);
+  background: var(--sand);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+#view-home .overview-card h3{
+  font-size: 1.14rem;
+  margin: 2px 0 0;
+  color: var(--emerald-950);
+}
+#view-home .overview-card p{
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  flex: 1;
+}
+#view-home .overview-card .expand-hint{
+  margin-top: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-500);
+}
+#view-home .overview-card-featured{
+  border-color: rgba(201,162,39,0.35);
+  background: linear-gradient(180deg, #fffef8 0%, #fff 55%);
+}
+#view-home .hadith-teaser{
+  margin-top: 8px;
+  padding: 36px 40px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+#view-home .price-card{
+  border-radius: 18px;
+  box-shadow: 0 10px 28px -18px rgba(11,46,43,0.25);
+}
+#view-home .price-card.premium{
+  box-shadow: 0 16px 40px -16px rgba(11,46,43,0.45);
+}
+@media (max-width: 960px){
+  #view-home .hero{
+    grid-template-columns: 1fr;
+    padding: 48px 20px 36px;
+    gap: 28px;
+  }
+  #view-home .hero-visual{ order: -1; max-width: 420px; margin: 0 auto; }
+  #view-home .overview-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px){
+  #view-home .overview-grid{ grid-template-columns: 1fr; }
+  #view-home .overview-card{ min-height: 0; }
+  #view-home .hero-pills{ gap: 6px; }
+  #view-home .hero-pills li{ font-size: 0.74rem; padding: 6px 10px; }
+  #view-home .hero-cta{ flex-direction: column; align-items: stretch; }
+  #view-home .hero-cta .btn{ width: 100%; }
+}
 </style>
 <!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
      Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
@@ -1821,12 +2010,19 @@ Rihla
 <!-- VUE ACCUEIL -->
 <div class="view active" id="view-home">
 <section class="hero">
-<div>
+<div class="hero-copy">
 <span class="eyebrow" data-i18n="hero_eyebrow">Accompagnement quotidien du Coran</span>
 <h1 data-i18n-html="hero_title">Avance dans ta lecture, <em>un jour</em> à la fois.</h1>
 <p class="lead" data-i18n="hero_lead">Rihla t'accompagne dans ta mémorisation et ta lecture du Coran : suivi quotidien, lecture automatique, et sessions d'écoute pour progresser sereinement.</p>
+<ul class="hero-pills" aria-label="Points forts">
+  <li>📖 Mushaf 604 pages</li>
+  <li>🧭 Horaires & Qibla</li>
+  <li>📚 Tafsir verset par verset</li>
+  <li>🆓 Gratuit pour démarrer</li>
+</ul>
 <div class="hero-cta">
 <a href="#apercu" class="btn btn-primary" data-i18n="hero_cta1">Découvrir les outils</a>
+<button type="button" class="btn btn-gold" data-view="view-coran" data-i18n="nav_quran">Ouvrir le Qur'an</button>
 <a href="#tarifs" class="btn btn-ghost" data-i18n="hero_cta2">Voir les tarifs</a>
 </div>
 <p class="hero-note" data-i18n-html="hero_note">
@@ -1901,6 +2097,13 @@ Rihla
 <span class="tag" data-i18n="tag_audio">Lecture & audio</span>
 <h3 data-i18n="card_quran_t">Qur'an</h3>
 <p data-i18n="card_quran_d">Mushaf complet (604 pages), tous les récitateurs et lecture synchronisée verset par verset.</p>
+<span class="expand-hint" data-i18n="discover_arrow">Découvrir →</span>
+</button>
+<button class="overview-card overview-card-featured" data-view="view-tafsir">
+<div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/><path d="M14 18l4-2 2 4"/></svg></div>
+<span class="tag" data-i18n="tag_tafsir">Étude</span>
+<h3 data-i18n="card_tafsir_t">Tafsir</h3>
+<p data-i18n="card_tafsir_d">Lis le Coran et consulte l'explication de chaque verset dans un espace dédié.</p>
 <span class="expand-hint" data-i18n="discover_arrow">Découvrir →</span>
 </button>
 <button class="overview-card" data-view="view-suivi">
@@ -25496,6 +25699,13 @@ function applyMushafPageData(page, ayahs, { autoPlay, autoPlaySurah } = {}){
     surahLabel.setAttribute('lang', 'ar');
     surahLabel.setAttribute('dir', 'rtl');
   }
+  try{
+    ensureMushafSurahOptions();
+    const sel = document.getElementById('mushafSurahSelect');
+    if(sel && first && first.surah){
+      sel.value = String(first.surah);
+    }
+  }catch(e){}
   if(juzLabel){
     juzLabel.textContent = first ? ('الجزء ' + toArabicIndic(first.juz)) : '—';
     juzLabel.setAttribute('lang', 'ar');
@@ -26415,6 +26625,13 @@ function renderBookmarksPanel(){
   });
 }
 
+async function normalizeQuranQuery(q){
+  return String(q || '').toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+    .replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/ـ/g, '')
+    .replace(/\s+/g, ' ').trim();
+}
 async function runQuranSearch(){
   const inp = document.getElementById('quranSearchInput');
   const box = document.getElementById('quranSearchResults');
@@ -26428,40 +26645,60 @@ async function runQuranSearch(){
   box.hidden = false;
   box.innerHTML = '<p style="color:var(--ink-soft);margin:0;">Recherche…</p>';
   try{
-    // Recherche FR puis AR
-    const isArabic = /[\u0600-\u06FF]/.test(q);
-    const url = isArabic
-      ? `https://api.alquran.cloud/v1/search/${encodeURIComponent(q)}/all/quran-simple`
-      : `https://api.alquran.cloud/v1/search/${encodeURIComponent(q)}/all/fr.hamidullah`;
-    const res = await fetch(url);
-    const json = await res.json();
-    const matches = (json.data && json.data.matches) || [];
+    const hasAr = /[\u0600-\u06FF]/.test(q);
+    const editions = hasAr
+      ? ['quran-simple', 'quran-uthmani', 'fr.hamidullah', 'en.sahih']
+      : ['fr.hamidullah', 'en.sahih', 'quran-simple'];
+    const results = await Promise.allSettled(editions.map(function(ed){
+      return fetch('https://api.alquran.cloud/v1/search/' + encodeURIComponent(q) + '/all/' + ed)
+        .then(function(r){ return r.ok ? r.json() : null; });
+    }));
+    const seen = {};
+    const matches = [];
+    results.forEach(function(res){
+      if(res.status !== 'fulfilled' || !res.value) return;
+      const list = (res.value.data && res.value.data.matches) || [];
+      list.forEach(function(m){
+        const s = m.surah && m.surah.number;
+        const a = m.numberInSurah;
+        if(!s || !a) return;
+        const key = s + ':' + a;
+        if(seen[key]) return;
+        seen[key] = true;
+        matches.push(m);
+      });
+    });
     if(!matches.length){
       box.innerHTML = '<p style="color:var(--ink-soft);margin:0;">' + t('search_none') + '</p>';
       return;
     }
-    const top = matches.slice(0, 25);
-    box.innerHTML = top.map(m => {
+    const top = matches.slice(0, 40);
+    box.innerHTML = top.map(function(m){
       const s = m.surah && m.surah.number;
       const a = m.numberInSurah;
-      const text = (m.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const txt = (m.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const name = (m.surah && (m.surah.englishName || m.surah.name)) || '';
-      return `<button type="button" class="qsr-item" data-surah="${s}" data-ayah="${a}">
-        <div class="qsr-ref">${s}:${a} · ${name}</div>
-        <div class="${isArabic ? 'qsr-ar' : 'qsr-fr'}">${text}</div>
-      </button>`;
+      const isArLine = /[\u0600-\u06FF]/.test(m.text || '');
+      return '<button type="button" class="qsr-item" data-surah="' + s + '" data-ayah="' + a + '">' +
+        '<div class="qsr-ref">' + s + ':' + a + ' · ' + name + '</div>' +
+        '<div class="' + (isArLine ? 'qsr-ar' : 'qsr-fr') + '">' + txt + '</div></button>';
     }).join('');
-    box.querySelectorAll('.qsr-item').forEach(btn => {
-      btn.addEventListener('click', async () => {
+    box.querySelectorAll('.qsr-item').forEach(function(btn){
+      btn.addEventListener('click', async function(){
         const s = parseInt(btn.getAttribute('data-surah'), 10);
+        const a = parseInt(btn.getAttribute('data-ayah'), 10) || 1;
         try{
-          const r = await fetch(`https://api.alquran.cloud/v1/ayah/${s}:1`);
+          const r = await fetch('https://api.alquran.cloud/v1/ayah/' + s + ':' + a);
           const j = await r.json();
           const page = j.data && j.data.page;
           if(page){
             stopMushafAudio();
             await loadMushafPage(page);
             box.hidden = true;
+            try{
+              const sel = document.getElementById('mushafSurahSelect');
+              if(sel && s) sel.value = String(s);
+            }catch(e){}
           }
         }catch(e){ console.error(e); }
       });
@@ -26997,7 +27234,20 @@ function ensureMushafReady(){
   }
 }
 
-async function initMushaf(){
+async 
+function ensureMushafSurahOptions(){
+  const sel = document.getElementById('mushafSurahSelect');
+  if(!sel) return;
+  if(sel.options && sel.options.length > 1) return;
+  if(typeof SURAHS === 'undefined' || !SURAHS || !SURAHS.length) return;
+  const current = sel.value;
+  sel.innerHTML = SURAHS.map(function(s){
+    return '<option value="' + s.number + '">' + s.number + '. ' + (s.englishName || '') + ' — ' + (s.name || '') + '</option>';
+  }).join('');
+  if(current) sel.value = current;
+}
+
+function initMushaf(){
   try{
     const riwayaSelect = document.getElementById('mushafRiwayaSelect');
     if(riwayaSelect) riwayaSelect.value = mushafRiwayaKey;
@@ -28147,9 +28397,9 @@ Object.keys(RIHLA_I18N_EXTRA).forEach(function(lg){
 // Complément clés manquantes
 (function(){
   var more = {
-    fr: { parcours_meta_zero:'0 / 21 jours complétés', premium_reciters:'+12 récitateurs Premium' },
-    en: { parcours_meta_zero:'0 / 21 days completed', premium_reciters:'+12 Premium reciters', pd_lesson_label:'📚 Lesson to remember' },
-    ar: { parcours_meta_zero:'٠ / ٢١ يومًا مكتملًا', premium_reciters:'+١٢ قارئًا متقدمًا', pd_lesson_label:'📚 الدرس المستفاد' }
+    fr: { parcours_meta_zero:'0 / 21 jours complétés', premium_reciters:'+12 récitateurs Premium', tag_tafsir:'Étude', card_tafsir_t:'Tafsir', card_tafsir_d:'Lis le Coran et consulte l\'explication de chaque verset dans un espace dédié.' },
+    en: { parcours_meta_zero:'0 / 21 days completed', premium_reciters:'+12 Premium reciters', pd_lesson_label:'📚 Lesson to remember', tag_tafsir:'Study', card_tafsir_t:'Tafsir', card_tafsir_d:'Read the Qur\'an and open a verified explanation for each verse in a dedicated space.' },
+    ar: { parcours_meta_zero:'٠ / ٢١ يومًا مكتملًا', premium_reciters:'+١٢ قارئًا متقدمًا', pd_lesson_label:'📚 الدرس المستفاد', tag_tafsir:'دراسة', card_tafsir_t:'تفسير', card_tafsir_d:'اقرأ القرآن واطّلع على شرح كل آية في مساحة مخصّصة.' }
   };
   Object.keys(more).forEach(function(lg){
     RIHLA_I18N[lg] = Object.assign({}, more[lg], RIHLA_I18N[lg] || {});
@@ -28327,18 +28577,17 @@ document.addEventListener('DOMContentLoaded', function() {
   try{ renderParcours(); }catch(e){ console.warn('parcours', e); }
   try{ renderHifzReviewPanel(); }catch(e){}
 
-  loadSurahList().then(() => {
-    const sel = document.getElementById('mushafSurahSelect');
-    if(sel && typeof SURAHS !== 'undefined' && SURAHS.length){
-      sel.innerHTML = SURAHS.map(s => '<option value="' + s.number + '">' + s.number + '. ' + s.englishName + ' — ' + s.name + '</option>').join('');
-    }
-  }).catch(err => console.warn('surah list', err));
-
   try{ loadReciters(); }catch(e){}
   try{ loadDailyHadith(false); }catch(e){}
   try{ initPrayerTimes(); }catch(e){}
   try{ if(apVolumeBar) apVolumeBar.value = 70; }catch(e){}
-  try{ initMushaf(); }catch(e){ console.error(e); try{ renderMushafReciterChips(); }catch(_e){} }
+  loadSurahList().then(function(){
+    try{ ensureMushafSurahOptions(); }catch(e){}
+    try{ initMushaf(); }catch(e){ console.error(e); try{ renderMushafReciterChips(); }catch(_e){} }
+  }).catch(function(err){
+    console.warn('surah list', err);
+    try{ initMushaf(); }catch(e){ console.error(e); try{ renderMushafReciterChips(); }catch(_e){} }
+  });
 
   // Raccourcis globaux utiles
   document.addEventListener('keydown', function(e){
@@ -28456,4 +28705,3 @@ window.addEventListener('hashchange', function(){
 </script>
 </body>
 </html>
-Mushaf French Tafsir Translation Length - Grok
