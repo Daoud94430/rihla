@@ -1769,30 +1769,30 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
 .asbab-detail p{margin:0;white-space:pre-wrap;line-height:1.65;}
 .tafsir-detail-source{padding:0 20px 18px;color:var(--ink-soft);font-size:.78rem;}
 
-/* ===== Accueil — lisibilité & présentation ===== */
+
+/* ===== Accueil — présentation sobre ===== */
 #view-home .hero{
-  padding: 72px 24px 48px;
-  gap: 48px;
+  padding: 64px 24px 48px;
+  gap: 40px;
   align-items: center;
 }
 #view-home .hero-copy{ max-width: 36rem; }
 #view-home .hero h1{
-  font-size: clamp(2.45rem, 4.6vw, 3.75rem);
-  line-height: 1.08;
-  margin: 0 0 18px;
-  letter-spacing: -0.02em;
+  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+  line-height: 1.12;
+  margin: 0 0 16px;
+  color: var(--emerald-950);
 }
 #view-home .hero h1 em{
   color: var(--gold-500);
   font-style: normal;
-  position: relative;
 }
 #view-home .hero p.lead{
-  font-size: 1.12rem;
+  font-size: 1.05rem;
   line-height: 1.7;
   color: var(--ink-soft);
-  margin: 0 0 22px;
-  max-width: 42ch;
+  margin: 0 0 20px;
+  max-width: 44ch;
 }
 #view-home .hero-pills{
   list-style: none;
@@ -1800,162 +1800,129 @@ font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--ink-soft); 
   flex-wrap: wrap;
   gap: 8px;
   padding: 0;
-  margin: 0 0 26px;
+  margin: 0 0 24px;
 }
 #view-home .hero-pills li{
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--emerald-950);
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 7px 12px;
-  box-shadow: 0 4px 14px -8px rgba(11,46,43,0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
 }
-#view-home .hero-cta{ gap: 12px; margin-bottom: 18px; }
+#view-home .hero-cta{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
 #view-home .hero-note{
-  font-size: 0.88rem;
+  font-size: 0.86rem;
+  line-height: 1.5;
   color: var(--ink-soft);
-  background: rgba(201,162,39,0.1);
-  border: 1px solid rgba(201,162,39,0.25);
-  border-radius: 12px;
-  padding: 12px 14px;
-  display: inline-block;
+  border-right: 3px solid var(--gold-500);
+  padding: 8px 0 8px 14px;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+}
+html[dir="rtl"] #view-home .hero-note{
+  border-right: none;
+  border-left: 3px solid var(--gold-500);
+  padding: 8px 14px 8px 0;
 }
 #view-home .girih-frame{
-  border-radius: 28px;
-  box-shadow: var(--shadow-lg);
-  min-height: 320px;
-}
-#view-home .girih-caption{
-  background: linear-gradient(to top, rgba(11,46,43,0.92), transparent);
-  padding: 28px 22px 22px;
-  border-radius: 0 0 28px 28px;
-}
-#view-home .hero-quote-text{
-  -webkit-line-clamp: 5;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-#view-home #apercu.reveal{
-  padding-top: 40px;
-  padding-bottom: 28px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
 }
 #view-home .section-head{
-  max-width: 720px;
-  margin-bottom: 36px;
+  max-width: 640px;
+  margin-bottom: 32px;
 }
 #view-home .section-head h2{
-  font-size: clamp(1.9rem, 3.2vw, 2.55rem);
-  line-height: 1.15;
-}
-#view-home .section-head p{
-  font-size: 1.02rem;
-  line-height: 1.65;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  color: var(--emerald-950);
 }
 #view-home .overview-grid{
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
 #view-home .overview-card{
-  padding: 22px 22px 20px;
+  padding: 22px;
   gap: 10px;
-  border: 1px solid var(--line);
+  border-radius: 16px;
+  min-height: 200px;
   background: #fff;
-  border-radius: 18px;
-  min-height: 210px;
-  position: relative;
-  overflow: hidden;
-  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-}
-#view-home .overview-card::before{
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--emerald-600), var(--gold-500));
-  opacity: 0;
-  transition: opacity .22s ease;
+  border: 1px solid var(--line);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  cursor: pointer;
 }
 #view-home .overview-card:hover,
 #view-home .overview-card:focus-visible{
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow);
-  border-color: rgba(27,90,84,0.22);
+  border-color: rgba(27,90,84,0.2);
   outline: none;
 }
-#view-home .overview-card:hover::before,
-#view-home .overview-card:focus-visible::before{ opacity: 1; }
 #view-home .overview-card .product-icon{
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(145deg, var(--emerald-950), var(--emerald-600));
-  box-shadow: 0 8px 18px -10px rgba(11,46,43,0.55);
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
 }
 #view-home .overview-card .tag{
   display: inline-flex;
   align-self: flex-start;
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--emerald-800);
   background: var(--sand);
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 3px 10px;
+  border-radius: 6px;
+  padding: 3px 9px;
 }
 #view-home .overview-card h3{
-  font-size: 1.14rem;
-  margin: 2px 0 0;
+  font-size: 1.1rem;
+  margin: 0;
   color: var(--emerald-950);
 }
 #view-home .overview-card p{
   font-size: 0.9rem;
   line-height: 1.55;
   color: var(--ink-soft);
+  margin: 0;
   flex: 1;
 }
 #view-home .overview-card .expand-hint{
-  margin-top: 6px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--gold-500);
+  color: var(--emerald-600);
 }
 #view-home .overview-card-featured{
-  border-color: rgba(201,162,39,0.35);
-  background: linear-gradient(180deg, #fffef8 0%, #fff 55%);
+  border-color: rgba(201,162,39,0.4);
+  background: #fffdf6;
 }
 #view-home .hadith-teaser{
-  margin-top: 8px;
-  padding: 36px 40px;
-  border-radius: 20px;
-  box-shadow: var(--shadow);
-}
-#view-home .price-card{
-  border-radius: 18px;
-  box-shadow: 0 10px 28px -18px rgba(11,46,43,0.25);
-}
-#view-home .price-card.premium{
-  box-shadow: 0 16px 40px -16px rgba(11,46,43,0.45);
+  border-radius: 16px;
 }
 @media (max-width: 960px){
   #view-home .hero{
     grid-template-columns: 1fr;
-    padding: 48px 20px 36px;
-    gap: 28px;
+    padding: 40px 20px 32px;
   }
-  #view-home .hero-visual{ order: -1; max-width: 420px; margin: 0 auto; }
   #view-home .overview-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 620px){
   #view-home .overview-grid{ grid-template-columns: 1fr; }
   #view-home .overview-card{ min-height: 0; }
-  #view-home .hero-pills{ gap: 6px; }
-  #view-home .hero-pills li{ font-size: 0.74rem; padding: 6px 10px; }
   #view-home .hero-cta{ flex-direction: column; align-items: stretch; }
-  #view-home .hero-cta .btn{ width: 100%; }
+  #view-home .hero-cta .btn{ width: 100%; justify-content: center; }
 }
 </style>
 <!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
@@ -2011,22 +1978,22 @@ Rihla
 <div class="view active" id="view-home">
 <section class="hero">
 <div class="hero-copy">
-<span class="eyebrow" data-i18n="hero_eyebrow">Accompagnement quotidien du Coran</span>
-<h1 data-i18n-html="hero_title">Avance dans ta lecture, <em>un jour</em> à la fois.</h1>
-<p class="lead" data-i18n="hero_lead">Rihla t'accompagne dans ta mémorisation et ta lecture du Coran : suivi quotidien, lecture automatique, et sessions d'écoute pour progresser sereinement.</p>
-<ul class="hero-pills" aria-label="Points forts">
-  <li>📖 Mushaf 604 pages</li>
-  <li>🧭 Horaires & Qibla</li>
-  <li>📚 Tafsir verset par verset</li>
-  <li>🆓 Gratuit pour démarrer</li>
+<span class="eyebrow" data-i18n="hero_eyebrow">Lecture et mémorisation du Coran</span>
+<h1 data-i18n-html="hero_title">Lisez, méditez et mémorisez le Coran <em>avec constance</em>.</h1>
+<p class="lead" data-i18n="hero_lead">Rihla regroupe un mushaf complet, les horaires de prière, le tafsir, les invocations et un suivi de lecture, pour une pratique régulière et ordonnée.</p>
+<ul class="hero-pills" aria-label="Fonctionnalités principales">
+  <li>Mushaf — 604 pages</li>
+  <li>Horaires de prière &amp; Qibla</li>
+  <li>Tafsir verset par verset</li>
+  <li>Accès libre aux outils essentiels</li>
 </ul>
 <div class="hero-cta">
-<a href="#apercu" class="btn btn-primary" data-i18n="hero_cta1">Découvrir les outils</a>
-<button type="button" class="btn btn-gold" data-view="view-coran" data-i18n="nav_quran">Ouvrir le Qur'an</button>
-<a href="#tarifs" class="btn btn-ghost" data-i18n="hero_cta2">Voir les tarifs</a>
+<a href="#apercu" class="btn btn-primary" data-i18n="hero_cta1">Voir les outils</a>
+<button type="button" class="btn btn-gold" data-view="view-coran">Ouvrir le mushaf</button>
+<a href="#tarifs" class="btn btn-ghost" data-i18n="hero_cta2">Formules</a>
 </div>
 <p class="hero-note" data-i18n-html="hero_note">
-<strong>Rihla est gratuit</strong> pour tous les outils de base. Les fonctionnalités Premium sont optionnelles.
+<strong>Les outils principaux sont gratuits.</strong> L'offre Premium demeure facultative.
 </p>
 </div>
 <div class="hero-visual">
@@ -2053,8 +2020,8 @@ Rihla
 <section id="apercu" class="reveal">
 <div class="section-head">
 <span class="eyebrow" data-i18n="overview_eyebrow">Vue d'ensemble</span>
-<h2 data-i18n="overview_title">Tout ce qu'il te faut, en un seul endroit.</h2>
-<p data-i18n="overview_lead">Choisis un outil pour l'ouvrir en entier — chacun a son propre espace.</p>
+<h2 data-i18n="overview_title">L'essentiel pour votre lecture du Coran</h2>
+<p data-i18n="overview_lead">Chaque outil dispose de son espace dédié. Sélectionnez celui dont vous avez besoin.</p>
 </div>
 <div class="overview-grid">
 <button class="overview-card" data-view="view-aujourdhui">
@@ -27247,7 +27214,7 @@ function ensureMushafSurahOptions(){
   if(current) sel.value = current;
 }
 
-function initMushaf(){
+async function initMushaf(){
   try{
     const riwayaSelect = document.getElementById('mushafRiwayaSelect');
     if(riwayaSelect) riwayaSelect.value = mushafRiwayaKey;
@@ -27508,13 +27475,13 @@ var RIHLA_I18N = {
     nav_home:'Accueil', nav_today:"Aujourd'hui", nav_path:'Parcours', nav_duas:"Du'as",
     nav_prayer:'Prières', nav_hadith:'Rappel', nav_prophets:'Histoires des Prophètes',
     nav_quran:"Qur'an", nav_track:'Suivi', nav_pricing:'Tarifs', nav_tafsir:'Tafsir',
-    hero_eyebrow:'Accompagnement quotidien du Coran',
-    hero_title:'Avance dans ta lecture, <em>un jour</em> à la fois.',
-    hero_lead:"Rihla t'accompagne dans ta mémorisation et ta lecture du Coran : suivi quotidien, lecture automatique, et sessions d'écoute pour progresser sereinement.",
-    hero_cta1:'Découvrir les outils', hero_cta2:'Voir les tarifs',
+    hero_eyebrow:'Lecture et mémorisation du Coran',
+    hero_title:'Lisez, méditez et mémorisez le Coran <em>avec constance</em>.',
+    hero_lead:"Rihla regroupe un mushaf complet, les horaires de prière, le tafsir, les invocations et un suivi de lecture, pour une pratique régulière et ordonnée.",
+    hero_cta1:'Voir les outils', hero_cta2:'Formules',
     hero_note:'<strong>Rihla est gratuit</strong> pour tous les outils de base. Les fonctionnalités Premium sont optionnelles.',
-    overview_eyebrow:"Vue d'ensemble", overview_title:"Tout ce qu'il te faut, en un seul endroit.",
-    overview_lead:"Choisis un outil pour l'ouvrir en entier — chacun a son propre espace.",
+    overview_eyebrow:"Vue d'ensemble", overview_title:"L'essentiel pour votre lecture du Coran",
+    overview_lead:"Chaque outil dispose de son espace dédié. Sélectionnez celui dont vous avez besoin.",
     quran_eyebrow:'Mushaf · 604 pages',
     quran_lead:'Lecture, tajwid, tafsir court, signets et mode hifz — page par page.',
     tafsir_eyebrow:'Tafsir du Coran', tafsir_h2:"Al-Mukhtasar fî Tafsîr al-Qur'ân al-Karîm",
@@ -27554,12 +27521,12 @@ var RIHLA_I18N = {
     nav_prayer:'Prayer', nav_hadith:'Reminder', nav_prophets:'Stories of the Prophets',
     nav_quran:"Qur'an", nav_track:'Tracker', nav_pricing:'Pricing', nav_tafsir:'Tafsir',
     hero_eyebrow:"Daily Qur'an companion",
-    hero_title:'Grow in your reading, <em>one day</em> at a time.',
-    hero_lead:"Rihla supports your memorization and Qur'an reading: daily tracking, synced recitation, and listening sessions to progress calmly.",
+    hero_title:'Read, reflect and memorize the Qur\'an <em>with consistency</em>.',
+    hero_lead:"Rihla brings together a complete mushaf, prayer times, tafsir, supplications and reading tracking, for a steady and orderly practice.",
     hero_cta1:'Explore tools', hero_cta2:'See pricing',
     hero_note:'<strong>Rihla is free</strong> for all core tools. Premium features are optional.',
-    overview_eyebrow:'Overview', overview_title:'Everything you need, in one place.',
-    overview_lead:'Pick a tool to open it fully — each has its own space.',
+    overview_eyebrow:'Overview', overview_title:'What you need for reading the Qur\'an',
+    overview_lead:'Each tool has its own dedicated space. Choose the one you need.',
     quran_eyebrow:'Mushaf · 604 pages',
     quran_lead:'Reading, tajweed, short tafsir, bookmarks and hifz mode — page by page.',
     tafsir_eyebrow:"Qur'an Tafsir", tafsir_h2:'Al-Mukhtasar (Concise Commentary on the Quran)',
@@ -27599,12 +27566,12 @@ var RIHLA_I18N = {
     nav_prayer:'الصلاة', nav_hadith:'تذكير', nav_prophets:'قصص الأنبياء',
     nav_quran:'القرآن', nav_track:'المتابعة', nav_pricing:'الأسعار', nav_tafsir:'التفسير',
     hero_eyebrow:'مرافق يومي للقرآن',
-    hero_title:'تقدّم في قراءتك، <em>يومًا</em> بعد يوم.',
-    hero_lead:'رحلة ترافقك في الحفظ والقراءة: متابعة يومية، تلاوة متزامنة، وجلسات استماع لتتقدم بطمأنينة.',
+    hero_title:'اقرأ القرآن وتدبّره واحفظه <em>بثبات</em>.',
+    hero_lead:'تجمع رحلة مصحفًا كاملًا ومواقيت الصلاة والتفسير والأدعية ومتابعة القراءة، لعونك على مداومة منظّمة.',
     hero_cta1:'اكتشف الأدوات', hero_cta2:'الأسعار',
     hero_note:'<strong>رحلة مجانية</strong> للأدوات الأساسية. المزايا المتقدمة اختيارية.',
-    overview_eyebrow:'نظرة عامة', overview_title:'كل ما تحتاجه في مكان واحد.',
-    overview_lead:'اختر أداة لفتحها بالكامل — لكل واحدة مساحتها.',
+    overview_eyebrow:'نظرة عامة', overview_title:'ما تحتاجه لقراءة القرآن',
+    overview_lead:'لكل أداة مساحتها الخاصة. اختر ما تحتاجه.',
     quran_eyebrow:'مصحف · ٦٠٤ صفحة',
     quran_lead:'قراءة، تجويد، تفسير موجز، إشارات ووضع الحفظ — صفحة بصفحة.',
     tafsir_eyebrow:'تفسير القرآن', tafsir_h2:'المختصر في تفسير القرآن الكريم',
