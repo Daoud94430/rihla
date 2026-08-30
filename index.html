@@ -582,6 +582,20 @@ font-family:var(--arabic-font); font-size:2.4rem;
 .prophet-detail .pd-verses a:hover{color:var(--emerald-800);}
 .prophet-detail .pd-source{font-size:0.75rem; color:var(--ink-soft); opacity:0.7; margin-top:8px;}
 .prophet-detail .pd-section-title{font-family:'Amiri',serif; font-size:1.2rem; color:var(--emerald-800); margin:16px 0 8px;}
+
+/* Présentation éditoriale des récits prophétiques */
+.prophet-detail .pd-desc .prophet-story{display:grid;gap:20px;}
+.prophet-detail .pd-desc .story-intro{margin:0;padding:18px 20px;background:linear-gradient(135deg,rgba(240,228,184,.72),rgba(255,255,255,.7));border:1px solid rgba(201,162,39,.35);border-radius:12px;color:var(--ink);font-size:1.02rem;line-height:1.8;}
+.prophet-detail .pd-desc .story-section{padding-bottom:18px;border-bottom:1px solid var(--line);}
+.prophet-detail .pd-desc .story-section:last-of-type{padding-bottom:0;border-bottom:0;}
+.prophet-detail .pd-desc .story-section h3{font-family:'Amiri',serif;font-size:1.25rem;line-height:1.25;color:var(--emerald-800);margin:0 0 8px;}
+.prophet-detail .pd-desc .story-section p,.prophet-detail .pd-desc .story-note{margin:0;}
+.prophet-detail .pd-desc blockquote{margin:14px 0;padding:12px 16px;border-left:3px solid var(--gold-500);background:rgba(240,228,184,.48);border-radius:0 10px 10px 0;color:var(--emerald-950);font-family:'Amiri',serif;font-size:1.05rem;line-height:1.55;}
+.prophet-detail .pd-desc blockquote cite{display:block;margin-top:5px;font-family:'Work Sans',sans-serif;font-size:.78rem;font-style:normal;color:var(--ink-soft);}
+.prophet-detail .pd-desc .story-ref{display:inline-block;margin-top:5px;color:var(--emerald-600);font-family:'IBM Plex Mono',monospace;font-size:.76rem;font-weight:500;}
+.prophet-detail .pd-desc .story-note{padding:13px 16px;background:var(--sand);border-radius:10px;font-size:.85rem;line-height:1.65;color:var(--ink-soft);}
+html[dir="rtl"] .prophet-detail .pd-desc blockquote{border-left:0;border-right:3px solid var(--gold-500);border-radius:10px 0 0 10px;}
+
 .demo-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:30px;}
 .how-it-works{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:32px 0 40px;}
 .how-step{background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px;}
@@ -3097,15 +3111,8 @@ verses: '📖 Coran 11:71-73, 19:49-50, 37:112-113'
 name: 'Jacob (Ya\'qub)',
 nameAr: 'يعقوب',
 icon: 'ي',
-desc: `<strong>Jacob (paix sur lui)</strong> est le fils d'Isaac et le père des douze tribus d'Israël.
-<br><br><strong>📖 Sa vie :</strong> Jacob est connu pour sa patience face aux épreuves, notamment la perte de son fils Joseph qu'il crut mort pendant de longues années. Il pleura tellement qu'il perdit la vue, mais il garda espoir en la miséricorde d'Allah.
-<br><br><strong>📖 Sa mission :</strong> Il fut un prophète qui appela à la foi en Allah et à l'unicité. Il bénit ses enfants avant de mourir et leur recommanda de rester attachés à la religion d'Abraham. Il les exhorta à rester unis et à suivre la voie droite.
-<br><br><strong>📖 Son héritage :</strong> Ses douze fils donnèrent naissance aux douze tribus d'Israël. Sa descendance est à l'origine de nombreux prophètes, dont Moïse, David et Jésus.
-<div class="lesson-box">
-<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
-<p>La patience dans l'épreuve est une vertu des prophètes. La foi se transmet aux générations futures. La confiance en Allah, même dans les moments les plus sombres, est une source de force. La famille est un pilier de la foi.</p>
-</div>`,
-verses: '📖 Coran 12:1-111, 19:49-50, 21:72-73'
+desc: `<div class="story-intro"><strong>Ya‘qûb (paix sur lui)</strong>, appelé Israël dans le Coran, est un prophète de la lignée d’Ibrâhîm et le père de Yûsuf. Son récit est celui d’une foi patiente qui traverse l’absence, la douleur et l’épreuve jusqu’aux retrouvailles.</div><div class="lesson-box"><h4 data-i18n="pd_lesson_label">Leçon à retenir</h4><p>La patience belle s’accompagne d’espérance, de prière et de confiance en Allah.</p></div>`,
+verses: '📖 Coran 12:4-101, 12:83-101, 2:132-133'
 },
 {
 name: 'Joseph (Yusuf)',
@@ -3139,14 +3146,7 @@ verses: '📖 Coran 21:83-84, 38:41-44'
 name: 'Shu\'ayb',
 nameAr: 'شعيب',
 icon: 'ش',
-desc: `<strong>Shu\'ayb (paix sur lui)</strong> fut envoyé au peuple de Madyan.
-<br><br><strong>📖 Son peuple :</strong> Madyan était une région où les habitants étaient connus pour leur malhonnêteté dans les transactions commerciales. Ils trompaient sur les poids et les mesures, et ils étaient injustes dans leurs affaires.
-<br><br><strong>📖 Sa mission :</strong> Shu\'ayb les appela à la justice, à la droiture et à la piété. Il leur ordonna de donner le juste poids et la juste mesure. Il les mit en garde contre l'injustice et l'oppression.
-<br><br><strong>📖 Le châtiment :</strong> Ils rejetèrent son message et furent punis par un tremblement de terre qui les anéantit. Shu\'ayb est souvent appelé le "prédicateur des commerçants" pour son insistance sur l'honnêteté dans le commerce.
-<div class="lesson-box">
-<h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4>
-<p>La justice dans les affaires est un devoir religieux. La fraude mène au châtiment. L'honnêteté et l'intégrité sont des valeurs fondamentales de l'Islam. Le commerce doit être basé sur la confiance et la droiture.</p>
-</div>`,
+desc: `<div class="story-intro"><strong>Shu‘ayb (paix sur lui)</strong> fut envoyé à Madyan pour appeler à l’adoration d’Allah seul et à une justice concrète dans les échanges. Son récit rappelle que la foi se reconnaît aussi dans l’honnêteté, la mesure et le respect du droit d’autrui.</div><div class="lesson-box"><h4 data-i18n="pd_lesson_label">Leçon à retenir</h4><p>La droiture dans le commerce est une responsabilité spirituelle et sociale.</p></div>`,
 verses: '📖 Coran 7:85-93, 11:84-95, 26:176-191'
 },
 {
@@ -3361,8 +3361,6 @@ window.PROPHETE_EXTRA = {
 'Isaac (Ishaq)': `<br><br><strong>📖 Annonce :</strong> Annoncé à Abraham et Sarah âgés par des anges (11:71-73). Père de Jacob, maillon de la lignée des prophètes d'Israël.
 <br><br><strong>📖 Caractère :</strong> Prophète pieux, patient, transmis le monothéisme d'Abraham.`,
 
-'Jacob (Ya\'qub)': `<br><br><strong>📖 Israël :</strong> Surnommé Isra'îl. Père des douze tribus. Son chagrin pour Yusuf le rendit aveugle ; son odorat reconnut la tunique de Joseph et sa vue lui fut rendue (sourate Yusuf).
-<br><br><strong>📖 Conseil final :</strong> Il demanda à ses fils de rester sur la religion d'Abraham, Ismaël et Isaac avant de mourir.`,
 
 'Joseph (Yusuf)': `<br><br><strong>📖 « La plus belle des histoires » :</strong> Sourate 12 entière. Rêve, jalousie des frères, puits, esclavage, tentation de la femme de l'Aziz, prison, interprétation des rêves, pouvoir en Égypte, pardon fraternel.
 <br><br><strong>📖 Qualités :</strong> Beauté, chasteté ('ihsan), patience, science de l'interprétation, clémence.`,
@@ -3370,8 +3368,6 @@ window.PROPHETE_EXTRA = {
 'Job (Ayyub)': `<br><br><strong>📖 Épreuve exemplaire :</strong> Perte des biens, des enfants et de la santé. Son invocation : « Le mal m'a touché. Mais Toi, Tu es le plus miséricordieux des miséricordieux ! » (21:83).
 <br><br><strong>📖 Guérison :</strong> Allah lui ordonna de frapper le sol : une eau pure le guérit. Tout lui fut rendu en double. Modèle absolu de sabr.`,
 
-'Shu\'ayb': `<br><br><strong>📖 Madyan / Al-Ayka :</strong> Peuple de commerçants malhonnêtes (poids et mesures faussés). Shu'ayb insiste sur la justice économique et le monothéisme.
-<br><br><strong>📖 Châtiment :</strong> Cri terrible ou tremblement selon les passages. Surnommé « l'orateur des prophètes » pour son éloquence.`,
 
 'Moïse (Musa)': `<br><br><strong>📖 Kalîmullâh :</strong> Celui à qui Allah a parlé directement. Bâton devenu serpent, main lumineuse, neuf signes contre Pharaon, fente de la mer, Torah au Sinaï, quarante ans dans le Sinaï.
 <br><br><strong>📖 Pharaon :</strong> Type du tyran orgueilleux qui dit « je suis votre seigneur le plus haut ». Noyé pendant que les Enfants d'Israël étaient sauvés.`,
@@ -3751,9 +3747,94 @@ window.PROPHET_I18N = {
     desc_ar: "<strong>محمد ﷺ</strong> خاتم النبيين ورحمة للعالمين.\n<br><br>بلّغ القرآن وترك هديًا كاملًا للأمة.\n<div class=\"lesson-box\"><h4 data-i18n=\"pd_lesson_label\">📚 الدرس</h4><p>محبته باتباع سنته.</p></div>"
   },
 };
+
+/* Récits enrichis : version française éditorialisée et sourcée. */
+window.PROPHET_LEARNING["Jacob (Ya'qub)"] = {
+  fr: 
+`<article class="prophet-story">
+  <p class="story-intro"><strong>Ya‘qûb (paix sur lui)</strong>, appelé <em>Israël</em> dans le Coran, appartient à la lignée prophétique d’Ibrâhîm et d’Isḥâq. Son parcours se déploie surtout dans la sourate Yûsuf : il y apparaît comme un père attentif, un croyant éprouvé et un guide qui maintient l’espérance au cœur de l’épreuve.</p>
+
+  <section class="story-section">
+    <h3>Une foi transmise au sein de la famille</h3>
+    <p>Le Coran présente Ya‘qûb comme un homme choisi pour la guidée. Dès le rêve de son fils Yûsuf — les astres, le soleil et la lune se prosternant devant lui — il perçoit la portée spirituelle de ce signe. Avec tendresse et prudence, il conseille à son fils de ne pas raconter ce rêve à ses frères, par crainte que la jalousie ne les conduise à mal agir. Son rôle ne consiste donc pas seulement à protéger : il éduque à la confiance en Allah et à la lucidité face aux fragilités humaines <span class="story-ref">Coran 12:4-6</span>.</p>
+  </section>
+
+  <section class="story-section">
+    <h3>L’épreuve de l’absence et la « belle patience »</h3>
+    <p>Lorsque les frères de Yûsuf reviennent avec une version mensongère de sa disparition, Ya‘qûb comprend que la situation est grave. Il ne répond ni par le désespoir ni par une accusation incontrôlée. Il remet l’affaire à Allah et prononce la formule qui résume son attitude : <em>« une belle patience »</em>. Cette patience n’est pas une résignation silencieuse ; elle est une fidélité active, portée par la prière et par la certitude qu’Allah connaît ce qui est caché <span class="story-ref">Coran 12:18</span>.</p>
+    <blockquote>« Je ne me plains de ma détresse et de mon chagrin qu’à Allah. » <cite>— Coran 12:86</cite></blockquote>
+    <p>Les années passent et le chagrin de Ya‘qûb s’intensifie. Pourtant, il ne ferme jamais la porte de l’espérance. Il invite ses fils à rechercher Yûsuf et son frère, puis leur rappelle de ne pas désespérer de la miséricorde d’Allah. Le récit relie ainsi intimement la patience, l’action et l’espérance <span class="story-ref">Coran 12:83-87</span>.</p>
+  </section>
+
+  <section class="story-section">
+    <h3>Une nouvelle épreuve, une même confiance</h3>
+    <p>Quand un autre de ses fils demeure retenu en Égypte, Ya‘qûb est de nouveau confronté à une épreuve familiale. Sa réponse conserve la même dignité : il s’en remet à Allah tout en demandant à ses fils de retourner, de chercher et de ne pas abandonner leurs efforts. Cette constance montre que la confiance en Allah ne dispense pas d’agir avec persévérance ; elle donne au contraire la force de continuer lorsque les raisons d’espérer semblent faibles <span class="story-ref">Coran 12:81-87</span>.</p>
+  </section>
+
+  <section class="story-section">
+    <h3>Les retrouvailles et la guérison du cœur</h3>
+    <p>Le dénouement apporte une consolation profonde. La chemise de Yûsuf est portée à Ya‘qûb ; le Coran rapporte alors le retour de sa vue. Peu après, la famille est réunie en Égypte et le rêve ancien de Yûsuf s’accomplit. La joie ne se transforme pas en reproche : le récit s’achève sur la reconnaissance envers Allah, le pardon et le rétablissement des liens familiaux <span class="story-ref">Coran 12:93-101</span>.</p>
+  </section>
+
+  <section class="story-section">
+    <h3>Le testament spirituel d’un prophète</h3>
+    <p>Au-delà de l’épreuve de Yûsuf, le Coran retient de Ya‘qûb l’essentiel de son héritage : transmettre une foi sincère à ses enfants. À l’approche de la mort, il les interroge sur Celui qu’ils adoreront après lui. Leur réponse affirme l’adoration d’Allah, le Dieu d’Ibrâhîm, d’Ismâ‘îl et d’Isḥâq. L’héritage de Ya‘qûb n’est donc pas un privilège de naissance, mais une invitation à choisir la foi et à y demeurer attaché <span class="story-ref">Coran 2:132-133</span>.</p>
+  </section>
+
+  <aside class="lesson-box">
+    <h4 data-i18n="pd_lesson_label">Leçon à retenir</h4>
+    <p>Le récit de Ya‘qûb enseigne une patience habitée par l’espérance : reconnaître sa douleur, la confier à Allah, rechercher les moyens justes et préserver les liens par le pardon. Il rappelle que l’épreuve n’annule pas la promesse d’Allah et que la transmission de la foi commence dans la bienveillance du foyer.</p>
+  </aside>
+
+  <p class="story-note"><strong>Repère de lecture :</strong> ce récit s’appuie sur les passages coraniques cités et s’abstient d’ajouter des détails non établis par le texte.</p>
+</article>`
+};
+
+window.PROPHET_LEARNING["Shu'ayb"] = {
+  fr: 
+`<article class="prophet-story">
+  <p class="story-intro"><strong>Shu‘ayb (paix sur lui)</strong> fut envoyé au peuple de Madyan. Son appel associe étroitement la foi et la justice : adorer Allah seul, respecter le droit des autres et refuser que l’enrichissement se fasse au moyen de la fraude ou de la corruption.</p>
+
+  <section class="story-section">
+    <h3>Un appel au monothéisme et à l’équité</h3>
+    <p>Le message de Shu‘ayb commence par le fondement commun aux prophètes : <em>« Adorez Allah : vous n’avez pas d’autre divinité que Lui. »</em> Mais le Coran montre aussi la dimension concrète de cet appel. Il ordonne à son peuple de donner pleine mesure et plein poids, de ne pas diminuer les droits des gens et de ne pas semer la corruption sur terre. La justice dans les transactions n’est donc pas un simple détail économique : elle fait partie de la cohérence même de la foi <span class="story-ref">Coran 7:85 ; 11:84-86</span>.</p>
+  </section>
+
+  <section class="story-section">
+    <h3>La réforme d’une société habituée à l’injustice</h3>
+    <p>Shu‘ayb appelle son peuple à abandonner les pratiques qui dégradent la confiance collective. Il leur rappelle que le gain licite, même modeste, est meilleur que le profit obtenu par le tort. Il précise aussi le sens de sa mission : il ne cherche pas à imposer un avantage personnel, mais souhaite réformer autant qu’il le peut. Sa parole relie ainsi la spiritualité à une éthique publique : l’adoration d’Allah doit se traduire par une conduite fiable, loyale et respectueuse d’autrui <span class="story-ref">Coran 11:86-88</span>.</p>
+    <blockquote>« Je ne veux que la réforme, autant que je le peux. Et ma réussite ne dépend que d’Allah. » <cite>— Coran 11:88</cite></blockquote>
+  </section>
+
+  <section class="story-section">
+    <h3>Le rejet et les menaces</h3>
+    <p>Une partie des notables répond avec ironie et hostilité. Ils s’étonnent que la prière de Shu‘ayb lui commande de remettre en cause ce que leurs pères adoraient ou leur manière de disposer de leurs biens. Puis les menaces se font plus directes : l’exil ou le retour forcé à leurs anciennes croyances. Face à cette pression, Shu‘ayb ne renonce pas au message. Il affirme que revenir à l’association serait une grave erreur après avoir reçu la guidée, et il s’en remet au jugement juste d’Allah <span class="story-ref">Coran 7:88-89 ; 11:87</span>.</p>
+  </section>
+
+  <section class="story-section">
+    <h3>Le dénouement du récit</h3>
+    <p>Après l’obstination dans le rejet, le Coran rapporte le salut de Shu‘ayb et des croyants par miséricorde d’Allah, tandis que ceux qui persistèrent furent atteints par le châtiment. Les passages relatifs à Madyan évoquent notamment un tremblement qui les saisit ; d’autres versets mentionnent le « Jour de l’Ombre » à propos des compagnons d’Al-Ayka. Pour une présentation fidèle, il convient de rapporter ces formulations sans les confondre ni ajouter de détails que le texte ne précise pas <span class="story-ref">Coran 7:91-93 ; 11:94-95 ; 26:176-191</span>.</p>
+  </section>
+
+  <section class="story-section">
+    <h3>Une leçon durable sur la justice économique</h3>
+    <p>Le récit de Shu‘ayb rappelle que la dévotion ne peut être séparée du comportement social. Tromper sur la quantité, abuser d’une position de force ou priver quelqu’un de son droit détruit la confiance sur laquelle toute communauté repose. À l’inverse, la mesure juste, la transparence et le respect des engagements sont des formes d’adoration lorsqu’ils sont accomplis par conscience d’Allah.</p>
+  </section>
+
+  <aside class="lesson-box">
+    <h4 data-i18n="pd_lesson_label">Leçon à retenir</h4>
+    <p>Shu‘ayb enseigne que la foi éclaire aussi le marché, le travail et les relations quotidiennes. La droiture consiste à protéger les droits d’autrui, à refuser le profit injuste et à poursuivre la réforme avec sagesse, patience et confiance en Allah.</p>
+  </aside>
+
+  <p class="story-note"><strong>Repère de lecture :</strong> ce récit s’appuie sur les passages coraniques cités et distingue ce qui est explicitement rapporté de ce qui relève de récits non établis.</p>
+</article>`
+};
+
 let currentProphetIndex = 0;
 function prophetDisplayName(p){
   const pack = window.PROPHET_I18N && window.PROPHET_I18N[p.name];
+  if(rihlaLang === 'fr' && p.name === "Jacob (Ya'qub)") return "Ya‘qûb (Jacob)";
+  if(rihlaLang === 'fr' && p.name === "Shu'ayb") return "Shu‘ayb";
   if(rihlaLang === 'en' && pack && pack.name_en) return pack.name_en;
   if(rihlaLang === 'ar') return p.nameAr || p.name;
   return p.name;
@@ -3804,11 +3885,13 @@ return { body: wrapper.innerHTML.trim(), lesson };
 }
 const prophetTranslationCache = {};
 async function translateProphetHtml(p, target){
-  if(target === 'fr') return p.desc;
+  const learning = prophetLearningFor(p);
+  const source = (learning && learning.fr) ? learning.fr : p.desc;
+  if(target === 'fr') return source;
   const key = target + ':' + p.name;
   if(prophetTranslationCache[key]) return prophetTranslationCache[key];
   try{
-    const url='https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl='+target+'&dt=t&dj=1&source=is&format=html&q='+encodeURIComponent(p.desc);
+    const url='https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl='+target+'&dt=t&dj=1&source=is&format=html&q='+encodeURIComponent(source);
     const r=await fetch(url);
     if(r.ok){
       const j=await r.json();
