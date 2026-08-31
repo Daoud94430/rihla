@@ -1937,6 +1937,80 @@ html[dir="rtl"] #view-home .hero-note{
 #view-home .overview-card:hover .expand-hint{
   color: var(--emerald-600);
 }
+/* Accent vert partagé par toutes les cartes interactives */
+.prophet-card,
+.dua-card,
+.prayer-info-card,
+.today-card,
+.how-step,
+.demo-card,
+.listen-card,
+.price-card,
+.hadith-daily-card,
+.khatm-card,
+.qibla-card,
+.prayer-times-card{
+  position:relative;
+  overflow:hidden;
+}
+.prophet-card::before,
+.dua-card::before,
+.prayer-info-card::before,
+.today-card::before,
+.how-step::before,
+.demo-card::before,
+.listen-card::before,
+.price-card::before,
+.hadith-daily-card::before,
+.khatm-card::before,
+.qibla-card::before,
+.prayer-times-card::before{
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:3px;
+  background:linear-gradient(90deg,var(--emerald-600),var(--gold-500));
+  opacity:.2;
+  transform:scaleX(.35);
+  transform-origin:left center;
+  transition:opacity .25s ease,transform .25s ease;
+  pointer-events:none;
+}
+.prophet-card:hover::before,
+.prophet-card:focus-visible::before,
+.dua-card:hover::before,
+.dua-card:focus-visible::before,
+.prayer-info-card:hover::before,
+.today-card:hover::before,
+.how-step:hover::before,
+.demo-card:hover::before,
+.listen-card:hover::before,
+.price-card:hover::before,
+.hadith-daily-card:hover::before,
+.khatm-card:hover::before,
+.qibla-card:hover::before,
+.prayer-times-card:hover::before{
+  opacity:1;
+  transform:scaleX(1);
+}
+.prophet-card:hover,
+.prophet-card:focus-visible,
+.dua-card:hover,
+.dua-card:focus-visible,
+.prayer-info-card:hover,
+.today-card:hover,
+.how-step:hover,
+.demo-card:hover,
+.listen-card:hover,
+.price-card:hover,
+.hadith-daily-card:hover,
+.khatm-card:hover,
+.qibla-card:hover,
+.prayer-times-card:hover{
+  border-color:rgba(27,90,84,.28);
+}
 #view-home .overview-card-featured{
   border-color: rgba(201,162,39,0.4);
   background: #fffdf6;
@@ -25664,6 +25738,376 @@ translation: 'Ô Allah, aide-moi à T\'évoquer, à Te remercier et à bien T\'a
 translationEn: 'O Allah, help me to remember You, to thank You, and to worship You in the best way.',
 source: 'Abou Dawoud & Ahmad',
 tags: ['Adoration']
+},
+// ===== NOUVELLES INVOCATIONS AUTHENTIQUES =====
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ',
+phonetic: 'Allahumma anta rabbi la ilaha illa anta, khalaqtani wa ana abduka, wa ana ala ahdika wa wadika mastata-tu, audhu bika min sharri ma sana-tu, abu-u laka bini-matika alayya, wa abu-u laka bidhambi faghfir li fa-innahu la yaghfirudh-dhunuba illa anta',
+translation: 'Ô Allah, Tu es mon Seigneur, il n’y a de divinité que Toi. Tu m’as créé et je suis Ton serviteur. Je respecte Ton pacte et Ta promesse autant que je le peux. Je cherche refuge auprès de Toi contre le mal de ce que j’ai fait. Je reconnais devant Toi Tes bienfaits sur moi et je reconnais mon péché : pardonne-moi, car nul ne pardonne les péchés sauf Toi.',
+translationEn: 'O Allah, You are my Lord, there is no god but You. You created me and I am Your servant. I uphold Your covenant and promise as best I can. I seek refuge in You from the evil of what I have done. I acknowledge Your blessings upon me and I acknowledge my sin, so forgive me, for none forgives sins except You.',
+source: 'Boukhari',
+tags: ['Pardon', 'Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ',
+phonetic: 'Allahumma fatiras-samawati wal-ard, alimal-ghaybi wash-shahadah, rabba kulli shay-in wa malikah, ashhadu an la ilaha illa anta, audhu bika min sharri nafsi wa min sharri ash-shaytani wa shirkih',
+translation: 'Ô Allah, Créateur des cieux et de la terre, Connaisseur de l’invisible et du visible, Seigneur et Souverain de toute chose, j’atteste qu’il n’y a de divinité que Toi. Je cherche refuge auprès de Toi contre le mal de mon âme et contre le mal de Satan et de son associationnisme.',
+translationEn: 'O Allah, Creator of the heavens and earth, Knower of the unseen and the seen, Lord and Sovereign of everything, I testify that there is no god but You. I seek refuge in You from the evil of my soul and from the evil of Satan and his influence.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Protection', 'Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ',
+phonetic: 'Allahumma ma asbaha bi min nimatin aw bi ahadin min khalqika faminka wahdaka la sharika lak, falakal-hamdu wa lakash-shukr',
+translation: 'Ô Allah, tout bienfait qui m’atteint ce matin, ou qui atteint l’une de Tes créatures, vient de Toi seul, sans associé. À Toi la louange et à Toi la gratitude.',
+translationEn: 'O Allah, whatever blessing I or any of Your creation have received this morning is from You alone, without partner. To You belongs all praise and thanks.',
+source: 'Abou Dawoud',
+tags: ['Gratitude', 'Matin']
+},
+{
+category: 'Matin & Soir',
+arabic: 'يَا حَيُّ يَا قَيُّومُ، بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ',
+phonetic: 'Ya Hayyu ya Qayyum, bi-rahmatika astaghith, aslih li shani kullah, wa la takilni ila nafsi tarfata ayn',
+translation: 'Ô Vivant, Ô Subsistant, c’est par Ta miséricorde que j’implore secours. Améliore toute ma situation et ne me laisse pas à moi-même, ne serait-ce qu’un instant.',
+translationEn: 'O Ever-Living, O Sustainer, by Your mercy I seek help. Set right all of my affairs and do not leave me to myself even for the blink of an eye.',
+source: 'An-Nasaï',
+tags: ['Secours', 'Matin', 'Soir']
+},
+{
+category: 'Matin & Soir',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ وَرَحْمَتِكَ، فَإِنَّهُ لَا يَمْلِكُهَا إِلَّا أَنْتَ',
+phonetic: 'Allahumma inni asaluka min fadlika wa rahmatika fa-innahu la yamlikuha illa ant',
+translation: 'Ô Allah, je Te demande de Ta grâce et de Ta miséricorde, car nul ne les possède en dehors de Toi.',
+translationEn: 'O Allah, I ask You for Your bounty and Your mercy, for none possesses them except You.',
+source: 'Ibn Majah',
+tags: ['Miséricorde', 'Soir']
+},
+{
+category: 'Après la prière',
+arabic: 'اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ، وَلَا مُعْطِيَ لِمَا مَنَعْتَ، وَلَا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ',
+phonetic: 'Allahumma la mani-a lima atayt, wa la mutiya lima manat, wa la yanfa-u dhal-jaddi minkal-jadd',
+translation: 'Ô Allah, nul ne peut empêcher ce que Tu donnes, ni donner ce que Tu empêches, et la richesse ne sert à rien contre Toi.',
+translationEn: 'O Allah, none can withhold what You give, and none can give what You withhold. Wealth cannot avail against You.',
+source: 'Boukhari & Muslim',
+tags: ['Après salat', 'Tawhid']
+},
+{
+category: 'Après la prière',
+arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ جَهَنَّمَ، وَمِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ، وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ',
+phonetic: 'Allahumma inni audhu bika min adhabi jahannam, wa min adhabil-qabr, wa min fitnatil-mahya wal-mamat, wa min sharri fitnatil-masihid-dajjal',
+translation: 'Ô Allah, je cherche refuge auprès de Toi contre le châtiment de l’Enfer, le châtiment de la tombe, les épreuves de la vie et de la mort, et le mal de l’épreuve du faux messie.',
+translationEn: 'O Allah, I seek refuge in You from the punishment of Hell, the punishment of the grave, the trials of life and death, and the evil of the trial of the False Messiah.',
+source: 'Boukhari & Muslim',
+tags: ['Protection', 'Après salat']
+},
+{
+category: 'Après la prière',
+arabic: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ',
+phonetic: 'La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd, wa huwa ala kulli shay-in qadir, Allahumma la mani-a lima atayt',
+translation: 'Il n’y a de divinité qu’Allah, seul et sans associé. À Lui la royauté et la louange, et Il est capable de toute chose. Ô Allah, nul ne peut empêcher ce que Tu donnes.',
+translationEn: 'There is no god but Allah alone, without partner. His is the dominion and praise, and He is capable of everything. O Allah, none can withhold what You give.',
+source: 'Boukhari & Muslim',
+tags: ['Tawhid', 'Après salat']
+},
+{
+category: 'Après la prière',
+arabic: 'اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا، وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ، فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ وَارْحَمْنِي، إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ',
+phonetic: 'Allahumma inni zalamtu nafsi zulman kathira, wa la yaghfirudh-dhunuba illa ant, faghfir li maghfiratan min indik warhamni, innaka antal-ghafurur-rahim',
+translation: 'Ô Allah, je me suis fait beaucoup de tort, et nul ne pardonne les péchés sauf Toi. Accorde-moi donc un pardon venant de Toi et fais-moi miséricorde. Tu es certes le Pardonneur, le Miséricordieux.',
+translationEn: 'O Allah, I have greatly wronged myself, and none forgives sins except You. Grant me forgiveness from You and have mercy on me. You are the Forgiving, the Merciful.',
+source: 'Boukhari & Muslim',
+tags: ['Pardon', 'Après salat']
+},
+{
+category: 'Quotidien',
+arabic: 'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا',
+phonetic: 'Rabbana hab lana min azwajina wa dhurriyyatina qurrata ayunin wajalna lil-muttaqina imama',
+translation: 'Notre Seigneur, accorde-nous en nos épouses et nos descendants la joie des yeux, et fais de nous un modèle pour les pieux.',
+translationEn: 'Our Lord, grant us from our spouses and offspring comfort to our eyes and make us an example for the righteous.',
+source: 'Coran 25:74',
+tags: ['Famille', 'Quotidien']
+},
+{
+category: 'Quotidien',
+arabic: 'رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ',
+phonetic: 'Rabbi inni lima anzalta ilayya min khayrin faqir',
+translation: 'Seigneur, j’ai grand besoin du bien que Tu feras descendre vers moi.',
+translationEn: 'My Lord, I am truly in need of whatever good You send down to me.',
+source: 'Coran 28:24',
+tags: ['Besoin', 'Subsistance']
+},
+{
+category: 'Quotidien',
+arabic: 'رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ، وَتُبْ عَلَيْنَا إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ',
+phonetic: 'Rabbana taqabbal minna innaka antas-sami-ul-alim, wa tub alayna innaka antat-tawwabur-rahim',
+translation: 'Notre Seigneur, accepte cela de notre part, car Tu es Celui qui entend et qui sait. Et accueille notre repentir, car Tu es Celui qui accueille le repentir, le Miséricordieux.',
+translationEn: 'Our Lord, accept this from us; You are the All-Hearing, the All-Knowing. Accept our repentance; You are the Accepter of repentance, the Merciful.',
+source: 'Coran 2:127-128',
+tags: ['Acceptation', 'Quotidien']
+},
+{
+category: 'Quotidien',
+arabic: 'رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ',
+phonetic: 'Rabbighfir li wa liwalidayya wa lil-muminina yawma yaqumul-hisab',
+translation: 'Seigneur, pardonne-moi, ainsi qu’à mes parents et aux croyants, le jour où les comptes seront établis.',
+translationEn: 'My Lord, forgive me, my parents, and the believers on the Day the account is established.',
+source: 'Coran 14:41',
+tags: ['Parents', 'Pardon']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ أَصْلِحْ لِي دِينِيَ الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِيَ الَّتِي إِلَيْهَا مَعَادِي',
+phonetic: 'Allahumma aslih li diniyalladhi huwa ismat amri, wa aslih li dunyayallati fiha ma-ashi, wa aslih li akhiratillati ilayha ma-adi',
+translation: 'Ô Allah, améliore ma religion qui protège mon affaire, améliore ma vie présente où se trouve ma subsistance, et améliore mon au-delà vers lequel sera mon retour.',
+translationEn: 'O Allah, set right my religion, which is the safeguard of my affairs; set right my worldly life, where I live; and set right my Hereafter, to which I will return.',
+source: 'Muslim',
+tags: ['Équilibre', 'Quotidien']
+},
+{
+category: 'Quotidien',
+arabic: 'يَا مُقَلِّبَ الْقُلُوبِ، ثَبِّتْ قَلْبِي عَلَى دِينِكَ',
+phonetic: 'Ya muqallibal-qulub, thabbit qalbi ala dinik',
+translation: 'Ô Toi qui fais osciller les cœurs, affermis mon cœur sur Ta religion.',
+translationEn: 'O Turner of hearts, make my heart firm upon Your religion.',
+source: 'Tirmidhi',
+tags: ['Cœur', 'Guidance']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ، وَحُبَّ مَنْ يُحِبُّكَ، وَالْعَمَلَ الَّذِي يُبَلِّغُنِي حُبَّكَ',
+phonetic: 'Allahumma inni asaluka hubbak, wa hubba man yuhibbuk, wal-amalalladhi yuballighuni hubbak',
+translation: 'Ô Allah, je Te demande Ton amour, l’amour de ceux qui T’aiment et les œuvres qui me feront parvenir à Ton amour.',
+translationEn: 'O Allah, I ask You for Your love, the love of those who love You, and deeds that bring me closer to Your love.',
+source: 'Tirmidhi',
+tags: ['Amour', 'Adoration']
+},
+{
+category: 'Quotidien',
+arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِرِضَاكَ مِنْ سَخَطِكَ، وَبِمُعَافَاتِكَ مِنْ عُقُوبَتِكَ، وَأَعُوذُ بِكَ مِنْكَ',
+phonetic: 'Allahumma inni audhu biridaka min sakhatik, wa bimu-afatika min uqubatik, wa audhu bika mink',
+translation: 'Ô Allah, je cherche refuge dans Ton agrément contre Ta colère, dans Ton pardon contre Ton châtiment, et auprès de Toi contre Toi.',
+translationEn: 'O Allah, I seek refuge in Your pleasure from Your anger, in Your pardon from Your punishment, and in You from You.',
+source: 'Muslim',
+tags: ['Protection', 'Quotidien']
+},
+{
+category: 'Entrer/Sortir de la maison',
+arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ أَنْ أَضِلَّ أَوْ أُضَلَّ، أَوْ أَزِلَّ أَوْ أُزَلَّ، أَوْ أَظْلِمَ أَوْ أُظْلَمَ، أَوْ أَجْهَلَ أَوْ يُجْهَلَ عَلَيَّ',
+phonetic: 'Allahumma inni audhu bika an adilla aw udall, aw azilla aw uzall, aw azlima aw uzlam, aw ajhala aw yujhal alayya',
+translation: 'Ô Allah, je cherche refuge auprès de Toi contre le fait de m’égarer ou d’égarer quelqu’un, de glisser ou de faire glisser quelqu’un, de commettre une injustice ou d’en subir une, d’agir par ignorance ou d’être victime de l’ignorance d’autrui.',
+translationEn: 'O Allah, I seek refuge in You from going astray or leading others astray, slipping or causing others to slip, wronging or being wronged, acting ignorantly or being treated ignorantly.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Protection', 'Sortie']
+},
+{
+category: 'Aller au marché',
+arabic: 'اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ',
+phonetic: 'Allahumma ikfini bihalalika an haramik, wa aghnini bifadlika amman siwak',
+translation: 'Ô Allah, contente-moi par Ton licite loin de Ton illicite et enrichis-moi par Ta grâce de sorte que je n’aie besoin de personne d’autre que Toi.',
+translationEn: 'O Allah, suffice me with what You have made lawful so I may avoid what You have forbidden, and make me independent of all others by Your grace.',
+source: 'Tirmidhi',
+tags: ['Subsistance', 'Marché']
+},
+{
+category: 'Colère',
+arabic: 'رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ، وَأَعُوذُ بِكَ رَبِّ أَنْ يَحْضُرُونِ',
+phonetic: 'Rabbi audhu bika min hamazatish-shayatin, wa audhu bika rabbi an yahdurun',
+translation: 'Seigneur, je cherche refuge auprès de Toi contre les incitations des démons, et je cherche refuge auprès de Toi, Seigneur, contre leur présence.',
+translationEn: 'My Lord, I seek refuge in You from the whisperings of the devils, and I seek refuge in You, my Lord, lest they be present with me.',
+source: 'Coran 23:97-98',
+tags: ['Colère', 'Protection']
+},
+{
+category: 'Colère',
+arabic: 'اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ لَا يَهْدِي لِأَحْسَنِهَا إِلَّا أَنْتَ، وَاصْرِفْ عَنِّي سَيِّئَهَا لَا يَصْرِفُ عَنِّي سَيِّئَهَا إِلَّا أَنْتَ',
+phonetic: 'Allahumma ihdini li-ahsanil-akhlaq la yahdi li-ahsaniha illa ant, wasrif anni sayyi-aha la yasrifu anni sayyi-aha illa ant',
+translation: 'Ô Allah, guide-moi vers les meilleurs comportements ; nul ne guide vers les meilleurs comportements sauf Toi. Éloigne de moi les mauvais comportements ; nul ne les éloigne sauf Toi.',
+translationEn: 'O Allah, guide me to the best character; none guides to the best of it except You. Keep bad character away from me; none keeps it away except You.',
+source: 'Muslim',
+tags: ['Caractère', 'Colère']
+},
+{
+category: 'Tristesse & inquiétude',
+arabic: 'يَا حَيُّ يَا قَيُّومُ، بِرَحْمَتِكَ أَسْتَغِيثُ، فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ',
+phonetic: 'Ya Hayyu ya Qayyum, bi-rahmatika astaghith, fala takilni ila nafsi tarfata ayn, wa aslih li shani kullah',
+translation: 'Ô Vivant, Ô Subsistant, c’est par Ta miséricorde que j’implore secours. Ne me laisse pas à moi-même, même un instant, et améliore toute ma situation.',
+translationEn: 'O Ever-Living, O Sustainer, by Your mercy I seek help. Do not leave me to myself even for the blink of an eye, and set right all my affairs.',
+source: 'Abou Dawoud',
+tags: ['Inquiétude', 'Secours']
+},
+{
+category: 'Tristesse & inquiétude',
+arabic: 'لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ',
+phonetic: 'La ilaha illa anta subhanaka inni kuntu minaz-zalimin',
+translation: 'Il n’y a de divinité que Toi. Gloire à Toi ! J’ai vraiment été du nombre des injustes.',
+translationEn: 'There is no god but You. Glory be to You! I have truly been among the wrongdoers.',
+source: 'Coran 21:87 & Tirmidhi',
+tags: ['Détresse', 'Repentir']
+},
+{
+category: 'Tristesse & inquiétude',
+arabic: 'اللَّهُمَّ رَحْمَتَكَ أَرْجُو، فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، لَا إِلَهَ إِلَّا أَنْتَ',
+phonetic: 'Allahumma rahmataka arju, fala takilni ila nafsi tarfata ayn, wa aslih li shani kullah, la ilaha illa ant',
+translation: 'Ô Allah, j’espère en Ta miséricorde. Ne me laisse pas à moi-même, même un instant, et améliore toute ma situation. Il n’y a de divinité que Toi.',
+translationEn: 'O Allah, I hope for Your mercy. Do not leave me to myself even for the blink of an eye, set right all my affairs, and there is no god but You.',
+source: 'Abou Dawoud',
+tags: ['Miséricorde', 'Inquiétude']
+},
+{
+category: 'Tristesse & inquiétude',
+arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ نَفْسًا مُطْمَئِنَّةً، تُؤْمِنُ بِلِقَائِكَ، وَتَرْضَى بِقَضَائِكَ، وَتَقْنَعُ بِعَطَائِكَ',
+phonetic: 'Allahumma inni asaluka nafsan mutma-innah, tuminu biliqa-ik, wa tarda biqada-ik, wa taqna-u bi-ata-ik',
+translation: 'Ô Allah, je Te demande une âme apaisée, qui croit en Ta rencontre, accepte Ton décret et se contente de Ton don.',
+translationEn: 'O Allah, I ask You for a tranquil soul that believes in meeting You, is content with Your decree, and is satisfied with Your gift.',
+source: 'Ibn Majah',
+tags: ['Sérénité', 'Cœur']
+},
+{
+category: 'Examen & étude',
+arabic: 'رَبِّ هَبْ لِي حُكْمًا وَأَلْحِقْنِي بِالصَّالِحِينَ، وَاجْعَلْ لِي لِسَانَ صِدْقٍ فِي الْآخِرِينَ',
+phonetic: 'Rabbi hab li hukman wa alhiqni bis-salihin, wajal li lisana sidqin fil-akhirin',
+translation: 'Seigneur, accorde-moi la sagesse et joins-moi aux vertueux. Accorde-moi une bonne réputation parmi les générations futures.',
+translationEn: 'My Lord, grant me wisdom and join me with the righteous, and grant me an honorable mention among later generations.',
+source: 'Coran 26:83-84',
+tags: ['Savoir', 'Sagesse']
+},
+{
+category: 'Examen & étude',
+arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ، وَمِنْ قَلْبٍ لَا يَخْشَعُ، وَمِنْ نَفْسٍ لَا تَشْبَعُ، وَمِنْ دَعْوَةٍ لَا يُسْمَعُ لَهَا',
+phonetic: 'Allahumma inni audhu bika min ilmin la yanfa, wa min qalbin la yakhsha, wa min nafsin la tashba, wa min dawatin la yusma-u laha',
+translation: 'Ô Allah, je cherche refuge auprès de Toi contre une science inutile, un cœur qui ne s’humilie pas, une âme insatiable et une invocation qui n’est pas entendue.',
+translationEn: 'O Allah, I seek refuge in You from knowledge that does not benefit, a heart that does not humble itself, a soul that is not satisfied, and a supplication that is not heard.',
+source: 'Muslim',
+tags: ['Savoir', 'Protection']
+},
+{
+category: 'Examen & étude',
+arabic: 'رَبِّ زِدْنِي عِلْمًا وَفَهْمًا، وَافْتَحْ لِي أَبْوَابَ حِكْمَتِكَ',
+phonetic: 'Rabbi zidni ilman wa fahman, waftah li abwaba hikmatik',
+translation: 'Seigneur, augmente ma science et ma compréhension, et ouvre-moi les portes de Ta sagesse.',
+translationEn: 'My Lord, increase me in knowledge and understanding, and open for me the doors of Your wisdom.',
+source: 'Coran 20:114 — formulation d’invocation',
+tags: ['Étude', 'Compréhension']
+},
+{
+category: 'Voyage',
+arabic: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ، وَكَآبَةِ الْمَنْظَرِ، وَسُوءِ الْمُنْقَلَبِ فِي الْمَالِ وَالْأَهْلِ',
+phonetic: 'Allahumma inni audhu bika min wath-as-safar, wa ka-abatil-manzar, wa su-il-munqalabi fil-mali wal-ahl',
+translation: 'Ô Allah, je cherche refuge auprès de Toi contre les difficultés du voyage, les paysages attristants et un mauvais retour concernant les biens et la famille.',
+translationEn: 'O Allah, I seek refuge in You from the hardships of travel, a sorrowful return, and a bad outcome for wealth and family.',
+source: 'Boukhari & Muslim',
+tags: ['Voyage', 'Protection']
+},
+{
+category: 'Voyage',
+arabic: 'آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ',
+phonetic: 'Ayibuna ta-ibuna abiduna li-rabbina hamidun',
+translation: 'Nous revenons repentants, adorateurs et louangeurs de notre Seigneur.',
+translationEn: 'We return repentant, worshipping, and praising our Lord.',
+source: 'Boukhari & Muslim',
+tags: ['Retour', 'Voyage']
+},
+{
+category: 'Voyage',
+arabic: 'أَسْتَوْدِعُ اللَّهَ دِينَكَ وَأَمَانَتَكَ وَخَوَاتِيمَ عَمَلِكَ',
+phonetic: 'Astawdi-ullaha dinaka wa amanataka wa khawatima amalak',
+translation: 'Je confie à Allah ta religion, ce qui t’est confié et la conclusion de tes œuvres.',
+translationEn: 'I entrust to Allah your religion, your trust, and the final outcome of your deeds.',
+source: 'Tirmidhi',
+tags: ['Adieu', 'Voyage']
+},
+{
+category: 'Voyage',
+arabic: 'اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الْأَهْلِ، اللَّهُمَّ اصْحَبْنَا فِي سَفَرِنَا وَاخْلُفْنَا فِي أَهْلِنَا',
+phonetic: 'Allahumma antas-sahibu fis-safar, wal-khalifatu fil-ahl, Allahummas-habna fi safarina wakhlufna fi ahlina',
+translation: 'Ô Allah, Tu es le compagnon durant le voyage et le protecteur de la famille. Accompagne-nous dans notre voyage et veille sur notre famille.',
+translationEn: 'O Allah, You are the Companion on the journey and the Guardian of the family. Accompany us on our journey and care for our family.',
+source: 'Muslim',
+tags: ['Famille', 'Voyage']
+},
+{
+category: 'Dormir',
+arabic: 'اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِيَ إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ',
+phonetic: 'Allahumma aslamtu nafsi ilayk, wa wajjahtu wajhi ilayk, wa fawwadtu amri ilayk, wa aljatu zahri ilayk',
+translation: 'Ô Allah, je Te soumets mon âme, je tourne mon visage vers Toi, je Te confie mon affaire et je m’en remets à Toi.',
+translationEn: 'O Allah, I submit my soul to You, turn my face to You, entrust my affairs to You, and rely on You.',
+source: 'Boukhari & Muslim',
+tags: ['Sommeil', 'Confiance']
+},
+{
+category: 'Dormir',
+arabic: 'سُبْحَانَ اللَّهِ ٣٣، وَالْحَمْدُ لِلَّهِ ٣٣، وَاللَّهُ أَكْبَرُ ٣٤',
+phonetic: 'Subhanallah thalathan wa thalathin, walhamdulillah thalathan wa thalathin, wallahu akbar arba-an wa thalathin',
+translation: 'Gloire à Allah trente-trois fois, louange à Allah trente-trois fois et Allah est le plus grand trente-quatre fois.',
+translationEn: 'Glory be to Allah thirty-three times, praise be to Allah thirty-three times, and Allah is the Greatest thirty-four times.',
+source: 'Boukhari & Muslim',
+tags: ['Dhikr', 'Sommeil']
+},
+{
+category: 'Dormir',
+arabic: 'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ',
+phonetic: 'Allahumma qini adh abak yawma tabathu ibadak',
+translation: 'Ô Allah, protège-moi de Ton châtiment le jour où Tu ressusciteras Tes serviteurs.',
+translationEn: 'O Allah, protect me from Your punishment on the Day You resurrect Your servants.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Protection', 'Sommeil']
+},
+{
+category: 'Réveil',
+arabic: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ',
+phonetic: 'La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd wa huwa ala kulli shay-in qadir, subhanallah walhamdulillah wa la ilaha illallah wallahu akbar',
+translation: 'Il n’y a de divinité qu’Allah, seul et sans associé. À Lui la royauté et la louange, et Il est capable de toute chose. Gloire à Allah, louange à Allah, il n’y a de divinité qu’Allah et Allah est le plus grand.',
+translationEn: 'There is no god but Allah alone, without partner. His is the dominion and praise, and He is capable of everything. Glory be to Allah, praise be to Allah, there is no god but Allah, and Allah is the Greatest.',
+source: 'Boukhari',
+tags: ['Réveil', 'Tawhid']
+},
+{
+category: 'Réveil',
+arabic: 'الْحَمْدُ لِلَّهِ الَّذِي رَدَّ عَلَيَّ رُوحِي وَعَافَانِي فِي جَسَدِي وَأَذِنَ لِي بِذِكْرِهِ',
+phonetic: 'Alhamdulillah alladhi radda alayya ruhi wa afani fi jasadi wa adhina li bidhikrih',
+translation: 'Louange à Allah qui m’a rendu mon âme, m’a préservé dans mon corps et m’a permis de L’évoquer.',
+translationEn: 'Praise be to Allah Who returned my soul to me, gave health to my body, and allowed me to remember Him.',
+source: 'Tirmidhi',
+tags: ['Réveil', 'Gratitude']
+},
+{
+category: 'Événements',
+arabic: 'بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ',
+phonetic: 'Barakallahu laka wa baraka alayka wa jama-a baynakuma fi khayr',
+translation: 'Qu’Allah te bénisse, répande Sa bénédiction sur toi et vous réunisse dans le bien.',
+translationEn: 'May Allah bless you, send blessings upon you, and bring you together in goodness.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Mariage', 'Bénédiction']
+},
+{
+category: 'Événements',
+arabic: 'أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ',
+phonetic: 'As-alullaha al-azim rabbal-arshil-azim an yashfiyak',
+translation: 'Je demande à Allah l’Immense, Seigneur du Trône immense, de te guérir.',
+translationEn: 'I ask Allah the Magnificent, Lord of the Magnificent Throne, to heal you.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Maladie', 'Guérison']
+},
+{
+category: 'Événements',
+arabic: 'الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ',
+phonetic: 'Alhamdulillah alladhi kasani hadha wa razaqanihi min ghayri hawlin minni wa la quwwah',
+translation: 'Louange à Allah qui m’a vêtu de ce vêtement et me l’a accordé sans force ni puissance de ma part.',
+translationEn: 'Praise be to Allah Who clothed me with this and provided it for me without any power or strength on my part.',
+source: 'Abou Dawoud & Tirmidhi',
+tags: ['Bienfait', 'Événements']
+},
+{
+category: 'Événements',
+arabic: 'اللَّهُمَّ بَارِكْ لَهُمْ فِيمَا رَزَقْتَهُمْ، وَاغْفِرْ لَهُمْ وَارْحَمْهُمْ',
+phonetic: 'Allahumma barik lahum fima razaqtahum, waghfir lahum warhamhum',
+translation: 'Ô Allah, bénis pour eux ce que Tu leur as accordé, pardonne-leur et fais-leur miséricorde.',
+translationEn: 'O Allah, bless for them what You have provided, forgive them, and have mercy on them.',
+source: 'Muslim',
+tags: ['Famille', 'Bénédiction']
 }
 ];
 
