@@ -27443,6 +27443,8 @@ function mushafKillAllAudio(){
       a.onerror = null;
       a.ontimeupdate = null;
       a.onloadedmetadata = null;
+      a.onplay = null;
+      a.onpause = null;
       a.pause();
       a.removeAttribute('src');
       a.load();
@@ -27486,6 +27488,37 @@ function mushafPreloadNext(idx, mode){
 
 const mushafSurahTimingCache = {};
 let mushafSurahSession = null; // { surahNum, audio, cum, gen }
+
+function setMushafMediaPlaybackState(state){
+  try{
+    if('mediaSession' in navigator && navigator.mediaSession) navigator.mediaSession.playbackState = state;
+  }catch(e){}
+}
+
+function updateMushafMediaMetadata(ayah, recName, fullSurah){
+  try{
+    if(!('mediaSession' in navigator) || typeof MediaMetadata === 'undefined' || !ayah) return;
+    const surahName = ayah.surahName || ('Sourate ' + ayah.surah);
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: fullSurah ? surahName + ' · lecture complète' : surahName + ' · verset ' + ayah.ayah,
+      artist: recName || 'Rihla',
+      album: 'Rihla · Qur’an'
+    });
+  }catch(e){}
+}
+
+async function mushafGetSurahFirstPage(surahNum){
+  const n = Number(surahNum);
+  if(!n || n < 1 || n > 114) throw new Error('Sourate invalide');
+  if(mushafSurahStartPage[n]) return mushafSurahStartPage[n];
+  const res = await fetch('https://api.alquran.cloud/v1/surah/' + n);
+  if(!res.ok) throw new Error('surah ' + n);
+  const json = await res.json();
+  const page = json.data && json.data.ayahs && json.data.ayahs[0] && json.data.ayahs[0].page;
+  if(!page) throw new Error('page unavailable for surah ' + n);
+  mushafSurahStartPage[n] = page;
+  return page;
+}
 
 async function mushafGetSurahWeights(surahNum){
   if(mushafSurahTimingCache[surahNum]) return mushafSurahTimingCache[surahNum];
@@ -27561,13 +27594,8 @@ async function mushafAdvanceToNextSurah(currentSurah, expectedGen){
     return;
   }
   try{
-    const res = await fetch('https://api.alquran.cloud/v1/surah/' + nextSurah);
-    if(!res.ok) throw new Error('surah ' + nextSurah);
-    const json = await res.json();
-    const firstAyah = json.data && json.data.ayahs && json.data.ayahs[0];
-    const nextPage = firstAyah && firstAyah.page;
+    const nextPage = await mushafGetSurahFirstPage(nextSurah);
     if(expectedGen != null && expectedGen !== mushafPlayGen) return;
-    if(!nextPage) throw new Error('page unavailable for surah ' + nextSurah);
     await loadMushafPage(nextPage, { autoPlay: true, autoPlaySurah: nextSurah });
     const firstOnPage = mushafAyahs.findIndex(function(a){ return a.surah === nextSurah; });
     if(firstOnPage < 0) throw new Error('first ayah unavailable for surah ' + nextSurah);
@@ -27578,6 +27606,46 @@ async function mushafAdvanceToNextSurah(currentSurah, expectedGen){
       if(info) info.textContent = 'Impossible de charger la sourate suivante';
       mushafPlaying = false;
     }
+  }
+}
+
+async function mushafMediaNavigateSurah(delta){
+  const sessionSurah = mushafSurahSession && mushafSurahSession.surahNum;
+  const currentAyah = mushafAyahs && mushafAyahs[mushafPlayIndex];
+  const currentSurah = Number(sessionSurah || (currentAyah && currentAyah.surah) || (mushafAyahs[0] && mushafAyahs[0].surah) || 1);
+  const targetSurah = currentSurah + Number(delta || 0);
+  if(targetSurah < 1 || targetSurah > 114){
+    setMushafMediaPlaybackState('none');
+    if(typeof rihlaToast === 'function') rihlaToast(targetSurah < 1 ? 'Début du mushaf' : 'Fin du mushaf');
+    return;
+  }
+  stopMushafAudio();
+  try{
+    const page = await mushafGetSurahFirstPage(targetSurah);
+    await loadMushafPage(page, { autoPlay: true, autoPlaySurah: targetSurah });
+  }catch(err){
+    console.error('Navigation sourate depuis les commandes média', err);
+    if(typeof rihlaToast === 'function') rihlaToast('Impossible de charger la sourate ' + targetSurah, 'error');
+  }
+}
+
+function initMushafMediaSession(){
+  try{
+    const media = navigator.mediaSession;
+    if(!media || typeof media.setActionHandler !== 'function') return;
+    media.setActionHandler('nexttrack', function(){ mushafMediaNavigateSurah(1); });
+    media.setActionHandler('previoustrack', function(){ mushafMediaNavigateSurah(-1); });
+    media.setActionHandler('play', function(){
+      if(mushafAudio && mushafAudio.paused) mushafAudio.play().catch(function(){});
+      else startMushafPlayback(mushafPlayIndex || 0);
+    });
+    media.setActionHandler('pause', function(){
+      if(mushafAudio) mushafAudio.pause();
+      mushafPlaying = false;
+      setMushafMediaPlaybackState('paused');
+    });
+  }catch(e){
+    // Certains navigateurs exposent Media Session mais refusent une action.
   }
 }
 
@@ -27632,6 +27700,10 @@ function playMushafSurahMode(ayah, recName, gen, urlTry){
 
   if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
   if(infoEl) infoEl.textContent = recName + ' · ' + ayah.surahName + ' (sourate)';
+  updateMushafMediaMetadata(ayah, recName, true);
+  setMushafMediaPlaybackState('playing');
+  audio.onplay = function(){ mushafPlaying = true; setMushafMediaPlaybackState('playing'); };
+  audio.onpause = function(){ if(mushafAudio === audio){ mushafPlaying = false; setMushafMediaPlaybackState('paused'); } };
 
   audio.ontimeupdate = function(){
     if(gen !== mushafPlayGen || mushafAudio !== audio) return;
@@ -27729,6 +27801,10 @@ function playMushafAyahAt(idx, urlTry){
 
   const infoEl = document.getElementById('mushafAudioInfo');
   if(infoEl) infoEl.textContent = recName + ' · ' + ayah.surahName + ' ' + ayah.ayah;
+  updateMushafMediaMetadata(ayah, recName, false);
+  setMushafMediaPlaybackState('playing');
+  audio.onplay = function(){ mushafPlaying = true; setMushafMediaPlaybackState('playing'); };
+  audio.onpause = function(){ if(mushafAudio === audio){ mushafPlaying = false; setMushafMediaPlaybackState('paused'); } };
 
   const urls = built.urls || [];
   let tryIndex = typeof urlTry === 'number' ? urlTry : 0;
@@ -27791,6 +27867,7 @@ function toggleMushafPlay(){
   if(mushafAudio && mushafPlaying && !mushafAudio.paused){
     try{ mushafAudio.pause(); }catch(e){}
     mushafPlaying = false;
+    setMushafMediaPlaybackState('paused');
     if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
     return;
   }
@@ -27799,6 +27876,7 @@ function toggleMushafPlay(){
     mushafAudio.play().then(function(){
       if(gen !== mushafPlayGen) return;
       mushafPlaying = true;
+      setMushafMediaPlaybackState('playing');
       if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
     }).catch(function(){ startMushafPlayback(mushafPlayIndex || 0); });
     return;
@@ -27933,6 +28011,7 @@ document.getElementById('mushafPageInput')?.addEventListener('keydown', (e) => {
 });
 document.getElementById('mushafPlayBtn')?.addEventListener('click', toggleMushafPlay);
 document.getElementById('mushafPlayPage')?.addEventListener('click', () => startMushafPlayback(0));
+initMushafMediaSession();
 document.getElementById('mushafToggleTr')?.addEventListener('click', () => {
   if(!mushafShowTr){
     mushafShowTr = true;
