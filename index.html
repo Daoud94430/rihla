@@ -2158,7 +2158,7 @@ Rihla
 <button class="overview-card" data-view="view-parcours">
 <div class="product-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-8 3 5 3-3"/></svg></div>
 <span class="tag" data-i18n="tag_beginner">Débutant</span>
-<h3 data-i18n="card_path_t">Parcours 21 jours</h3>
+<h3 data-i18n="card_path_t">Parcours 30 jours</h3>
 <p data-i18n="card_path_d">Un cadre simple : prière, courte lecture et un adhkar, jour après jour.</p>
 <span class="expand-hint" data-i18n="start_arrow">Commencer →</span>
 </button>
@@ -2478,6 +2478,28 @@ Rihla
   <h4 data-i18n="today_hifz_h">À revoir aujourd'hui</h4>
   <div id="todayHifzList"><p style="color:var(--ink-soft);margin:0;font-size:0.9rem;" data-i18n="today_hifz_empty">Aucune révision planifiée — marque un verset en hifz depuis le Qur'an.</p></div>
 </div>
+<div class="today-card" id="remindersCard" style="margin-bottom:24px;">
+  <span class="tc-label" data-i18n="tc_reminders">Rappels</span>
+  <h4 data-i18n="reminders_title">Rappels quotidiens</h4>
+  <p data-i18n="reminders_lead">Reçois une notification pour ne pas oublier tes dhikrs et ta lecture du jour — même app fermée, une fois activés.</p>
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+    <label style="display:flex;align-items:center;gap:8px;font-size:0.9rem;flex-wrap:wrap;">
+      <input type="checkbox" id="remDhikrEnabled">
+      <span data-i18n="reminders_dhikr_label">Rappel dhikr</span>
+      <input type="time" id="remDhikrTime" value="20:00" style="margin-left:auto;">
+    </label>
+    <label style="display:flex;align-items:center;gap:8px;font-size:0.9rem;flex-wrap:wrap;">
+      <input type="checkbox" id="remLectureEnabled">
+      <span data-i18n="reminders_lecture_label">Rappel lecture du Coran</span>
+      <input type="time" id="remLectureTime" value="21:00" style="margin-left:auto;">
+    </label>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap;">
+    <button type="button" class="btn btn-primary" id="remindersEnableBtn" data-i18n="reminders_enable_btn">Activer les notifications</button>
+    <span id="remindersStatus" style="font-size:0.85rem;color:var(--ink-soft);"></span>
+  </div>
+  <p style="font-size:0.78rem;color:var(--ink-soft);margin:10px 0 0;" data-i18n="reminders_note">Connecte-toi puis active les notifications : elles arriveront même si Rihla n'est pas ouvert.</p>
+</div>
 </section>
 </div>
 
@@ -2486,12 +2508,12 @@ Rihla
 <button class="back-link" data-view="view-home" data-i18n="back">← Retour à l'accueil</button>
 <section class="reveal">
 <div class="section-head">
-<span class="eyebrow" data-i18n="path_eyebrow">Débutant · 21 jours</span>
+<span class="eyebrow" data-i18n="path_eyebrow">Débutant · 30 jours</span>
 <h2 data-i18n="path_title">Parcours de régularité</h2>
 <p data-i18n="path_lead">Chaque jour : veiller à la prière, lire un peu, et un adhkar. Coche ce que tu as fait.</p>
 </div>
 <div class="parcours-progress" aria-hidden="true"><span id="parcoursFill" style="width:0%"></span></div>
-<p id="parcoursMeta" style="color:var(--ink-soft);font-size:0.9rem;margin:-8px 0 16px;" data-i18n="parcours_meta_zero">0 / 21 jours complétés</p>
+<p id="parcoursMeta" style="color:var(--ink-soft);font-size:0.9rem;margin:-8px 0 16px;" data-i18n="parcours_meta_zero">0 / 30 jours complétés</p>
 <div class="parcours-list" id="parcoursList"></div>
 </section>
 </div>
@@ -2848,8 +2870,8 @@ Rihla
 // =====================================================================
 // CONFIG SUPABASE
 // =====================================================================
-const SUPABASE_URL = 'https://imgzgtozhkcgsibvnopo.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltZ3pndG96aGtjZ3NpYnZub3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxOTIyOTgsImV4cCI6MjA5OTc2ODI5OH0.3-_aUl81wis-QPwrquyTjqqfygl5CLQUdvE6IZ34rRQ';
+const SUPABASE_URL = 'https://epoiswkswppwlvzgwyuu.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwb2lzd2tzd3Bwd2x2emd3eXV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4OTg4OTEsImV4cCI6MjEwMjQ3NDg5MX0.5Z1j-1RdGlCQTvmiPZ4zhU9E3S05ogJyu5NBcnqvu7A';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const PREMIUM_PAYMENT_LINK = 'https://buy.stripe.com/test_00g5nD4dU6fWgWw000';
 // =====================================================================
@@ -27160,10 +27182,10 @@ function saveParcours(data){
 }
 function ensureParcours(){
   let p = loadParcours();
-  if(p && Array.isArray(p.days) && p.days.length === 21) return p;
+  if(p && Array.isArray(p.days) && p.days.length === 30) return p;
   p = {
     startedAt: Date.now(),
-    days: Array.from({ length: 21 }, (_, i) => ({
+    days: Array.from({ length: 30 }, (_, i) => ({
       day: i + 1,
       prayer: false,
       read: false,
@@ -27180,9 +27202,9 @@ function renderParcours(){
   const meta = document.getElementById('parcoursMeta');
   if(!list) return;
   const doneDays = p.days.filter(d => d.prayer && d.read && d.adhkar).length;
-  if(fill) fill.style.width = Math.round((doneDays / 21) * 100) + '%';
-  if(meta) meta.textContent = doneDays + ' / 21 jours complétés';
-  const focus = Math.min(20, doneDays); // jour courant suggéré
+  if(fill) fill.style.width = Math.round((doneDays / 30) * 100) + '%';
+  if(meta) meta.textContent = doneDays + ' / 30 jours complétés';
+  const focus = Math.min(29, doneDays); // jour courant suggéré
   list.innerHTML = p.days.map((d, i) => {
     const complete = d.prayer && d.read && d.adhkar;
     const isFocus = i === focus && !complete;
@@ -27205,6 +27227,190 @@ function renderParcours(){
     });
   });
 }
+
+/* ===== Rappels (notifications navigateur) ===== */
+function loadReminders(){
+  try{ return JSON.parse(localStorage.getItem('rihla_reminders') || 'null'); }catch(e){ return null; }
+}
+function saveReminders(data){
+  try{ localStorage.setItem('rihla_reminders', JSON.stringify(data)); }catch(e){}
+}
+function defaultReminders(){
+  return {
+    dhikr: { enabled:false, time:'20:00', lastFired:'' },
+    lecture: { enabled:false, time:'21:00', lastFired:'' },
+    pushActive: false
+  };
+}
+function ensureReminders(){
+  let r = loadReminders();
+  if(!r || !r.dhikr || !r.lecture) r = defaultReminders();
+  return r;
+}
+function remindersMessages(){
+  const lang = typeof rihlaLang !== 'undefined' ? rihlaLang : 'fr';
+  if(lang === 'en') return {
+    dhikr: { title: 'Rihla', body: "Don't forget your dhikr today 🌙" },
+    lecture: { title: 'Rihla', body: "Time for your Qur'an reading 📖" }
+  };
+  if(lang === 'ar') return {
+    dhikr: { title: 'رحلة', body: 'لا تنسَ أذكارك اليوم 🌙' },
+    lecture: { title: 'رحلة', body: 'حان وقت قراءتك للقرآن 📖' }
+  };
+  return {
+    dhikr: { title: 'Rihla', body: "N'oublie pas de faire tes dhikrs aujourd'hui 🌙" },
+    lecture: { title: 'Rihla', body: "C'est l'heure de ta lecture du Coran 📖" }
+  };
+}
+function remindersStatusText(){
+  const lang = typeof rihlaLang !== 'undefined' ? rihlaLang : 'fr';
+  if(typeof Notification === 'undefined'){
+    return lang === 'en' ? 'Notifications are not supported by this browser.' : lang === 'ar' ? 'لا يدعم هذا المتصفح الإشعارات.' : "Les notifications ne sont pas supportées par ce navigateur.";
+  }
+  if(Notification.permission === 'granted'){
+    return lang === 'en' ? 'Notifications enabled ✓' : lang === 'ar' ? 'الإشعارات مفعّلة ✓' : 'Notifications activées ✓';
+  }
+  if(Notification.permission === 'denied'){
+    return lang === 'en' ? 'Notifications blocked — enable them in your browser settings.' : lang === 'ar' ? 'الإشعارات محظورة — فعّلها من إعدادات المتصفح.' : "Notifications bloquées — autorise-les dans les réglages du navigateur.";
+  }
+  return '';
+}
+function renderRemindersUI(){
+  const r = ensureReminders();
+  const dhE = document.getElementById('remDhikrEnabled');
+  const dhT = document.getElementById('remDhikrTime');
+  const lcE = document.getElementById('remLectureEnabled');
+  const lcT = document.getElementById('remLectureTime');
+  const status = document.getElementById('remindersStatus');
+  if(dhE) dhE.checked = !!r.dhikr.enabled;
+  if(dhT) dhT.value = r.dhikr.time || '20:00';
+  if(lcE) lcE.checked = !!r.lecture.enabled;
+  if(lcT) lcT.value = r.lecture.time || '21:00';
+  if(status) status.textContent = remindersStatusText();
+}
+function persistReminderField(key, field, value){
+  const r = ensureReminders();
+  r[key][field] = value;
+  saveReminders(r);
+}
+function checkReminders(){
+  // Repli local : ne sonne que si l'onglet est ouvert et qu'aucun push serveur n'est actif.
+  const r = ensureReminders();
+  if(r.pushActive) return;
+  if(typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+  const now = new Date();
+  const nowHM = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  const todayKey = now.toISOString().slice(0,10);
+  const msgs = remindersMessages();
+  let changed = false;
+  ['dhikr','lecture'].forEach(function(key){
+    const rem = r[key];
+    if(rem && rem.enabled && rem.time === nowHM && rem.lastFired !== todayKey){
+      try{ new Notification(msgs[key].title, { body: msgs[key].body }); }catch(e){}
+      rem.lastFired = todayKey;
+      changed = true;
+    }
+  });
+  if(changed) saveReminders(r);
+}
+// =====================================================================
+// PUSH SERVEUR (notifications même app/onglet fermé)
+// =====================================================================
+const RIHLA_VAPID_PUBLIC_KEY = 'BI19ooSzJru5w4O3S-Al2Y7FWdwJtjQRkB0Pr6cmZjcwo8dhohlRAh3X-vGo_gwza8dOl3ESAKMeS-iMnHpGZbs';
+function urlBase64ToUint8Array(base64String){
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) outputArray[i] = rawData.charCodeAt(i);
+  return outputArray;
+}
+function registerRihlaServiceWorker(){
+  if(!('serviceWorker' in navigator)) return Promise.resolve(null);
+  return navigator.serviceWorker.register('/sw.js').catch(function(){ return null; });
+}
+async function pushRowFromReminders(){
+  const r = ensureReminders();
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/Paris';
+  return {
+    dhikr_enabled: !!r.dhikr.enabled,
+    dhikr_time: r.dhikr.time || '20:00',
+    lecture_enabled: !!r.lecture.enabled,
+    lecture_time: r.lecture.time || '21:00',
+    timezone: tz
+  };
+}
+async function subscribeUserToPush(){
+  const status = document.getElementById('remindersStatus');
+  if(!isLoggedIn){
+    if(status) status.textContent = t('reminders_login_required');
+    overlay.classList.add('open');
+    return;
+  }
+  if(!('serviceWorker' in navigator) || !('PushManager' in window)){
+    if(status) status.textContent = remindersStatusText();
+    return;
+  }
+  try{
+    const reg = await registerRihlaServiceWorker();
+    if(!reg) throw new Error('sw-failed');
+    let sub = await reg.pushManager.getSubscription();
+    if(!sub){
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(RIHLA_VAPID_PUBLIC_KEY)
+      });
+    }
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+    const uid = sessionData && sessionData.session && sessionData.session.user && sessionData.session.user.id;
+    if(!uid) throw new Error('no-user');
+    const json = sub.toJSON();
+    const rowExtra = await pushRowFromReminders();
+    const row = Object.assign({
+      user_id: uid,
+      endpoint: sub.endpoint,
+      p256dh: json.keys && json.keys.p256dh,
+      auth: json.keys && json.keys.auth
+    }, rowExtra);
+    const { error } = await supabaseClient.from('push_subscriptions').upsert(row, { onConflict: 'user_id,endpoint' });
+    if(error) throw error;
+    const r = ensureReminders();
+    r.pushActive = true;
+    saveReminders(r);
+    if(status) status.textContent = t('reminders_push_active');
+  }catch(e){
+    console.warn('push subscribe', e);
+    if(status) status.textContent = remindersStatusText();
+  }
+}
+async function syncPushSettings(){
+  const r = ensureReminders();
+  if(!r.pushActive || !isLoggedIn) return;
+  try{
+    const reg = await registerRihlaServiceWorker();
+    if(!reg) return;
+    const sub = await reg.pushManager.getSubscription();
+    if(!sub) return;
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+    const uid = sessionData && sessionData.session && sessionData.session.user && sessionData.session.user.id;
+    if(!uid) return;
+    const rowExtra = await pushRowFromReminders();
+    await supabaseClient.from('push_subscriptions')
+      .update(rowExtra)
+      .eq('user_id', uid)
+      .eq('endpoint', sub.endpoint);
+  }catch(e){ console.warn('push sync', e); }
+}
+document.getElementById('remindersEnableBtn')?.addEventListener('click', function(){
+  subscribeUserToPush();
+});
+document.getElementById('remDhikrEnabled')?.addEventListener('change', function(e){ persistReminderField('dhikr','enabled', !!e.target.checked); renderRemindersUI(); syncPushSettings(); });
+document.getElementById('remDhikrTime')?.addEventListener('change', function(e){ persistReminderField('dhikr','time', e.target.value || '20:00'); syncPushSettings(); });
+document.getElementById('remLectureEnabled')?.addEventListener('change', function(e){ persistReminderField('lecture','enabled', !!e.target.checked); renderRemindersUI(); syncPushSettings(); });
+document.getElementById('remLectureTime')?.addEventListener('change', function(e){ persistReminderField('lecture','time', e.target.value || '21:00'); syncPushSettings(); });
+renderRemindersUI();
+setInterval(checkReminders, 20000);
+registerRihlaServiceWorker();
 
 function loadBookmarks(){
   try{ return JSON.parse(localStorage.getItem('rihla_bookmarks') || '[]'); }catch(e){ return []; }
@@ -28265,7 +28471,7 @@ var RIHLA_I18N = {
     tafsir_search_error:'Impossible de charger la recherche. Vérifie ta connexion puis réessaie.',
     today_eyebrow:'Routine',
     today_lead:"Trois gestes simples : lire ta page, dire un adhkar, faire une du'a. Sans pression.",
-    path_eyebrow:'Débutant · 21 jours', path_title:'Parcours de régularité',
+    path_eyebrow:'Débutant · 30 jours', path_title:'Parcours de régularité',
     path_lead:'Chaque jour : veiller à la prière, lire un peu, et un adhkar. Coche ce que tu as fait.',
     search_ph:'Rechercher un mot (FR ou arabe)…', search_btn:'Rechercher',
     hifz_mode:'Mode hifz', bookmarks:'Signets', tajweed_legend:'Légende tajwid',
@@ -28274,7 +28480,7 @@ var RIHLA_I18N = {
     tag_routine:'Routine', tag_beginner:'Débutant', tag_prayer:'Prières', tag_reminder:'Rappel',
     tag_story:'Histoire', tag_audio:'Lecture & audio', tag_track:'Suivi', tag_fix:'Correction', tag_duas:'Invocations',
     card_today_t:"Aujourd'hui", card_today_d:"Ta page du plan, un adhkar et une du'a — le minimum pour avancer chaque jour.",
-    card_path_t:'Parcours 21 jours', card_path_d:'Un cadre simple : prière, courte lecture et un adhkar, jour après jour.',
+    card_path_t:'Parcours 30 jours', card_path_d:'Un cadre simple : prière, courte lecture et un adhkar, jour après jour.',
     card_prayer_t:'Horaires & Qibla', card_prayer_d:'Les 5 horaires calculés pour ta position et le sens de la Qibla.',
     card_hadith_t:'Un hadith par jour', card_hadith_d:'Des hadiths authentiques de Boukhari, Muslim et du Jardin des Vertueux.',
     card_prophets_t:'Histoires des Prophètes', card_prophets_d:'Les 25 prophètes cités dans le Coran, avec leurs récits authentiques et détaillés.',
@@ -28320,7 +28526,7 @@ var RIHLA_I18N = {
     tafsir_search_error:'Could not load search. Check your connection and try again.',
     today_eyebrow:'Routine',
     today_lead:"Three simple steps: read your page, say an adhkar, make a du'a. No pressure.",
-    path_eyebrow:'Beginner · 21 days', path_title:'Consistency path',
+    path_eyebrow:'Beginner · 30 days', path_title:'Consistency path',
     path_lead:'Each day: mind the prayer, read a little, and one adhkar. Check what you did.',
     search_ph:'Search a word (EN or Arabic)…', search_btn:'Search',
     hifz_mode:'Hifz mode', bookmarks:'Bookmarks', tajweed_legend:'Tajweed key',
@@ -28329,7 +28535,7 @@ var RIHLA_I18N = {
     tag_routine:'Routine', tag_beginner:'Beginner', tag_prayer:'Prayer', tag_reminder:'Reminder',
     tag_story:'Stories', tag_audio:'Reading & audio', tag_track:'Tracker', tag_fix:'Correction', tag_duas:'Invocations',
     card_today_t:'Today', card_today_d:"Your plan page, an adhkar and a du'a — the minimum to move forward each day.",
-    card_path_t:'21-day path', card_path_d:'A simple frame: prayer, short reading and one adhkar, day after day.',
+    card_path_t:'30-day path', card_path_d:'A simple frame: prayer, short reading and one adhkar, day after day.',
     card_prayer_t:'Times & Qibla', card_prayer_d:'The 5 prayer times for your location and the direction of the Qibla.',
     card_hadith_t:'A hadith a day', card_hadith_d:'Authentic hadiths from Bukhari, Muslim and Riyad as-Salihin.',
     card_prophets_t:'Stories of the Prophets', card_prophets_d:'The 25 prophets mentioned in the Qur\'an, with authentic detailed narratives.',
@@ -28375,7 +28581,7 @@ var RIHLA_I18N = {
     tafsir_search_error:'تعذّر تحميل البحث. تحقق من اتصالك ثم أعد المحاولة.',
     today_eyebrow:'روتين',
     today_lead:'ثلاث خطوات بسيطة: اقرأ صفحتك، اذكر ذكرًا، وادعُ. بلا ضغط.',
-    path_eyebrow:'للمبتدئين · ٢١ يومًا', path_title:'مسار الاستمرار',
+    path_eyebrow:'للمبتدئين · ٣٠ يومًا', path_title:'مسار الاستمرار',
     path_lead:'كل يوم: الصلاة، قراءة قصيرة، وذكر. علّم ما أنجزت.',
     search_ph:'ابحث عن كلمة…', search_btn:'بحث',
     hifz_mode:'وضع الحفظ', bookmarks:'الإشارات', tajweed_legend:'مفتاح التجويد',
@@ -28384,7 +28590,7 @@ var RIHLA_I18N = {
     tag_routine:'روتين', tag_beginner:'مبتدئ', tag_prayer:'الصلاة', tag_reminder:'تذكير',
     tag_story:'قصص', tag_audio:'قراءة وصوت', tag_track:'متابعة', tag_fix:'تصحيح', tag_duas:'أدعية',
     card_today_t:'اليوم', card_today_d:'صفحتك في الخطة وذكر ودعاء — الحد الأدنى للتقدم كل يوم.',
-    card_path_t:'مسار ٢١ يومًا', card_path_d:'إطار بسيط: صلاة وقراءة قصيرة وذكر، يومًا بعد يوم.',
+    card_path_t:'مسار ٣٠ يومًا', card_path_d:'إطار بسيط: صلاة وقراءة قصيرة وذكر، يومًا بعد يوم.',
     card_prayer_t:'المواقيت والقبلة', card_prayer_d:'الصلوات الخمس حسب موقعك واتجاه القبلة.',
     card_hadith_t:'حديث كل يوم', card_hadith_d:'أحاديث صحيحة من البخاري ومسلم ورياض الصالحين.',
     card_prophets_t:'قصص الأنبياء', card_prophets_d:'الأنبياء الخمسة والعشرون في القرآن مع روايات موثوقة.',
@@ -29159,9 +29365,21 @@ Object.keys(RIHLA_I18N_EXTRA).forEach(function(lg){
 // Complément clés manquantes
 (function(){
   var more = {
-    fr: { parcours_meta_zero:'0 / 21 jours complétés', premium_reciters:'+12 récitateurs Premium', tag_tafsir:'Étude', card_tafsir_t:'Tafsir', card_tafsir_d:'Lis le Coran et consulte l\'explication de chaque verset dans un espace dédié.' },
-    en: { parcours_meta_zero:'0 / 21 days completed', premium_reciters:'+12 Premium reciters', pd_lesson_label:'📚 Lesson to remember', tag_tafsir:'Study', card_tafsir_t:'Tafsir', card_tafsir_d:'Read the Qur\'an and open a verified explanation for each verse in a dedicated space.' },
-    ar: { parcours_meta_zero:'٠ / ٢١ يومًا مكتملًا', premium_reciters:'+١٢ قارئًا متقدمًا', pd_lesson_label:'📚 الدرس المستفاد', tag_tafsir:'دراسة', card_tafsir_t:'تفسير', card_tafsir_d:'اقرأ القرآن واطّلع على شرح كل آية في مساحة مخصّصة.' }
+    fr: { parcours_meta_zero:'0 / 30 jours complétés', premium_reciters:'+12 récitateurs Premium', tag_tafsir:'Étude', card_tafsir_t:'Tafsir', card_tafsir_d:'Lis le Coran et consulte l\'explication de chaque verset dans un espace dédié.',
+      tc_reminders:'Rappels', reminders_title:'Rappels quotidiens', reminders_lead:"Reçois une notification pour ne pas oublier tes dhikrs et ta lecture du jour — même app fermée, une fois activés.",
+      reminders_dhikr_label:'Rappel dhikr', reminders_lecture_label:'Rappel lecture du Coran', reminders_enable_btn:'Activer les notifications',
+      reminders_note:"Connecte-toi puis active les notifications : elles arriveront même si Rihla n'est pas ouvert.", reminders_activated_msg:"Les rappels sont activés. Configure tes horaires ci-dessous.",
+      reminders_login_required:'Connecte-toi pour activer les rappels sur cet appareil.', reminders_push_active:'Rappels activés ✓ (même app fermée)' },
+    en: { parcours_meta_zero:'0 / 30 days completed', premium_reciters:'+12 Premium reciters', pd_lesson_label:'📚 Lesson to remember', tag_tafsir:'Study', card_tafsir_t:'Tafsir', card_tafsir_d:'Read the Qur\'an and open a verified explanation for each verse in a dedicated space.',
+      tc_reminders:'Reminders', reminders_title:'Daily reminders', reminders_lead:"Get a notification so you don't forget your dhikr and your daily reading — even with the app closed, once enabled.",
+      reminders_dhikr_label:'Dhikr reminder', reminders_lecture_label:"Qur'an reading reminder", reminders_enable_btn:'Enable notifications',
+      reminders_note:"Sign in, then enable notifications: they'll arrive even when Rihla isn't open.", reminders_activated_msg:'Reminders are on. Set your times below.',
+      reminders_login_required:'Sign in to enable reminders on this device.', reminders_push_active:'Reminders enabled ✓ (even app closed)' },
+    ar: { parcours_meta_zero:'٠ / 30 يومًا مكتملًا', premium_reciters:'+١٢ قارئًا متقدمًا', pd_lesson_label:'📚 الدرس المستفاد', tag_tafsir:'دراسة', card_tafsir_t:'تفسير', card_tafsir_d:'اقرأ القرآن واطّلع على شرح كل آية في مساحة مخصّصة.',
+      tc_reminders:'تذكيرات', reminders_title:'تذكيرات يومية', reminders_lead:'احصل على إشعار حتى لا تنسى أذكارك وقراءتك اليومية — حتى مع إغلاق التطبيق، بعد التفعيل.',
+      reminders_dhikr_label:'تذكير الأذكار', reminders_lecture_label:'تذكير قراءة القرآن', reminders_enable_btn:'تفعيل الإشعارات',
+      reminders_note:'سجّل الدخول ثم فعّل الإشعارات: ستصلك حتى لو لم يكن رحلة مفتوحًا.', reminders_activated_msg:'تم تفعيل التذكيرات. حدد الأوقات أدناه.',
+      reminders_login_required:'سجّل الدخول لتفعيل التذكيرات على هذا الجهاز.', reminders_push_active:'التذكيرات مفعّلة ✓ (حتى مع إغلاق التطبيق)' }
   };
   Object.keys(more).forEach(function(lg){
     RIHLA_I18N[lg] = Object.assign({}, more[lg], RIHLA_I18N[lg] || {});
