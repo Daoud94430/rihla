@@ -2837,6 +2837,10 @@ Rihla
 </button>
 <div class="auth-divider" data-i18n="auth_or">ou avec un e-mail</div>
 <form class="auth-email" id="emailForm">
+<div id="usernameField" style="display:none;">
+<label for="usernameInput" style="font-size:0.85rem;color:var(--ink-soft);" data-i18n="auth_username">Nom d'utilisateur</label>
+<input type="text" id="usernameInput" placeholder="Ton prénom ou pseudo" autocomplete="nickname" maxlength="40">
+</div>
 <label for="emailInput" style="font-size:0.85rem;color:var(--ink-soft);" data-i18n="auth_email">Adresse e-mail</label>
 <input type="email" id="emailInput" placeholder="toi@exemple.com" autocomplete="email" required>
 <label for="passwordInput" style="font-size:0.85rem;color:var(--ink-soft);" data-i18n="auth_pass">Mot de passe</label>
@@ -3105,6 +3109,10 @@ authSubmitBtn.textContent = t(mode === 'signup' ? 'auth_signup' : 'auth_signin')
 authToggleMode.textContent = t(mode === 'signup' ? 'auth_have_account' : 'auth_no_account');
 const modalTitleEl = document.getElementById('modalTitle');
 if(modalTitleEl) modalTitleEl.textContent = t(mode === 'signup' ? 'auth_signup' : 'auth_signin');
+const usernameField = document.getElementById('usernameField');
+const usernameInput = document.getElementById('usernameInput');
+if(usernameField) usernameField.style.display = mode === 'signup' ? '' : 'none';
+if(usernameInput) usernameInput.required = mode === 'signup';
 authStatus.textContent = '';
 authStatus.className = 'auth-status';
 }
@@ -3113,14 +3121,23 @@ document.getElementById('emailForm')?.addEventListener('submit', async (e) => {
 e.preventDefault();
 const email = document.getElementById('emailInput').value.trim();
 const password = document.getElementById('passwordInput').value;
+const username = (document.getElementById('usernameInput')?.value || '').trim();
 if(!email || !password) return;
+if(authMode === 'signup' && !username){
+authStatus.textContent = t('auth_username_required');
+authStatus.className = 'auth-status error';
+return;
+}
 authSubmitBtn.disabled = true;
 if(authMode === 'signup'){
 authStatus.textContent = t('auth_creating');
 authStatus.className = 'auth-status';
 const { error } = await supabaseClient.auth.signUp({
 email, password,
-options: { emailRedirectTo: window.location.origin + window.location.pathname }
+options: {
+emailRedirectTo: window.location.origin + window.location.pathname,
+data: { full_name: username, username: username }
+}
 });
 if(error){
 authStatus.textContent = t('auth_error') + error.message;
@@ -4062,6 +4079,7 @@ window.PROPHET_STORIES_FR = {
 <p>Allah enseigna à Adam les noms des choses. Cette connaissance montra la place particulière que l'être humain pouvait occuper par le savoir et la responsabilité. Allah ordonna ensuite aux anges de se prosterner devant Adam en signe d'honneur. Tous obéirent, sauf Iblîs. Il refusa par orgueil et prétendit être supérieur à Adam parce qu'il avait été créé de feu, tandis qu'Adam avait été créé de terre. Iblîs fut alors exclu et demanda un délai pour égarer les descendants d'Adam.</p>
 <p>Adam et son épouse vécurent dans le Jardin. Allah leur permit d'en profiter, mais leur interdit un arbre précis. Iblîs les trompa par ses insinuations. Ils mangèrent de l'arbre, prirent conscience de leur faute et se couvrirent. Ils ne persistèrent pas dans l'orgueil : ils reconnurent leur erreur et demandèrent pardon. Allah accepta leur repentir, puis les fit descendre sur terre, où l'humanité devait vivre, recevoir la guidance, mourir et être ressuscitée.</p>
 <p>Le Coran rapporte aussi l'histoire des deux fils d'Adam. L'un offrit un sacrifice qui fut accepté et l'autre, jaloux, le tua. Allah fit alors voir à ce dernier, par l'intermédiaire d'un corbeau, comment ensevelir le corps de son frère. Le récit d'Adam rappelle que l'erreur n'est pas la fin lorsque l'on revient sincèrement vers Allah, mais que l'orgueil et la jalousie peuvent conduire à la ruine.</p>
+<p>Après leur faute, Adam et son épouse reçurent d'Allah des paroles avec lesquelles ils purent se repentir, et Allah agréa leur repentir, car Il est Celui qui accueille le repentir, le Très Miséricordieux (Coran 2:37). Dans son discours d'adieu, le Prophète ﷺ rappela qu'aucun Arabe n'a de mérite sur un non-Arabe si ce n'est par la piété, car tous les hommes descendent d'Adam, et Adam fut créé de terre — un rappel que la noblesse humaine ne se fonde ni sur la race ni sur la lignée.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Le savoir doit conduire à l'humilité. Après une faute, il faut reconnaître le tort, demander pardon et revenir vers Allah sans désespoir.</p></div>
 <p><strong>Sources :</strong> Coran 2:30-39, 5:27-31, 7:11-27, 20:115-123, 38:71-85.</p>`,
 
@@ -4069,6 +4087,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le Coran ne raconte pas une suite d'événements détaillés de sa vie. Il ne donne pas le nom de son peuple, la durée de sa mission, les débats qu'il aurait eus ni les circonstances de sa mort. Il serait donc incorrect de présenter comme certaines des informations qui ne sont pas établies par le Texte.</p>
 <p>Ce que l'on sait directement est essentiel : Idrîs était sincère, véridique, prophète et patient. Sa mention montre que la valeur d'une vie ne dépend pas du nombre de récits que l'on peut raconter sur elle. Allah honore aussi les serviteurs dont la fidélité est connue de Lui, même lorsque leur histoire est rapportée en peu de mots.</p>
 <p>Les détails souvent attribués à Idrîs dans certaines traditions — son identité avec une figure ancienne, l'invention de certains métiers ou une chronologie précise — ne doivent pas être présentés comme des faits coraniques certains. La bonne méthode consiste à retenir ce qu'Allah a affirmé et à laisser de côté ce qui n'est pas démontré.</p>
+<p>Idrîs figure parmi les prophètes cités dans la sourate al-Anʿâm et parmi les serviteurs qu'Allah loue pour leur constance. Certains commentateurs l'ont rapproché d'une figure ancienne appelée Hénoch dans d'autres traditions religieuses, mais cette identification appartient à l'exégèse et à l'histoire comparée des récits, non au texte coranique lui-même.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La vérité, la patience et la fidélité à Allah ont une grande valeur, même lorsque l'histoire d'un prophète nous est transmise de façon concise.</p></div>
 <p><strong>Sources :</strong> Coran 19:56-57, 21:85-86.</p>`,
 
@@ -4076,6 +4095,7 @@ window.PROPHET_STORIES_FR = {
 <p>Noé appela de nuit et de jour, en public et en secret. Pourtant, les notables refusèrent son message. Ils se bouchèrent les oreilles, couvrirent leurs visages et s'accrochèrent à leurs idoles. Ils ne voulaient pas suivre un homme qu'ils jugeaient pauvre ou entouré de personnes modestes. Noé continua malgré les moqueries et ne demanda aucune récompense pour sa mission.</p>
 <p>Allah lui ordonna de construire une arche sous Sa surveillance et Sa révélation. Les gens se moquaient de lui parce qu'il la construisait loin de la mer, mais Noé obéit. Lorsque le décret arriva, l'eau jaillit de la terre et tomba du ciel. Noé fit monter les croyants ainsi que les êtres qu'Allah lui ordonna de préserver. Ils étaient peu nombreux.</p>
 <p>Un fils de Noé refusa de monter et pensa qu'une montagne le protégerait. Noé l'appela, mais une vague les sépara et le fils fut englouti. Allah lui apprit que le lien de sang ne remplace pas la foi. L'arche s'arrêta sur al-Jûdî, puis Noé et les croyants en sortirent avec la bénédiction d'Allah. Le récit ne dit pas que la patience garantit une adhésion immédiate : il montre que le devoir du messager est de transmettre avec constance.</p>
+<p>À la fin de sa mission, épuisé par le rejet obstiné des siens, Noé invoqua Allah en ces termes : « Seigneur, ne laisse sur la terre aucun infidèle qui y habite », craignant qu'ils n'égarent leurs enfants (Coran 71:26-27). Le Prophète ﷺ a indiqué que Noé sera le premier messager interrogé le Jour de la Résurrection sur la transmission de son message, ce qui souligne la responsabilité particulière portée par le premier des messagers envoyés après l'apparition du polythéisme sur terre.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La longue durée d'une épreuve ne justifie pas l'abandon. La foi et les actes comptent davantage que la proximité familiale ou le statut social.</p></div>
 <p><strong>Sources :</strong> Coran 7:59-64, 10:71-73, 11:25-49, 23:23-30, 29:14-15, 71:1-28.</p>`,
 
@@ -4083,6 +4103,7 @@ window.PROPHET_STORIES_FR = {
 <p>Hûd leur demanda une chose directe : adorer Allah seul, craindre le jour du jugement et abandonner l'orgueil. Il leur rappela que la force, les richesses et les bâtiments sont des dons qui peuvent disparaître. Il leur dit qu'il ne voulait aucun salaire et qu'il était un messager digne de confiance.</p>
 <p>Le peuple répondit par le rejet. Certains l'accusèrent de folie et affirmèrent que leurs divinités lui avaient fait du mal. Hûd refusa cette accusation et plaça sa confiance en Allah. Il déclara qu'il ne craignait pas leurs idoles et que le jugement appartenait à Allah.</p>
 <p>Les gens de ʿÂd virent ensuite un nuage se diriger vers leurs vallées. Ils pensèrent qu'il apporterait la pluie, mais c'était le vent destructeur annoncé. Le Coran décrit un vent violent qui les frappa pendant sept nuits et huit jours consécutifs. Il détruisit les arrogants, tandis qu'Allah sauva Hûd et les croyants. Le récit montre que la puissance matérielle ne protège pas une communauté qui refuse la vérité et s'enorgueillit.</p>
+<p>Le Coran rapporte les propres mots de Hûd à son peuple, qui bâtissait des monuments sur chaque hauteur par vanité et érigeait des forteresses comme s'ils allaient demeurer éternellement (Coran 26:128-129). Il leur reprocha d'employer leur force pour opprimer plutôt que pour réfléchir, rappelant que la grandeur des œuvres humaines ne retarde jamais l'échéance fixée par Allah.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La force et la réussite ne dispensent pas de gratitude. L'orgueil transforme un bienfait en cause de chute.</p></div>
 <p><strong>Sources :</strong> Coran 7:65-72, 11:50-60, 26:123-140, 41:15-16, 46:21-26, 54:18-21, 69:6-8.</p>`,
 
@@ -4090,6 +4111,7 @@ window.PROPHET_STORIES_FR = {
 <p>Ṣâliḥ les appela à adorer Allah seul et leur rappela qu'Il les avait établis après le peuple de ʿÂd. Les chefs refusèrent d'abord de le suivre et demandèrent un signe. Allah leur donna la chamelle comme signe clair et leur ordonna de la laisser boire à son tour, sans lui faire de mal.</p>
 <p>La chamelle fut une épreuve concrète pour la communauté. Malgré l'avertissement de Ṣâliḥ, des gens la tuèrent et défièrent le châtiment. Le Coran indique alors qu'ils disposaient de trois jours avant l'arrivée du châtiment. Ṣâliḥ ne cessa pas de transmettre l'avertissement, mais ils persistèrent dans leur décision.</p>
 <p>Le châtiment les saisit sous la forme d'un cri terrible et d'un tremblement selon les passages qui racontent l'événement. Ils furent retrouvés sans vie dans leurs demeures, comme si leur puissance n'avait jamais existé. Ṣâliḥ se détourna d'eux après leur destruction en rappelant qu'il leur avait bien transmis le message et donné un conseil sincère.</p>
+<p>Un groupe de neuf hommes de Thamûd complota secrètement pour tuer Ṣâliḥ et sa famille de nuit, pensant échapper à toute conséquence (Coran 27:48-49). Allah retourna leur propre ruse contre eux : ils périrent avec tout leur peuple dans le même châtiment, un rappel que la préméditation du mal n'échappe pas à la connaissance d'Allah.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Demander une preuve ne sert à rien si l'on refuse ensuite ses conséquences. La technique et la sécurité matérielle ne remplacent ni la foi ni la justice.</p></div>
 <p><strong>Sources :</strong> Coran 7:73-79, 11:61-68, 15:80-84, 26:141-159, 27:45-53, 54:23-31.</p>`,
 
@@ -4097,6 +4119,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le Coran rapporte également son argumentation au sujet des astres. Il mentionna l'étoile, la lune et le soleil, puis montra que ce qui se lève et se couche ne peut pas être le Créateur. Il déclara alors qu'il tournait son visage vers Celui qui avait créé les cieux et la terre, sans Lui donner d'associé.</p>
 <p>Abraham brisa les idoles, à l'exception de la plus grande, afin de pousser son peuple à réfléchir. Ils comprirent un instant leur erreur, puis revinrent à l'obstination. Ils le jetèrent dans un feu, mais Allah ordonna au feu d'être fraîcheur et paix pour Abraham. Il sortit indemne par la protection d'Allah.</p>
 <p>Abraham émigra pour préserver sa foi. Allah lui accorda une descendance bénie, dont Isaac et Jacob sont explicitement annoncés dans le Coran. Avec son fils, il éleva les fondations de la Kaʿba et invoqua Allah pour que ce lieu soit sûr et que sa descendance reste attachée à l'adoration d'Allah. Dans le passage de l'épreuve du sacrifice, le Coran ne nomme pas le fils ; la tradition musulmane le comprend généralement comme Ismaël. L'essentiel du récit est la soumission sincère du père et du fils au commandement d'Allah.</p>
+<p>Le Coran rapporte aussi le débat d'Abraham avec un roi orgueilleux qui prétendait donner la vie et la mort. Abraham lui répondit qu'Allah fait lever le soleil de l'est et lui demanda de le faire lever de l'ouest ; le roi resta interdit, incapable de répondre (Coran 2:258). Cet échange illustre la méthode d'Abraham : opposer à l'arrogance des arguments clairs plutôt que la seule force.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La foi demande de rechercher la vérité, de rejeter l'idolâtrie avec courage et de faire confiance à Allah lorsque l'épreuve devient difficile.</p></div>
 <p><strong>Sources :</strong> Coran 2:124-141, 6:74-83, 14:35-41, 19:41-50, 21:51-73, 37:83-113.</p>`,
 
@@ -4104,6 +4127,7 @@ window.PROPHET_STORIES_FR = {
 <p>Son peuple ne répondit pas par le repentir. Il se moqua de Lot et menaça de chasser ceux qui voulaient rester purs. Lorsque des anges vinrent chez lui sous l'apparence d'hommes, Lot les accueillit comme des hôtes. Les habitants voulurent leur faire du mal. Lot tenta de les arrêter et leur rappela la voie licite, mais la foule persista dans son intention.</p>
 <p>Les anges révélèrent alors à Lot leur véritable mission : ils étaient envoyés par Allah pour mettre fin à cette cité. Ils lui ordonnèrent de partir de nuit avec les croyants, sans se retourner ni rester derrière. La femme de Lot fut exceptée du groupe sauvé parce qu'elle appartenait à ceux qui partageaient le refus du peuple.</p>
 <p>Au matin, le châtiment arriva. Les cités furent renversées et une pluie de pierres d'argile cuite s'abattit sur leurs habitants. Lot et les croyants furent sauvés. Le récit rappelle qu'une société peut banaliser une faute, mais que la répétition et l'agression ne changent pas le jugement d'Allah.</p>
+<p>Le Coran désigne ailleurs ces cités détruites comme « les cités renversées » (al-mu'tafikât), évoquées en écho avec le peuple de Thamûd et de ʿÂd comme exemples de nations châtiées pour leur rejet obstiné (Coran 9:70, 53:53). L'épouse de Lot, restée fidèle à son peuple plutôt qu'à son mari prophète, est citée par le Coran comme un exemple pour les croyants : la proximité avec un homme pieux ne suffit pas si le cœur reste attaché à l'incrédulité (Coran 66:10).</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Il faut rester fidèle à la vérité même lorsque son environnement la rejette. La protection des innocents et le respect des invités font partie de la responsabilité morale.</p></div>
 <p><strong>Sources :</strong> Coran 7:80-84, 11:77-83, 15:57-74, 26:160-175, 27:54-58, 29:28-35, 54:33-39.</p>`,
 
@@ -4111,6 +4135,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le Coran rapporte qu'Abraham installa une partie de sa famille dans une vallée sans culture, près de la Maison sacrée, puis demanda à Allah de leur donner des fruits et d'incliner vers eux les cœurs des gens. Le récit détaillé de la course de Hâjar entre Ṣafâ et Marwa et de l'apparition de Zamzam vient des hadiths de la Sîra ; il ne faut pas le confondre avec un passage détaillé du Coran.</p>
 <p>Lorsque son père lui parla de l'épreuve du sacrifice, Ismâʿîl répondit avec soumission qu'il devait faire ce qui lui était commandé et qu'il le trouverait parmi les patients, si Allah le voulait. Au moment où tous deux se furent soumis, Allah remplaça le sacrifice par une offrande immense. Le Coran met l'accent sur leur obéissance, et non sur une célébration de la souffrance.</p>
 <p>Abraham et Ismâʿîl élevèrent ensuite les fondations de la Kaʿba. Ils invoquèrent Allah afin que leur œuvre soit acceptée, qu'une communauté soumise naisse de leur descendance et qu'un messager soit envoyé parmi elle. Ismâʿîl ordonnait à sa famille la prière et l'aumône. Le Coran le présente comme un messager, un prophète, véridique dans ses engagements et agréé par son Seigneur.</p>
+<p>Un hadith authentique rapporté par al-Bukhârî raconte que Hâjar, laissée avec Ismâʿîl encore nourrisson dans la vallée aride de La Mecque, courut sept fois entre les collines de Ṣafâ et Marwa à la recherche d'aide, avant que la source de Zamzam ne jaillisse sous les pieds de l'enfant par la grâce d'Allah — geste que les pèlerins commémorent aujourd'hui pendant le hajj et la ʿumra. Par sa descendance, Ismâʿîl est considéré comme un ancêtre des Arabes du Hijaz, une lignée dont est issu le Prophète Muhammad ﷺ lui-même.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La vraie patience consiste à obéir à Allah avec confiance, à tenir sa parole et à transformer la foi en actes utiles pour la famille et la communauté.</p></div>
 <p><strong>Sources :</strong> Coran 2:125-129, 14:37, 19:54-55, 37:100-113.</p>`,
 
@@ -4118,6 +4143,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le Coran présente Isaac comme un don et une bénédiction accordés à Abraham. Il le place parmi les prophètes justes, avec Ismaël et Jacob. Sa mission n'est pas racontée par une longue suite d'épisodes, mais son rang prophétique et sa droiture sont clairement établis.</p>
 <p>Isaac appartient à la lignée à travers laquelle la guidance s'est poursuivie chez les Enfants d'Israël. Le Coran ne donne pas une biographie détaillée de sa vie quotidienne, de ses déplacements ou de sa mort. Il faut donc éviter de compléter son histoire par des détails non vérifiés et retenir ce que le Texte affirme : il fut un prophète béni, juste et guidé.</p>
 <p>Son histoire commence par une promesse qui semblait impossible selon les causes ordinaires et se poursuit par une transmission de la foi. Allah montre ainsi que Ses promesses s'accomplissent au moment qu'Il choisit.</p>
+<p>Lorsque les envoyés annoncèrent cette naissance, Sarah rit d'étonnement devant son âge avancé, et les anges lui répondirent : « T'étonnes-tu de l'ordre d'Allah ? Que la miséricorde et les bénédictions d'Allah soient sur vous, gens de cette maison » (Coran 11:71-73). Isaac est ainsi l'un des chaînons par lesquels Allah rappelle qu'Il choisit Ses prophètes au sein d'une même famille bénie, en accordant à chaque génération un signe de Sa puissance.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Une cause paraît impossible aux hommes, mais rien n'est difficile pour Allah. La bénédiction se transmet par la foi, la justice et l'obéissance.</p></div>
 <p><strong>Sources :</strong> Coran 11:69-73, 14:39, 19:49, 21:72-73, 37:112-113, 38:45-47.</p>`,
 
@@ -4125,6 +4151,7 @@ window.PROPHET_STORIES_FR = {
 <p>Son histoire est surtout liée à Joseph. Les frères de Joseph furent jaloux de l'affection que leur père lui portait et décidèrent de l'éloigner. Ils le jetèrent dans un puits, puis revinrent auprès de Jacob avec sa tunique tachée d'un faux sang. Jacob comprit qu'ils avaient préparé un stratagème, mais il ne répondit pas par la vengeance. Il choisit la patience et dit qu'il demanderait l'aide d'Allah.</p>
 <p>Les années passèrent. Jacob pleura Joseph jusqu'à perdre la vue, mais il ne désespéra pas de la miséricorde d'Allah. Il dit à ses fils de rechercher Joseph et son frère et de ne pas abandonner l'espoir. Cette parole montre que la tristesse peut être profonde sans devenir un désespoir interdit.</p>
 <p>Lorsque Joseph fut finalement retrouvé, Jacob récupéra sa vue grâce à la tunique et sa famille fut réunie. Avant sa mort, il vérifia que ses fils resteraient sur le monothéisme. Le récit ne présente pas Jacob comme un homme sans douleur, mais comme un croyant qui transforme sa douleur en patience, en invocation et en confiance.</p>
+<p>Craignant pour la sécurité de ses fils en Égypte, Jacob leur recommanda de ne pas entrer tous par la même porte de la ville, tout en précisant que cette précaution humaine ne pouvait rien changer face au décret d'Allah si un mal était destiné à survenir (Coran 12:67). C'est également par lui que le nom « Isrâ'îl » fut transmis à sa descendance, les Banî Isrâ'îl, les Enfants d'Israël, dont l'histoire occupe une large place dans le Coran.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La belle patience n'est pas l'absence de chagrin. C'est le fait de garder l'espoir en Allah sans laisser la souffrance conduire à l'injustice.</p></div>
 <p><strong>Sources :</strong> Coran 2:132-133, 12:4-101, 19:49-50, 21:72-73, 38:45-47.</p>`,
 
@@ -4132,6 +4159,7 @@ window.PROPHET_STORIES_FR = {
 <p>Ses frères l'emmenèrent avec eux, le jetèrent dans un puits et revinrent en prétendant qu'un loup l'avait dévoré. Une caravane le trouva et le vendit en Égypte. Joseph fut accueilli dans une maison importante. Devenu adulte, il résista à une tentative de séduction et préféra la prison au péché. Malgré son innocence, il resta détenu pendant un temps.</p>
 <p>En prison, Joseph interpréta les rêves de deux compagnons et les appela à adorer Allah seul. Plus tard, le roi vit en rêve sept vaches grasses mangées par sept vaches maigres et sept épis verts accompagnés d'autres desséchés. Joseph expliqua que sept années d'abondance seraient suivies de sept années de famine. Il proposa une organisation prudente des récoltes et fut chargé des réserves du pays après que son innocence eut été reconnue.</p>
 <p>Ses frères vinrent demander du blé sans le reconnaître. Joseph les éprouva pour faire apparaître la vérité, puis se fit connaître. Ils reconnurent leur faute. Joseph ne se vengea pas : il leur dit qu'il n'y aurait pas de reproche contre eux et demanda à Allah de leur pardonner. Jacob et sa famille le rejoignirent, et le rêve de son enfance s'accomplit. Joseph attribua sa réussite à la bienveillance d'Allah et non à sa seule habileté.</p>
+<p>Lorsque les femmes de la ville blâmèrent l'épouse du gouverneur pour son attirance envers Joseph, elle les invita à un repas et leur remit des couteaux ; à la vue de sa beauté, elles se coupèrent les mains sans s'en apercevoir, reconnaissant qu'il ne pouvait être qu'un noble ange (Coran 12:31). Joseph préféra alors la prison à leur invitation au péché, déclarant : « Mon Seigneur, la prison m'est préférable à ce à quoi elles m'invitent » (Coran 12:33), et le Coran résume la leçon de toute l'épreuve en une formule devenue célèbre : quiconque craint Allah et patiente, Allah ne laisse pas perdre la récompense de ceux qui font le bien (Coran 12:90).</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La chasteté, la patience, la compétence et le pardon peuvent transformer une épreuve en bien. Le pardon n'efface pas la vérité, mais il peut réparer une famille.</p></div>
 <p><strong>Sources :</strong> Coran 12:1-111.</p>`,
 
@@ -4139,6 +4167,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le Texte ne donne pas une liste complète de toutes ses pertes et ne raconte pas chaque étape de sa maladie. Il montre cependant qu'Ayyûb connut une épreuve lourde, qu'il ne tourna pas le dos à son Seigneur et qu'il s'adressa à Lui avec respect. Sa plainte était une demande de secours, pas une accusation contre le décret divin.</p>
 <p>Allah répondit à son invocation. Il lui ordonna de frapper le sol de son pied : une source d'eau apparut pour le laver et boire. Allah éloigna son mal, lui rendit sa famille et lui accorda avec elle une miséricorde ainsi qu'un rappel pour les adorateurs. Dans un autre passage, Allah lui apprit aussi comment tenir un serment sans faire subir une injustice à son épouse.</p>
 <p>La patience d'Ayyûb ne signifie pas qu'il faut refuser les soins ou rester passif devant une difficulté. Elle signifie qu'il cherche l'aide permise, invoque Allah, ne perd pas sa foi et ne laisse pas l'épreuve détruire son caractère. Son soulagement arriva par un ordre simple d'Allah après une longue période d'attente.</p>
+<p>Lorsqu'il avait juré, dans un moment de douleur, de frapper son épouse s'il guérissait, Allah lui enseigna une voie miséricordieuse : prendre un faisceau de brindilles et la frapper une seule fois avec, accomplissant ainsi son serment sans lui faire de mal (Coran 38:44). Cet épisode montre que la droiture consiste aussi à trouver, dans les limites fixées par Allah, une issue qui préserve la justice sans aggraver la souffrance d'autrui.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>On peut souffrir et continuer à espérer. La patience s'exprime par l'invocation, la dignité et la confiance, pas par le refus de toute aide.</p></div>
 <p><strong>Sources :</strong> Coran 21:83-84, 38:41-44.</p>`,
 
@@ -4146,6 +4175,7 @@ window.PROPHET_STORIES_FR = {
 <p>Les habitants de Madyan diminuaient les mesures et les poids, prenaient aux gens une partie de leurs biens et semaient la corruption sur terre. Shuʿayb leur demanda de donner la mesure complète, de peser avec justice, de ne pas léser les personnes et de ne pas utiliser leur puissance pour faire du tort. Il leur rappela que ce qui reste auprès d'Allah est meilleur pour eux s'ils croient.</p>
 <p>Les chefs se moquèrent de sa prière et menacèrent de l'expulser avec les croyants. Ils ne comprenaient pas pourquoi la foi devait influencer le commerce et la vie publique. Shuʿayb répondit qu'il ne voulait pas désobéir à Allah après avoir reçu la vérité et qu'il ne cherchait qu'à réformer autant qu'il le pouvait.</p>
 <p>Le peuple persista dans le rejet. Les passages coraniques décrivent leur fin par un châtiment : tremblement, cri ou nuée du jour selon le peuple et le passage évoqué. Shuʿayb et les croyants furent sauvés. Son récit établit clairement que la fraude économique et l'injustice sociale sont des fautes religieuses, même lorsqu'elles deviennent des habitudes collectives.</p>
+<p>Selon les commentateurs, Shuʿayb était surnommé « l'orateur des prophètes » (khaṭîb al-anbiyâ') en raison de l'éloquence avec laquelle il argumentait pour la justice. Certains exégètes rapprochent aussi Shuʿayb de l'homme pieux de Madyan chez qui Moïse trouva refuge après sa fuite d'Égypte et dont il épousa l'une des filles (Coran 28:23-28), bien que cette identification reste une opinion d'interprétation et non une affirmation certaine du texte coranique.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La foi se voit aussi dans l'honnêteté, les contrats et le respect des biens d'autrui. Une pratique commerciale répandue ne devient pas juste par sa popularité.</p></div>
 <p><strong>Sources :</strong> Coran 7:85-93, 11:84-95, 26:176-191, 29:36-37.</p>`,
 
@@ -4154,6 +4184,7 @@ window.PROPHET_STORIES_FR = {
 <p>Sur le chemin du retour, Allah l'appela près du feu dans la vallée sacrée de Tuwâ. Il lui donna le bâton et la main lumineuse comme signes et l'envoya auprès de Pharaon. Moïse demanda qu'Aaron, son frère plus éloquent, l'accompagne. Allah accepta sa demande et leur ordonna de parler à Pharaon avec douceur, tout en restant fermes sur la vérité.</p>
 <p>Pharaon refusa, prétendit être le seigneur suprême et réunit ses magiciens. Lorsque les magiciens virent les signes de Moïse, ils se prosternèrent et crurent au Seigneur de Moïse et d'Aaron. Après plusieurs avertissements et signes, Pharaon poursuivit les Enfants d'Israël. Allah ouvrit la mer pour Moïse et son peuple, puis la referma sur Pharaon et son armée.</p>
 <p>Moïse reçut les tablettes et guida son peuple dans le désert. En son absence, une partie des Enfants d'Israël adora le veau fabriqué par as-Sâmirî, malgré les avertissements d'Aaron. D'autres épisodes montrent leurs demandes excessives et leur refus d'entrer dans la Terre sainte. Moïse resta un guide qui obéissait à Allah malgré les difficultés de son peuple.</p>
+<p>Le Coran rapporte aussi la rencontre de Moïse avec un serviteur pieux, souvent identifié à al-Khiḍr, dont Moïse demanda à suivre l'enseignement. Ce dernier accomplit trois actes qui semblaient injustes aux yeux de Moïse — endommager une barque, tuer un jeune homme et redresser un mur sans réclamer de salaire — avant de lui en révéler la sagesse cachée, illustrant que le savoir humain reste limité même chez un prophète (Coran 18:60-82). Moïse demanda également à voir Allah ; il lui fut répondu que la montagne ne pourrait le supporter, et lorsque son Seigneur Se manifesta à la montagne, celle-ci fut réduite en poussière et Moïse tomba foudroyé, avant de revenir à lui en se repentant (Coran 7:143).</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Face à la tyrannie, il faut dire la vérité sans oublier la sagesse. Le courage devient solide lorsqu'il s'appuie sur la prière, la patience et la confiance en Allah.</p></div>
 <p><strong>Sources :</strong> Coran 7:103-162, 10:75-92, 20:9-98, 26:10-68, 28:3-46, 79:15-26.</p>`,
 
@@ -4161,6 +4192,7 @@ window.PROPHET_STORIES_FR = {
 <p>Aaron partagea avec Moïse les signes, les discussions et les menaces de Pharaon. Il ne fut pas un simple accompagnateur : le Coran le présente comme un prophète qui participa réellement à la transmission du message. Leur mission exigeait une parole claire et une grande patience face à un pouvoir qui refusait toute remise en question.</p>
 <p>Lorsque Moïse monta au rendez-vous fixé par Allah, Aaron resta auprès du peuple. Celui-ci se laissa égarer par le veau fabriqué par as-Sâmirî. Aaron leur rappela qu'ils étaient mis à l'épreuve et que leur Seigneur était le Tout Miséricordieux. Il leur demanda de le suivre, mais ils refusèrent et faillirent le tuer.</p>
 <p>Au retour de Moïse, celui-ci reprocha vivement à Aaron la situation. Aaron expliqua qu'il avait craint de provoquer une division encore plus grave et qu'il avait essayé de les retenir. Moïse comprit alors sa position et invoqua le pardon pour lui-même et pour son frère. Le récit montre que conseiller une communauté en crise demande à la fois fermeté, patience et discernement.</p>
+<p>Moïse et Aaron adressèrent ensemble à Allah une invocation demandant de ne pas être saisis s'ils oubliaient ou commettaient une erreur (Coran 7:151), un modèle d'humilité partagé par les deux frères dans l'exercice de leur mission commune. Le Coran les mentionne fréquemment ensemble comme bénéficiaires du Livre lumineux, rappelant qu'ils formaient une seule mission portée à deux voix.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Le travail en équipe renforce la mission. Dans une crise, il faut défendre la vérité sans aggraver inutilement la division des croyants.</p></div>
 <p><strong>Sources :</strong> Coran 7:142-150, 20:25-36, 20:90-94, 26:13-48, 28:34-35.</p>`,
 
@@ -4168,6 +4200,7 @@ window.PROPHET_STORIES_FR = {
 <p>Après cette victoire, Allah lui accorda la royauté et la sagesse. Il lui donna le Zabûr et lui apprit à juger avec équité. Les montagnes et les oiseaux glorifiaient Allah avec lui, ce qui montre l'intensité de son rappel. Allah rendit aussi le fer malléable entre ses mains. David fabriquait des armures et devait remercier Allah pour ce savoir utile à la protection.</p>
 <p>Le Coran rapporte l'épisode de deux plaideurs qui entrèrent auprès de lui. David se prononça rapidement en faveur de l'un d'eux, puis comprit qu'il s'agissait d'une épreuve. Il demanda pardon à Allah, se prosterna et reçut le rappel de juger avec vérité, sans suivre ses passions.</p>
 <p>David n'est donc pas présenté seulement comme un vainqueur ou un dirigeant puissant. Sa valeur vient de son retour vers Allah, de sa justice et de sa capacité à reconnaître immédiatement un manquement. Le pouvoir, dans son histoire, reste une responsabilité qui doit être accompagnée de gratitude et de jugement équitable.</p>
+<p>Le Prophète ﷺ a enseigné que le jeûne le plus aimé d'Allah est celui de David, qui jeûnait un jour sur deux, et que sa prière nocturne, pratiquée durant le tiers de la nuit après une première moitié de sommeil, était la plus aimée d'Allah parmi les prières volontaires. Les commentateurs rapportent aussi que sa voix, lorsqu'il récitait le Zabûr, était d'une beauté telle que les oiseaux s'arrêtaient dans les airs et que les montagnes semblaient répondre à son chant par la glorification d'Allah.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La victoire ne donne pas le droit à l'orgueil. Toute autorité doit servir la justice, le rappel d'Allah et la protection des personnes.</p></div>
 <p><strong>Sources :</strong> Coran 2:251, 17:55, 21:78-80, 27:15, 34:10-11, 38:17-26.</p>`,
 
@@ -4175,6 +4208,7 @@ window.PROPHET_STORIES_FR = {
 <p>Un jour, il comprit les paroles d'une fourmi qui avertissait sa colonie de rentrer dans ses habitations. Salomon sourit et remercia Allah pour cette compréhension. Il inspecta ensuite ses oiseaux et remarqua l'absence de la huppe. Celle-ci lui rapporta l'existence d'un peuple gouverné par une reine qui adorait le soleil au lieu d'Allah.</p>
 <p>Salomon envoya une lettre appelant la reine et son peuple à la soumission à Allah. La reine consulta ses conseillers et envoya un présent, mais Salomon refusa de mesurer la vérité à la richesse. Il voulut leur montrer un signe. Le trône de la reine fut amené auprès de lui avant son arrivée, puis elle entra dans un palais dont le sol ressemblait à une étendue d'eau. Elle comprit son erreur et se soumit avec Salomon à Allah, le Seigneur des mondes. Le Coran ne donne pas son nom personnel.</p>
 <p>Salomon mourut appuyé sur son bâton sans que les djinns qui travaillaient pour lui le sachent. Ce n'est qu'après que la terre eut rongé son bâton qu'il tomba, et les djinns comprirent qu'ils ne connaissaient pas l'invisible. Cette fin rappelle que même les créatures puissantes ne possèdent pas le savoir absolu.</p>
+<p>Le Coran rapporte qu'un jour, absorbé par la contemplation de magnifiques chevaux, Salomon oublia le moment du rappel d'Allah ; réalisant sa faute, il fit revenir les chevaux et, en signe de repentir sincère, s'en détacha par souci de ne plus laisser une richesse matérielle l'éloigner de son Seigneur (Coran 38:31-33). Il invoqua ensuite Allah en disant : « Accorde-moi un royaume tel que nul après moi n'en aura de pareil », et Allah exauça sa demande en lui soumettant le vent et les démons bâtisseurs et plongeurs (Coran 38:35-38).</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Un grand pouvoir augmente le besoin de gratitude. La connaissance et l'autorité doivent conduire à reconnaître les dons d'Allah, pas à prétendre connaître l'invisible.</p></div>
 <p><strong>Sources :</strong> Coran 21:78-82, 27:15-44, 34:12-14, 38:30-40.</p>`,
 
@@ -4182,6 +4216,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le peuple d'Ilyâs rejeta l'appel et traita le messager de menteur. Le Coran ne raconte pas en détail la ville, les étapes de sa prédication, ni la manière précise dont chaque personne réagit. Il ne faut donc pas remplir ce silence avec des légendes présentées comme des faits.</p>
 <p>Allah préserva Ilyâs parmi Ses serviteurs élus et laissa pour lui une bonne réputation dans les générations suivantes. Sa mission s'inscrit dans la continuité de tous les prophètes : ramener les gens à l'adoration d'Allah seul et combattre l'association sous toutes ses formes.</p>
 <p>La brièveté de son récit ne diminue pas son importance. Elle montre qu'un prophète peut être honoré par Allah sans que son histoire comporte de nombreux épisodes racontés dans le Coran.</p>
+<p>Certains commentateurs rapprochent Ilyâs du personnage mystérieux évoqué sous une graphie proche, « Il-Yâsîn », dans une variante de récitation du verset qui salue sa famille (Coran 37:130), bien que cette question relève de la science des lectures coraniques plutôt que d'un fait narratif supplémentaire. Sa mission, comme celle de nombreux prophètes envoyés aux Enfants d'Israël, s'inscrit dans un long combat contre le retour périodique de l'idolâtrie après les périodes de droiture.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>L'unicité d'Allah ne dépend ni de l'époque ni des habitudes d'un peuple. La vérité reste claire même lorsque la majorité la refuse.</p></div>
 <p><strong>Sources :</strong> Coran 6:85, 37:123-132.</p>`,
 
@@ -4189,6 +4224,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le Coran ne fournit pas de récit développé sur sa naissance, son peuple, ses miracles, ses discussions ou sa fin. Il serait donc incorrect de lui attribuer avec certitude une chronologie détaillée ou des actes qui ne sont pas rapportés dans les sources retenues.</p>
 <p>Ce qui est certain est son statut : Allah l'a choisi et l'a placé parmi les prophètes guidés. Sa présence dans les listes coraniques montre la continuité de la révélation et de l'appel à la droiture chez les Enfants d'Israël.</p>
 <p>Le silence du Texte est lui-même une limite à respecter. Honorer al-Yasaʿ consiste à croire à sa prophétie, à reconnaître sa vertu et à suivre l'enseignement commun des prophètes, sans transformer des récits incertains en histoire certaine.</p>
+<p>La tradition exégétique le présente souvent comme le disciple et successeur d'Ilyâs à la tête de sa communauté, chargé de poursuivre son appel après lui — un schéma de succession similaire à celui que l'on retrouve entre d'autres prophètes envoyés aux Enfants d'Israël. Cette information, cependant, provient des commentateurs et non d'un verset coranique explicite, et doit être reçue comme telle.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>On peut apprendre d'un prophète même lorsque son récit est court : la valeur vient de la guidance d'Allah, pas de la quantité de détails disponibles.</p></div>
 <p><strong>Sources :</strong> Coran 6:86, 38:48.</p>`,
 
@@ -4196,6 +4232,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le Texte ne raconte pas son histoire sous la forme d'une biographie. Il ne précise ni le peuple auquel il aurait été envoyé, ni la durée de sa mission, ni ses miracles, ni les circonstances de sa mort. Présenter comme certain un récit détaillé qui n'est pas dans le Coran dépasserait les informations disponibles.</p>
 <p>Le nom de Dhul-Kifl a parfois été rapproché d'autres personnages dans des récits historiques, mais ces identifications ne sont pas établies par les deux passages coraniques. Ce qui est certain est son rang honorable : Allah l'a associé à la patience, à la vertu et à l'excellence.</p>
 <p>Son récit très court nous apprend à respecter les limites du savoir religieux. Une histoire fidèle n'a pas besoin d'ajouter des détails incertains pour être utile. Il suffit de retenir que la patience et la droiture sont des qualités par lesquelles Allah honore Ses serviteurs.</p>
+<p>Les commentateurs du Coran ont débattu de son identité : certains l'ont compté parmi les prophètes en raison de sa place aux côtés d'Ismâʿîl et d'Idrîs, tandis que d'autres l'ont considéré comme un homme vertueux et un juste juge, sans rang prophétique établi avec certitude. Une tradition rapportée par les exégètes raconte qu'il aurait pris l'engagement de jeûner chaque jour, de prier chaque nuit et de ne jamais se mettre en colère, un récit à recevoir avec la prudence qu'impose son origine non coranique.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Il faut croire à ce qu'Allah a affirmé et s'arrêter là où le Texte s'arrête. La patience peut être un héritage aussi important qu'une longue histoire.</p></div>
 <p><strong>Sources :</strong> Coran 21:85-86, 38:48.</p>`,
 
@@ -4203,6 +4240,7 @@ window.PROPHET_STORIES_FR = {
 <p>Dans les ténèbres de la mer, de la nuit et du ventre du poisson, Jonas reconnut son erreur et invoqua Allah : « Il n'y a pas de divinité en dehors de Toi. Gloire à Toi ! J'ai été du nombre des injustes. » Allah exauça son invocation, ordonna au poisson de le rejeter sur la rive et fit pousser sur lui une plante qui lui procura de l'ombre et un soulagement.</p>
 <p>Allah le renvoya ensuite vers son peuple. Le Coran indique que ce peuple crut et que sa foi lui fut utile : le châtiment qui le menaçait fut écarté pour un temps. Le texte ne donne pas le nom de la ville dans le récit lui-même ; l'identification avec Ninive vient de la tradition.</p>
 <p>Jonas reste un exemple de repentir rapide. Son invocation ne cherche pas d'excuse : elle affirme l'unicité d'Allah, Le glorifie et reconnaît la faute. C'est pourquoi elle est devenue une invocation majeure dans les moments de détresse.</p>
+<p>Le Prophète ﷺ a enseigné que l'invocation de Dhû n-Nûn — « Il n'y a de divinité que Toi, gloire à Toi, j'ai été du nombre des injustes » — n'est prononcée par un musulman dans une épreuve sans qu'Allah ne lui réponde. Le Coran précise aussi que le peuple auquel Jonas fut finalement envoyé comptait cent mille habitants ou plus, et qu'ils crurent tous ensemble, un cas unique parmi les peuples auxquels un messager fut envoyé (Coran 37:147-148).</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La détresse n'est pas une porte fermée. Reconnaître son tort et invoquer Allah avec sincérité peut conduire au secours et au retour à la mission.</p></div>
 <p><strong>Sources :</strong> Coran 10:98, 21:87-88, 37:139-148, 68:48-50.</p>`,
 
@@ -4210,6 +4248,7 @@ window.PROPHET_STORIES_FR = {
 <p>Zacharie était âgé et son épouse était stérile, mais il ne considéra pas ces circonstances comme une raison pour cesser d'invoquer. Il demanda à Allah une descendance pure qui hériterait de la mission et de la connaissance. Il invoqua discrètement, avec respect et avec la crainte de laisser son peuple sans guide après lui.</p>
 <p>Les anges lui annoncèrent la naissance de Yahyâ. Zacharie demanda un signe, et Allah lui indiqua qu'il ne parlerait pas aux gens pendant trois jours, sauf par gestes, tout en étant capable de glorifier Allah. Il sortit alors vers son peuple et leur demanda de glorifier Allah matin et soir.</p>
 <p>Son histoire montre que l'invocation n'est pas limitée par l'âge ou les causes visibles. Elle montre aussi que demander une descendance n'est pas seulement demander un héritier familial : c'est demander une personne qui poursuive le bien, la prière et la transmission de la guidance.</p>
+<p>Le Coran rapporte les mots mêmes de son invocation secrète : « Seigneur, mes os se sont affaiblis et ma tête s'est embrasée de cheveux blancs. Et je n'ai jamais été malheureux, Seigneur, en T'invoquant » (Coran 19:4). Cette humilité dans la vieillesse, loin de le décourager, fut précisément le moment que choisit Allah pour répondre à une demande qu'il portait depuis longtemps.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Il faut invoquer avec humilité et certitude, même lorsque les moyens semblent épuisés. Allah répond avec sagesse et au moment qu'Il choisit.</p></div>
 <p><strong>Sources :</strong> Coran 3:37-41, 19:2-11, 21:89-90.</p>`,
 
@@ -4217,6 +4256,7 @@ window.PROPHET_STORIES_FR = {
 <p>Le Coran le décrit comme un homme tendre, pur, pieux et respectueux envers ses parents. Il n'était ni violent ni arrogant, et il ne désobéissait pas par insolence. Ces qualités ne sont pas des détails secondaires : elles constituent le portrait d'un prophète dont la force spirituelle s'accompagnait de douceur et de maîtrise de soi.</p>
 <p>Allah lui ordonna de s'attacher au Livre avec sérieux. Yahyâ confirma une parole venant d'Allah, que les exégètes relient à l'annonce de Jésus, fils de Marie. Son rôle s'inscrit ainsi dans une continuité : respecter la révélation reçue, reconnaître les messagers d'Allah et appeler les gens à la repentance et à la droiture.</p>
 <p>Le Coran ne donne pas de récit détaillé de sa mort et ne permet pas d'affirmer une version historique précise sans une source clairement établie. Il concentre son enseignement sur sa naissance miraculeuse, sa sagesse, sa pureté, sa bonté envers ses parents et sa fidélité à Allah.</p>
+<p>Allah lui accorda la sagesse et le discernement alors qu'il n'était encore qu'un enfant (Coran 19:12), et le Coran proclame sur lui une paix particulière à trois moments décisifs de toute existence : le jour de sa naissance, le jour de sa mort et le jour où il sera ressuscité (Coran 19:15) — une formule que le Coran réserve aussi à Jésus, fils de Marie, dans le même récit.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>La maturité spirituelle peut apparaître tôt. La douceur, la pureté et le respect des parents vont de pair avec la fermeté dans la vérité.</p></div>
 <p><strong>Sources :</strong> Coran 3:39, 6:85, 19:7-15.</p>`,
 
@@ -4224,6 +4264,7 @@ window.PROPHET_STORIES_FR = {
 <p>Marie se retira pour sa grossesse et accoucha près d'un palmier. Lorsqu'elle revint vers son peuple avec l'enfant, les gens l'accusèrent. Jésus parla dans le berceau pour la défendre. Il se présenta comme le serviteur d'Allah, bénéficiaire d'un Livre, prophète, ordonné à la prière et à l'aumône, bon envers sa mère et non violent ni arrogant.</p>
 <p>Allah lui donna l'Évangile et des signes clairs. Jésus forma un oiseau d'argile, guérit l'aveugle-né et le lépreux et ressuscita les morts, mais le Coran répète que ces actes se produisirent par la permission d'Allah. Il appela les Enfants d'Israël à adorer Allah, son Seigneur et leur Seigneur, confirma la Torah et annonça la venue d'un messager nommé Ahmad.</p>
 <p>Lorsque ses adversaires voulurent le tuer, Allah le protégea. Le Coran affirme qu'ils ne l'ont ni tué ni crucifié avec certitude, mais qu'Allah l'a élevé vers Lui. Son retour à la fin des temps est établi dans des hadiths authentiques, pas dans un récit détaillé des passages coraniques cités ici. L'islam honore Jésus comme serviteur et messager, sans le diviniser ni le rejeter.</p>
+<p>Sur la demande de ses disciples, qui voulaient affermir leur cœur par un signe visible, Jésus invoqua Allah de faire descendre du ciel une table servie ; Allah l'avertit que quiconque, parmi eux, renierait par la suite serait puni d'un châtiment qu'Il n'inflige à nul autre dans l'univers (Coran 5:112-115). Ses disciples, appelés al-ḥawâriyyûn, déclarèrent être les soutiens d'Allah et crurent en lui comme messager envoyé aux Enfants d'Israël (Coran 3:52, 61:14).</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Les miracles appartiennent à Allah et ne transforment pas un prophète en divinité. Honorer Jésus consiste à croire au message qu'Allah lui a confié.</p></div>
 <p><strong>Sources :</strong> Coran 3:45-59, 4:157-159, 5:72-118, 19:16-36, 61:6.</p>`,
 
@@ -4232,6 +4273,7 @@ window.PROPHET_STORIES_FR = {
 <p>Les Quraysh s'opposèrent à lui et persécutèrent les premiers croyants. Certains musulmans émigrèrent en Abyssinie. Après la mort de Khadîja et d'Abû Tâlib, puis le rejet subi à Tâ'if, Allah le soutint. Le voyage nocturne vers al-Aqṣâ et l'ascension sont rapportés dans le Coran et la Sunna. Les habitants de Yathrib lui prêtèrent ensuite allégeance, ce qui conduisit à l'Hégire vers Médine.</p>
 <p>À Médine, il établit la prière, la fraternité entre les croyants et une communauté organisée. Les musulmans connurent Badr, où Allah leur accorda la victoire, puis Uḥud, où une désobéissance eut de lourdes conséquences. Lors de la bataille du Fossé, les croyants résistèrent au siège. Le traité de Ḥudaybiyya sembla difficile mais ouvrit une période de diffusion du message. Après la rupture du traité par les Quraysh, La Mecque fut ouverte. Le Prophète ﷺ détruisit les idoles de la Kaʿba et accorda une large amnistie.</p>
 <p>Il accomplit ensuite le pèlerinage d'adieu et rappela la valeur sacrée du sang, des biens et des droits des personnes. Il mourut à Médine en l'an 11 de l'Hégire, après avoir transmis le message. Abû Bakr rappela alors que Muhammad était mort, mais qu'Allah est vivant et ne meurt pas. Son héritage est le Coran, sa Sunna authentique et un exemple de miséricorde, de justice, de patience et de courage. Les détails de la Sîra doivent être rapportés à partir de sources fiables et ne doivent pas être mélangés avec des récits faibles.</p>
+<p>Parmi les signes qui accompagnèrent sa mission, le Coran mentionne que la lune se fendit en deux devant les habitants de La Mecque qui réclamaient un prodige (Coran 54:1-2). Lors de son pèlerinage d'adieu, il rappela dans son sermon que tous les hommes descendent d'Adam et Adam de terre, qu'aucun Arabe n'a de mérite sur un non-Arabe si ce n'est par la piété, et il insista sur les droits des femmes et la fin des pratiques usuraires et vindicatives de l'époque préislamique, avant de recommander à sa communauté de s'attacher fermement au Livre d'Allah.</p>
 <div class="lesson-box"><h4 data-i18n="pd_lesson_label">📚 Leçon à retenir</h4><p>Aimer le Prophète ﷺ signifie croire son message, suivre sa Sunna authentique et mettre en pratique sa miséricorde, sa justice et sa sincérité.</p></div>
 <p><strong>Sources :</strong> Coran 3:144, 21:107, 33:21 et 33:40, 47:2, 48:1-29, 68:4. Pour la Sîra : hadiths authentiques et sources historiques vérifiées.</p>`
 };
@@ -28823,6 +28865,8 @@ var RIHLA_I18N_EXTRA = {
   "modal_sub": "Accède à ton suivi depuis n'importe quel appareil.",
   "auth_google": "Continuer avec Google",
   "auth_or": "ou avec un e-mail",
+  "auth_username": "Nom d'utilisateur",
+  "auth_username_required": "Choisis un nom d'utilisateur pour continuer.",
   "auth_email": "Adresse e-mail",
   "auth_pass": "Mot de passe",
   "modal_note": "Connexion réelle via Supabase (Google, ou e-mail + mot de passe).",
@@ -29073,6 +29117,8 @@ var RIHLA_I18N_EXTRA = {
   "modal_sub": "Access your tracking from any device.",
   "auth_google": "Continue with Google",
   "auth_or": "or with an email",
+  "auth_username": "Username",
+  "auth_username_required": "Please choose a username to continue.",
   "auth_email": "Email address",
   "auth_pass": "Password",
   "modal_note": "Real sign-in via Supabase (Google, or email + password).",
@@ -29322,6 +29368,8 @@ var RIHLA_I18N_EXTRA = {
   "modal_sub": "اطّلع على متابعتك من أي جهاز.",
   "auth_google": "المتابعة عبر Google",
   "auth_or": "أو ببريد إلكتروني",
+  "auth_username": "اسم المستخدم",
+  "auth_username_required": "الرجاء اختيار اسم مستخدم للمتابعة.",
   "auth_email": "البريد الإلكتروني",
   "auth_pass": "كلمة المرور",
   "modal_note": "تسجيل دخول فعلي عبر Supabase (Google أو بريد + كلمة مرور).",
