@@ -28066,8 +28066,6 @@ function playMushafAyahAt(idx, urlTry){
   if(infoEl) infoEl.textContent = recName + ' · ' + ayah.surahName + ' ' + ayah.ayah;
   updateMushafMediaMetadata(ayah, recName, false);
   setMushafMediaPlaybackState('playing');
-  audio.onplay = function(){ mushafPlaying = true; setMushafMediaPlaybackState('playing'); };
-  audio.onpause = function(){ if(mushafAudio === audio){ mushafPlaying = false; setMushafMediaPlaybackState('paused'); } };
 
   const urls = built.urls || [];
   let tryIndex = typeof urlTry === 'number' ? urlTry : 0;
@@ -28083,6 +28081,9 @@ function playMushafAyahAt(idx, urlTry){
   mushafAudio = audio;
   mushafAudioPool.add(audio);
   mushafPlaying = true;
+
+  audio.onplay = function(){ mushafPlaying = true; setMushafMediaPlaybackState('playing'); };
+  audio.onpause = function(){ if(mushafAudio === audio){ mushafPlaying = false; setMushafMediaPlaybackState('paused'); } };
 
   const btn = document.getElementById('mushafPlayBtn');
   if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
