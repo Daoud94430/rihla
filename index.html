@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24504,256 +24503,6 @@ async function initPrayerTimes(){
   await locateUserPrecise();
 }
 // =====================================================================
-// RÉCITATEURS - AVEC LECTEUR AUDIO (CORRIGÉ)
-// =====================================================================
-let currentAudio = null;
-let isPlaying = false;
-let currentReciterKey = null;
-let currentSurahNumber = null;
-let ayahPlaylist = [];
-let ayahPlaylistIndex = 0;
-const apContainer = document.getElementById('audioPlayerContainer');
-const apInfo = document.getElementById('apInfo');
-const apPlayBtn = document.getElementById('apPlayBtn');
-const apStopBtn = document.getElementById('apStopBtn');
-const apProgressBar = document.getElementById('apProgressBar');
-const apCurrentTime = document.getElementById('apCurrentTime');
-const apDuration = document.getElementById('apDuration');
-const apVolumeBar = document.getElementById('apVolumeBar');
-// Sécurité : anciens contrôles audio peuvent être absents (mushaf les remplace)
-function apSafe(el, fn){ if(el) try{ fn(el); }catch(e){ console.warn(e); } }
-
-
-function formatTime(seconds) {
-if (isNaN(seconds)) return '00:00';
-const m = Math.floor(seconds / 60);
-const s = Math.floor(seconds % 60);
-return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-}
-
-function updateProgress() {
-if (currentAudio && !isNaN(currentAudio.duration) && currentAudio.duration > 0) {
-const pct = (currentAudio.currentTime / currentAudio.duration) * 100;
-apProgressBar.value = pct;
-apCurrentTime.textContent = formatTime(currentAudio.currentTime);
-apDuration.textContent = formatTime(currentAudio.duration);
-}
-}
-
-function resetAyahPlaylist(){
-ayahPlaylist = [];
-ayahPlaylistIndex = 0;
-}
-
-function attachAudioListeners(reciterName, surahNumber){
-if (!currentAudio) return;
-currentAudio.addEventListener('timeupdate', updateProgress);
-currentAudio.addEventListener('loadedmetadata', () => {
-apDuration.textContent = formatTime(currentAudio.duration);
-});
-currentAudio.addEventListener('play', () => {
-isPlaying = true;
-apPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-});
-currentAudio.addEventListener('pause', () => {
-isPlaying = false;
-apPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
-});
-currentAudio.addEventListener('ended', () => {
-if(ayahPlaylist.length && ayahPlaylistIndex < ayahPlaylist.length - 1){
-ayahPlaylistIndex++;
-playAyahFromPlaylist(reciterName, surahNumber);
-return;
-}
-isPlaying = false;
-apPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
-apProgressBar.value = 0;
-apCurrentTime.textContent = '00:00';
-resetAyahPlaylist();
-});
-currentAudio.addEventListener('error', () => {
-if(ayahPlaylist.length && ayahPlaylistIndex < ayahPlaylist.length - 1){
-ayahPlaylistIndex++;
-playAyahFromPlaylist(reciterName, surahNumber);
-return;
-}
-apInfo.textContent = t('audio_error');
-});
-}
-
-function playAyahFromPlaylist(reciterName, surahNumber){
-const url = ayahPlaylist[ayahPlaylistIndex];
-if(!url || !currentAudio) return;
-apInfo.textContent = `🎵 ${reciterName} — Sourate ${surahNumber} (verset ${ayahPlaylistIndex + 1}/${ayahPlaylist.length})`;
-currentAudio.src = url;
-currentAudio.load();
-currentAudio.play().catch((err) => {
-console.error('Erreur play verset:', err);
-});
-}
-
-function startAudioPlayback(url, reciterName, surahNumber, { playlist } = {}){
-if (currentAudio) {
-currentAudio.pause();
-currentAudio = null;
-}
-resetAyahPlaylist();
-if(playlist && playlist.length){
-ayahPlaylist = playlist;
-ayahPlaylistIndex = 0;
-}
-currentAudio = new Audio();
-currentAudio.volume = parseFloat(apVolumeBar.value) / 100;
-attachAudioListeners(reciterName, surahNumber);
-apContainer && apContainer.classList.add('visible');
-if(ayahPlaylist.length){
-playAyahFromPlaylist(reciterName, surahNumber);
-return;
-}
-apInfo.textContent = `🎵 ${reciterName} — Sourate ${surahNumber}`;
-currentAudio.src = url;
-currentAudio.load();
-currentAudio.play().catch((err) => {
-console.error('Erreur play:', err);
-apInfo.textContent = t('audio_fail');
-});
-}
-
-async function resolveReciterSource(reciter, surahNumber){
-const padded = String(surahNumber).padStart(3, '0');
-if(reciter.quranRecitationId){
-const res = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${reciter.quranRecitationId}/${surahNumber}`);
-if(!res.ok) throw new Error('API Quran.com indisponible');
-const json = await res.json();
-const url = json.audio_file && json.audio_file.audio_url;
-if(!url) throw new Error('Fichier audio introuvable');
-return { url };
-}
-if(reciter.mp3quranBase){
-return { url: `${reciter.mp3quranBase}/${padded}.mp3` };
-}
-if(reciter.alquranId){
-const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahNumber}/${reciter.alquranId}`);
-if(!res.ok) throw new Error('API alquran.cloud indisponible');
-const json = await res.json();
-const playlist = (json.data && json.data.ayahs || [])
-.map(a => a.audio)
-.filter(Boolean);
-if(!playlist.length) throw new Error('Aucun verset audio');
-return { playlist };
-}
-throw new Error('Source audio non configurée');
-}
-
-let currentReciterName = '';
-
-async function playReciter(reciterKey, reciterName){
-const reciter = RECITERS_BY_KEY[reciterKey];
-const surahSelect = document.getElementById('reciterSurahSelect');
-const surahNumber = parseInt(surahSelect.value, 10);
-if(!reciter){
-showToast(t('toast_reciter_unknown'));
-return;
-}
-if(!surahNumber){
-showToast(t('toast_pick_surah'));
-return;
-}
-currentReciterKey = reciterKey;
-currentReciterName = reciterName || reciter.name;
-currentSurahNumber = surahNumber;
-apContainer && apContainer.classList.add('visible');
-apInfo.textContent = `🎵 Chargement de ${currentReciterName} — Sourate ${surahNumber}…`;
-try{
-const source = await resolveReciterSource(reciter, surahNumber);
-startAudioPlayback(source.url, currentReciterName, surahNumber, { playlist: source.playlist });
-}catch(err){
-console.error('Erreur récitateur:', err);
-apInfo.textContent = t('audio_fail_net');
-showToast(t('toast_recitation_fail'));
-}
-}
-
-/** Recharge la sourate en cours avec le récitateur déjà choisi (sans recliquer) */
-function replayCurrentReciter(){
-if(!currentReciterKey){
-showToast(t('toast_pick_reciter_first'));
-return;
-}
-const reciter = RECITERS_BY_KEY[currentReciterKey];
-playReciter(currentReciterKey, currentReciterName || (reciter && reciter.name) || '');
-}
-
-function shiftReciterSurah(delta){
-const select = document.getElementById('reciterSurahSelect');
-if(!select || !select.options.length) return;
-const idx = select.selectedIndex;
-const next = Math.max(0, Math.min(select.options.length - 1, idx + delta));
-if(next === idx) return;
-select.selectedIndex = next;
-// change event + auto play
-select.dispatchEvent(new Event('change', { bubbles: true }));
-}
-
-// Changement de sourate → relance auto si un récitateur est déjà sélectionné
-const _rss = document.getElementById('reciterSurahSelect');
-if(_rss) _rss.addEventListener('change', () => {
-if(currentReciterKey){
-replayCurrentReciter();
-} else {
-const n = _rss.value;
-if(n) showToast(t('toast_surah_selected_a') + n + t('toast_surah_selected_b'));
-}
-});
-const _rsp = document.getElementById('reciterSurahPrev');
-if(_rsp) _rsp.addEventListener('click', () => shiftReciterSurah(-1));
-const _rsn = document.getElementById('reciterSurahNext');
-if(_rsn) _rsn.addEventListener('click', () => shiftReciterSurah(1));
-
-
-apPlayBtn && apPlayBtn.addEventListener('click', () => {
-if (!currentAudio) {
-showToast(t('toast_select_reciter'));
-return;
-}
-if (isPlaying) {
-currentAudio.pause();
-} else {
-currentAudio.play().catch((err) => {
-console.error('Erreur play:', err);
-showToast(t('toast_play_fail'));
-});
-}
-});
-
-apStopBtn && apStopBtn.addEventListener('click', () => {
-if (currentAudio) {
-currentAudio.pause();
-currentAudio.currentTime = 0;
-isPlaying = false;
-resetAyahPlaylist();
-apPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
-apProgressBar.value = 0;
-apCurrentTime.textContent = '00:00';
-apContainer && apContainer.classList.remove('visible');
-currentAudio = null;
-}
-});
-
-apProgressBar && apProgressBar.addEventListener('input', (e) => {
-if (currentAudio && !isNaN(currentAudio.duration) && currentAudio.duration > 0) {
-const pct = parseFloat(e.target.value);
-currentAudio.currentTime = (pct / 100) * currentAudio.duration;
-}
-});
-
-apVolumeBar && apVolumeBar.addEventListener('input', (e) => {
-if (currentAudio) {
-currentAudio.volume = parseFloat(e.target.value) / 100;
-}
-});
-
-// =====================================================================
 // LISTE DES RÉCITATEURS - 12 GRATUITS + 8 PREMIUM
 // =====================================================================
 const RECITERS = [
@@ -27018,7 +26767,13 @@ function mushafBuildAudioUrls(ayah){
   // Way2Quran utilise parfois 003.mp3 et parfois 3.mp3 ; on essaie les deux
   // sans jamais changer de réciteur ni de numéro de sourate.
   if(mp3Base && !src.every && !src.net){
-    const bases = (Array.isArray(src.surahBases) && src.surahBases.length) ? src.surahBases : [mp3Base];
+    // Priorité à la bibliothèque officielle (mp3quran.net) : plus fiable et
+    // mieux contrôlée en qualité que les miroirs tiers. Le(s) miroir(s)
+    // éventuel(s) ne servent qu'en secours si le premier fichier échoue.
+    const bases = [mp3Base];
+    if(Array.isArray(src.surahBases)){
+      src.surahBases.forEach(function(b){ if(!bases.includes(b)) bases.push(b); });
+    }
     bases.forEach(function(base){
       const clean = base.replace(/\/$/, '');
       [s + '.mp3', String(ayah.surah) + '.mp3'].forEach(function(file){
@@ -29989,4 +29744,3 @@ window.addEventListener('hashchange', function(){
 </script>
 </body>
 </html>
-Enrichir récits prophètes avec textes AR - Grok
