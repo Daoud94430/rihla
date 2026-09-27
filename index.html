@@ -2235,7 +2235,7 @@ Rihla
 <div class="price">0€ <span data-i18n="price_forever">/ toujours</span></div>
 <ul>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f1">Suivi quotidien de base</span></li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f2">16 récitateurs disponibles</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f2">17 récitateurs disponibles</span></li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f3">Correction de récitation (3/semaine)</span></li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f4">25 histoires des prophètes</span></li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="free_f5">50+ Du'as classés par situations</span></li>
@@ -2291,7 +2291,7 @@ Rihla
 <div class="price-big">7,99€ <span data-i18n="price_month">/ mois</span></div>
 <ul class="features">
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f1">Suivi quotidien avancé + rappels</span></li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f2">28 récitateurs complets (16 gratuits + 12 Premium)</span></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f2">29 récitateurs complets (17 gratuits + 12 Premium)</span></li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f3">Correction de récitation illimitée</span></li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="pay_f4">Mémorisation assistée par thèmes</span></li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="prem_f6">Planificateur de lecture personnalisé</span></li>
@@ -24506,7 +24506,7 @@ async function initPrayerTimes(){
 // LISTE DES RÉCITATEURS - 12 GRATUITS + 8 PREMIUM
 // =====================================================================
 const RECITERS = [
-// G R A T U I T  - 16 récitateurs
+// G R A T U I T  - 17 récitateurs
 { key: 'alafasy', name: 'Mishary Rashid Alafasy', premium: false, quranRecitationId: 7, tag: 'Koweït' },
 { key: 'sudais', name: 'Abdul Rahman Al-Sudais', premium: false, quranRecitationId: 3, tag: 'Arabie Saoudite' },
 { key: 'shuraim', name: 'Saud Al-Shuraim', premium: false, quranRecitationId: 10, tag: 'Arabie Saoudite' },
@@ -24523,6 +24523,7 @@ const RECITERS = [
 { key: 'tablawi', name: 'Mohamed Mahmoud Tablawi', premium: false, mp3quranBase: 'https://server12.mp3quran.net/tblawi', tag: 'Égypte' },
 { key: 'baleela', name: 'Bandar Baleela', premium: false, mp3quranBase: 'https://server6.mp3quran.net/balilah', tag: 'Arabie Saoudite' },
 { key: 'juhaynee', name: 'Abdullah Al-Juhaynee', premium: false, mp3quranBase: 'https://server13.mp3quran.net/jhn', tag: 'Arabie Saoudite' },
+{ key: 'juraydi', name: 'Abdourrahman Al-Juraydi', premium: false, mp3quranBase: 'https://media.way2quran.com/abdul-rahman-al-jarizi/hafs-an-asim', tag: 'Arabie Saoudite' },
 // P R E M I U M  - 12 récitateurs
 { key: 'minshawi', name: 'Mohamed Siddiq El-Minshawi', premium: true, quranRecitationId: 8, tag: 'Égypte · lent' },
 { key: 'husary', name: 'Mahmoud Khalil Al-Husary', premium: true, quranRecitationId: 6, tag: 'Égypte · lent' },
@@ -26724,6 +26725,7 @@ const MUSHAF_AUDIO_SOURCES = {
   tablawi:        { every: 'Mohammad_al_Tablaway_128kbps', net: 'ar.mohamedtablawi' },
   baleela:        { every: null, net: null, mp3quran: 'https://server6.mp3quran.net/balilah' },
   juhaynee:       { every: 'Abdullaah_3awwaad_Al-Juhaynee_128kbps', net: 'ar.abdullahawadaljuhani' },
+  juraydi:        { every: null, net: null, mp3quran: 'https://media.way2quran.com/abdul-rahman-al-jarizi/hafs-an-asim' },
   minshawi:       { every: 'Minshawy_Murattal_128kbps', net: 'ar.minshawi' },
   husary:         { every: 'Husary_128kbps', net: 'ar.husary' },
   ayyoub:         { every: 'Muhammad_Ayyoub_128kbps', net: 'ar.muhammadayyoub' },
@@ -28638,7 +28640,7 @@ var RIHLA_I18N_EXTRA = {
   "price_forever": "/ toujours",
   "price_month": "/ mois",
   "free_f1": "Suivi quotidien de base",
-  "free_f2": "16 récitateurs disponibles",
+  "free_f2": "17 récitateurs disponibles",
   "free_f3": "Correction de récitation (3/semaine)",
   "free_f4": "25 histoires des prophètes",
   "free_f5": "50+ Du'as classés par situations",
@@ -28655,7 +28657,7 @@ var RIHLA_I18N_EXTRA = {
   "faq_q3": "Mes données de progression sont-elles privées ?",
   "faq_a3": "Oui, ton suivi et tes enregistrements ne sont visibles que par toi.",
   "pay_title": "✨ Rihla Premium",
-  "pay_f2": "28 récitateurs complets (16 gratuits + 12 Premium)",
+  "pay_f2": "29 récitateurs complets (17 gratuits + 12 Premium)",
   "pay_f3": "Correction de récitation illimitée",
   "pay_f4": "Mémorisation assistée par thèmes",
   "pay_f6": "Support prioritaire",
@@ -28890,7 +28892,7 @@ var RIHLA_I18N_EXTRA = {
   "price_forever": "/ forever",
   "price_month": "/ month",
   "free_f1": "Basic daily tracking",
-  "free_f2": "16 reciters available",
+  "free_f2": "17 reciters available",
   "free_f3": "Recitation correction (3/week)",
   "free_f4": "25 stories of the prophets",
   "free_f5": "50+ Du'as sorted by situation",
@@ -28907,7 +28909,7 @@ var RIHLA_I18N_EXTRA = {
   "faq_q3": "Is my progress data private?",
   "faq_a3": "Yes, your tracking and your recordings are visible only to you.",
   "pay_title": "✨ Rihla Premium",
-  "pay_f2": "28 full reciters (16 free + 12 Premium)",
+  "pay_f2": "29 full reciters (17 free + 12 Premium)",
   "pay_f3": "Unlimited recitation correction",
   "pay_f4": "Guided memorization by theme",
   "pay_f6": "Priority support",
@@ -29141,7 +29143,7 @@ var RIHLA_I18N_EXTRA = {
   "price_forever": "/ دائمًا",
   "price_month": "/ شهريًا",
   "free_f1": "متابعة يومية أساسية",
-  "free_f2": "١٦ قارئًا متاحًا",
+  "free_f2": "١٧ قارئًا متاحًا",
   "free_f3": "تصحيح التلاوة (٣ في الأسبوع)",
   "free_f4": "٢٥ قصة من قصص الأنبياء",
   "free_f5": "أكثر من ٥٠ دعاءً مصنّفًا حسب المواقف",
@@ -29158,7 +29160,7 @@ var RIHLA_I18N_EXTRA = {
   "faq_q3": "هل بيانات تقدّمي خاصة؟",
   "faq_a3": "نعم، متابعتك وتسجيلاتك لا تظهر إلا لك.",
   "pay_title": "✨ رحلة المتقدمة",
-  "pay_f2": "٢٨ قارئًا كاملًا (١٦ مجانًا + ١٢ متقدمًا)",
+  "pay_f2": "٢٩ قارئًا كاملًا (١٧ مجانًا + ١٢ متقدمًا)",
   "pay_f3": "تصحيح التلاوة بلا حدود",
   "pay_f4": "حفظ موجّه حسب المواضيع",
   "pay_f6": "دعم ذو أولوية",
