@@ -24,6 +24,20 @@
   }catch(e){}
 })();
 </script>
+
+<script>
+(function(){
+  try{
+    var v = localStorage.getItem('rihla_theme') || 'system';
+    var dark = false;
+    if(v === 'dark') dark = true;
+    else if(v === 'system') dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme-pref', (v === 'light' || v === 'dark' || v === 'system') ? v : 'system');
+  }catch(e){}
+})();
+</script>
+
 <title>Rihla — Ensemble avançons pas à pas vers le chemin de la guidée</title>
 
 <!-- ===== SEO & partage ===== -->
@@ -2043,6 +2057,274 @@ html[dir="rtl"] #view-home .hero-note{
   #view-home .hero-cta{ flex-direction: column; align-items: stretch; }
   #view-home .hero-cta .btn{ width: 100%; justify-content: center; }
 }
+
+/* ===== THEME GLOBAL JOUR / NUIT ===== */
+.theme-switch{
+  display:flex; align-items:center;
+  background:var(--sand); border:1px solid var(--line); border-radius:999px; padding:3px;
+  gap:2px;
+}
+.theme-switch button{
+  border:none; background:transparent; cursor:pointer; font-family:inherit;
+  font-size:0.85rem; width:34px; height:30px; border-radius:999px;
+  color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center;
+  transition: background .2s, color .2s, transform .15s;
+}
+.theme-switch button:hover{ color:var(--emerald-950); }
+.theme-switch button.active{
+  background:var(--emerald-950); color:var(--gold-300);
+  box-shadow:0 2px 8px rgba(11,46,43,0.25);
+}
+html[data-theme="dark"] .theme-switch button.active{
+  background:var(--gold-500); color:var(--emerald-950);
+}
+
+/* Palette nuit : émeraude profonde + or chaud */
+html[data-theme="dark"]{
+  color-scheme: dark;
+  --emerald-950:#e8f0ee;
+  --emerald-800:#c5d8d4;
+  --emerald-600:#8fb5ad;
+  --gold-500:#e0c25f;
+  --gold-300:#f0d98a;
+  --gold-100:#3d3420;
+  --parchment:#0c1412;
+  --sand:#15201c;
+  --ink:#eae6da;
+  --ink-soft:#a8b0a6;
+  --line: rgba(224,194,95,0.14);
+  --shadow: 0 12px 30px -12px rgba(0,0,0,0.55);
+  --shadow-lg: 0 20px 50px -15px rgba(0,0,0,0.65);
+  --surface:#121c19;
+  --surface-2:#182420;
+  --surface-elevated:#1a2925;
+}
+html[data-theme="dark"] body{
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(27,90,84,0.22), transparent 55%),
+    radial-gradient(ellipse 80% 50% at 100% 100%, rgba(201,162,39,0.06), transparent 45%),
+    var(--parchment);
+  color:var(--ink);
+}
+html[data-theme="dark"] header.nav{
+  background:rgba(12,20,18,0.88);
+  border-bottom-color:var(--line);
+  backdrop-filter: blur(12px);
+}
+html[data-theme="dark"] .logo{ color:var(--gold-300); }
+html[data-theme="dark"] nav.links button{ color:var(--ink-soft); }
+html[data-theme="dark"] nav.links button:hover,
+html[data-theme="dark"] nav.links button.active{ color:var(--gold-300); }
+html[data-theme="dark"] nav.links button.active{ border-bottom-color:var(--gold-500); }
+html[data-theme="dark"] .lang-switch,
+html[data-theme="dark"] .theme-switch{
+  background:var(--sand); border-color:var(--line);
+}
+html[data-theme="dark"] .lang-switch button{ color:var(--ink-soft); }
+html[data-theme="dark"] .lang-switch button.active{
+  background:var(--gold-500); color:#0c1412;
+}
+html[data-theme="dark"] .btn-primary{
+  background:var(--gold-500); color:#0c1412;
+}
+html[data-theme="dark"] .btn-primary:hover{
+  background:var(--gold-300); color:#0c1412;
+}
+html[data-theme="dark"] .btn-ghost{
+  color:var(--gold-300); border-color:var(--line);
+}
+html[data-theme="dark"] .btn-ghost:hover{ border-color:var(--gold-500); }
+html[data-theme="dark"] .btn-gold{
+  background:linear-gradient(135deg, #c9a227, #e0c25f); color:#0c1412;
+}
+html[data-theme="dark"] .hadith-bar{
+  background:linear-gradient(90deg, #0a1210, #12201c);
+  color:var(--ink-soft);
+  border-bottom:1px solid var(--line);
+}
+html[data-theme="dark"] .hadith-bar strong{ color:var(--gold-300); }
+html[data-theme="dark"] .hero h1{ color:var(--gold-300); }
+html[data-theme="dark"] .hero h1 em{ color:var(--gold-500); }
+html[data-theme="dark"] .eyebrow{ color:var(--emerald-600); }
+html[data-theme="dark"] .section-head h2{ color:var(--gold-300); }
+html[data-theme="dark"] .overview-card,
+html[data-theme="dark"] .today-card,
+html[data-theme="dark"] .parcours-day,
+html[data-theme="dark"] .price-card:not(.premium),
+html[data-theme="dark"] .demo-card,
+html[data-theme="dark"] .how-step,
+html[data-theme="dark"] .prophet-card,
+html[data-theme="dark"] .dua-card,
+html[data-theme="dark"] .flashcard,
+html[data-theme="dark"] .reciter-card,
+html[data-theme="dark"] .hifz-review-box,
+html[data-theme="dark"] .mushaf-toolbar,
+html[data-theme="dark"] .mushaf-reciters-panel,
+html[data-theme="dark"] .rihla-tools-bar,
+html[data-theme="dark"] .quran-search-results,
+html[data-theme="dark"] .mushaf-side-panel,
+html[data-theme="dark"] .tajweed-legend,
+html[data-theme="dark"] .surah-picker,
+html[data-theme="dark"] .modal,
+html[data-theme="dark"] .prophet-detail,
+html[data-theme="dark"] .transcript-compare,
+html[data-theme="dark"] .correction-list li,
+html[data-theme="dark"] .corrected-text{
+  background:var(--surface) !important;
+  border-color:var(--line);
+  color:var(--ink);
+}
+html[data-theme="dark"] .overview-card h3,
+html[data-theme="dark"] .today-card h4,
+html[data-theme="dark"] .prophet-card .prophet-name,
+html[data-theme="dark"] .prophet-detail .pd-name,
+html[data-theme="dark"] .price-card h3{
+  color:var(--gold-300);
+}
+html[data-theme="dark"] .overview-card:hover,
+html[data-theme="dark"] .prophet-card:hover,
+html[data-theme="dark"] .dua-card:hover{
+  box-shadow:var(--shadow);
+  border-color:rgba(224,194,95,0.35);
+}
+html[data-theme="dark"] .overview-card .product-icon,
+html[data-theme="dark"] .prophet-card .prophet-icon,
+html[data-theme="dark"] .prophet-detail .pd-icon{
+  background:#0a1614;
+  color:var(--gold-300);
+}
+html[data-theme="dark"] .hadith-teaser,
+html[data-theme="dark"] .daily-objective,
+html[data-theme="dark"] .khatm-card,
+html[data-theme="dark"] .price-card.premium,
+html[data-theme="dark"] footer,
+html[data-theme="dark"] .mushaf-bottom-bar{
+  background:linear-gradient(160deg, #0e1a17 0%, #12201c 100%);
+  color:var(--ink);
+  border-color:var(--line);
+}
+html[data-theme="dark"] .price-card.premium::after{
+  background:var(--gold-500); color:#0c1412;
+}
+html[data-theme="dark"] .modal-overlay,
+html[data-theme="dark"] .prophet-detail-overlay{
+  background:rgba(4,10,8,0.72);
+}
+html[data-theme="dark"] .auth-option{
+  background:var(--surface-2) !important; border-color:var(--line); color:var(--ink);
+}
+html[data-theme="dark"] .auth-option:hover{ border-color:var(--gold-500); }
+html[data-theme="dark"] .auth-email input,
+html[data-theme="dark"] .quran-controls select,
+html[data-theme="dark"] .quran-controls button,
+html[data-theme="dark"] .mushaf-toolbar select,
+html[data-theme="dark"] .mushaf-toolbar button.mt-btn,
+html[data-theme="dark"] .surah-picker select,
+html[data-theme="dark"] .rtb-search input,
+html[data-theme="dark"] .mushaf-page-nav .mp-jump input{
+  background:var(--surface-2) !important; border-color:var(--line); color:var(--ink);
+}
+html[data-theme="dark"] .mushaf-toolbar button.mt-btn.primary,
+html[data-theme="dark"] .mt-btn.active-tool{
+  background:var(--gold-500); color:#0c1412; border-color:transparent;
+}
+html[data-theme="dark"] .mushaf-reciters-grid .mr-card{
+  background:var(--surface-2); border-color:var(--line); color:var(--ink);
+}
+html[data-theme="dark"] .mushaf-reciters-grid .mr-card.active{
+  background:var(--gold-500); color:#0c1412; border-color:var(--gold-500);
+}
+html[data-theme="dark"] .mushaf-page-nav button{
+  background:var(--gold-500); color:#0c1412;
+}
+html[data-theme="dark"] .girih-frame{ background:#0a1614; }
+html[data-theme="dark"] .user-badge{
+  background:var(--sand); color:var(--gold-300);
+}
+html[data-theme="dark"] .user-badge .avatar{
+  background:#0a1614; color:var(--gold-300);
+}
+html[data-theme="dark"] .toast-notification{
+  background:#15201c; color:var(--ink); border:1px solid var(--line);
+}
+html[data-theme="dark"] .duas-tabs{ border-bottom-color:var(--line); }
+html[data-theme="dark"] .duas-tabs .tab-btn:hover{
+  color:var(--gold-300); background:var(--sand);
+}
+html[data-theme="dark"] .duas-tabs .tab-btn.active{
+  background:var(--gold-500); color:#0c1412; border-color:var(--gold-500);
+}
+html[data-theme="dark"] .parcours-day.done{
+  border-color:var(--gold-500);
+  background:linear-gradient(90deg, rgba(201,162,39,.12), var(--surface));
+}
+html[data-theme="dark"] .ma-tafsir{
+  background:var(--sand); color:var(--ink); border-left-color:var(--gold-500);
+}
+html[data-theme="dark"] .listen-disclaimer,
+html[data-theme="dark"] .correction-panel,
+html[data-theme="dark"] .resume-banner{
+  background:var(--sand); color:var(--ink); border-color:var(--line);
+}
+html[data-theme="dark"] .prophet-detail .pd-lesson .lesson-box{
+  background:var(--gold-100); color:var(--ink); border-left-color:var(--gold-500);
+}
+html[data-theme="dark"] .prophet-detail .pd-lesson .lesson-box h4{ color:var(--gold-300); }
+html[data-theme="dark"] .flashcard .fc-arabic{ color:var(--gold-300); }
+html[data-theme="dark"] .r-play{ border-color:var(--gold-500); }
+html[data-theme="dark"] .r-play svg{ fill:var(--gold-300); }
+html[data-theme="dark"] .r-play.playing{ background:var(--gold-500); border-color:var(--gold-500); }
+html[data-theme="dark"] .r-play.playing svg{ fill:#0c1412; }
+html[data-theme="dark"] .back-link{ color:var(--emerald-600); }
+html[data-theme="dark"] .back-link:hover{ color:var(--gold-300); }
+html[data-theme="dark"] .nav-burger span{ background:var(--gold-300); }
+html[data-theme="dark"] .quran-search-results .qsr-item:hover{ background:var(--sand); }
+html[data-theme="dark"] .quran-search-results .qsr-ref{ color:var(--gold-300); }
+html[data-theme="dark"] .mushaf-variant-notice{
+  background:rgba(201,162,39,.12); border-color:rgba(201,162,39,.45); color:var(--ink-soft);
+}
+html[data-theme="dark"] .mushaf-variant-notice strong{ color:var(--gold-300); }
+html[data-theme="dark"] .prayer-times-card,
+html[data-theme="dark"] .prayer-shell > *,
+html[data-theme="dark"] .tafsir-tool-shell .tafsir-ayah-row,
+html[data-theme="dark"] .tafsir-detail-panel,
+html[data-theme="dark"] article.tafsir-ayah-row,
+html[data-theme="dark"] .prayer-info-card,
+html[data-theme="dark"] .qibla-card{
+  background:var(--surface) !important;
+  border-color:var(--line);
+  color:var(--ink);
+}
+html[data-theme="dark"] .skip-link{
+  background:#0a1614; color:var(--gold-300);
+}
+html[data-theme="dark"] details{
+  background: var(--surface) !important;
+  color: var(--ink);
+  border-color: var(--line);
+}
+html[data-theme="dark"] .mushaf-ayah .ma-ayah-end{
+  background: rgba(224,194,95,0.12);
+  border-color: var(--gold-300);
+  color: var(--gold-300);
+}
+html[data-theme="dark"] .tracker-day{
+  background: rgba(247,243,232,0.06);
+  color: var(--ink-soft);
+}
+html[data-theme="dark"] .tracker-day.done,
+html[data-theme="dark"] .tracker-day.today{
+  background: var(--gold-500);
+  color: #0c1412;
+}
+html[data-theme="dark"] footer .col h6{ color: var(--gold-300); }
+html[data-theme="dark"] .footer-bottom{ border-top-color: rgba(224,194,95,0.12); }
+html[data-theme="dark"] .tafsir-ayah-row.active{
+  background: rgba(201,162,39,0.12);
+  box-shadow: inset 3px 0 0 var(--gold-500);
+}
+html[data-theme="dark"] .tafsir-ayah-ar{ color: var(--gold-300); }
+
 </style>
 <!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
      Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
@@ -2082,6 +2364,11 @@ Rihla
 <button class="nav-link" data-view="view-home" data-scroll-to="tarifs" data-i18n="nav_pricing">Tarifs</button>
 </nav>
 <div class="nav-actions">
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Thème d'affichage">
+  <button type="button" data-theme-opt="light" title="Mode jour" aria-label="Mode jour">☀️</button>
+  <button type="button" data-theme-opt="dark" title="Mode nuit" aria-label="Mode nuit">🌙</button>
+  <button type="button" data-theme-opt="system" title="Selon l'appareil" aria-label="Selon l'appareil">💻</button>
+</div>
 <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
   <button type="button" data-lang="fr" class="active" title="Français">FR</button>
   <button type="button" data-lang="en" title="English">EN</button>
@@ -28292,6 +28579,7 @@ function initMushafTheme(){
   applyMushafTheme(dark);
 }
 document.getElementById('mushafThemeToggle')?.addEventListener('click', () => {
+  try{ localStorage.setItem('rihla_mushaf_theme_forced', '1'); }catch(e){}
   applyMushafTheme(!mushafDarkMode);
 });
 
@@ -29552,6 +29840,91 @@ function initRihlaLang(){
   applyRihlaLang(lang);
   try{ console.info('[Rihla] langue:', lang, fromUser ? '(choix enregistré)' : '(détectée auto)', 'clés EN:', Object.keys(RIHLA_I18N.en||{}).length); }catch(e){}
 }
+
+
+/* ===== THÈME GLOBAL JOUR / NUIT / SYSTÈME ===== */
+(function(){
+  var STORAGE_KEY = 'rihla_theme'; // light | dark | system
+  var mql = null;
+  try{ mql = window.matchMedia('(prefers-color-scheme: dark)'); }catch(e){}
+
+  function resolveTheme(pref){
+    if(pref === 'dark') return 'dark';
+    if(pref === 'light') return 'light';
+    try{ if(mql && mql.matches) return 'dark'; }catch(e){}
+    return 'light';
+  }
+
+  function getPref(){
+    try{
+      var v = localStorage.getItem(STORAGE_KEY);
+      if(v === 'light' || v === 'dark' || v === 'system') return v;
+    }catch(e){}
+    return 'system';
+  }
+
+  function applyRihlaTheme(pref){
+    if(pref !== 'light' && pref !== 'dark' && pref !== 'system') pref = 'system';
+    try{ localStorage.setItem(STORAGE_KEY, pref); }catch(e){}
+    var resolved = resolveTheme(pref);
+    document.documentElement.setAttribute('data-theme', resolved);
+    document.documentElement.setAttribute('data-theme-pref', pref);
+    try{
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if(meta) meta.setAttribute('content', resolved === 'dark' ? '#0c1412' : '#0d1b16');
+    }catch(e){}
+    document.querySelectorAll('#themeSwitch [data-theme-opt]').forEach(function(btn){
+      var on = btn.getAttribute('data-theme-opt') === pref;
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    try{
+      if(typeof applyMushafTheme === 'function'){
+        var mushafForced = false;
+        try{ mushafForced = localStorage.getItem('rihla_mushaf_theme_forced') === '1'; }catch(e){}
+        if(!mushafForced) applyMushafTheme(resolved === 'dark');
+      }
+    }catch(e){}
+    try{ window.dispatchEvent(new CustomEvent('rihla:theme', { detail: { pref: pref, resolved: resolved } })); }catch(e){}
+  }
+
+  function initRihlaTheme(){
+    applyRihlaTheme(getPref());
+    var switchEl = document.getElementById('themeSwitch');
+    if(switchEl){
+      switchEl.addEventListener('click', function(e){
+        var btn = e.target.closest('[data-theme-opt]');
+        if(!btn) return;
+        applyRihlaTheme(btn.getAttribute('data-theme-opt'));
+      });
+    }
+    if(mql){
+      var onChange = function(){ if(getPref() === 'system') applyRihlaTheme('system'); };
+      try{
+        if(typeof mql.addEventListener === 'function') mql.addEventListener('change', onChange);
+        else if(typeof mql.addListener === 'function') mql.addListener(onChange);
+      }catch(e){}
+    }
+    try{
+      window.applyRihlaTheme = applyRihlaTheme;
+      window.getRihlaThemePref = getPref;
+      window.resolveRihlaTheme = function(){ return resolveTheme(getPref()); };
+    }catch(e){}
+  }
+
+  try{
+    var early = getPref();
+    document.documentElement.setAttribute('data-theme', resolveTheme(early));
+    document.documentElement.setAttribute('data-theme-pref', early);
+  }catch(e){}
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initRihlaTheme);
+  } else {
+    initRihlaTheme();
+  }
+})();
+
 
 document.addEventListener('DOMContentLoaded', function() {
   // Menu burger mobile
