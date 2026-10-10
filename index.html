@@ -661,7 +661,15 @@ padding:26px; margin-top:24px;
 .transcript-compare h5{margin:0 0 14px; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--emerald-600);}
 .transcript-compare .fc-arabic{background:none; border:none; padding:0; margin:0 0 14px; font-family:var(--arabic-font); font-size:1.4rem; direction:rtl; text-align:right;}
 .cw-match{background:rgba(120,200,150,0.25); border-radius:4px; padding:1px 3px;}
-.cw-miss{background:rgba(201,162,39,0.25); border-radius:4px; padding:1px 3px;}
+.cw-miss{background:rgba(192,57,43,0.16); border-radius:4px; padding:1px 3px;}
+.cw-uncertain{background:rgba(201,162,39,0.25); border-bottom:2px dotted var(--gold-500); border-radius:4px; padding:1px 3px;}
+.cw-pending{color:var(--ink-soft); opacity:0.65; padding:1px 3px;}
+.recitation-ayah-marker{font-size:0.8em; color:var(--emerald-600); white-space:nowrap;}
+.recitation-progress{font-size:0.85rem; color:var(--emerald-600); margin:12px 0;}
+.recitation-review{margin-top:16px; padding:14px; background:#fff; border:1px solid var(--line); border-radius:10px;}
+.recitation-review summary{cursor:pointer; font-weight:600; color:var(--emerald-600);}
+.recitation-review textarea{display:block; width:100%; box-sizing:border-box; min-height:120px; margin:12px 0; padding:12px; border:1px solid var(--line); border-radius:8px; resize:vertical; font-family:var(--arabic-font); font-size:1.3rem; line-height:1.8;}
+.recitation-review p{font-size:0.85rem; color:var(--ink-soft); line-height:1.5;}
 .compare-legend{font-size:0.78rem; color:var(--ink-soft);}
 .compare-legend .cw-match, .compare-legend .cw-miss{padding:2px 8px;}
 .correction-panel{
@@ -3069,6 +3077,17 @@ html[data-theme="dark"] .mushaf-page-frame:not(.dark) .mushaf-page-footer-num{
   background: #0b2e2b !important;
   color: #e0c25f !important;
 }
+
+.recitation-settings { margin: 18px 0; }
+.recitation-settings label { display: flex; flex-direction: column; gap: 6px; font-size: .85rem; }
+.recitation-settings select, .recitation-settings input { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--parchment); color: var(--ink); font: inherit; }
+.recitation-range { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 12px; }
+.recitation-range[hidden] { display: none; }
+.recitation-settings p, .recitation-heard > p:last-child { font-size: .85rem; color: var(--ink-soft); line-height: 1.6; }
+.recitation-heard { margin-top: 18px; }
+#recitationTranscript { overflow-wrap: anywhere; min-height: 2em; }
+#recordBtn:disabled { opacity: .6; cursor: wait; }
+@media(max-width: 600px) { .recitation-range { grid-template-columns: 1fr 1fr; } .recitation-range label:first-child { grid-column: 1 / -1; } }
 </style>
 <!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
      Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
@@ -3780,29 +3799,39 @@ Rihla
 <div class="section-head">
 <span class="eyebrow" data-i18n="tag_fix">Correction IA</span>
 <h2 data-i18n="card_listen_t">Correction de récitation</h2>
-<p data-i18n="listen_sub">Enregistre ta voix pendant que tu lis le Coran. L'outil détecte la sourate et te montre tes erreurs avec le texte corrigé.</p>
+<p data-i18n="listen_sub">Choisis un passage, récite en arabe et compare les mots reconnus au texte du Coran.</p>
 <div style="margin-top:12px;font-size:0.85rem;color:var(--ink-soft);">
 <span data-i18n-html="listen_quota"><span style="background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;">Premium</span> Correction illimitée avec analyse détaillée</span>
 </div>
 </div>
 <div class="how-it-works">
 <div class="how-step"><span class="step-num">1</span><h4 data-i18n="ls_t1">Tu enregistres</h4><p data-i18n="ls_d1">Récite un passage du Coran à voix haute dans le micro.</p></div>
-<div class="how-step"><span class="step-num">2</span><h4 data-i18n="ls_t2">Détection automatique</h4><p data-i18n="ls_d2">La sourate et le verset sont identifiés en temps réel.</p></div>
-<div class="how-step"><span class="step-num">3</span><h4 data-i18n="ls_t3">Correction des erreurs</h4><p data-i18n="ls_d3">Les mots mal prononcés sont signalés et le verset correct t'est proposé.</p></div>
+<div class="how-step"><span class="step-num">2</span><h4 data-i18n="ls_t2">Choix du passage</h4><p data-i18n="ls_d2">Choisis le passage à vérifier, ou utilise la détection automatique.</p></div>
+<div class="how-step"><span class="step-num">3</span><h4 data-i18n="ls_t3">Correction des erreurs</h4><p data-i18n="ls_d3">Les différences de mots sont signalées pour les vérifier avec le texte du passage.</p></div>
 </div>
 <div class="demo-card">
-<p class="listen-disclaimer" data-i18n="listen_warn">⚠️ La reconnaissance vocale dépend de ton navigateur et de la qualité du micro. Utilise Chrome ou Safari pour de meilleurs résultats.</p>
+<p class="listen-disclaimer" data-i18n="listen_warn">Utilise un navigateur compatible et autorise le micro. La reconnaissance vocale nécessite une connexion Internet.</p>
+<div class="recitation-settings">
+<label><span data-recitation-copy="mode">Mode de correction</span>
+<select id="recitationMode"><option value="selected" data-recitation-copy="selected">Passage choisi (conseillé)</option><option value="auto" data-recitation-copy="auto">Détection automatique</option></select></label>
+<div id="recitationPassage" class="recitation-range">
+<label><span data-recitation-copy="surah">Sourate</span><select id="recitationSurah"><option value="1">1. Al-Fatiha — الفاتحة</option></select></label>
+<label><span data-recitation-copy="from">Du verset</span><input id="recitationFrom" type="number" min="1" max="7" step="1" value="1"></label>
+<label><span data-recitation-copy="to">Au verset</span><input id="recitationTo" type="number" min="1" max="7" step="1" value="7"></label>
+</div>
+<p data-recitation-copy="hint">Choisis le passage que tu vas réciter. Maximum 10 versets et 3 minutes.</p>
+</div>
 <div class="listen-demo">
 <div class="listen-card">
 <h5 data-i18n="rec_h">Enregistrement audio</h5>
-<button class="record-btn" id="recordBtn" data-i18n-html="rec_start"><span class="dot"></span> Démarrer</button>
+<button type="button" class="record-btn" id="recordBtn"><span class="dot"></span> Démarrer</button>
 <div class="record-timer" id="recordTimer">00:00</div>
 <div class="record-player" id="recordPlayer">
 <audio controls id="recordAudio"></audio>
 <button class="btn btn-ghost" id="recordAgainBtn" data-i18n="rec_again">Recommencer</button>
 </div>
-<p class="record-status" id="recordStatus" data-i18n="rec_hint">Appuie pour démarrer — le navigateur va demander l'accès au micro.</p>
-<p class="record-status" id="sessionCount" style="font-size:0.8rem;opacity:0.7;">Session réservée aux abonnés Premium</p>
+<p class="record-status" id="recordStatus" role="status" aria-live="polite">Appuie pour démarrer — le navigateur va demander l'accès au micro.</p>
+<p class="record-status" id="sessionCount" style="font-size:0.8rem;opacity:0.7;">3 analyses gratuites par semaine</p>
 </div>
 <div class="listen-card">
 <h5 data-i18n="det_h">Sourate détectée</h5>
@@ -3811,15 +3840,28 @@ Rihla
 </div>
 </div>
 </div>
+<div class="recitation-heard">
+<h5 data-recitation-copy="transcript">Texte reconnu par le navigateur</h5>
+<p id="recitationTranscript" class="fc-arabic" lang="ar" dir="rtl"></p>
+<p data-recitation-copy="note">Vérifie le texte entendu. Cette comparaison porte sur les mots, pas sur le tajwid ni la prononciation.</p>
+<details id="recitationReview" class="recitation-review" hidden>
+<summary data-recitation-copy="edit">Vérifier le texte reconnu</summary>
+<p id="recitationEditHint" data-recitation-copy="editHint">Si le navigateur a mal entendu, corrige uniquement les mots que tu as réellement récités, puis recalcule la comparaison.</p>
+<label for="recitationTranscriptInput" data-recitation-copy="transcript">Texte reconnu par le navigateur</label>
+<textarea id="recitationTranscriptInput" lang="ar" dir="rtl" maxlength="6000" aria-describedby="recitationEditHint"></textarea>
+<button type="button" id="recitationRecheckBtn" class="btn btn-primary" data-recitation-copy="recalculate">Recalculer la comparaison</button>
+</details>
+</div>
 <div class="transcript-compare" id="transcriptCompare">
 <h5 data-i18n="cmp_h">Comparaison mot par mot</h5>
+<p id="recitationProgress" class="recitation-progress" role="status" aria-live="polite"></p>
 <p class="fc-arabic" id="compareWords" lang="ar" dir="rtl"></p>
-<p class="compare-legend" data-i18n-html="cmp_legend"><span class="cw-match">mot reconnu</span> · <span class="cw-miss">mot manquant ou incorrect</span></p>
+<p class="compare-legend" data-recitation-copy="legend">Vert : mot reconnu · rouge : différence à vérifier · jaune : mot provisoire · gris : à réciter</p>
 </div>
 <div class="correction-panel" id="correctionPanel">
-<h5 data-i18n="corr_h">Corrections suggérées</h5>
+<h5 data-recitation-copy="review">Différences à vérifier</h5>
 <ul class="correction-list" id="correctionList"></ul>
-<h5 style="margin-top:16px;" data-i18n="corr_correct">Texte correct du verset</h5>
+<h5 style="margin-top:16px;" data-recitation-copy="expected">Texte du passage</h5>
 <p class="corrected-text" id="correctedText" lang="ar" dir="rtl"></p>
 </div>
 </div>
@@ -3863,6 +3905,10 @@ Rihla
 </button>
 <h3 id="modalTitle">Se connecter</h3>
 <p class="sub" data-i18n="modal_sub">Accède à ton suivi depuis n'importe quel appareil.</p>
+<div id="localTestAccount" hidden>
+<button type="button" class="auth-option" id="localTestLogin" data-i18n="test_account_login">Utiliser le compte Premium de test</button>
+<p class="auth-status" data-i18n="test_account_note">Profil de test local : Premium sans paiement ni mot de passe. Les services liés à un vrai compte restent séparés.</p>
+</div>
 <button class="auth-option" id="authGoogle">
 <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20.5H24v7h11.3C33.9 31.4 29.4 34.5 24 34.5c-6.9 0-12.5-5.6-12.5-12.5S17.1 9.5 24 9.5c3.2 0 6 1.2 8.2 3.1l5.2-5.2C34.1 4.4 29.3 2.5 24 2.5 12.4 2.5 3 11.9 3 23.5S12.4 44.5 24 44.5 45 35.1 45 23.5c0-1-.1-2-.4-3z"/><path fill="#FF3D00" d="M6.3 14.7l5.8 4.2C13.6 15.3 18.4 12.5 24 12.5c3.2 0 6 1.2 8.2 3.1l5.2-5.2C34.1 6.9 29.3 5 24 5c-7.4 0-13.8 4.2-17.1 10.3z"/><path fill="#4CAF50" d="M24 44.5c5.2 0 9.9-1.8 13.6-4.8l-6.3-5.3C29.2 36 26.7 37 24 37c-5.3 0-9.8-3.4-11.4-8.1l-6.4 4.9C9.9 40 16.4 44.5 24 44.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20.5H24v7h11.3c-.9 2.6-2.6 4.7-4.8 6.2l6.3 5.3C40.5 36.3 43 30.5 43 23.5c0-1-.1-2-.4-3z"/></svg>
 <span data-i18n="auth_google">Continuer avec Google</span>
@@ -3901,6 +3947,7 @@ Rihla
 </div>
 <!-- Déplacé du <head> : le HTML visible est déjà parsé et peint quand on arrive ici.
      Le rel=preload en tête a lancé le téléchargement, donc l'exécution est quasi immédiate. -->
+<script src="local-test-account.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin></script>
 <script>
 // =====================================================================
@@ -4005,10 +4052,15 @@ premiumBtn.style.display = '';
 userBadge.classList.remove('visible');
 if(typeof updateSessionDisplay === 'function') updateSessionDisplay();
 }
+if(window.RihlaTestAccount && window.RihlaTestAccount.isActive()){
+  showLoggedInUI(window.RihlaTestAccount.user());
+}
 supabaseClient.auth.getSession().then(({ data }) => {
+if(window.RihlaTestAccount && window.RihlaTestAccount.isActive()) return;
 if(data.session && data.session.user) showLoggedInUI(data.session.user);
 });
 supabaseClient.auth.onAuthStateChange((event, session) => {
+if(window.RihlaTestAccount && window.RihlaTestAccount.isActive()) return;
 if(session && session.user){
 showLoggedInUI(session.user);
 overlay.classList.remove('open');
@@ -4030,7 +4082,6 @@ function closeMobileNav(){
 }
 function showView(id, scrollToId){
 if(id === 'view-reciters') id = 'view-coran';
-if(id === 'view-ecoute' && !isPremium) id = 'view-paiement';
 const prev = document.querySelector('.view.active');
 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
 const target = document.getElementById(id);
@@ -4092,10 +4143,6 @@ document.addEventListener('click', (e) => {
 const trigger = e.target.closest('[data-view]');
 if(!trigger) return;
 e.preventDefault();
-if(trigger.dataset.view === 'view-ecoute' && !isPremium){
-  openPremiumOffer();
-  return;
-}
 showView(trigger.dataset.view, trigger.dataset.scrollTo);
 if(trigger.dataset.view === 'view-dua' && typeof renderDuas === 'function'){
 renderTabs();
@@ -4105,6 +4152,16 @@ renderDuas();
 // =====================================================================
 // CONNEXION / DÉCONNEXION
 // =====================================================================
+if(window.RihlaTestAccount && window.RihlaTestAccount.available()){
+  const testPanel = document.getElementById('localTestAccount');
+  if(testPanel) testPanel.hidden = false;
+  document.getElementById('localTestLogin')?.addEventListener('click', () => {
+    if(!window.RihlaTestAccount.activate()) return;
+    showLoggedInUI(window.RihlaTestAccount.user());
+    overlay.classList.remove('open');
+    showView('view-ecoute');
+  });
+}
 document.getElementById('closeLogin')?.addEventListener('click', () => overlay.classList.remove('open'));
 overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('open'); });
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape') overlay.classList.remove('open'); });
@@ -4220,6 +4277,12 @@ authStatus.className = 'auth-status error';
 authSubmitBtn.disabled = false;
 });
 document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+if(window.RihlaTestAccount && window.RihlaTestAccount.isActive()){
+  window.RihlaTestAccount.deactivate();
+  currentUserEmail = '';
+  showLoggedOutUI();
+  return;
+}
 await supabaseClient.auth.signOut();
 showLoggedOutUI();
 });
@@ -25610,545 +25673,10 @@ freeList.appendChild(card);
 });
 }
 
-// =====================================================================
-// SESSION D'ÉCOUTE
-// =====================================================================
-const recordBtn = document.getElementById('recordBtn');
-const recordTimer = document.getElementById('recordTimer');
-const recordPlayer = document.getElementById('recordPlayer');
-const recordAudio = document.getElementById('recordAudio');
-const recordStatus = document.getElementById('recordStatus');
-const detectionResult = document.getElementById('detectionResult');
-const transcriptCompare = document.getElementById('transcriptCompare');
-const compareWords = document.getElementById('compareWords');
-const sessionCount = document.getElementById('sessionCount');
-let mediaRecorder = null;
-let mediaStream = null;
-let recordedChunks = [];
-let recordTimerInterval = null;
-let recordSeconds = 0;
-let speechRecognizer = null;
-let liveTranscript = '';
-let fullQuranFlat = null;
-let recognitionAlternativesUsed = 0;
-let recognitionRestartTimer = null;
-let quranWordIndex = new Map();
-let detectedVerses = [];
-let isRecording = false;
-let sessionsUsed = 0;
-const MAX_FREE_SESSIONS = 3;
-
-// Compteur de sessions gratuites (fenêtre glissante de 7 jours)
-function getWeekKey(){
-const d = new Date();
-// numéro de semaine ISO approximatif
-const onejan = new Date(d.getFullYear(),0,1);
-const week = Math.ceil((((d - onejan) / 86400000) + onejan.getDay()+1)/7);
-return d.getFullYear() + '-W' + week;
-}
-try{
-const savedSessions = localStorage.getItem('rihla_sessions_used');
-if(savedSessions){
-const parsed = JSON.parse(savedSessions);
-if(parsed.week === getWeekKey()){
-sessionsUsed = parsed.count || 0;
-} else {
-sessionsUsed = 0;
-localStorage.setItem('rihla_sessions_used', JSON.stringify({week: getWeekKey(), count: 0}));
-}
-}
-}catch(err){}
-
+// Correction de récitation : contrôleur chargé en fin de page.
 function updateSessionDisplay(){
-if(sessionCount){
-  sessionCount.textContent = isPremium
-    ? (typeof rihlaLang !== 'undefined' && rihlaLang === 'en' ? 'Premium: unlimited sessions' : typeof rihlaLang !== 'undefined' && rihlaLang === 'ar' ? 'Premium: جلسات غير محدودة' : 'Premium : sessions illimitées')
-    : premiumListenMessage();
+  if(window.RihlaRecorder) window.RihlaRecorder.updateSessionDisplay();
 }
-}
-
-function incrementSessionUsage(){
-sessionsUsed++;
-localStorage.setItem('rihla_sessions_used', JSON.stringify({week: getWeekKey(), count: sessionsUsed}));
-updateSessionDisplay();
-}
-
-function formatTimer(s){
-const mm = String(Math.floor(s / 60)).padStart(2,'0');
-const ss = String(s % 60).padStart(2,'0');
-return `${mm}:${ss}`;
-}
-
-function normalizeArabic(text){
-return (text || '')
-// Voyelles, tanwîn, signes de récitation et tatwîl : ignorés pour la comparaison.
-.replace(/[\u064B-\u0652\u0670\u06D6-\u06ED\u0640]/g, '')
-// Variantes graphiques fréquemment produites par la reconnaissance vocale.
-.replace(/[إأآٱ]/g, 'ا')
-.replace(/ؤ/g, 'و')
-.replace(/ئ/g, 'ي')
-.replace(/ى/g, 'ي')
-// Ponctuation et symboles non arabes.
-.replace(/[^\u0600-\u06FF\s]/g, '')
-.replace(/\s+/g, ' ')
-.trim();
-}
-
-function tokenizeArabic(text){
-return normalizeArabic(text).split(' ').filter(Boolean);
-}
-
-function tokenSimilarity(a, b){
-if(a === b) return 1;
-if(!a || !b) return 0;
-// Petite tolérance aux confusions de reconnaissance, sans transformer un mot en un autre.
-if(a.length < 3 || b.length < 3) return 0;
-const prev = Array.from({length:b.length + 1}, (_, i) => i);
-for(let i=1;i<=a.length;i++){
-const cur = [i];
-for(let j=1;j<=b.length;j++){
-cur[j] = Math.min(cur[j-1] + 1, prev[j] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
-}
-prev.splice(0, prev.length, ...cur);
-}
-const distance = prev[b.length];
-return distance <= 1 && Math.max(a.length,b.length) >= 4 ? 0.72 : 0;
-}
-
-async function loadFullQuranFlat(){
-if(fullQuranFlat) return fullQuranFlat;
-try{
-const res = await fetch('https://api.alquran.cloud/v1/quran/quran-uthmani');
-const json = await res.json();
-const flat = [];
-(json.data.surahs || []).forEach(s => {
-s.ayahs.forEach(a => {
-const words = tokenizeArabic(a.text);
-const entry = {
-surahNumber: s.number,
-surahName: s.englishName,
-surahArabicName: s.name,
-ayahNumber: a.numberInSurah,
-textRaw: a.text,
-words,
-wordSet: new Set(words)
-};
-const index = flat.length;
-flat.push(entry);
-words.forEach(word => {
-if(!quranWordIndex.has(word)) quranWordIndex.set(word, []);
-quranWordIndex.get(word).push(index);
-});
-});
-});
-fullQuranFlat = flat;
-return flat;
-}catch(err){
-console.error('Erreur chargement Coran:', err);
-return null;
-}
-}
-
-// Précharger le Coran en arrière-plan pour une détection plus rapide
-loadFullQuranFlat().catch(()=>{});
-
-function scoreAyahMatch(transcriptWords, entry){
-if(!entry.words.length || !transcriptWords.length) return 0;
-// Alignement global : l'ordre des mots compte, contrairement à un simple Set.
-const n = transcriptWords.length, m = entry.words.length;
-const dp = Array.from({length:n+1}, () => Array(m+1).fill(0));
-for(let i=1;i<=n;i++){
-for(let j=1;j<=m;j++){
-const sim = tokenSimilarity(transcriptWords[i-1], entry.words[j-1]);
-const match = dp[i-1][j-1] + sim;
-const skipSaid = dp[i-1][j] - 0.18;
-const skipExpected = dp[i][j-1] - 0.10;
-const restart = sim;
- dp[i][j] = Math.max(0, match, skipSaid, skipExpected, restart);
-}
-}
-const aligned = dp[n][m];
-const expectedCoverage = aligned / m;
-const saidPrecision = aligned / n;
-const prefix = Math.min(4, m, n);
-let prefixScore = 0;
-for(let i=0;i<prefix;i++) prefixScore += tokenSimilarity(transcriptWords[i], entry.words[i]);
-const prefixBonus = prefix ? (prefixScore / prefix) * 0.18 : 0;
-return expectedCoverage * 0.62 + saidPrecision * 0.20 + prefixBonus;
-}
-
-function candidateAyahs(transcriptWords, flat){
-const counts = new Map();
-transcriptWords.forEach(word => (quranWordIndex.get(word) || []).forEach(i => counts.set(i, (counts.get(i) || 0) + 1)));
-const ranked = [...counts.entries()].sort((a,b) => b[1]-a[1]).slice(0, 250).map(([i]) => flat[i]);
-return ranked.length ? ranked : flat;
-}
-
-function findBestMatchingAyah(transcript, flat){
-if(!flat || !transcript) return null;
-const transcriptWords = tokenizeArabic(transcript);
-if(transcriptWords.length < 2) return null;
-let best = null, bestScore = 0;
-candidateAyahs(transcriptWords, flat).forEach(entry => {
-if(entry.words.length < 2) return;
-if(entry.words.length > transcriptWords.length * 5 && transcriptWords.length < 8) return;
-const score = scoreAyahMatch(transcriptWords, entry);
-if(score > bestScore){ bestScore = score; best = entry; }
-});
-const minScore = transcriptWords.length <= 4 ? 0.52 : 0.40;
-return best && bestScore >= minScore ? { entry: best, score: bestScore } : null;
-}
-
-function findTopMatches(transcript, flat, n=3){
-if(!flat || !transcript) return [];
-const transcriptWords = tokenizeArabic(transcript);
-if(transcriptWords.length < 2) return [];
-const scored = candidateAyahs(transcriptWords, flat).filter(e => e.words.length >= 2)
-.map(entry => ({entry, score: scoreAyahMatch(transcriptWords, entry)}))
-.filter(x => x.score >= 0.30)
-.sort((a,b) => b.score - a.score);
-return scored.slice(0, n);
-}
-
-function chooseConfidentMatch(transcript, flat){
-const words = tokenizeArabic(transcript);
-const tops = findTopMatches(transcript, flat, 3);
-if(!tops.length || words.length < 3) return null;
-const best = tops[0];
-const runnerUp = tops[1];
-// Une correction ne doit être affichée que si la correspondance est nette.
-const min = words.length <= 5 ? 0.62 : 0.50;
-const margin = runnerUp ? best.score - runnerUp.score : 1;
-if(best.score < min || margin < 0.08) return null;
-return best;
-}
-
-function renderComparison(entry, transcript){
-if(!entry) return;
-const transcriptWords = new Set(tokenizeArabic(transcript));
-const originalWords = entry.textRaw.split(/\s+/).filter(Boolean);
-compareWords.innerHTML = originalWords.map(w => {
-const norm = normalizeArabic(w);
-const cls = norm && transcriptWords.has(norm) ? 'cw-match' : 'cw-miss';
-return `<span class="${cls}">${w}</span>`;
-}).join(' ');
-transcriptCompare.classList.add('visible');
-}
-
-function alignRecitation(said, expected){
-const n = said.length, m = expected.length;
-const dp = Array.from({length:n+1}, () => Array(m+1).fill(0));
-const ops = Array.from({length:n+1}, () => Array(m+1).fill(null));
-for(let i=1;i<=n;i++){ dp[i][0] = -i * 0.18; ops[i][0] = 'extra'; }
-for(let j=1;j<=m;j++){ dp[0][j] = -j * 0.10; ops[0][j] = 'missing'; }
-for(let i=1;i<=n;i++){
-for(let j=1;j<=m;j++){
-const sim = tokenSimilarity(said[i-1], expected[j-1]);
-const candidates = [
-[dp[i-1][j-1] + sim, sim === 1 ? 'match' : sim > 0 ? 'close' : 'substitute'],
-[dp[i-1][j] - 0.18, 'extra'],
-[dp[i][j-1] - 0.10, 'missing']
-];
-const best = candidates.reduce((a,b) => b[0] > a[0] ? b : a);
-dp[i][j] = best[0]; ops[i][j] = best[1];
-}
-}
-const result = [];
-let i=n, j=m;
-while(i>0 || j>0){
-const op = ops[i][j];
-if((op === 'match' || op === 'close' || op === 'substitute') && i>0 && j>0){
-result.unshift({type:op, said:said[i-1], expected:expected[j-1]}); i--; j--;
-} else if(op === 'extra' && i>0){ result.unshift({type:'extra', said:said[i-1]}); i--; }
-else if(j>0){ result.unshift({type:'missing', expected:expected[j-1]}); j--; }
-else if(i>0){ result.unshift({type:'extra', said:said[i-1]}); i--; }
-}
-return result;
-}
-
-function renderCorrections(entry, transcript){
-const panel = document.getElementById('correctionPanel');
-const list = document.getElementById('correctionList');
-const corrected = document.getElementById('correctedText');
-if(!panel || !list || !corrected || !entry) return;
-const said = tokenizeArabic(transcript);
-const alignment = alignRecitation(said, entry.words);
-const issues = alignment.filter(x => x.type !== 'match');
-list.innerHTML = '';
-if(!issues.length){
-list.innerHTML = '<li>' + t('corr_perfect') + '</li>';
-} else {
-issues.slice(0, 16).forEach(issue => {
-const li = document.createElement('li');
-if(issue.type === 'missing') li.innerHTML = t('corr_missing') + ' : <span class="err-word">' + issue.expected + '</span>';
-else if(issue.type === 'substitute' || issue.type === 'close') li.innerHTML = t('corr_heard_expected').replace('{heard}', '<span class="err-word">' + issue.said + '</span>').replace('{expected}', '<span class="ok-word">' + issue.expected + '</span>');
-else li.innerHTML = t('corr_unexpected').replace('{word}', '<span class="err-word">' + issue.said + '</span>');
-list.appendChild(li);
-});
-if(issues.length > 16){
-const li = document.createElement('li');
-li.textContent = t('corr_more').replace('{count}', String(issues.length - 16));
-list.appendChild(li);
-}
-}
-corrected.textContent = entry.textRaw;
-panel.classList.add('visible');
-}
-
-function renderDetectionUI(match, { live }){
-const panel = document.getElementById('correctionPanel');
-if(!match){
-detectionResult.innerHTML = '<p class="detect-note">' + t(live ? 'det_live' : 'det_none') + '</p>';
-if(!live){
-transcriptCompare.classList.remove('visible');
-if(panel) panel.classList.remove('visible');
-}
-return;
-}
-const { entry, score } = match;
-const pct = Math.round(score * 100);
-const confidence = score >= 0.55 ? '✅ fiable' : score >= 0.35 ? '⚠️ probable' : '❓ incertaine';
-detectionResult.innerHTML = `
-${live ? '<p class="detect-live">● en direct</p>' : ''}
-<p class="detect-surah">${entry.surahNumber}. ${entry.surahName} (${entry.surahArabicName}) — verset ${entry.ayahNumber}</p>
-<p class="detect-note">Correspondance ${confidence} (${pct}%)</p>
-`;
-}
-
-const LIVE_WORD_WINDOW = 28;
-let recentWordsBuffer = [];
-let detectedVerseCount = 0;
-let lastDetectedKey = '';
-
-function updateLiveDetection(){
-if(!fullQuranFlat) return;
-const windowText = recentWordsBuffer.slice(-LIVE_WORD_WINDOW).join(' ');
-if(tokenizeArabic(windowText).length < 2) return;
-const match = findBestMatchingAyah(windowText, fullQuranFlat);
-if(match){
-renderDetectionUI(match, { live: true });
-renderComparison(match.entry, windowText);
-const key = match.entry.surahNumber + '-' + match.entry.ayahNumber;
-if(key !== lastDetectedKey){
-lastDetectedKey = key;
-if(!detectedVerses.includes(key)){
-detectedVerses.push(key);
-detectedVerseCount++;
-}
-recordStatus.textContent = `📖 ${detectedVerseCount} verset(s) détecté(s) · ${match.entry.surahName} ${match.entry.ayahNumber}`;
-}
-}
-}
-
-function bestRecognitionTranscript(resultList){
-  const alternatives = Array.from(resultList || []).slice(0, 3).map(x => x.transcript || '').filter(Boolean);
-  if(alternatives.length <= 1 || !fullQuranFlat) return alternatives[0] || '';
-  const ranked = alternatives.map(text => ({text, match: findBestMatchingAyah(text, fullQuranFlat)}))
-    .sort((a,b) => (b.match ? b.match.score : 0) - (a.match ? a.match.score : 0));
-  if(ranked[0] && ranked[0].match) recognitionAlternativesUsed++;
-  return (ranked[0] && ranked[0].text) || alternatives[0] || '';
-}
-
-function startLiveSpeechRecognition(){
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-recognitionAlternativesUsed = 0;
-liveTranscript = '';
-recentWordsBuffer = [];
-detectedVerses = [];
-detectedVerseCount = 0;
-lastDetectedKey = '';
-if(!SR) return null;
-const recognizer = new SR();
-recognizer.lang = 'ar-SA';
-recognizer.continuous = true;
-recognizer.interimResults = true;
-recognizer.maxAlternatives = 3;
-recognizer.processLocally = false;
-recognizer.onresult = (event) => {
-if(!isRecording && event.results.length === 0) return;
-let interim = '';
-let finalChunk = '';
-for(let i = event.resultIndex; i < event.results.length; i++){
-const chosen = bestRecognitionTranscript(event.results[i]);
-if(event.results[i].isFinal){
-finalChunk += chosen + ' ';
-} else {
-interim += chosen;
-}
-}
-if(finalChunk.trim()){
-liveTranscript += finalChunk;
-const words = tokenizeArabic(finalChunk);
-recentWordsBuffer = recentWordsBuffer.concat(words).slice(-80);
-updateLiveDetection();
-} else if(interim.trim()){
-// Aperçu live avec les mots provisoires
-const preview = recentWordsBuffer.concat(tokenizeArabic(interim)).slice(-LIVE_WORD_WINDOW).join(' ');
-if(tokenizeArabic(preview).length >= 2){
-const match = findBestMatchingAyah(preview, fullQuranFlat);
-if(match) renderDetectionUI(match, { live: true });
-}
-}
-};
-recognizer.onerror = (e) => {
-if(e.error === 'no-speech' || e.error === 'aborted') return;
-console.warn('Erreur reconnaissance vocale:', e.error);
-if(e.error === 'not-allowed'){
-recordStatus.textContent = t('rec_mic_blocked');
-}
-};
-recognizer.onend = () => {
-// Chrome arrête souvent après un silence : relancer une seule instance après un court délai.
-if(isRecording && !recognitionRestartTimer){
-  recognitionRestartTimer = setTimeout(() => {
-    recognitionRestartTimer = null;
-    if(!isRecording) return;
-    try{ recognizer.start(); }catch(err){
-      if(isRecording) console.warn('Relance reconnaissance différée:', err);
-    }
-  }, 300);
-}
-};
-try{ recognizer.start(); }catch(err){
-console.error('Erreur démarrage reconnaissance:', err);
-return null;
-}
-return recognizer;
-}
-
-async function startRecording(){
-if(!isPremium){
-  recordStatus.textContent = premiumListenMessage();
-  openPremiumOffer();
-  return;
-}
-if(isRecording) return;
-detectionResult.innerHTML = '<p style="opacity:.7;font-size:0.85rem;">' + t('rec_preparing') + '</p>';
-transcriptCompare.classList.remove('visible');
-const panel = document.getElementById('correctionPanel');
-if(panel) panel.classList.remove('visible');
-recordPlayer.classList.remove('visible');
-recordStatus.textContent = t('rec_mic_asking');
-try{
-mediaStream = await navigator.mediaDevices.getUserMedia({
-audio: {
-echoCancellation: true,
-noiseSuppression: true,
-autoGainControl: true
-}
-});
-}catch(err){
-recordStatus.textContent = t('rec_mic_denied');
-console.error('Erreur getUserMedia:', err);
-return;
-}
-// S'assurer que le Coran est chargé
-recordStatus.textContent = t('rec_loading_quran');
-const flat = await loadFullQuranFlat();
-if(!flat){
-recordStatus.textContent = t('rec_quran_error');
-mediaStream.getTracks().forEach(t => t.stop());
-return;
-}
-recordedChunks = [];
-const mimeCandidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg'];
-const supportedMime = mimeCandidates.find(m => window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m));
-try{
-mediaRecorder = supportedMime ? new MediaRecorder(mediaStream, { mimeType: supportedMime }) : new MediaRecorder(mediaStream);
-}catch(err){
-recordStatus.textContent = t('rec_unsupported');
-console.error('Erreur MediaRecorder:', err);
-mediaStream.getTracks().forEach(t => t.stop());
-return;
-}
-mediaRecorder.ondataavailable = (e) => { if(e.data && e.data.size > 0) recordedChunks.push(e.data); };
-mediaRecorder.onstop = () => {
-const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-recordAudio.src = URL.createObjectURL(blob);
-recordPlayer.classList.add('visible');
-mediaStream.getTracks().forEach(t => t.stop());
-isRecording = false;
-incrementSessionUsage();
-};
-mediaRecorder.start(1000);
-isRecording = true;
-speechRecognizer = startLiveSpeechRecognition();
-recordSeconds = 0;
-recordTimer.textContent = '00:00';
-recordTimer.classList.add('visible');
-recordTimerInterval = setInterval(() => {
-recordSeconds++;
-recordTimer.textContent = formatTimer(recordSeconds);
-}, 1000);
-recordBtn.classList.add('recording');
-recordBtn.innerHTML = t('rec_stop');
-recordStatus.textContent = speechRecognizer
-? '🎙️ Récite clairement en arabe… la détection est en direct.'
-: "🎙️ Enregistrement actif (reconnaissance vocale indisponible — utilise Chrome ou Edge).";
-detectionResult.innerHTML = '<p class="detect-note">' + t('rec_listening') + '</p>';
-}
-
-function finalizeAnalysis(){
-const windowText = recentWordsBuffer.slice(-LIVE_WORD_WINDOW).join(' ') || liveTranscript;
-if(!windowText.trim() || !fullQuranFlat){
-renderDetectionUI(null, { live: false });
-return;
-}
-const match = chooseConfidentMatch(windowText, fullQuranFlat);
-renderDetectionUI(match, { live: false });
-if(match){
-renderComparison(match.entry, windowText);
-renderCorrections(match.entry, windowText);
-recordStatus.textContent = `✅ Analyse terminée — ${detectedVerseCount || 1} verset(s)${recognitionAlternativesUsed ? ' · alternatives vérifiées' : ''}`;
-} else {
-transcriptCompare.classList.remove('visible');
-const panel = document.getElementById('correctionPanel');
-if(panel) panel.classList.remove('visible');
-recordStatus.textContent = t('rec_nomatch');
-}
-}
-
-function stopRecording(){
-if(!isRecording) return;
-if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-if(recognitionRestartTimer){ clearTimeout(recognitionRestartTimer); recognitionRestartTimer = null; }
-if(speechRecognizer){
-try{
-speechRecognizer.onend = null; // empêcher le relancement auto
-speechRecognizer.stop();
-}catch(err){ console.warn('Erreur arrêt reconnaissance:', err); }
-}
-clearInterval(recordTimerInterval);
-isRecording = false;
-recordBtn.classList.remove('recording');
-recordBtn.innerHTML = t('rec_start');
-recordStatus.textContent = t('rec_analyzing');
-setTimeout(finalizeAnalysis, 600);
-}
-
-recordBtn?.addEventListener('click', () => {
-if(isRecording) stopRecording();
-else startRecording();
-});
-
-document.getElementById('recordAgainBtn')?.addEventListener('click', () => {
-recordPlayer.classList.remove('visible');
-detectionResult.innerHTML = `<p style="opacity:.7;font-size:0.85rem;">Lance un enregistrement.</p>`;
-transcriptCompare.classList.remove('visible');
-const panel = document.getElementById('correctionPanel');
-if(panel) panel.classList.remove('visible');
-recordStatus.textContent = t('rec_press');
-detectedVerses = [];
-detectedVerseCount = 0;
-lastDetectedKey = '';
-liveTranscript = '';
-recentWordsBuffer = [];
-recordTimer.classList.remove('visible');
-recordTimer.textContent = '00:00';
-});
-
-// Initialiser l'affichage des sessions
-updateSessionDisplay();
 
 // =====================================================================
 // DU'AS COMPLETS - 50+ INVOCATIONS CLASSÉES PAR SITUATIONS
@@ -29826,15 +29354,15 @@ var RIHLA_I18N_EXTRA = {
   "obj_done": "✅ Atteint",
   "pages_word": "pages",
   "days_completed": "jours complétés",
-  "listen_sub": "Enregistre ta voix pendant que tu lis le Coran. L'outil détecte la sourate et te montre tes erreurs avec le texte corrigé.",
+  "listen_sub": "Choisis un passage, récite en arabe et compare les mots reconnus au texte du Coran.",
   "listen_quota": "<span style=\"background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> Correction illimitée avec analyse détaillée",
   "ls_t1": "Tu enregistres",
   "ls_d1": "Récite un passage du Coran à voix haute dans le micro.",
-  "ls_t2": "Détection automatique",
-  "ls_d2": "La sourate et le verset sont identifiés en temps réel.",
+  "ls_t2": "Choix du passage",
+  "ls_d2": "Choisis le passage à vérifier, ou utilise la détection automatique.",
   "ls_t3": "Correction des erreurs",
-  "ls_d3": "Les mots mal prononcés sont signalés et le verset correct t'est proposé.",
-  "listen_warn": "⚠️ La reconnaissance vocale dépend de ton navigateur et de la qualité du micro. Utilise Chrome ou Safari pour de meilleurs résultats.",
+  "ls_d3": "Les différences de mots sont signalées pour les vérifier avec le texte du passage.",
+  "listen_warn": "Utilise un navigateur compatible et autorise le micro. La reconnaissance vocale nécessite une connexion Internet.",
   "rec_h": "Enregistrement audio",
   "rec_start": "<span class=\"dot\"></span> Démarrer",
   "rec_stop": "<span class=\"dot\"></span> Arrêter",
@@ -29874,6 +29402,8 @@ var RIHLA_I18N_EXTRA = {
   "foot_contact": "Contact",
   "foot_copy": "© 2026 Rihla. Un compagnon pour ta lecture du Coran, jour après jour.",
   "modal_sub": "Accède à ton suivi depuis n'importe quel appareil.",
+  "test_account_login": "Utiliser le compte Premium de test",
+  "test_account_note": "Profil de test local : Premium sans paiement ni mot de passe. Les services liés à un vrai compte restent séparés.",
   "auth_google": "Continuer avec Google",
   "auth_or": "ou avec un e-mail",
   "auth_username": "Nom d'utilisateur",
@@ -30078,15 +29608,15 @@ var RIHLA_I18N_EXTRA = {
   "obj_done": "✅ Reached",
   "pages_word": "pages",
   "days_completed": "days completed",
-  "listen_sub": "Record your voice while you read the Qur'an. The tool detects the surah and shows your mistakes with the corrected text.",
+  "listen_sub": "Choose a passage, recite in Arabic and compare recognized words with the Quran text.",
   "listen_quota": "<span style=\"background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> Unlimited correction with detailed analysis", 
   "ls_t1": "You record",
   "ls_d1": "Recite a passage of the Qur'an aloud into the microphone.",
-  "ls_t2": "Automatic detection",
-  "ls_d2": "The surah and the verse are identified in real time.",
+  "ls_t2": "Passage selection",
+  "ls_d2": "Choose the passage to check, or use automatic detection.",
   "ls_t3": "Mistake correction",
-  "ls_d3": "Mispronounced words are flagged and the correct verse is shown to you.",
-  "listen_warn": "⚠️ Speech recognition depends on your browser and microphone quality. Use Chrome or Safari for better results.",
+  "ls_d3": "Word differences are shown for review against the passage text.",
+  "listen_warn": "Use a compatible browser and allow the microphone. Speech recognition requires an Internet connection.",
   "rec_h": "Audio recording",
   "rec_start": "<span class=\"dot\"></span> Start",
   "rec_stop": "<span class=\"dot\"></span> Stop",
@@ -30126,6 +29656,8 @@ var RIHLA_I18N_EXTRA = {
   "foot_contact": "Contact",
   "foot_copy": "© 2026 Rihla. A companion for your Qur'an reading, day after day.",
   "modal_sub": "Access your tracking from any device.",
+  "test_account_login": "Use the Premium test account",
+  "test_account_note": "Local test profile: Premium without payment or password. Features requiring a real account are separate.",
   "auth_google": "Continue with Google",
   "auth_or": "or with an email",
   "auth_username": "Username",
@@ -30329,15 +29861,15 @@ var RIHLA_I18N_EXTRA = {
   "obj_done": "✅ تم",
   "pages_word": "صفحات",
   "days_completed": "يومًا مكتملًا",
-  "listen_sub": "سجّل صوتك أثناء قراءة القرآن. تكتشف الأداة السورة وتُظهر أخطاءك مع النص الصحيح.",
+  "listen_sub": "اختر مقطعًا واقرأ بالعربية وقارن الكلمات المسموعة بنص القرآن.",
   "listen_quota": "<span style=\"background:var(--gold-500);color:var(--emerald-950);padding:2px 12px;border-radius:999px;\">Premium</span> تصحيح غير محدود مع تحليل مفصل",
   "ls_t1": "تسجّل",
   "ls_d1": "اقرأ مقطعًا من القرآن بصوت مرتفع في الميكروفون.",
   "ls_t2": "كشف تلقائي",
-  "ls_d2": "تُحدَّد السورة والآية في الوقت الفعلي.",
+  "ls_d2": "حدد المقطع المراد مراجعته أو استخدم التعرّف التلقائي.",
   "ls_t3": "تصحيح الأخطاء",
-  "ls_d3": "تُشار الكلمات غير الصحيحة ويُعرض عليك النص الصحيح.",
-  "listen_warn": "⚠️ يعتمد التعرّف على الصوت على متصفحك وجودة الميكروفون. استخدم Chrome أو Safari لنتائج أفضل.",
+  "ls_d3": "تُعرض اختلافات الكلمات لمراجعتها مع نص المقطع.",
+  "listen_warn": "استخدم متصفحًا متوافقًا واسمح بالميكروفون. يتطلب التعرّف الصوتي اتصالًا بالإنترنت.",
   "rec_h": "تسجيل صوتي",
   "rec_start": "<span class=\"dot\"></span> ابدأ",
   "rec_stop": "<span class=\"dot\"></span> أوقف",
@@ -30377,6 +29909,8 @@ var RIHLA_I18N_EXTRA = {
   "foot_contact": "اتصال",
   "foot_copy": "© ٢٠٢٦ رحلة. رفيق لقراءتك للقرآن، يومًا بعد يوم.",
   "modal_sub": "اطّلع على متابعتك من أي جهاز.",
+  "test_account_login": "استخدام حساب Premium التجريبي",
+  "test_account_note": "ملف تجريبي محلي: Premium دون دفع أو كلمة مرور. خدمات الحساب الحقيقي منفصلة.",
   "auth_google": "المتابعة عبر Google",
   "auth_or": "أو ببريد إلكتروني",
   "auth_username": "اسم المستخدم",
@@ -30524,6 +30058,7 @@ function applyRihlaLang(lang){
   }catch(e){}
   try{ if(typeof renderTabs === 'function') renderTabs(); }catch(e){}
   try{ if(typeof renderDuas === 'function') renderDuas(); }catch(e){}
+  if(window.RihlaRecorder) window.RihlaRecorder.refresh();
   try{ if(typeof reloadTafsirPageEntry === 'function') reloadTafsirPageEntry(); }catch(e){}
 }
 function detectBrowserLang(){
@@ -30933,5 +30468,7 @@ window.addEventListener('hashchange', function(){
   setTimeout(run, 4000);
 })();
 </script>
+<script src="recitation-core.js"></script>
+<script src="recitation.js"></script>
 </body>
 </html>
