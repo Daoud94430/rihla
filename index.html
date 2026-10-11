@@ -3088,6 +3088,96 @@ html[data-theme="dark"] .mushaf-page-frame:not(.dark) .mushaf-page-footer-num{
 #recitationTranscript { overflow-wrap: anywhere; min-height: 2em; }
 #recordBtn:disabled { opacity: .6; cursor: wait; }
 @media(max-width: 600px) { .recitation-range { grid-template-columns: 1fr 1fr; } .recitation-range label:first-child { grid-column: 1 / -1; } }
+
+/* =====================================================================
+   CORRECTIFS MOBILE (ajout) — n'altère pas le rendu bureau (> 900px)
+   ===================================================================== */
+@media (max-width: 900px){
+  /* Tafsir : une seule colonne, plus de colonne mini 360px qui fait déborder la page */
+  .tafsir-split{ grid-template-columns: minmax(0,1fr); }
+  .tafsir-detail{ position: static; }
+  .tafsir-pane-scroll{ max-height: 60vh; }
+  .tafsir-field{ min-width: 0; flex: 1 1 100%; }
+  .tafsir-pane-head{ flex-wrap: wrap; }
+}
+@media (max-width: 768px){
+  html, body{ max-width: 100%; overflow-x: clip; }
+  img, svg, video, canvas, iframe{ max-width: 100%; }
+  select, input, textarea{ max-width: 100%; }
+
+  /* Espacements et cibles tactiles */
+  .back-link{ margin: 20px 16px 0; min-height: 44px; }
+  .view:not(#view-home) section{ padding: 32px 16px; }
+  .section-head{ margin-bottom: 28px; }
+  .demo-card{ padding: 16px 14px; }
+  .how-it-works{ gap: 12px; margin: 24px 0 28px; }
+  .how-step{ padding: 16px; }
+  .btn{ min-height: 44px; }
+
+  /* Coran : lecteur audio qui ne déborde plus (barre de progression) */
+  .mushaf-bottom-bar{ margin: 12px 0 0 !important; padding: 12px !important; max-width: 100%; box-sizing: border-box; }
+  .mushaf-bottom-bar .mb-controls{ flex-wrap: wrap !important; gap: 10px !important; }
+  .mushaf-bottom-bar .mb-info{ flex: 1 1 0 !important; min-width: 0 !important; }
+  .mushaf-bottom-bar .mb-progress{ flex: 1 1 100% !important; min-width: 0 !important; order: 3; }
+  .mushaf-bottom-bar .mb-progress input[type=range]{ min-width: 0; width: 100%; }
+  .mushaf-bottom-bar .mb-time{ min-width: 0; white-space: nowrap; }
+  .mushaf-bottom-bar .mb-chip{ min-height: 36px; }
+  .mushaf-toolbar .mt-group{ min-width: 0; max-width: 100%; }
+  .mushaf-toolbar .mt-group select{ min-width: 0; max-width: 100%; }
+
+  /* Horaires de prière : 3 colonnes lisibles au lieu de 5 tuiles écrasées */
+  .prayer-shell{ grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .prayer-times-card{ padding: 20px 16px; }
+  .prayer-list{ grid-template-columns: repeat(3, minmax(0,1fr)) !important; gap: 8px; }
+  .prayer-item .p-time{ font-size: .95rem; }
+  .next-prayer .countdown{ font-size: 2rem; }
+  .city-search input{ min-width: 0; }
+  .qibla-card{ padding: 20px 16px; }
+
+  /* Du'as : puces de catégories en pastilles régulières */
+  .duas-tabs{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .duas-tabs .tab-btn{ min-height: 40px; }
+  .duas-tabs .tab-btn:not(.active){ border-color: var(--line); background: #fff; }
+
+  /* Rappels : libellé + heure alignés proprement */
+  label:has(> input[type=time]) > span{ flex: 1 1 140px; min-width: 0; }
+  label > input[type=time]{ flex: 0 0 auto; min-height: 40px; }
+
+  /* Histoires des prophètes : fenêtre de détail adaptée */
+  .prophet-detail-overlay{ padding: 12px; }
+  .prophet-detail{ padding: 44px 18px 22px; max-height: 88vh; }
+
+  /* Suivi : contrastes lisibles dans la carte blanche */
+  .daily-objective{ padding: 18px 16px; }
+  html:not([data-theme="dark"]) .demo-card .tracker-day{ background: var(--sand); color: var(--ink-soft); opacity: 1; }
+  html:not([data-theme="dark"]) .demo-card .tracker-day.done{ background: var(--gold-500); color: var(--emerald-950); }
+  html:not([data-theme="dark"]) .demo-card .tracker-day.today{ background: var(--gold-300); color: var(--emerald-950); }
+  html:not([data-theme="dark"]) .demo-card .stat .num{ color: var(--emerald-800); }
+  html:not([data-theme="dark"]) .demo-card .stat .label{ color: var(--ink-soft); opacity: 1; }
+
+  /* Session d'écoute */
+  .demo-card .listen-demo{ grid-template-columns: minmax(0,1fr); gap: 14px; }
+  html:not([data-theme="dark"]) .demo-card .listen-card{ background: var(--sand); border-color: var(--line); color: var(--ink); padding: 16px 14px; }
+  html:not([data-theme="dark"]) .demo-card .listen-card h5{ color: var(--emerald-600); }
+  html:not([data-theme="dark"]) .demo-card .record-timer{ color: var(--emerald-800); }
+  .record-btn{ width: 100%; justify-content: center; min-height: 48px; font-size: 1rem; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .record-timer{ text-align: center; }
+  .record-player audio{ min-width: 0; }
+  .record-player .btn{ width: 100%; }
+  .recitation-settings{ margin: 14px 0; }
+  .recitation-settings select, .recitation-settings input, .recitation-review textarea{ font-size: 16px; min-height: 44px; box-sizing: border-box; }
+  .recitation-review textarea{ min-height: 120px; }
+  .recitation-review{ padding: 12px; }
+  .recitation-review .btn{ width: 100%; }
+  .transcript-compare{ padding: 16px 14px; margin-top: 16px; }
+  .transcript-compare .fc-arabic{ font-size: 1.25rem; line-height: 2.1; overflow-wrap: anywhere; }
+}
+@media (max-width: 380px){
+  .view:not(#view-home) section{ padding: 28px 12px; }
+  .demo-card{ padding: 14px 10px; }
+  .recitation-range{ grid-template-columns: 1fr; }
+  .prayer-list{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+}
 </style>
 <!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
      Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
@@ -30470,5 +30560,120 @@ window.addEventListener('hashchange', function(){
 </script>
 <script src="recitation-core.js"></script>
 <script src="recitation.js"></script>
+<script>
+/* Session d'écoute — bouton « Démarrer » (filet de sécurité).
+   Si le contrôleur recitation.js est présent (window.RihlaRecorder), il garde la main
+   et ce bloc ne fait rien. Sinon, il assure l'enregistrement : micro, chrono, lecture, recommencer. */
+(function rihlaRecordFallback(){
+  var TXT = {
+    fr:{start:'Démarrer', stop:'Arrêter', idle:"Appuie pour démarrer — le navigateur va demander l'accès au micro.", asking:"Autorise l'accès au micro dans ton navigateur…", rec:'Enregistrement en cours… appuie sur Arrêter quand tu as fini.', done:'Enregistrement terminé. Écoute-le ou recommence.', denied:"Accès au micro refusé. Autorise le micro dans les réglages du navigateur puis réessaie.", nomic:'Aucun micro détecté sur cet appareil.', unsupported:"Ton navigateur ne permet pas l'enregistrement audio. Essaie Chrome, Edge ou Safari récent.", insecure:"L'enregistrement nécessite une page sécurisée (https).", max:'Durée maximale de 3 minutes atteinte.', fail:"Impossible de démarrer l'enregistrement. Réessaie."},
+    en:{start:'Start', stop:'Stop', idle:'Tap to start — your browser will ask for microphone access.', asking:'Allow microphone access in your browser…', rec:'Recording… tap Stop when you are done.', done:'Recording finished. Listen to it or start again.', denied:'Microphone access denied. Allow the microphone in your browser settings and try again.', nomic:'No microphone found on this device.', unsupported:'Your browser does not support audio recording. Try a recent Chrome, Edge or Safari.', insecure:'Recording requires a secure page (https).', max:'Maximum duration of 3 minutes reached.', fail:'Could not start recording. Please try again.'},
+    ar:{start:'ابدأ', stop:'إيقاف', idle:'اضغط للبدء — سيطلب المتصفح إذن الميكروفون.', asking:'اسمح بالوصول إلى الميكروفون في المتصفح…', rec:'جارٍ التسجيل… اضغط إيقاف عند الانتهاء.', done:'انتهى التسجيل. استمع إليه أو أعد المحاولة.', denied:'تم رفض الوصول إلى الميكروفون. فعّله من إعدادات المتصفح ثم أعد المحاولة.', nomic:'لم يتم العثور على ميكروفون.', unsupported:'متصفحك لا يدعم التسجيل الصوتي.', insecure:'التسجيل يتطلب صفحة آمنة (https).', max:'تم بلوغ المدة القصوى (3 دقائق).', fail:'تعذّر بدء التسجيل. أعد المحاولة.'}
+  };
+  function lang(){
+    var l = 'fr';
+    try { if (typeof rihlaLang !== 'undefined' && rihlaLang) l = String(rihlaLang); else l = document.documentElement.lang || 'fr'; } catch(e){}
+    l = l.slice(0,2).toLowerCase();
+    return TXT[l] ? l : 'fr';
+  }
+  function tr(k){ return TXT[lang()][k]; }
+
+  function init(){
+    if (window.RihlaRecorder) return;
+    var btn = document.getElementById('recordBtn');
+    if (!btn || btn.dataset.fallbackBound) return;
+    btn.dataset.fallbackBound = '1';
+
+    var timerEl = document.getElementById('recordTimer');
+    var playerEl = document.getElementById('recordPlayer');
+    var audioEl = document.getElementById('recordAudio');
+    var againBtn = document.getElementById('recordAgainBtn');
+    var statusEl = document.getElementById('recordStatus');
+    var MAX_MS = 180000;
+    var recorder = null, stream = null, chunks = [], startedAt = 0, ticker = null, objectUrl = null, busy = false;
+
+    function setStatus(k){ if (statusEl) statusEl.textContent = tr(k); }
+    function setLabel(k){ btn.innerHTML = '<span class="dot"></span> ' + tr(k); }
+    function fmt(ms){ var s = Math.floor(ms/1000); return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0'); }
+    function releaseStream(){ if (stream){ stream.getTracks().forEach(function(t){ try{ t.stop(); }catch(e){} }); stream = null; } }
+    function stopTicker(){ if (ticker){ clearInterval(ticker); ticker = null; } }
+    function pickMime(){
+      if (!window.MediaRecorder || !MediaRecorder.isTypeSupported) return '';
+      var list = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
+      for (var i=0;i<list.length;i++){ if (MediaRecorder.isTypeSupported(list[i])) return list[i]; }
+      return '';
+    }
+    function reset(){
+      stopTicker(); releaseStream();
+      if (audioEl){ try{ audioEl.pause(); }catch(e){} audioEl.removeAttribute('src'); try{ audioEl.load(); }catch(e){} }
+      if (objectUrl){ URL.revokeObjectURL(objectUrl); objectUrl = null; }
+      if (playerEl) playerEl.classList.remove('visible');
+      if (timerEl){ timerEl.textContent = '00:00'; timerEl.classList.remove('visible'); }
+      btn.classList.remove('recording'); btn.disabled = false; busy = false;
+      setLabel('start'); setStatus('idle');
+    }
+    function finish(maxReached){
+      stopTicker(); releaseStream();
+      btn.classList.remove('recording'); btn.disabled = false; busy = false;
+      setLabel('start');
+      if (!chunks.length){ setStatus('fail'); return; }
+      var type = (recorder && recorder.mimeType) || 'audio/webm';
+      var blob = new Blob(chunks, { type: type });
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      objectUrl = URL.createObjectURL(blob);
+      if (audioEl) audioEl.src = objectUrl;
+      if (playerEl) playerEl.classList.add('visible');
+      setStatus(maxReached ? 'max' : 'done');
+    }
+    async function start(){
+      if (busy) return;
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ setStatus(window.isSecureContext === false ? 'insecure' : 'unsupported'); return; }
+      if (window.isSecureContext === false){ setStatus('insecure'); return; }
+      busy = true; btn.disabled = true; setStatus('asking');
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch (err) {
+        busy = false; btn.disabled = false;
+        setStatus(err && (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') ? 'nomic' : 'denied');
+        return;
+      }
+      try {
+        chunks = [];
+        var mime = pickMime();
+        recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+        var reachedMax = false;
+        recorder.ondataavailable = function(e){ if (e.data && e.data.size) chunks.push(e.data); };
+        recorder.onstop = function(){ finish(reachedMax); };
+        recorder.onerror = function(){ releaseStream(); stopTicker(); btn.classList.remove('recording'); btn.disabled = false; busy = false; setLabel('start'); setStatus('fail'); };
+        if (playerEl) playerEl.classList.remove('visible');
+        if (audioEl){ try{ audioEl.pause(); }catch(e){} }
+        recorder.start();
+        startedAt = Date.now();
+        if (timerEl){ timerEl.textContent = '00:00'; timerEl.classList.add('visible'); }
+        ticker = setInterval(function(){
+          var el = Date.now() - startedAt;
+          if (timerEl) timerEl.textContent = fmt(el);
+          if (el >= MAX_MS && recorder && recorder.state === 'recording'){ reachedMax = true; recorder.stop(); }
+        }, 250);
+        btn.classList.add('recording'); btn.disabled = false; busy = false;
+        setLabel('stop'); setStatus('rec');
+      } catch (err) {
+        releaseStream(); busy = false; btn.disabled = false; setStatus('fail');
+      }
+    }
+    function stop(){ if (recorder && recorder.state === 'recording'){ btn.disabled = true; recorder.stop(); } }
+
+    btn.addEventListener('click', function(){
+      if (recorder && recorder.state === 'recording') stop(); else start();
+    });
+    if (againBtn) againBtn.addEventListener('click', reset);
+    setLabel('start');
+  }
+
+  /* Attend la fin du chargement pour laisser recitation.js s'initialiser s'il est présent */
+  if (document.readyState === 'complete') setTimeout(init, 300);
+  else window.addEventListener('load', function(){ setTimeout(init, 300); });
+})();
+</script>
 </body>
 </html>
