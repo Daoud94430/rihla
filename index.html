@@ -3178,6 +3178,140 @@ html[data-theme="dark"] .mushaf-page-frame:not(.dark) .mushaf-page-footer-num{
   .recitation-range{ grid-template-columns: 1fr; }
   .prayer-list{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
 }
+
+/* =====================================================================
+   REFONTE MOBILE — navigation basse, header compact, accueil repensé
+   ===================================================================== */
+.bottom-nav{ display:none; }
+html[data-theme="dark"] .girih-caption{ color:#efe6cf; }
+html[data-theme="dark"] .hero-quote-text{ color:#e8dcc0; }
+
+@media (max-width: 900px){
+  html{ scroll-padding-top: 86px; }
+  body{
+    padding-bottom: calc(78px + env(safe-area-inset-bottom));
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .bottom-nav{
+    display:grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    position:fixed;
+    inset-inline:0;
+    bottom:0;
+    z-index:95;
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+    background:rgba(247,243,232,0.97);
+    border-top:1px solid var(--line);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 -10px 30px -20px rgba(11,46,43,0.5);
+  }
+  html[data-theme="dark"] .bottom-nav{
+    background:rgba(12,12,11,0.97);
+    box-shadow:0 -10px 30px -20px rgba(0,0,0,0.8);
+  }
+  .bottom-nav-link{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:3px; min-height:52px; padding:4px 2px;
+    background:none; border:none; border-radius:12px;
+    color:var(--ink-soft); font-family:inherit;
+    font-size:0.62rem; font-weight:600; line-height:1.1; text-align:center;
+    -webkit-tap-highlight-color:transparent;
+    transition:color .2s ease, background .2s ease, transform .12s ease;
+  }
+  .bottom-nav-link svg{
+    width:21px; height:21px; fill:none; stroke:currentColor;
+    stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round;
+  }
+  .bottom-nav-link.active{
+    color:var(--emerald-950);
+    background:rgba(201,162,39,0.16);
+  }
+  html[data-theme="dark"] .bottom-nav-link.active{
+    color:var(--gold-300);
+    background:rgba(201,162,39,0.14);
+  }
+  .bottom-nav-link:active{ transform:scale(.96); }
+
+  .hadith-bar{ font-size:0.76rem; padding:8px 14px; line-height:1.45; }
+  nav.links{
+    max-height:calc(100vh - 110px);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    padding-bottom:calc(20px + env(safe-area-inset-bottom));
+  }
+
+  #view-home .hero{ padding:24px 16px 22px; gap:22px; }
+  #view-home .hero-copy,
+  #view-home .hero-visual{ min-width:0; max-width:100%; }
+  #view-home .hero .eyebrow{ margin-bottom:10px; font-size:0.68rem; }
+  #view-home .hero h1{ font-size:clamp(1.65rem, 8.2vw, 2.15rem); line-height:1.15; margin-bottom:12px; }
+  #view-home .hero p.lead{ font-size:0.94rem; line-height:1.6; margin-bottom:16px; }
+  #view-home .hero-pills{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    gap:6px;
+    margin:0 -16px 18px;
+    padding:0 16px 4px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  #view-home .hero-pills::-webkit-scrollbar{ display:none; }
+  #view-home .hero-pills li{ flex:0 0 auto; font-size:0.7rem; padding:6px 10px; border-radius:999px; white-space:nowrap; }
+  #view-home .hero-cta{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px; }
+  #view-home .hero-cta .btn{ width:100%; min-height:46px; font-size:0.85rem; padding:10px 12px; }
+  #view-home .hero-cta .btn:first-child{ grid-column:1/-1; }
+  #view-home .hero-note{ font-size:0.76rem; line-height:1.45; padding:6px 0 6px 12px; }
+  #view-home .hero-visual{ aspect-ratio:16/10; min-height:190px; }
+  #view-home .girih-frame{ border-radius:18px; }
+  #view-home .girih-caption{ bottom:14px; left:16px; right:16px; gap:6px; }
+  #view-home .hero-quote-text{ font-size:0.8rem; -webkit-line-clamp:3; line-clamp:3; }
+  #view-home .hero-day-row{ font-size:0.66rem; }
+  #view-home .divider{ display:none; }
+  #view-home .section-head{ margin-bottom:18px; }
+  #view-home .section-head h2{ font-size:1.35rem; margin-bottom:8px; }
+  #view-home .section-head p{ font-size:0.86rem; }
+  #view-home .overview-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
+  #view-home .overview-card{ padding:14px; gap:7px; border-radius:14px; min-height:0; }
+  #view-home .overview-card .product-icon{ width:34px; height:34px; border-radius:9px; }
+  #view-home .overview-card .product-icon svg{ width:17px; height:17px; }
+  #view-home .overview-card .tag{ font-size:0.54rem; padding:2px 7px; }
+  #view-home .overview-card h3{ font-size:0.92rem; line-height:1.25; }
+  #view-home .overview-card p{
+    font-size:0.75rem; line-height:1.4;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  #view-home .overview-card .expand-hint{ font-size:0.7rem; }
+  #view-home .price-card{ padding:20px 18px; }
+  #view-home #faq details{ padding:16px 18px !important; }
+  footer{ padding:34px 18px 24px; }
+  footer .cols{ gap:24px; }
+
+  .view:not(#view-home) .section-head h2{ font-size:clamp(1.3rem, 5.8vw, 1.7rem); line-height:1.2; }
+  .view:not(#view-home) .section-head p{ font-size:0.9rem; }
+  .today-card, .dua-card, .prayer-times-card, .qibla-card, .hadith-daily-card, .demo-card, .price-card{ border-radius:14px; }
+  .modal-overlay{ padding:12px; }
+  .modal{ max-height:calc(100vh - 24px); overflow-y:auto; padding:26px 18px; border-radius:16px; }
+  input, select, textarea{ font-size:16px; }
+  .mushaf-page-frame{ padding:16px 12px 32px; }
+  .mushaf-page-header{ font-size:0.85rem; padding:6px 6px 12px; }
+
+  #view-coran .mushaf-bottom-bar{ bottom:calc(72px + env(safe-area-inset-bottom)) !important; }
+  .mushaf-shell{ padding-bottom:190px !important; }
+  body:has(.mushaf-reading-stage:fullscreen) .bottom-nav,
+  body:has(.mushaf-reading-stage:-webkit-full-screen) .bottom-nav{ display:none; }
+  body:has(.mushaf-reading-stage:fullscreen),
+  body:has(.mushaf-reading-stage:-webkit-full-screen){ padding-bottom:0; }
+  body:has(.mushaf-reading-stage:fullscreen) #view-coran .mushaf-bottom-bar,
+  body:has(.mushaf-reading-stage:-webkit-full-screen) #view-coran .mushaf-bottom-bar{ bottom:12px !important; }
+}
+
+@media (max-width: 359px){
+  #view-home .overview-grid{ grid-template-columns:1fr; }
+  #view-home .overview-card p{ -webkit-line-clamp:3; line-clamp:3; }
+  .bottom-nav-link{ font-size:0.58rem; }
+}
 </style>
 <!-- Polices officielles KFGQPC (King Fahd Complex) par riwāya : Hafs, Warsh,
      Qālūn, Ad-Dūrī, As-Sūsī, Shuʿbah — chaque riwāya a son propre tracé
@@ -3958,6 +4092,28 @@ Rihla
 </section>
 </div>
 </main>
+<nav class="bottom-nav" id="bottomNav" aria-label="Navigation mobile" data-i18n-aria="aria_main_nav">
+<button type="button" class="bottom-nav-link active" data-view="view-home">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>
+<span data-i18n="nav_home">Accueil</span>
+</button>
+<button type="button" class="bottom-nav-link" data-view="view-coran">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/><path d="M8 7h8M8 10.5h6"/></svg>
+<span data-i18n="nav_quran">Qur'an</span>
+</button>
+<button type="button" class="bottom-nav-link" data-view="view-priere">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg>
+<span data-i18n="nav_prayer">Prières</span>
+</button>
+<button type="button" class="bottom-nav-link" data-view="view-tafsir">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/><path d="M8 7h7M8 10.5h5"/></svg>
+<span data-i18n="nav_tafsir">Tafsir</span>
+</button>
+<button type="button" class="bottom-nav-link" data-view="view-suivi">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-5 3 3 4-6"/></svg>
+<span data-i18n="nav_track">Suivi</span>
+</button>
+</nav>
 <footer>
 <div class="footer-inner">
 <a href="#main" class="logo">
@@ -4203,11 +4359,13 @@ if(id === 'view-parcours'){
 if(id === 'view-tafsir'){
   try{ if(typeof window.initTafsirTool === 'function') window.initTafsirTool(); }catch(e){}
 }
-document.querySelectorAll('.nav-link').forEach(b => {
+document.querySelectorAll('.nav-link, .bottom-nav-link').forEach(b => {
   // Ne pas activer « Tarifs » (scroll) juste parce que la vue est view-home
   const isScrollOnly = b.hasAttribute('data-scroll-to');
   const match = !isScrollOnly && b.dataset.view === id;
   b.classList.toggle('active', match);
+  if(match) b.setAttribute('aria-current', 'page');
+  else b.removeAttribute('aria-current');
 });
 if(scrollToId){
 requestAnimationFrame(() => {
@@ -28327,8 +28485,9 @@ let mushafPlayGen = 0;
 let mushafPreload = null;
 const mushafAudioPool = new Set();
 
-function mushafKillAllAudio(){
+function mushafKillAllAudio(keep){
   mushafAudioPool.forEach(function(a){
+    if(a === keep) return;
     try{
       a.onended = null;
       a.onerror = null;
@@ -28342,6 +28501,7 @@ function mushafKillAllAudio(){
     }catch(e){}
   });
   mushafAudioPool.clear();
+  if(keep) mushafAudioPool.add(keep);
   mushafAudio = null;
   mushafPreload = null;
   mushafPlaying = false;
@@ -28359,18 +28519,20 @@ function mushafPreloadNext(idx, mode){
   if(mode === 'surah') return;
   const next = idx + 1;
   if(next >= mushafAyahs.length) return;
+  if(mushafPreload && mushafPreload.idx === next) return;
   try{
     const built = mushafBuildAudioUrls(mushafAyahs[next]);
     const urls = built.urls || [];
     if(!urls.length) return;
     if(mushafPreload){
-      try{ mushafPreload.pause(); mushafPreload.src = ''; }catch(e){}
-      mushafAudioPool.delete(mushafPreload);
+      try{ mushafPreload.audio.pause(); mushafPreload.audio.src = ''; }catch(e){}
+      mushafAudioPool.delete(mushafPreload.audio);
     }
     const p = new Audio();
     p.preload = 'auto';
+    p.volume = 0.95;
     p.src = urls[0];
-    mushafPreload = p;
+    mushafPreload = { audio: p, idx: next, urls: urls };
     mushafAudioPool.add(p);
     try{ p.load(); }catch(e){}
   }catch(e){}
@@ -28478,18 +28640,16 @@ function mushafSeekSurahToAyah(audio, cum, ayahNo){
 
 async function mushafAdvanceToNextSurah(currentSurah, expectedGen){
   const nextSurah = Number(currentSurah) + 1;
-  if(nextSurah > 114) {
-    stopMushafAudio();
-    const endInfo = document.getElementById('mushafAudioInfo');
-    if(endInfo) endInfo.textContent = 'Fin du mushaf';
-    return;
+  const targetSurah = nextSurah > 114 ? 1 : nextSurah;
+  if(nextSurah > 114 && typeof rihlaToast === 'function'){
+    rihlaToast('Retour à la sourate 1 · lecture en boucle');
   }
   try{
-    const nextPage = await mushafGetSurahFirstPage(nextSurah);
+    const nextPage = await mushafGetSurahFirstPage(targetSurah);
     if(expectedGen != null && expectedGen !== mushafPlayGen) return;
-    await loadMushafPage(nextPage, { autoPlay: true, autoPlaySurah: nextSurah });
-    const firstOnPage = mushafAyahs.findIndex(function(a){ return a.surah === nextSurah; });
-    if(firstOnPage < 0) throw new Error('first ayah unavailable for surah ' + nextSurah);
+    await loadMushafPage(nextPage, { autoPlay: true, autoPlaySurah: targetSurah });
+    const firstOnPage = mushafAyahs.findIndex(function(a){ return a.surah === targetSurah; });
+    if(firstOnPage < 0) throw new Error('first ayah unavailable for surah ' + targetSurah);
   }catch(err){
     console.error('Transition sourate suivante', err);
     if(expectedGen == null || expectedGen === mushafPlayGen){
@@ -28653,9 +28813,8 @@ function playMushafAyahAt(idx, urlTry){
     if(mushafPage < MUSHAF_TOTAL_PAGES){
       loadMushafPage(mushafPage + 1, { autoPlay: true });
     } else {
-      stopMushafAudio();
-      const info = document.getElementById('mushafAudioInfo');
-      if(info) info.textContent = 'Fin du mushaf';
+      if(typeof rihlaToast === 'function') rihlaToast('Retour à la sourate 1 · lecture en boucle');
+      loadMushafPage(1, { autoPlay: true, autoPlaySurah: 1 });
     }
     return;
   }
@@ -28684,8 +28843,13 @@ function playMushafAyahAt(idx, urlTry){
   }
 
   // === Mode ayah classique ===
+  const urls = built.urls || [];
+  let tryIndex = typeof urlTry === 'number' ? urlTry : 0;
+  const reuse = tryIndex === 0 && mushafPreload && mushafPreload.idx === idx &&
+    mushafPreload.urls && mushafPreload.urls[0] === urls[0] ? mushafPreload : null;
+
   const gen = ++mushafPlayGen;
-  mushafKillAllAudio();
+  mushafKillAllAudio(reuse ? reuse.audio : null);
   mushafSurahSession = null;
   mushafPlayIndex = idx;
   highlightMushafAyah(idx);
@@ -28695,17 +28859,26 @@ function playMushafAyahAt(idx, urlTry){
   updateMushafMediaMetadata(ayah, recName, false);
   setMushafMediaPlaybackState('playing');
 
-  const urls = built.urls || [];
-  let tryIndex = typeof urlTry === 'number' ? urlTry : 0;
   if(tryIndex >= urls.length){
     if(gen === mushafPlayGen) playMushafAyahAt(idx + 1, 0);
     return;
   }
 
-  const audio = new Audio();
-  audio.preload = 'auto';
-  audio.volume = 0.95;
-  audio.src = urls[tryIndex];
+  let audio;
+  if(reuse){
+    audio = reuse.audio;
+    audio.onended = null;
+    audio.onerror = null;
+    audio.ontimeupdate = null;
+    audio.onloadedmetadata = null;
+    audio.onplay = null;
+    audio.onpause = null;
+  }else{
+    audio = new Audio();
+    audio.preload = 'auto';
+    audio.volume = 0.95;
+    audio.src = urls[tryIndex];
+  }
   mushafAudio = audio;
   mushafAudioPool.add(audio);
   mushafPlaying = true;
@@ -30306,6 +30479,14 @@ document.addEventListener('DOMContentLoaded', function() {
       const open = navLinks.classList.toggle('open');
       burger.classList.toggle('open', open);
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', function(e){
+      if(!navLinks.classList.contains('open')) return;
+      if(e.target.closest('#navLinks') || e.target.closest('#navBurger')) return;
+      closeMobileNav();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeMobileNav();
     });
   }
 
